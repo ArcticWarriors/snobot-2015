@@ -4,10 +4,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import com.snobot.simulator.SensorActuatorRegistry;
-import com.snobot.simulator.gui.widgetDisplays.DigitalSourceDisplay;
-import com.snobot.simulator.gui.widgetDisplays.RelayDisplay;
-import com.snobot.simulator.gui.widgetDisplays.SolenoidDisplay;
-import com.snobot.simulator.gui.widgetDisplays.SpeedControllerDisplay;
+import com.snobot.simulator.gui.widget_displays.DigitalSourceDisplay;
+import com.snobot.simulator.gui.widget_displays.RelayDisplay;
+import com.snobot.simulator.gui.widget_displays.SolenoidDisplay;
+import com.snobot.simulator.gui.widget_displays.SpeedControllerDisplay;
 
 public class BasicSensorDisplayPanel extends JPanel 
 {

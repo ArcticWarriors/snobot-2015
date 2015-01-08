@@ -6,16 +6,13 @@ import java.awt.Graphics;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import com.snobot.simulator.gui.Util;
-import com.snobot.simulator.gui.widgetDisplays.BaseWidgetDisplay;
+import com.snobot.simulator.gui.widget_displays.BaseWidgetDisplay;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
-import edu.wpi.first.wpilibj.SpeedController;
 
 public class RelayGraphicDisplay extends BaseWidgetDisplay<Relay>
 {
@@ -41,8 +38,6 @@ public class RelayGraphicDisplay extends BaseWidgetDisplay<Relay>
 		{
 			g.clearRect(0, 0, getWidth(), getHeight());
 			g.drawRect(0, 0, getWidth(), getHeight());
-			
-			System.out.println(mValue);
 			
 			switch(mValue)
 			{

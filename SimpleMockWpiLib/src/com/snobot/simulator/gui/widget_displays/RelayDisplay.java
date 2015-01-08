@@ -1,4 +1,4 @@
-package com.snobot.simulator.gui.widgetDisplays;
+package com.snobot.simulator.gui.widget_displays;
 
 import java.util.Map;
 import java.util.Map.Entry;

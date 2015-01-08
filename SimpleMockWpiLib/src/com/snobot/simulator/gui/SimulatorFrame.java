@@ -43,6 +43,9 @@ public class SimulatorFrame extends JFrame
 
 		DriverStation.getInstance().InDisabled(true);
 		DriverStation.getInstance().InAutonomous(false);
+		
+		mEnablePanel.setRobotEnabled(true);
+		DriverStation.getInstance().InDisabled(false);
 	}
 	
 	public void start(final RobotBase aRobot)

@@ -40,4 +40,8 @@ public class EnablePanel extends JPanel
 		DecimalFormat df = new DecimalFormat("000.00");
 		mTimeLabel.setText("Time: " + df.format(aTime));
 	}
+
+	public void setRobotEnabled(boolean state) {
+		mEnableButton.setSelected(state);
+	}
 }

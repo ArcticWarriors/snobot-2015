@@ -5,12 +5,11 @@ import java.awt.Graphics;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import com.snobot.simulator.gui.Util;
-import com.snobot.simulator.gui.widgetDisplays.BaseWidgetDisplay;
+import com.snobot.simulator.gui.widget_displays.BaseWidgetDisplay;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
