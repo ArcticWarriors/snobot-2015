@@ -127,6 +127,32 @@ public class Robot extends IterativeRobot {
         {
         	relay.set(Value.kOff);
         }
+
+        if(joystick.getRawButton(6))
+        {
+        	controllerA.set(.75);
+        }
+        else if(joystick.getRawButton(7))
+        {
+        	controllerA.set(-.75);
+        }
+        else
+        {
+        	controllerA.set(0);
+        }
+
+        if(joystick.getRawButton(8))
+        {
+        	controllerB.set(.75);
+        }
+        else if(joystick.getRawButton(9))
+        {
+        	controllerB.set(-.75);
+        }
+        else
+        {
+        	controllerB.set(0);
+        }
     }
     
     /**
