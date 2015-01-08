@@ -24,6 +24,40 @@ public class Gyro extends SensorBase implements LiveWindowSendable {
 	private AnalogInput m_analog;
 
 	/**
+	 * Initialize the gyro. Calibrate the gyro by running for a number of
+	 * samples and computing the center value. Then use the center
+	 * value as the Accumulator center value for subsequent measurements. It's
+	 * important to make sure that the robot is not moving while the centering
+	 * calculations are in progress, this is typically done when the robot is
+	 * first turned on while it's sitting at rest before the competition starts.
+	 */
+	public void initGyro() {
+		if (m_analog == null) {
+			System.out.println("Null m_analog");
+		}
+
+		m_analog.setAverageBits(0);
+		m_analog.setOversampleBits(0);
+		AnalogInput.setGlobalSampleRate(0);
+		Timer.delay(1.0);
+
+		m_analog.initAccumulator();
+		m_analog.resetAccumulator();
+
+//		Timer.delay(kCalibrationSampleTime);
+
+		m_analog.setAccumulatorCenter(0);
+		m_analog.resetAccumulator();
+
+		setDeadband(0.0);
+
+//		setPIDSourceParameter(PIDSourceParameter.kAngle);
+//
+//		UsageReporting.report(tResourceType.kResourceType_Gyro, m_analog.getChannel());
+//		LiveWindow.addSensor("Gyro", m_analog.getChannel(), this);
+	}
+	
+	/**
 	 * Gyro constructor using the channel number
 	 *
 	 * @param channel
@@ -47,6 +81,7 @@ public class Gyro extends SensorBase implements LiveWindowSendable {
 		if (m_analog == null) {
 			throw new NullPointerException("AnalogInput supplied to Gyro constructor is null");
 		}
+		initGyro();
 	}
 
 	/**
