@@ -1,5 +1,6 @@
 package com.snobot.simulator.gui.widgetDisplays;
 
+import java.awt.Container;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -9,7 +10,7 @@ import javax.swing.border.TitledBorder;
 import edu.wpi.first.wpilibj.DigitalSource;
 
 
-public class DigitalSourceDisplay extends BaseWidgetDisplay<DigitalSource, JCheckBox>
+public class DigitalSourceDisplay extends BaseWidgetDisplay<DigitalSource>
 {
 	public DigitalSourceDisplay(Map<Integer, DigitalSource> aMap) {
 		super(aMap);
@@ -21,12 +22,12 @@ public class DigitalSourceDisplay extends BaseWidgetDisplay<DigitalSource, JChec
 	{
 		for(Entry<Integer, DigitalSource> pair : aMap.entrySet())
 		{
-			mWidgetMap.get(pair.getKey()).setSelected(pair.getValue().get());
+			((JCheckBox)mWidgetMap.get(pair.getKey())).setSelected(pair.getValue().get());
 		}
 	}
 
 	@Override
-	protected JCheckBox createWidget(Entry<Integer, DigitalSource> pair) {
+	protected Container createWidget(Entry<Integer, DigitalSource> pair) {
 		return new JCheckBox();
 	}
 }

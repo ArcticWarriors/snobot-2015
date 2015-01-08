@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotBase.LoopListener;
 import edu.wpi.first.wpilibj.Timer;
-//import edu.wpi.first.wpilibj.RobotBase.LoopListener;
+
 
 public class SimulatorFrame extends JFrame 
 {
 
-	private BasicSensorDisplayPanel mBasicPanel;
+	private GraphicalSensorDisplayPanel mBasicPanel;
 	private EnablePanel mEnablePanel;
 	
 	public SimulatorFrame()
@@ -26,7 +26,7 @@ public class SimulatorFrame extends JFrame
 	
 	private void initComponenents()
 	{
-		mBasicPanel = new BasicSensorDisplayPanel();
+		mBasicPanel = new GraphicalSensorDisplayPanel();
 		mEnablePanel = new EnablePanel();
 		
 		mEnablePanel.addStateChangedListener(new ActionListener() {

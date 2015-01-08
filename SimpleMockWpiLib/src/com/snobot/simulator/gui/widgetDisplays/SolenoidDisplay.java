@@ -8,7 +8,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
-public class SolenoidDisplay extends BaseWidgetDisplay<Solenoid, JCheckBox>
+public class SolenoidDisplay extends BaseWidgetDisplay<Solenoid>
 {
 	public SolenoidDisplay(Map<Integer, Solenoid> aMap) {
 		super(aMap);
@@ -20,7 +20,7 @@ public class SolenoidDisplay extends BaseWidgetDisplay<Solenoid, JCheckBox>
 	{
 		for(Entry<Integer, Solenoid> pair : aMap.entrySet())
 		{
-			mWidgetMap.get(pair.getKey()).setSelected(pair.getValue().get());
+			((JCheckBox)mWidgetMap.get(pair.getKey())).setSelected(pair.getValue().get());
 		}
 	}
 

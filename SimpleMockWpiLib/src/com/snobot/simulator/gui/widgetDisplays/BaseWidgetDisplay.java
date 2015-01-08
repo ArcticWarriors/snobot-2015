@@ -9,10 +9,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public abstract class BaseWidgetDisplay<ItemType, WidgetType extends Container> extends JPanel
+public abstract class BaseWidgetDisplay<ItemType> extends JPanel
 {
 
-	protected Map<Integer, WidgetType> mWidgetMap = new HashMap<>();
+	protected Map<Integer, Container> mWidgetMap = new HashMap<>();
 	
 	public BaseWidgetDisplay(Map<Integer, ItemType> aMap) {
 		
@@ -20,7 +20,7 @@ public abstract class BaseWidgetDisplay<ItemType, WidgetType extends Container> 
 		
 		for(Entry<Integer, ItemType> pair : aMap.entrySet())
 		{
-			WidgetType panelPair = createWidget(pair);
+			Container panelPair = createWidget(pair);
 			mWidgetMap.put(pair.getKey(), panelPair);
 
 			JPanel panel = new JPanel();
@@ -31,7 +31,7 @@ public abstract class BaseWidgetDisplay<ItemType, WidgetType extends Container> 
 		}
 	}
 	
-	protected abstract WidgetType createWidget(Entry<Integer, ItemType> pair);
+	protected abstract Container createWidget(Entry<Integer, ItemType> pair);
 	
 	public abstract void update(Map<Integer, ItemType> aMap);
 }

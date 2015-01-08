@@ -9,7 +9,7 @@ import javax.swing.border.TitledBorder;
 import edu.wpi.first.wpilibj.Relay;
 
 
-public class RelayDisplay extends BaseWidgetDisplay<Relay, JLabel>
+public class RelayDisplay extends BaseWidgetDisplay<Relay>
 {
 	public RelayDisplay(Map<Integer, Relay> aMap) {
 		super(aMap);
@@ -21,7 +21,7 @@ public class RelayDisplay extends BaseWidgetDisplay<Relay, JLabel>
 	{
 		for(Entry<Integer, Relay> pair : aMap.entrySet())
 		{
-			mWidgetMap.get(pair.getKey()).setText("" + pair.getValue().get());
+			((JLabel)mWidgetMap.get(pair.getKey())).setText("" + pair.getValue().get());
 		}
 	}
 

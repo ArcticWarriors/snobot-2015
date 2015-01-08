@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.util.AllocationException;
 
 public class DigitalSource extends SensorBase {
 	protected int m_channel;
+	protected boolean mState = false;
 
 
 	protected void initDigitalPort(int channel, boolean input) {
@@ -22,7 +23,6 @@ public class DigitalSource extends SensorBase {
 
 
 	public boolean get() {
-		// TODO Auto-generated method stub
-		return false;
+		return mState;
 	}
 }

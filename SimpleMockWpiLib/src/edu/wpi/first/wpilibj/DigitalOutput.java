@@ -36,6 +36,7 @@ public class DigitalOutput extends DigitalSource implements LiveWindowSendable {
 	 *            true is on, off is false
 	 */
 	public void set(boolean value) {
+		mState = value;
 	}
 
 	/**

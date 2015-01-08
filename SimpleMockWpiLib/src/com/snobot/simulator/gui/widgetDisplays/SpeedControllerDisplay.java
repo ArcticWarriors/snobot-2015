@@ -9,7 +9,7 @@ import javax.swing.border.TitledBorder;
 import edu.wpi.first.wpilibj.SpeedController;
 
 
-public class SpeedControllerDisplay extends BaseWidgetDisplay<SpeedController, JLabel>
+public class SpeedControllerDisplay extends BaseWidgetDisplay<SpeedController>
 {
 	public SpeedControllerDisplay(Map<Integer, SpeedController> aMap) {
 		super(aMap);
@@ -20,7 +20,7 @@ public class SpeedControllerDisplay extends BaseWidgetDisplay<SpeedController, J
 	{
 		for(Entry<Integer, SpeedController> pair : aMap.entrySet())
 		{
-			mWidgetMap.get(pair.getKey()).setText("" + pair.getValue().get());
+			((JLabel)mWidgetMap.get(pair.getKey())).setText("" + pair.getValue().get());
 		}
 	}
 

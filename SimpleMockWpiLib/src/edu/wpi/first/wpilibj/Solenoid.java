@@ -25,6 +25,7 @@ public class Solenoid extends SensorBase implements LiveWindowSendable {
     private int m_channel; ///< The channel to control.
 
 	private boolean mState = false;
+	@SuppressWarnings("unused")
 	private boolean mStateChanged = false;
 
     /**
