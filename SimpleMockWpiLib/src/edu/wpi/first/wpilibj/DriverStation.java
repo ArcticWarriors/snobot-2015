@@ -10,7 +10,7 @@ package edu.wpi.first.wpilibj;
 /**
  * Provide access to the network communication data to / from the Driver Station.
  */
-public class DriverStation {
+public class DriverStation implements RobotState.Interface {
 
     /**
      * Number of Joystick Ports
