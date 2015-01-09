@@ -15,7 +15,7 @@ In Eclipse, navigate to the 'File' menu and select 'Import'.  Under the 'Genera'
       |-- SimulatorMain  
 
 ## Setting up dependencies
-Since I used project references to set up the dependencies, that does not translate well over source control stuff like git [citation needed].  You will need to manually set them up.
+Since I used project references to set up the dependencies, that does not translate well over source control stuff like git [[citation needed](http://xkcd.com/285/)].  You will need to manually set them up.
 
 Right click on the 'SimpleRobotExample' project, and navigate to 'Build Path'->'Configure Build Path...'.  Go to the 'Projects' tab and click add.  This project needs a dependency on the 'SimpleMockWpiLib' project.
 
