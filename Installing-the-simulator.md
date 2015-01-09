@@ -7,12 +7,12 @@ Once you have the code on your computer you will need to open it in Eclipse and 
 ## Importing projects
 In Eclipse, navigate to the 'File' menu and select 'Import'.  Under the 'Genera' tab select the 'Existing Projects into Workspace' option and hit next. Click the 'Browse...' button and navigate to the location of the source code.  If your directory structure looks like this, you would want to select 'simulator2015'
 
--
-|- C:\Users\preiniger\documents
- |- simulator2015
-  |-- MockWpiLib
-  |-- SimpleTestRobot
-  |-- SimulatorMain
+    -
+    |- C:\Users\preiniger\documents  
+     |- simulator2015  
+      |-- MockWpiLib  
+      |-- SimpleTestRobot  
+      |-- SimulatorMain  
 
 ## Setting up dependencies
 Since I used project references to set up the dependencies, that does not translate well over source control stuff like git [citation needed].  You will need to manually set them up.
@@ -24,25 +24,26 @@ Right click on the 'SimulatorTest' project, and navigate to 'Build Path'->'Confi
 # Running the simulator
 Now that you have eclipse set up, you can run the simulator tool.  The 'SimulatorTest' project has the main function which you will need to start.  The default code starts up the robot from the 'SimluateRobotExample' project, but if you want to test some other robot code you simply need to add the project dependency and replace 
 
-Robot iter = new Robot(); with something to instantiate your other robot.  Running this program should result in the simulation window coming up.  Whenever an actuator (Speed Controller, Solenoid, Digital Out, or Relay) get created they should be added to the window.  
+`Robot iter = new Robot();`
+with something to instantiate your other robot.  Running this program should result in the simulation window coming up.  Whenever an actuator (Speed Controller, Solenoid, Digital Out, or Relay) get created they should be added to the window.  
 
 Currently, the only Joystick input method provided is through the keyboard.  I tried to set up the button mapping such that each joystick has a row of buttons, and can have single axis control.  Obviously since they keyboard has no analog inputs the output of getRawAxis() or getY(), etc. will be either -1.0, 0, or 1.0.
 
-Joystick 1:
-  Buttons 0-9              = The number row
-  Axis 0, 1 forward (100%) = z
-  Axis 0, 1 reverse(100%)  = x
+    Joystick 1:
+      Buttons 0-9              = The number row
+      Axis 0, 1 forward (100%) = z
+      Axis 0, 1 reverse(100%)  = x
 
-Joystick 2:
-  Buttons 0-9              = qwertyuiop
-  Axis 0, 1 forward (100%) = c
-  Axis 0, 1 reverse(100%)  = v
+    Joystick 2:
+      Buttons 0-9              = qwertyuiop
+      Axis 0, 1 forward (100%) = c
+      Axis 0, 1 reverse(100%)  = v
 
-Joystick 3:
-  Buttons 0-9              = asdfghjkl/
-  Axis 0, 1 forward (100%) = b
-  Axis 0, 1 reverse(100%)  = n
+    Joystick 3:
+      Buttons 0-9              = asdfghjkl/
+      Axis 0, 1 forward (100%) = b
+      Axis 0, 1 reverse(100%)  = n
 
-Joystick 4:
-  not implemented
+    Joystick 4:
+      not implemented
   
