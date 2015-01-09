@@ -6,14 +6,9 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
-import com.snobot.simulator.SensorActuatorRegistry;
-
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
-import edu.wpi.first.wpilibj.util.AllocationException;
-import edu.wpi.first.wpilibj.util.CheckedAllocationException;
 
 /**
  * DoubleSolenoid class for running 2 channels of high voltage Digital Output.
@@ -114,7 +109,7 @@ public class DoubleSolenoid extends SolenoidBase implements LiveWindowSendable {
     	}
     	else if(fowardSolenoid.get() == false && reverseSolenoid.get() == true)
     	{
-    		return new Value(Value.kOff_val);
+    		return new Value(Value.kReverse_val);
     	}
         return new Value(Value.kOff_val);
     }
@@ -202,4 +197,5 @@ public class DoubleSolenoid extends SolenoidBase implements LiveWindowSendable {
         // TODO: Broken, should only remove the listener from "Value" only.
         m_table.removeTableListener(m_table_listener);
     }
+    
 }

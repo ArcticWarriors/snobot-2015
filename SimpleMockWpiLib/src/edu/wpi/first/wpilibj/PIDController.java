@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.util.BoundaryException;
 public class PIDController implements LiveWindowSendable, Controller {
 
     public static final double kDefaultPeriod = .05;
-    private static int instances = 0;
     private double m_P;     // factor for "proportional" control
     private double m_I;     // factor for "integral" control
     private double m_D;     // factor for "derivative" control
@@ -44,9 +43,6 @@ public class PIDController implements LiveWindowSendable, Controller {
     PIDSource m_pidInput;
     PIDOutput m_pidOutput;
     java.util.Timer m_controlLoop;
-    private boolean m_freed = false;
-    private boolean m_usingPercentTolerance;
-
     /**
      * Tolerance is the type of tolerance used to specify if the PID controller is on target.
      * The various implementations of this class such as PercentageTolerance and AbsoluteTolerance
@@ -144,7 +140,6 @@ public class PIDController implements LiveWindowSendable, Controller {
 
         m_controlLoop.schedule(new PIDTask(this), 0L, (long) (m_period * 1000));
 
-        instances++;
         m_tolerance = new NullTolerance();
     }
 
@@ -197,7 +192,6 @@ public class PIDController implements LiveWindowSendable, Controller {
     public void free() {
       m_controlLoop.cancel();
       synchronized (this) {
-        m_freed = true;
         m_pidOutput = null;
         m_pidInput = null;
         m_controlLoop = null;

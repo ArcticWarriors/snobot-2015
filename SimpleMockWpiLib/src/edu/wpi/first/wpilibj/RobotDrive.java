@@ -504,7 +504,6 @@ public class RobotDrive {
         if(!kMecanumPolar_Reported) {
             kMecanumPolar_Reported = true;
         }
-        double frontLeftSpeed, rearLeftSpeed, frontRightSpeed, rearRightSpeed;
         // Normalized for full power along the Cartesian axes.
         magnitude = limit(magnitude) * Math.sqrt(2.0);
         // The rollers are at 45 degree angles.

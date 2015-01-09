@@ -7,8 +7,6 @@
 
 package edu.wpi.first.wpilibj;
 
-import java.nio.IntBuffer;
-import java.nio.ByteBuffer;
 
 /**
  * SolenoidBase class is the common base class for the Solenoid and
@@ -16,7 +14,6 @@ import java.nio.ByteBuffer;
  */
 public abstract class SolenoidBase extends SensorBase {
 
-    private ByteBuffer[] m_ports;
     protected int m_moduleNumber; ///< The number of the solenoid module being used.
 
     /**
@@ -26,6 +23,5 @@ public abstract class SolenoidBase extends SensorBase {
      */
     public SolenoidBase(final int moduleNumber) {
         m_moduleNumber = moduleNumber;
-        m_ports = new ByteBuffer[SensorBase.kSolenoidChannels];
     }
 }

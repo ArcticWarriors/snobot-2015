@@ -104,7 +104,6 @@ public class Scheduler implements NamedSendable {
      */
     public void add(Command command) {
         if (command != null) {
-        	System.out.println("Adding command");
             additions.addElement(command);
         }
     }
@@ -140,8 +139,6 @@ public class Scheduler implements NamedSendable {
             System.err.println("WARNING: Can not start command from cancel method.  Ignoring:" + command);
             return;
         }
-        
-        System.out.println("In _add");
 
         // Only add if not already in
         if (!commandTable.containsKey(command)) {
@@ -158,7 +155,6 @@ public class Scheduler implements NamedSendable {
             // Give it the requirements
             adding = true;
             requirements = command.getRequirements();
-            System.out.println("Has more... " + requirements.hasMoreElements());
             while (requirements.hasMoreElements()) {
                 Subsystem lock = (Subsystem) requirements.nextElement();
                 if (lock.getCurrentCommand() != null) {

@@ -56,7 +56,6 @@ public abstract class Trigger implements Sendable {
 
             public void execute() {
                 if (grab()) {
-                	System.out.println("  Trigger.Passed grab " + pressedLast);
                     if (!pressedLast) {
                         pressedLast = true;
                         command.start();
@@ -128,7 +127,6 @@ public abstract class Trigger implements Sendable {
             boolean pressedLast = grab();
 
             public void execute() {
-            	System.out.println("Executing toggleWhenActive");
                 if (grab()) {
                     if (!pressedLast) {
                         pressedLast = true;

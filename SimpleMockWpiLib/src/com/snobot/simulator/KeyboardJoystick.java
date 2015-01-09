@@ -33,21 +33,24 @@ public class KeyboardJoystick implements IMockJoystick
 		public void setButtonState(char keyChar, boolean isSet) {
 			mButtonStates[indexFromButton(keyChar)] = isSet;
 		}
-		public void trySetAxisButton(char keyChar, boolean b) {
+		public void trySetAxisButton(char keyChar, boolean isPressed) {
 			
-//			System.out.println(fowardKey + " = " + (char)(fowardKey + offset));
-			if(keyChar == fowardKey)
+			if(isPressed)
 			{
-				mAxisStates[0] = 1.0;
-				mAxisStates[1] = 1.0;
-			}
-			else if(keyChar == reverseKey)
-			{
-				mAxisStates[0] = -1.0;
-				mAxisStates[1] = -1.0;
+				if(keyChar == fowardKey)
+				{
+					mAxisStates[0] = 1.0;
+					mAxisStates[1] = 1.0;
+				}
+				else if(keyChar == reverseKey)
+				{
+					mAxisStates[0] = -1.0;
+					mAxisStates[1] = -1.0;
+				}
 			}
 			else
 			{
+				System.out.println("Prse: " + isPressed);
 				mAxisStates[0] = 0;
 				mAxisStates[1] = 0;
 			}
@@ -104,9 +107,9 @@ public class KeyboardJoystick implements IMockJoystick
 
 		secondKeyHolder.fowardKey = KeyEvent.VK_B + 32;
 		secondKeyHolder.reverseKey = KeyEvent.VK_N + 32;
-
+//
 		KeyHolder thirdKeyHolder = new KeyHolder();
-		
+//		
 		joystickNumberToKeyHolder.put(1, zeroithKeyHolder );
 		joystickNumberToKeyHolder.put(2, firstKeyHolder );
 		joystickNumberToKeyHolder.put(3, secondKeyHolder );
@@ -124,7 +127,7 @@ public class KeyboardJoystick implements IMockJoystick
 	    	}
 	    	else
 	    	{
-	    		keyHolder.trySetAxisButton(e.getKeyChar(), e.getKeyChar() == KeyEvent.KEY_TYPED);
+	    		keyHolder.trySetAxisButton(e.getKeyChar(), e.getID() == KeyEvent.KEY_TYPED);
 	    	}
 	 
 	        //Allow the event to be redispatched
