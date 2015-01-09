@@ -50,7 +50,6 @@ public class KeyboardJoystick implements IMockJoystick
 			}
 			else
 			{
-				System.out.println("Prse: " + isPressed);
 				mAxisStates[0] = 0;
 				mAxisStates[1] = 0;
 			}
