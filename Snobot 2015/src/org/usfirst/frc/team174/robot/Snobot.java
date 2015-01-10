@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,8 +20,8 @@ public class Snobot extends IterativeRobot {
      * used for any initialization code.
      */
 	
-	private SpeedController leftMotors;
-	private SpeedController rightMotors;
+	private SpeedController leftMotors = new Talon(0);
+	private SpeedController rightMotors = new Talon(1);
 	
 	Joystick rightJoystick = new Joystick(1);
 	Joystick leftJoystick = new Joystick(2);
