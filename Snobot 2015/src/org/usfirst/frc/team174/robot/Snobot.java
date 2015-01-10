@@ -14,22 +14,32 @@ import edu.wpi.first.wpilibj.Talon;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
+
 public class Snobot extends IterativeRobot {
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+
+	private SpeedController leftMotors;
+	private SpeedController rightMotors;
 	
-	private SpeedController leftMotors = new Talon(0);
-	private SpeedController rightMotors = new Talon(1);
+	private Joystick leftJoystick;
+	private Joystick rightJoystick;
 	
-	Joystick rightJoystick = new Joystick(1);
-	Joystick leftJoystick = new Joystick(2);
+	private DriverJoystick driverJoystick;
 	
-	RobotDrive drive = new RobotDrive(leftMotors, rightMotors);
+	private DriveTrain tank;
 	
     public void robotInit() {
-
+    	leftMotors = new Talon(0);
+    	rightMotors = new Talon(1);
+    	leftJoystick = new Joystick(1);
+    	rightJoystick = new Joystick(2);
+    	
+    	driverJoystick = new DriverJoystick_Flightsticks(rightJoystick, leftJoystick);
+    	
+    	tank = new DriveTrain (leftMotors, rightMotors, driverJoystick);
     }
 
     /**
@@ -43,15 +53,7 @@ public class Snobot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	
-    	if (rightJoystick.getRawButton(1) == true)
-    	{
-        drive.tankDrive(rightJoystick, leftJoystick, true);
-    	}
-    	else if (rightJoystick.getRawButton(2) == true)
-    	{
-    		drive.arcadeDrive(rightJoystick, true);
-    	}
+    tank.control();
     }
     
     /**
