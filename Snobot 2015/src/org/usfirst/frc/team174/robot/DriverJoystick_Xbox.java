@@ -8,7 +8,7 @@ public class DriverJoystick_Xbox implements DriverJoystick{
 	
 	private Joystick joystick;
 	
-	private DriveMode driveMode;
+	private DriveMode driveMode = DriveMode.TwoStick;
 	
 	public DriverJoystick_Xbox(Joystick aJoystick)
 	{

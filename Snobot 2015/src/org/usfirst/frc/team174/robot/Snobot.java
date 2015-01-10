@@ -37,7 +37,7 @@ public class Snobot extends IterativeRobot {
     	leftJoystick = new Joystick(1);
     	rightJoystick = new Joystick(2);
     	
-    	driverJoystick = new DriverJoystick_Flightsticks(rightJoystick, leftJoystick);
+    	driverJoystick = new DriverJoystick_Xbox(rightJoystick);
     	
     	tank = new DriveTrain (leftMotors, rightMotors, driverJoystick);
     }
@@ -46,7 +46,7 @@ public class Snobot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
- 
+    	tank.setLeftRight(1, 1);
     }
 
     /**

@@ -19,7 +19,6 @@ public class DriveTrain { /**
 
 	RobotDrive drive;
 
-	
 	public DriveTrain(SpeedController aLeftSpeedController, SpeedController aRightSpeedController,
 			DriverJoystick aDriverJoystick) 
 	{
@@ -32,13 +31,16 @@ public class DriveTrain { /**
 	
     public void control() 
     {	
+    	System.out.println("In control");
     	if (driverJoystick.getmode() == DriveMode.TwoStick)
     	{
     		drive.tankDrive(driverJoystick.getLeft(), driverJoystick.getRight(), true);
+    		System.out.println("Tank: " + driverJoystick.getLeft() + ", " +  driverJoystick.getRight());
     	}
     	else if (driverJoystick.getmode() == DriveMode.OneStick)
     	{
     		drive.arcadeDrive(driverJoystick.getSpeed(), driverJoystick.getRotate(), true);
+    		System.out.println("Arcade: " + driverJoystick.getSpeed() + ", " +  driverJoystick.getRotate());
     	}
     }
     
@@ -47,5 +49,9 @@ public class DriveTrain { /**
      */
     public void testPeriodic() {
     }
-    }
+
+	public void setLeftRight(int i, int j) {
+		drive.setLeftRightMotorOutputs(i, j);
+	}
+}
     	
