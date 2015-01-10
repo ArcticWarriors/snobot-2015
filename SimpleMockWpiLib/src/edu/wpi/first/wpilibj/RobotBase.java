@@ -51,6 +51,7 @@ public abstract class RobotBase {
 		// Resource.RestartProgram();
 
 		m_ds = DriverStation.getInstance();
+		RobotState.SetImplementation(DriverStation.getInstance());
 	}
 
 	/**
