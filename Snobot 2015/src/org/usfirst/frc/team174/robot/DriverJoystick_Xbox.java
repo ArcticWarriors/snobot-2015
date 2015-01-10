@@ -22,17 +22,17 @@ public class DriverJoystick_Xbox implements DriverJoystick{
 
 	@Override
 	public double getLeft() {
-		return joystick.getRawAxis(2);
+		return joystick.getRawAxis(1);
 	}
 
 	@Override
 	public double getSpeed() {
-		return joystick.getRawAxis(2);
+		return joystick.getRawAxis(1);
 	}
 
 	@Override
 	public double getRotate() {
-		return joystick.getRawAxis(5);
+		return joystick.getRawAxis(4);
 	}
 
 	@Override
