@@ -1,12 +1,13 @@
 package com.snobot.simulator;
+
 import net.java.games.input.Component.Identifier;
 
-public class LogitechJoystick extends GamepadJoystick
-{
-	public LogitechJoystick() 
+public class Ps4Joystick extends GamepadJoystick {
+
+	public Ps4Joystick() 
 	{
-		super(
-				"Logitech Dual Action",
+		super( 
+				"Wireless Controller",
 
 				new Identifier[]{
 					Identifier.Axis.X,   //Left x
