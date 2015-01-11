@@ -2,7 +2,8 @@ package com.snobot;
 
 import javax.swing.SwingUtilities;
 
-import org.usfirst.frc.team174.robot.Robot;
+import org.usfirst.frc.team174.robot.Snobot;
+import org.usfirst.frc.team174.robot.TestRobot;
 
 import com.snobot.simulator.gui.SimulatorFrame;
 
@@ -13,7 +14,9 @@ public class Main {
     public static void main(String[] args)
     {
 //    	RobotDowneyJr iter = new RobotDowneyJr();
-        Robot iter = new Robot();
+//        Robot iter = new Robot();
+    	
+    	Snobot iter = new Snobot();
 
         SwingUtilities.invokeLater(new Runnable() {
 			
