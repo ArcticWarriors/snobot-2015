@@ -18,7 +18,8 @@ public class PrintJinputThings {
         	if(
         			ca[i].getType().toString().equals("Keyboard") || 
         			ca[i].getType().toString().equals("Mouse") || 
-        			ca[i].getType().toString().equals("USB Receiver"))
+        			ca[i].getType().toString().equals("USB Receiver") || 
+        			ca[i].getType().toString().equals("Unknown"))
         	{
         		continue;
         	}

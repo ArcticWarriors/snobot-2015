@@ -2,10 +2,9 @@ package org.usfirst.frc.team174.robot;
 
 import org.usfirst.frc.team174.robot.DriverJoystick_Flightsticks.DriveMode;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain { /**
      * This function is run when the robot is first started up and should be
@@ -39,12 +38,10 @@ public class DriveTrain { /**
     	{
     		drive.arcadeDrive(driverJoystick.getSpeed(), driverJoystick.getRotate(), true);
     	}
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
+
+    	SmartDashboard.putNumber("Left Speed", leftMotors.get());
+    	SmartDashboard.putNumber("Right Speed", rightMotors.get());
+    	SmartDashboard.putString("Right Speed", driverJoystick.getmode().toString());
     }
 
 	public void setLeftRight(int i, int j) {

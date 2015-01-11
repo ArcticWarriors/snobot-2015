@@ -48,7 +48,7 @@ public class JoystickFactory {
 		{
 			int number = Integer.parseInt(i.getKey().toString().substring(sKEY.length()));
 
-	        Class aClass = classLoader.loadClass(i.getValue().toString());
+	        Class<?> aClass = classLoader.loadClass(i.getValue().toString());
 	        
 	        if(IMockJoystick.class.isAssignableFrom(aClass))
 	        {

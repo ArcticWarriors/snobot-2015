@@ -45,6 +45,8 @@ public class GamepadJoystick implements IMockJoystick {
 			mController.poll();
 			return mController.getComponent(mButtons[aIndex]).getPollData() == 1;
 		}
+		
+		System.err.println("Was not able to create joystick");
 		return false;
 	}
 
@@ -56,6 +58,8 @@ public class GamepadJoystick implements IMockJoystick {
 			mController.poll();
 			return mController.getComponent(mAxis[aIndex]).getPollData();
 		}
+		
+		System.err.println("Was not able to create joystick");
 		return 0.0;
 	}
 
