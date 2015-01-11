@@ -128,9 +128,9 @@ public class IterativeRobot extends RobotBase {
                 }
             }
             
-            if(mListener != null)
+            for(LoopListener listener : mListeners)
             {
-            	mListener.looped();
+            	listener.looped();
             }
 
             m_ds.waitForData();

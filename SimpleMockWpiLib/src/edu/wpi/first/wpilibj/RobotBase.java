@@ -7,6 +7,8 @@
 
 package edu.wpi.first.wpilibj;
 
+import java.util.ArrayList;
+
 
 /**
  * Implement a Robot Program framework.
@@ -25,16 +27,16 @@ public abstract class RobotBase {
 	protected final DriverStation m_ds;
 
 
-	protected LoopListener mListener;
+	protected ArrayList<LoopListener> mListeners = new ArrayList<>();
 	
     public interface LoopListener
     {
     	public void looped();
     }
     
-    public void setLoopListener(LoopListener aListener)
+    public void addLoopListener(LoopListener aListener)
     {
-    	mListener = aListener;
+    	mListeners.add(aListener);
     }
     
 	/**

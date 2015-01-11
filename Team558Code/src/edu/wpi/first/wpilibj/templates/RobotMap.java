@@ -10,8 +10,7 @@ public class RobotMap {
 
     // Joysticks
     static int leftJoystickChannel = 1;
-    static int rightJoystickChannel = 2;
-    static int controllerChannel = 3;
+    static int controllerChannel = 2;
 
     //Buttons
     public static int catchOpenButton = 1;

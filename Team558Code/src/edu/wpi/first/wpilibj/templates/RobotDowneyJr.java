@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.templates.commands.CommandBase;
 import edu.wpi.first.wpilibj.templates.commands.ShootandDriveForward;
+import edu.wpi.first.wpilibj.templates.subsystems.Positioning;
 import edu.wpi.first.wpilibj.Compressor;
 
 
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj.Compressor;
 public class RobotDowneyJr extends IterativeRobot {
 
     Command autonomousCommand;
+    private Positioning mPositioning;
 //    Compressor compressor = new Compressor(1,1);
 
     /**
@@ -39,6 +41,8 @@ public class RobotDowneyJr extends IterativeRobot {
         autonomousCommand = new ShootandDriveForward();
         // Initialize all subsystems
         CommandBase.init();
+        
+        mPositioning = new Positioning(CommandBase.drivetrain);
     }
 
     public void autonomousInit() {
@@ -68,6 +72,7 @@ public class RobotDowneyJr extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        mPositioning.update();
     }
     
     /**
