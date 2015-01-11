@@ -54,7 +54,6 @@ public class GamepadJoystick implements IMockJoystick {
 		if(mController != null)
 		{
 			mController.poll();
-			PrintJinputThings.printAxis(mController);
 			return mController.getComponent(mAxis[aIndex]).getPollData();
 		}
 		return 0.0;

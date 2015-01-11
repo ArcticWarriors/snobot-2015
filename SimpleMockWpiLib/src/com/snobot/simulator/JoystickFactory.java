@@ -2,9 +2,7 @@ package com.snobot.simulator;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +53,6 @@ public class JoystickFactory {
 	        if(IMockJoystick.class.isAssignableFrom(aClass))
 	        {
 	        	IMockJoystick joystick = (IMockJoystick) aClass.newInstance();
-	        	System.out.println("Creating joystick : " + joystick);
 	        	mJoystickMap.put(number, joystick);
 	        }
 		}
