@@ -3,7 +3,7 @@ package com.snobot;
 import javax.swing.SwingUtilities;
 
 import org.usfirst.frc.team174.robot.Snobot;
-import org.usfirst.frc.team174.robot.TestRobot;
+//import org.usfirst.frc.team174.robot.TestRobot;
 
 
 
@@ -27,7 +27,7 @@ public class Main {
 //        Robot iter = new Robot();
     	
     	Snobot iter = new Snobot();
-    	RobotDowneyJr iter = new RobotDowneyJr();
+//    	RobotDowneyJr iter = new RobotDowneyJr();
 //        Robot iter = new Robot();
 //        Snobot iter = new Snobot();
     	
