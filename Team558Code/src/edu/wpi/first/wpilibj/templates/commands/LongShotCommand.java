@@ -28,7 +28,6 @@ public class LongShotCommand extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	//TODO  this isn't how alan had it - PJ
     	if(timeSinceInitialized() < 1)
     	{
             intake.IntakeOut();

@@ -14,7 +14,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.templates.commands.CommandBase;
 import edu.wpi.first.wpilibj.templates.commands.ShootandDriveForward;
+import edu.wpi.first.wpilibj.templates.subsystems.DrivetrainSubsystem;
+import edu.wpi.first.wpilibj.templates.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.templates.subsystems.Positioning;
+import edu.wpi.first.wpilibj.templates.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.Compressor;
 
 
@@ -47,6 +50,7 @@ public class RobotDowneyJr extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
+    	mPositioning.reset();
         autonomousCommand.start();
 //        compressor.start();
     }
@@ -56,6 +60,8 @@ public class RobotDowneyJr extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        mPositioning.update();
+        updateSmartDashboard();
     }
 
     public void teleopInit() {
@@ -73,6 +79,7 @@ public class RobotDowneyJr extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         mPositioning.update();
+        updateSmartDashboard();
     }
     
     /**
@@ -80,5 +87,15 @@ public class RobotDowneyJr extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+    
+    public void updateSmartDashboard()
+    {
+
+//        CommandBase.drivetrain
+        CommandBase.intake.updateSmartDashboard();
+        CommandBase.shooter.updateSmartDashboard();
+        CommandBase.drivetrain.updateSmartDashboard();
+        mPositioning.updateSmartDashboard();
     }
 }

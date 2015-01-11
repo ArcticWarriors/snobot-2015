@@ -19,14 +19,13 @@ public class OI {
         
        //Map Joysticks and Controller
        drivingJoystick = new Joystick(RobotMap.leftJoystickChannel);
-       controller = new Joystick(RobotMap.controllerChannel);
   
        //Map Buttons to Controller Inputs
        
-       JoystickButton catchOpenButton = new JoystickButton(controller, RobotMap.catchOpenButton);
-       JoystickButton intakeInButton = new JoystickButton(controller, RobotMap.intakeInButton);
-       JoystickButton shortShotButton = new JoystickButton(controller, RobotMap.shortShotButton);
-       JoystickButton longShotButton = new JoystickButton(controller, RobotMap.longShotButton);
+       JoystickButton catchOpenButton = new JoystickButton(drivingJoystick, RobotMap.catchOpenButton);
+       JoystickButton intakeInButton  = new JoystickButton(drivingJoystick, RobotMap.intakeInButton);
+       JoystickButton shortShotButton = new JoystickButton(drivingJoystick, RobotMap.shortShotButton);
+       JoystickButton longShotButton  = new JoystickButton(drivingJoystick, RobotMap.longShotButton);
        
        //Map Buttons to Commands
        
@@ -38,12 +37,23 @@ public class OI {
     
     //Intake In/Out Joystick Value
     public double getLeftControllerPower(){
-        return controller.getY();
+    	if(drivingJoystick.getRawButton(RobotMap.harvestIn))
+    	{
+    		return 1;
+    	}
+    	else if(drivingJoystick.getRawButton(RobotMap.harvestOut))
+    	{
+    		return -1;
+    	}
+    	else
+    	{
+    		return 0;
+    	}
     }
 
     //Tank Drive Joystick Values
     public double getLeftJoystickPower() {
-        return -drivingJoystick.getY();
+        return drivingJoystick.getY();
     }
     
     public double getRightJoystickPower() {

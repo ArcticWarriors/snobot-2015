@@ -8,6 +8,7 @@ package edu.wpi.first.wpilibj.templates.subsystems;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.RobotMap;
 
 /**
@@ -43,5 +44,10 @@ public class ShooterSubsystem extends Subsystem {
         shooterSolenoid1.set(false);
         shooterSolenoid2.set(false);
         
+    }
+
+    public void updateSmartDashboard()
+    {
+        SmartDashboard.putBoolean("Shooter Solenoid", shooterSolenoid1.get());
     }
 }

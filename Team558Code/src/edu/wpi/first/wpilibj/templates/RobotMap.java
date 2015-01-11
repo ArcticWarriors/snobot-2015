@@ -10,14 +10,17 @@ public class RobotMap {
 
     // Joysticks
     static int leftJoystickChannel = 1;
-    static int controllerChannel = 2;
 
     //Buttons
-    public static int catchOpenButton = 1;
-    public static int intakeInButton = 2;
-    public static int catchCloseButton = 3;
-    public static int shortShotButton = 5;
-    public static int longShotButton = 6;
+    public static int catchOpenButton  = 3; //trianlge
+    public static int catchCloseButton = 1; //x
+    
+    public static int intakeInButton   = 3;
+    
+    public static int shortShotButton  = 0; //square
+    public static int longShotButton   = 2; //circle
+    public static int harvestOut       = 4; //l1
+    public static int harvestIn        = 5; //r1
 
     // Drive Motors
     public static int leftFrontMotorChannel = 1;
@@ -38,6 +41,12 @@ public class RobotMap {
     public static int shooterSolenoid2Channel = 5;
     public static int latchSolenoidChannel1   = 6;
     public static int latchSolenoidChannel2   = 7;
+    
+    //Encoders
+    public static int rightEncoderA = 1;
+    public static int rightEncoderB = 2;
+    public static int leftEncoderA  = 3;
+    public static int leftEncoderB  = 4;
 
 
     //Digital Inputs

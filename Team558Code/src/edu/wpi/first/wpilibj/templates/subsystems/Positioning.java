@@ -1,5 +1,6 @@
 package edu.wpi.first.wpilibj.templates.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Positioning {
@@ -26,10 +27,16 @@ public class Positioning {
 	{
 		mX = x;
 		mY = y;
-		mAngle = angle;
 		mInitAngle = angle;
 	}
-	
+
+
+    public void reset()
+    {
+        mDrivetrain.rightEncoder.reset();
+        mDrivetrain.leftEncoder.reset();
+        setPosition(0, 0, 0);
+    }
 	
 	
 	public void update()
@@ -66,9 +73,12 @@ public class Positioning {
 
         mLastRight = rightDist;
         mLastLeft = leftDist;
+	}
 
+    public void updateSmartDashboard()
+    {
         SmartDashboard.putNumber("Robot X", mX);
         SmartDashboard.putNumber("Robot Y", mY);
         SmartDashboard.putNumber("Angle", mAngle);
-	}
+    }
 }

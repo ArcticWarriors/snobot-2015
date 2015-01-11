@@ -193,7 +193,7 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * @return Current raw count from the encoder
 	 */
 	public int getRaw() {
-		return 0;
+		return (int) (__mDistance * m_distancePerPulse);
 	}
 
 	/**

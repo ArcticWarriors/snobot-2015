@@ -62,8 +62,24 @@ public class PrintJinputThings {
         for(int j=0;j<components.length;j++){
         	
         	if (components[j].isAnalog()) {
-        		System.out.println("Analog Value [" + j + "] = " + components[j].getPollData());
+        		System.out.println("Analog Value [" + j + "]\t= " + components[j].getPollData() + 
+        				"\t(" + components[j].getIdentifier().getName() + ")");
             }
         }
+        System.out.println();
+	}
+
+	public static void printButtons(Controller aController)
+	{
+        Component[] components = aController.getComponents();
+        
+        for(int j=0;j<components.length;j++){
+        	
+        	if (!components[j].isAnalog()) {
+        		System.out.println("Digital Value [" + j + "]\t= " + components[j].getPollData() + 
+        				"\t(" + components[j].getIdentifier().getName() + ")");
+            }
+        }
+        System.out.println();
 	}
 }

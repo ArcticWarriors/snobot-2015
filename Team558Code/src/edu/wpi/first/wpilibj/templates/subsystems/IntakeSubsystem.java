@@ -44,20 +44,21 @@ public class IntakeSubsystem extends Subsystem {
 
     public void IntakeIn() {
         intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-        SmartDashboard.putBoolean("Harvester Frame In", false);
     }
 
     public void IntakeOut() {
         intakeSolenoid.set(DoubleSolenoid.Value.kForward);
-        SmartDashboard.putBoolean("Harvester Frame In", true);
     }
 
     public void SetIntakeMotors(double left, double right) {
         leftIntakeMotor.set(-left);
         rightIntakeMotor.set(right);
         
-        System.out.println("Intake speed : " + left);
-        
-        SmartDashboard.putNumber("Over Roller Motor Speed", left);
+    }
+    
+    public void updateSmartDashboard()
+    {
+        SmartDashboard.putBoolean("Harvester Frame In", intakeSolenoid.get() == DoubleSolenoid.Value.kReverse);
+        SmartDashboard.putNumber("Over Roller Motor Speed", leftIntakeMotor.get());
     }
 }
