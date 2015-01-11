@@ -8,11 +8,21 @@ import java.util.Map;
 
 public class KeyboardJoystick implements IMockJoystick 
 {
+	private static interface IKeyholder
+	{
+
+		public boolean isValidButton(char aKey);
+		public void setButtonState(char keyChar, boolean isSet) ;
+		public void trySetAxisButton(char keyChar, boolean isPressed);
+		
+		public boolean getRawButton(int aIndex);
+		public double getRawAxis(int aIndex);
+	}
 	
-	private static class KeyHolder
+	private static class KeyHolder implements IKeyholder
 	{
 		private boolean[] mButtonStates = new boolean[10];
-		private double[] mAxisStates = new double[4];
+		private double[] mAxisStates = new double[6];
 
 		private Map<Integer, Integer> charToButtonMap = new HashMap<Integer, Integer>();
 
@@ -54,9 +64,53 @@ public class KeyboardJoystick implements IMockJoystick
 				mAxisStates[1] = 0;
 			}
 		}
+		@Override
+		public boolean getRawButton(int aIndex) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+		@Override
+		public double getRawAxis(int aIndex) {
+			return mAxisStates[aIndex];
+		}
 	}
 	
-	private KeyHolder keyHolder;
+	class NullKeyholder implements IKeyholder 
+	{
+
+		@Override
+		public boolean isValidButton(char aKey) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public void setButtonState(char keyChar, boolean isSet) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void trySetAxisButton(char keyChar, boolean isPressed) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean getRawButton(int aIndex) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public double getRawAxis(int aIndex) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		
+	}
+	
+	private IKeyholder keyHolder;
 	
 	private static Map<Integer, KeyHolder> joystickNumberToKeyHolder = new HashMap<Integer, KeyboardJoystick.KeyHolder>();
 	
@@ -139,21 +193,28 @@ public class KeyboardJoystick implements IMockJoystick
 		         KeyboardFocusManager.getCurrentKeyboardFocusManager();
 		manager.addKeyEventDispatcher( new KeyDispatcher() );
 		
-		keyHolder = joystickNumberToKeyHolder.get(aIndex);
+		if(joystickNumberToKeyHolder.containsKey(aIndex))
+		{
+			keyHolder = joystickNumberToKeyHolder.get(aIndex);
+		}
+		else
+		{
+			keyHolder = new NullKeyholder();
+		}
 	}
 
 	@Override
 	public boolean getRawButton(int aIndex) {
 		if(aIndex >= 0 && aIndex < 10)
 		{
-			return keyHolder.mButtonStates[aIndex];
+			return keyHolder.getRawButton(aIndex);
 		}
 		return false;
 	}
 
 	@Override
 	public double getRawAxis(int aIndex) {
-		return keyHolder.mAxisStates[aIndex];
+		return keyHolder.getRawAxis(aIndex);
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class SimulatorFrame extends JFrame
 	public void start(final RobotBase aRobot)
 	{
 		final Scheduler scheduler = Scheduler.getInstance();
-		aRobot.setLoopListener(new LoopListener() {
+		aRobot.addLoopListener(new LoopListener() {
 			
 			@Override
 			public void looped() {

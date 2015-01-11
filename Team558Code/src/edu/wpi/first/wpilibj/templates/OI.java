@@ -11,55 +11,53 @@ import edu.wpi.first.wpilibj.templates.commands.*;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    private Joystick leftJoystick; 
-    private Joystick rightJoystick; 
+    private Joystick drivingJoystick; 
     private Joystick controller;
    
     
     public OI() {
         
        //Map Joysticks and Controller
-       leftJoystick = new Joystick(RobotMap.leftJoystickChannel);
-       rightJoystick = new Joystick(RobotMap.rightJoystickChannel);
-       controller = new Joystick(RobotMap.controllerChannel);
+       drivingJoystick = new Joystick(RobotMap.leftJoystickChannel);
   
        //Map Buttons to Controller Inputs
        
-       JoystickButton catchOpenButton = new JoystickButton(controller, RobotMap.catchOpenButton);
-       JoystickButton intakeInButton = new JoystickButton(controller, RobotMap.intakeInButton);
-       //JoystickButton catchCloseButton = new JoystickButton(controller, RobotMap.catchCloseButton);
-       JoystickButton shortShotButton = new JoystickButton(controller, RobotMap.shortShotButton);
-       JoystickButton longShotButton = new JoystickButton(controller, RobotMap.longShotButton);
-       // JoystickButton spinCWButton = new JoystickButton(controller, 4);
+       JoystickButton catchOpenButton = new JoystickButton(drivingJoystick, RobotMap.catchOpenButton);
+       JoystickButton intakeInButton  = new JoystickButton(drivingJoystick, RobotMap.intakeInButton);
+       JoystickButton shortShotButton = new JoystickButton(drivingJoystick, RobotMap.shortShotButton);
+       JoystickButton longShotButton  = new JoystickButton(drivingJoystick, RobotMap.longShotButton);
        
        //Map Buttons to Commands
        
        catchOpenButton.whileHeld(new OpenCatchCommand());
        intakeInButton.whileHeld(new IntakeInCommand());
-       //catchCloseButton.whileHeld(new CloseCatchCommand());
        shortShotButton.whenPressed(new ShortShotCommand());
        longShotButton.whenPressed(new LongShotCommand());
-       //spinCWButton.whileHeld(new SpinRollerCWCommand());
-       
-       
-       
-       
-       
     }
     
     //Intake In/Out Joystick Value
     public double getLeftControllerPower(){
-        return controller.getY();
+    	if(drivingJoystick.getRawButton(RobotMap.harvestIn))
+    	{
+    		return 1;
+    	}
+    	else if(drivingJoystick.getRawButton(RobotMap.harvestOut))
+    	{
+    		return -1;
+    	}
+    	else
+    	{
+    		return 0;
+    	}
     }
-        
-    
+
     //Tank Drive Joystick Values
     public double getLeftJoystickPower() {
-        return -leftJoystick.getY();
+        return drivingJoystick.getY();
     }
     
     public double getRightJoystickPower() {
-        return -rightJoystick.getY();
+        return drivingJoystick.getRawAxis(5);
     }
 }
 

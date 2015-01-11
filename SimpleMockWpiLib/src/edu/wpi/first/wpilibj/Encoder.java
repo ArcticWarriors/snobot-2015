@@ -6,6 +6,9 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
+import com.snobot.simulator.EncoderPair;
+import com.snobot.simulator.SensorActuatorRegistry;
+
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 
@@ -27,6 +30,17 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	protected DigitalSource m_aSource; // the A phase of the quad encoder
 	protected DigitalSource m_bSource; // the B phase of the quad encoder
 	private double m_distancePerPulse;
+	
+	private double __mDistance;
+	
+	public DigitalSource __getASource()
+	{
+		return m_aSource;
+	}
+	public DigitalSource __getBSource()
+	{
+		return m_bSource;
+	}
 
 
 	/**
@@ -49,6 +63,8 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 		//This will do the allocation test
 		m_aSource = new DigitalInput(aChannel);
 		m_bSource = new DigitalInput(bChannel);
+		
+		SensorActuatorRegistry.get().register(this, new EncoderPair(aChannel, bChannel));
 	}
 
 	/**
@@ -177,7 +193,7 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * @return Current raw count from the encoder
 	 */
 	public int getRaw() {
-		return 0;
+		return (int) (__mDistance * m_distancePerPulse);
 	}
 
 	/**
@@ -196,6 +212,7 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * the encoder.
 	 */
 	public void reset() {
+		__mDistance = 0;
 	}
 
 	/**
@@ -265,7 +282,7 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 *         from setDistancePerPulse().
 	 */
 	public double getDistance() {
-		return getRaw() * decodingScaleFactor() * m_distancePerPulse;
+		return __mDistance;
 	}
 
 	/**
@@ -400,5 +417,9 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * {@inheritDoc}
 	 */
 	public void stopLiveWindowMode() {
+	}
+
+	public void __addDistanceDelta(double distance_travelled) {
+		__mDistance += distance_travelled;
 	}
 }

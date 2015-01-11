@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -17,6 +18,7 @@ public class SensorActuatorRegistry
 	private Map<Integer, Solenoid> mSolenoidMap = new HashMap<Integer, Solenoid>();
 	private Map<Integer, Relay> mRelayMap = new HashMap<Integer, Relay>();
 	private Map<Integer, DigitalSource> mDigitalInputMap = new HashMap<Integer, DigitalSource>();
+	private Map<EncoderPair, Encoder> mEncoderMap = new HashMap<EncoderPair, Encoder>();
 	
 	private SensorActuatorRegistry()
 	{
@@ -57,6 +59,18 @@ public class SensorActuatorRegistry
 	{
 		return registerItem(aActuator, aPort, mRelayMap, "Relay");
 	}
+	
+	public boolean register(Encoder aEncoder, EncoderPair aPorts)
+	{
+
+		if(mEncoderMap.containsKey(aPorts))
+		{
+			return false;
+		}
+		mEncoderMap.put(aPorts, aEncoder);
+		
+		return true;
+	}
 
 	public Map<Integer, SpeedController> getSpeedControllers() {
 		return mSpeedControllerMap;
@@ -74,5 +88,9 @@ public class SensorActuatorRegistry
 		return mRelayMap;
 	}
 
+	public Encoder getEncoder(int aPortA, int aPortB) {
+		System.out.println(mEncoderMap);
+		return mEncoderMap.get(new EncoderPair(aPortA, aPortB));
+	}
 
 }

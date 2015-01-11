@@ -5,6 +5,7 @@
  */
 package edu.wpi.first.wpilibj.templates.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.commands.*;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Victor;
@@ -52,5 +53,12 @@ public class IntakeSubsystem extends Subsystem {
     public void SetIntakeMotors(double left, double right) {
         leftIntakeMotor.set(-left);
         rightIntakeMotor.set(right);
+        
+    }
+    
+    public void updateSmartDashboard()
+    {
+        SmartDashboard.putBoolean("Harvester Frame In", intakeSolenoid.get() == DoubleSolenoid.Value.kReverse);
+        SmartDashboard.putNumber("Over Roller Motor Speed", leftIntakeMotor.get());
     }
 }
