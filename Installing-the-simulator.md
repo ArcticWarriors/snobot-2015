@@ -47,3 +47,9 @@ Currently, the only Joystick input method provided is through the keyboard.  I t
     Joystick 4:
       not implemented
   
+# Simulating the SmartDashboard
+The simulator is configured to run the SmartDashboard configuration on your machines localhost.  If you want to see the SmartDashboard results you will need to start it with special arguments so it can talk to the simulator.  Open a command window in your wpilib installation directory (mine is C:\Users\PJ\wpilib\tools).  Start the SmartDashboard with the following command
+
+     java -jar SmartDashboard.jar ip 127.0.0.1
+
+to start it on localhost.  You should now be able to add any fields that are being published by your simulated robot and pretend that this is your tactical smart dashboard.
