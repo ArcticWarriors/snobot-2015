@@ -41,7 +41,7 @@ public class DriveTrain { /**
 
     	SmartDashboard.putNumber("Left Speed", leftMotors.get());
     	SmartDashboard.putNumber("Right Speed", rightMotors.get());
-    	SmartDashboard.putString("Right Speed", driverJoystick.getmode().toString());
+    	SmartDashboard.putString("Drive Mode", driverJoystick.getmode().toString());
     }
 
 	public void setLeftRight(int i, int j) {

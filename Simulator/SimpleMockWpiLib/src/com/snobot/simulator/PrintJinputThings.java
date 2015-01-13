@@ -3,6 +3,7 @@ package com.snobot.simulator;
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
+import net.java.games.input.Rumbler;
 
 public class PrintJinputThings {
 
@@ -29,10 +30,10 @@ public class PrintJinputThings {
             System.out.println("  " + ca[i].getName() + ", Type: "+ca[i].getType().toString());
             System.out.println("  Component Count: "+components.length);
             
-            for(int j=0;j<components.length;j++){
+            for(int j = 0; j < components.length; j++){
                 
                 /* Get the components name */
-                System.out.print("  Component " + j + ":  \t"+components[j].getName());
+                System.out.print("    Component " + j + ":  \t"+components[j].getName());
                 System.out.print("\tIdentifier: "+ components[j].getIdentifier().getName() + "\tComponentType:\t");
                 if (components[j].isRelative()) {
                     System.out.print("(Relative");
@@ -47,6 +48,17 @@ public class PrintJinputThings {
                 
                 System.out.println();
             }
+
+            Rumbler[] rumblers = ca[i].getRumblers();
+            System.out.println("  Rumbler count : " + rumblers.length);
+            
+            for(int j = 0; j < rumblers.length; j++)
+            {
+            	System.out.println(rumblers[j]);
+//    			mController.getRumblers();
+            }
+
+			
             
             System.out.println("\n\n");
         }

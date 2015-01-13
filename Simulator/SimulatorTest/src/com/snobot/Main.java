@@ -2,29 +2,33 @@ package com.snobot;
 
 import javax.swing.SwingUtilities;
 
-import org.usfirst.frc.team174.robot.Snobot;
-
 import com.snobot.simulator.gui.SimulatorFrame;
+import com.snobot.simulator.sim.ISimulatorContainer;
 
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import edu.wpi.first.wpilibj.templates.RobotDowneyJr;
 
 public class Main {
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException
     {
-//    	RobotDowneyJr iter = new RobotDowneyJr();
-//        Robot iter = new Robot();
-    	
-    	Snobot iter = new Snobot();
-//    	RobotDowneyJr iter = new RobotDowneyJr();
-//        Robot iter = new Robot();
-//        Snobot iter = new Snobot();
-    	
-        
-        NetworkTable.setIPAddress("127.0.0.1");
 
-//    	new Team558Simulator(iter);
+//    	String class_name = "org.usfirst.frc.team174.robot.Snobot";
+    	String class_name = "edu.wpi.first.wpilibj.templates.RobotDowneyJr";
+    	
+    	String simulator_classname = "com.snobot.Team558Simulator";
+    	
+        NetworkTable.setIPAddress("127.0.0.1");
+        Preferences.__SetFileName(class_name + "_preferences.ini");
+    	
+    	RobotBase iter = (RobotBase) Class.forName(class_name).newInstance();
+    	
+    	if(simulator_classname != null)
+    	{
+    		ISimulatorContainer simulator = (ISimulatorContainer) Class.forName(simulator_classname).newInstance();
+    		simulator.setRobot(iter);
+    	}
 
         SwingUtilities.invokeLater(new Runnable() {
 			

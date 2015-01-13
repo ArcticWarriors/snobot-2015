@@ -227,4 +227,18 @@ public class KeyboardJoystick implements IMockJoystick
 		return getRawAxis(1);
 	}
 
+	@Override
+	public int getAxisCount() {
+		return 4;
+	}
+
+	@Override
+	public int getButtonCount() {
+		return 10;
+	}
+
+	@Override
+	public void setRumble(short s) {
+	}
+
 }

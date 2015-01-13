@@ -4,6 +4,8 @@
  */
 package edu.wpi.first.wpilibj.templates.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
+
 /**
  *
  * @author Matthew.Lythgoe
@@ -21,7 +23,8 @@ public class DriveCommand extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        drivetrain.drive(-0.5, -0.5);
+    	double speed = Preferences.getInstance().getDouble("AutonSpeed", -.5);
+        drivetrain.drive(speed, speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

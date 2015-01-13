@@ -9,4 +9,10 @@ public interface IMockJoystick {
 	double getX();
 	double getY();
 
+	int getAxisCount();
+
+	int getButtonCount();
+
+	void setRumble(short s);
+
 }
