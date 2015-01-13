@@ -2,6 +2,10 @@ package com.snobot.simulator;
 
 public class NullJoystick implements IMockJoystick 
 {
+	public NullJoystick()
+	{
+		System.out.println("Creainting null joystik");
+	}
 
 	@Override
 	public boolean getRawButton(int aIndex) {
