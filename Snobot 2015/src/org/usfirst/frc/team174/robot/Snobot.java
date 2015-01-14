@@ -21,8 +21,10 @@ public class Snobot extends IterativeRobot {
      * used for any initialization code.
      */
 
-	private SpeedController leftMotors;
-	private SpeedController rightMotors;
+	private SpeedController leftMotorsA;
+	private SpeedController leftMotorsB;
+	private SpeedController rightMotorsA;
+	private SpeedController rightMotorsB;
 	
 	private Joystick leftJoystick;
 	private Joystick rightJoystick;
@@ -32,14 +34,15 @@ public class Snobot extends IterativeRobot {
 	private DriveTrain tank;
 	
     public void robotInit() {
-    	leftMotors = new Talon(0);
-    	rightMotors = new Talon(1);
+    	leftMotorsA = new Talon(0);
+    	rightMotorsA = new Talon(1);
+    	leftJoystick = new Joystick(1);
     	leftJoystick = new Joystick(1);
     	rightJoystick = new Joystick(2);
     	
     	driverJoystick = new DriverJoystick_Xbox(rightJoystick);
     	
-    	tank = new DriveTrain (leftMotors, rightMotors, driverJoystick);
+    	tank = new DriveTrain (leftMotorsA, leftMotorsB, rightMotorsA, rightMotorsB, driverJoystick);
     }
 
     /**
