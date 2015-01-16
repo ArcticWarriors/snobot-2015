@@ -48,6 +48,8 @@ public class PrintJinputThings {
                 System.out.println();
             }
             
+            System.out.println("Number of rumblers: " + ca[i].getRumblers().length);
+            
             System.out.println("\n\n");
         }
 

@@ -72,23 +72,22 @@ public class Snobot extends IterativeRobot {
     	
     
     	double lY = leftJoystick.getRawAxis(1);
-    	double rY = rightJoystick.getRawAxis(5);
     	
 //    	leftJoystick.setRumble(RumbleType.kLeftRumble, (float)lY);
 //    	rightJoystick.setRumble(RumbleType.kRightRumble, (float)rY);
     	
     	if (lY > 0)
     	{
-    		rightJoystick.setRumble(RumbleType.kRightRumble, (float)rY);
+    		leftJoystick.setRumble(RumbleType.kRightRumble, (float)lY);
     	}
     	else if (lY < 0)
     	{
-    		rightJoystick.setRumble(RumbleType.kLeftRumble, -(float)lY);
+    		leftJoystick.setRumble(RumbleType.kLeftRumble, -(float)lY);
     	}
     	else 
     	{
-    		rightJoystick.setRumble(RumbleType.kRightRumble, 0);
-    		rightJoystick.setRumble(RumbleType.kLeftRumble, 0);
+    		leftJoystick.setRumble(RumbleType.kRightRumble, 0);
+    		leftJoystick.setRumble(RumbleType.kLeftRumble, 0);
     	}
     }
     /**
