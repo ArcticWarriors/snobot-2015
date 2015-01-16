@@ -3,6 +3,7 @@ package org.usfirst.frc.team174.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -57,8 +58,39 @@ public class Snobot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     tank.control();
-    }
     
+//    if (leftJoystick.getRawButton(1))
+//	{
+//		leftJoystick.setRumble(RumbleType.kLeftRumble, 1);
+//		leftJoystick.setRumble(RumbleType.kRightRumble, 1);
+//	}
+//    else 
+//    {
+//    	leftJoystick.setRumble(RumbleType.kLeftRumble, 0);
+//    	leftJoystick.setRumble(RumbleType.kRightRumble, 1);
+//    }
+    	
+    
+    	double lY = leftJoystick.getRawAxis(1);
+    	double rY = rightJoystick.getRawAxis(5);
+    	
+//    	leftJoystick.setRumble(RumbleType.kLeftRumble, (float)lY);
+//    	rightJoystick.setRumble(RumbleType.kRightRumble, (float)rY);
+    	
+    	if (lY > 0)
+    	{
+    		rightJoystick.setRumble(RumbleType.kRightRumble, (float)rY);
+    	}
+    	else if (lY < 0)
+    	{
+    		rightJoystick.setRumble(RumbleType.kLeftRumble, -(float)lY);
+    	}
+    	else 
+    	{
+    		rightJoystick.setRumble(RumbleType.kRightRumble, 0);
+    		rightJoystick.setRumble(RumbleType.kLeftRumble, 0);
+    	}
+    }
     /**
      * This function is called periodically during test mode
      */
