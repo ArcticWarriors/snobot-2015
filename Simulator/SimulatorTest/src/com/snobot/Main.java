@@ -16,8 +16,8 @@ public class Main {
 //    	RobotDowneyJr iter = new RobotDowneyJr();
 //        Robot iter = new Robot();
     	
-    	Snobot iter = new Snobot();
-//    	RobotDowneyJr iter = new RobotDowneyJr();
+//    	Snobot iter = new Snobot();
+    	RobotDowneyJr iter = new RobotDowneyJr();
 //        Robot iter = new Robot();
 //        Snobot iter = new Snobot();
     	
