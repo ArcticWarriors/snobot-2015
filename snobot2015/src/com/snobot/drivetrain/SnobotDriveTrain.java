@@ -3,6 +3,11 @@ package com.snobot.drivetrain;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 
+/**
+ * Sets up specific snobot drive train 
+ * @author Ayush/Ammar
+ *
+ */
 public class SnobotDriveTrain implements IDriveTrain{
 
 	private SpeedController mSpeedControllerLeft;
