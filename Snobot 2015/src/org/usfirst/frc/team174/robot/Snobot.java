@@ -34,6 +34,8 @@ public class Snobot extends IterativeRobot {
 	
 	private DriveTrain tank;
 	
+	private TestRumblePressure rumblePressure;
+	
     public void robotInit() {
     	leftMotorsA = new Talon(0);
     	rightMotorsA = new Talon(1);
@@ -44,6 +46,8 @@ public class Snobot extends IterativeRobot {
     	driverJoystick = new DriverJoystick_Xbox(rightJoystick);
     	
     	tank = new DriveTrain (leftMotorsA, leftMotorsB, rightMotorsA, rightMotorsB, driverJoystick);
+    	rumblePressure = new TestRumblePressure(leftJoystick);
+    	
     }
 
     /**
@@ -58,6 +62,7 @@ public class Snobot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     tank.control();
+    rumblePressure.control();
     
 //    if (leftJoystick.getRawButton(1))
 //	{
