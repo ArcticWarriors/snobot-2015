@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class SnobotOperatorJoystick implements IOperatorJoystick{
 	
-	Joystick joystick;
+	private Joystick mJoystick;
 	
 	/**
 	 * Constructs a SnobotOperatorJoystick object
-	 * @param joy
+	 * @param aJoystick
 	 */
-	public SnobotOperatorJoystick(Joystick joy){
-	    joystick = 	joy;
+	public SnobotOperatorJoystick(Joystick aJoystick){
+	    mJoystick = aJoystick;
 	}
 
 	@Override

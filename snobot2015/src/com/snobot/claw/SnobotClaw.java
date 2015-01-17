@@ -4,13 +4,14 @@ import com.snobot.operatorjoystick.IOperatorJoystick;
 
 public class SnobotClaw implements IClaw{
 
-	IOperatorJoystick joystick;
+	private IOperatorJoystick mJoystick;
+	
 	/**
 	 * Constructs a SnobotClaw  object
-	 * @param aOJ
+	 * @param aJoystick
 	 */
-	public SnobotClaw(IOperatorJoystick aOJ){
-		joystick=aOJ;
+	public SnobotClaw(IOperatorJoystick aJoystick){
+		mJoystick=aJoystick;
 	}
 	@Override
 	public void open() {

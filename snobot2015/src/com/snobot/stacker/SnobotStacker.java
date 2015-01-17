@@ -4,14 +4,14 @@ import com.snobot.operatorjoystick.IOperatorJoystick;
 
 public class SnobotStacker implements IStacker{
 	
-	IOperatorJoystick joystick;
+	private IOperatorJoystick mOperatorJoystick;
 	
 	/**
 	 * Constructs a SnobotStacker object
-	 * @param aOJ
+	 * @param aOperatorJoystick
 	 */
-	public SnobotStacker(IOperatorJoystick aOJ){
-	    joystick=aOJ;
+	public SnobotStacker(IOperatorJoystick aOperatorJoystick){
+	    mOperatorJoystick=aOperatorJoystick;
 	}
 
 	@Override

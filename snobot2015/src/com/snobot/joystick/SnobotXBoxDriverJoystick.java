@@ -2,13 +2,13 @@ package com.snobot.joystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class SnobotDriverJoystick implements IDriverJoystick {
+public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	
-	private Joystick mJoystick1;
+	private Joystick mXBoxStick;
 	
-	public SnobotDriverJoystick (Joystick aJoystick1)
+	public SnobotXBoxDriverJoystick (Joystick aXBoxStick)
 	{
-		mJoystick1 = aJoystick1;
+		mXBoxStick = aXBoxStick;
 	}
 
 	@Override

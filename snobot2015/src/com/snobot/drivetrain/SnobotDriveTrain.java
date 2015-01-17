@@ -5,16 +5,24 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public class SnobotDriveTrain implements IDriveTrain{
 
+	private SpeedController mSpeedControllerLeft;
+	private SpeedController mSpeedControlleRight;		 
+	private Joystick mDriverJoystick;
+	
 	/**
 	 * Takes 2 speed controllers and joy stick arguments
-	 * @param aSpeedController1
-	 * @param aSpeedController2
+	 * @param aSpeedControllerLeft
+	 * @param aSpeedControllerRight
 	 * @param aDriverJoystick
 	 */
-	public SnobotDriveTrain (SpeedController aSpeedController1, SpeedController aSpeedController2,
-							 Joystick aDriverJoystick)
+	public SnobotDriveTrain (
+			SpeedController aSpeedControllerLeft, 
+			SpeedController aSpeedControllerRight,				 
+			Joystick aDriverJoystick)
 	{
-		
+		mSpeedControllerLeft = aSpeedControllerLeft;
+		mSpeedControlleRight =	aSpeedControllerRight;	 
+		mDriverJoystick = aDriverJoystick;  
 	}
 
 	@Override
@@ -60,7 +68,7 @@ public class SnobotDriveTrain implements IDriveTrain{
 	}
 
 	@Override
-	public void setMotorSpeed(double aR, double aL) {
+	public void setMotorSpeed(double aLeft, double aRight) {
 		// TODO Auto-generated method stub
 		
 	}
