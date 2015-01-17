@@ -1,5 +1,5 @@
 
-package org.usfirst.frc.team174.snobot;
+package com.snobot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 
