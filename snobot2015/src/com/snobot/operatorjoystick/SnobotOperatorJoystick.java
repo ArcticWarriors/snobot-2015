@@ -2,6 +2,12 @@ package com.snobot.operatorjoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**
+ * Monitors state of operator joystick for other
+ * classes/objects to use
+ * @author Alec/Jeffrey
+ *
+ */
 public class SnobotOperatorJoystick implements IOperatorJoystick{
 	
 	private Joystick mJoystick;

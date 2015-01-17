@@ -1,5 +1,11 @@
 package com.snobot.operatorjoystick;
 
+/**
+ * Used by SnobotOperatorJoystick to monitor
+ * state of operator joystick
+ * @author Alec/Jeffrey
+ *
+ */
 public interface IOperatorJoystick {
 
 	/**
