@@ -23,7 +23,7 @@ public class Main {
     public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException
     {
     	String class_name = "com.snobot.Snobot";
-    	String simulator_classname = "";
+    	String simulator_classname = "com.snobot.Snobot2015Simulator";
     	String simulator_config = "";
     	
     	try
