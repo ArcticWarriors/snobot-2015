@@ -497,8 +497,6 @@ public class Preferences {
      * in its own thread when {@link Preferences#save() save()} is called.
      */
     private void write() {
-    	
-    	System.out.println("__Writing to file " + FILE_NAME);
         synchronized (lock) {
             synchronized (fileLock) {
                 fileLock.notifyAll();
@@ -523,8 +521,6 @@ public class Preferences {
                 for (int i = 0; i < keys.size(); i++) {
                     String key = (String) keys.elementAt(i);
                     String value = (String) values.get(key);
-                    
-                    System.out.println("Key = " + key + " - value = " + value);
 
                     if (comments != null) {
                         Comment comment = (Comment) comments.get(key);
@@ -561,7 +557,6 @@ public class Preferences {
      * thread when the preferences singleton is first created.
      */
     private void read() {
-    	System.out.println("__ Reading preferences file from " + FILE_NAME);
         class EndOfStreamException extends Exception {
         }
 

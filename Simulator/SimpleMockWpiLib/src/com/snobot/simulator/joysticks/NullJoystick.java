@@ -26,4 +26,18 @@ public class NullJoystick implements IMockJoystick
 		return 0;
 	}
 
+	@Override
+	public int getAxisCount() {
+		return 0;
+	}
+
+	@Override
+	public int getButtonCount() {
+		return 0;
+	}
+
+	@Override
+	public void setRumble(short s) {
+	}
+
 }
