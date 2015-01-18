@@ -34,4 +34,9 @@ public abstract class BaseWidgetDisplay<ItemType> extends JPanel
 	protected abstract Container createWidget(Entry<Integer, ItemType> pair);
 	
 	public abstract void update(Map<Integer, ItemType> aMap);
+
+
+	public boolean isEmpty() {
+		return mWidgetMap.isEmpty();
+	}
 }
