@@ -14,7 +14,7 @@ public class GamepadJoystick implements IMockJoystick {
 	public GamepadJoystick(String aName, Identifier[] aAxisList, Identifier[] aButtonList) 
 	{
 		mName = aName;
-		
+
 		ControllerEnvironment ce = ControllerEnvironment.getDefaultEnvironment(); 
 
 		Controller[] cs = ce.getControllers(); 
@@ -84,5 +84,21 @@ public class GamepadJoystick implements IMockJoystick {
 	public double getY() 
 	{
 		return getRawAxis(1);
+	}
+
+	@Override
+	public int getAxisCount() {
+		return mAxis.length;
+	}
+
+	@Override
+	public int getButtonCount() {
+		return mButtons.length;
+	}
+
+	@Override
+	public void setRumble(short s) {
+		// TODO Auto-generated method stub
+		
 	}
 }
