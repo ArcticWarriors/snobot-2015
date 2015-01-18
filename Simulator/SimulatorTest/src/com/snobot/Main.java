@@ -15,9 +15,10 @@ public class Main {
     {
 
 //    	String class_name = "org.usfirst.frc.team174.robot.Snobot";
-    	String class_name = "edu.wpi.first.wpilibj.templates.RobotDowneyJr";
+//    	String class_name = "edu.wpi.first.wpilibj.templates.RobotDowneyJr";
+    	String class_name = "com.snobot.Snobot";
     	
-    	String simulator_classname = "com.snobot.Team558Simulator";
+    	String simulator_classname = null;
     	
         NetworkTable.setIPAddress("127.0.0.1");
         Preferences.__SetFileName(class_name + "_preferences.ini");
