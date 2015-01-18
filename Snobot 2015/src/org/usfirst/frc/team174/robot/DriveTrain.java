@@ -10,20 +10,32 @@ public class DriveTrain { /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-	
-	private SpeedController leftMotors;
-	private SpeedController rightMotors;
+
+	private SpeedController leftMotorsA;
+	private SpeedController leftMotorsB;
+	private SpeedController rightMotorsA;
+	private SpeedController rightMotorsB;
 	
 	private DriverJoystick driverJoystick;
 
 	RobotDrive drive;
 
-	public DriveTrain(SpeedController aLeftSpeedController, SpeedController aRightSpeedController,
-			DriverJoystick aDriverJoystick) 
+	public DriveTrain(SpeedController aLeftSpeedController, SpeedController aLeftB,
+			SpeedController aRightMotorsA, SpeedController aRightB, DriverJoystick aDriverJoystick) 
 	{
-		leftMotors = aLeftSpeedController;
-		rightMotors = aRightSpeedController;
-		drive = new RobotDrive(leftMotors, rightMotors);
+		leftMotorsA = aLeftSpeedController;
+		leftMotorsB = aLeftB;
+		rightMotorsA = aRightMotorsA;
+		rightMotorsB = aRightB;
+		
+		if(leftMotorsB == null || rightMotorsB == null)
+		{
+			drive = new RobotDrive(leftMotorsA, rightMotorsA);
+		}
+		else
+		{
+			drive = new RobotDrive(leftMotorsA, leftMotorsB, rightMotorsA, rightMotorsB);
+		}
 		
 		driverJoystick = aDriverJoystick;
 	}
@@ -39,9 +51,9 @@ public class DriveTrain { /**
     		drive.arcadeDrive(driverJoystick.getSpeed(), driverJoystick.getRotate(), true);
     	}
 
-    	SmartDashboard.putNumber("Left Speed", leftMotors.get());
-    	SmartDashboard.putNumber("Right Speed", rightMotors.get());
-    	SmartDashboard.putString("Drive Mode", driverJoystick.getmode().toString());
+    	SmartDashboard.putNumber("Left Speed", leftMotorsA.get());
+    	SmartDashboard.putNumber("Right Speed", rightMotorsA.get());
+    	SmartDashboard.putString("Driver Mode", driverJoystick.getmode().toString());
     }
 
 	public void setLeftRight(int i, int j) {

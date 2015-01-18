@@ -3,6 +3,7 @@ package org.usfirst.frc.team174.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -21,8 +22,10 @@ public class Snobot extends IterativeRobot {
      * used for any initialization code.
      */
 
-	private SpeedController leftMotors;
-	private SpeedController rightMotors;
+	private SpeedController leftMotorsA;
+	private SpeedController leftMotorsB;
+	private SpeedController rightMotorsA;
+	private SpeedController rightMotorsB;
 	
 	private Joystick leftJoystick;
 	private Joystick rightJoystick;
@@ -31,15 +34,20 @@ public class Snobot extends IterativeRobot {
 	
 	private DriveTrain tank;
 	
+	private TestRumblePressure rumblePressure;
+	
     public void robotInit() {
-    	leftMotors = new Talon(0);
-    	rightMotors = new Talon(1);
+    	leftMotorsA = new Talon(0);
+    	rightMotorsA = new Talon(1);
+    	leftJoystick = new Joystick(1);
     	leftJoystick = new Joystick(1);
     	rightJoystick = new Joystick(2);
     	
     	driverJoystick = new DriverJoystick_Xbox(rightJoystick);
     	
-    	tank = new DriveTrain (leftMotors, rightMotors, driverJoystick);
+    	tank = new DriveTrain (leftMotorsA, leftMotorsB, rightMotorsA, rightMotorsB, driverJoystick);
+    	rumblePressure = new TestRumblePressure(leftJoystick);
+    	
     }
 
     /**
@@ -54,8 +62,39 @@ public class Snobot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     tank.control();
-    }
+    rumblePressure.control();
     
+//    if (leftJoystick.getRawButton(1))
+//	{
+//		leftJoystick.setRumble(RumbleType.kLeftRumble, 1);
+//		leftJoystick.setRumble(RumbleType.kRightRumble, 1);
+//	}
+//    else 
+//    {
+//    	leftJoystick.setRumble(RumbleType.kLeftRumble, 0);
+//    	leftJoystick.setRumble(RumbleType.kRightRumble, 1);
+//    }
+    	
+    
+    	double lY = leftJoystick.getRawAxis(1);
+    	
+//    	leftJoystick.setRumble(RumbleType.kLeftRumble, (float)lY);
+//    	rightJoystick.setRumble(RumbleType.kRightRumble, (float)rY);
+    	
+    	if (lY > 0)
+    	{
+    		leftJoystick.setRumble(RumbleType.kRightRumble, (float)lY);
+    	}
+    	else if (lY < 0)
+    	{
+    		leftJoystick.setRumble(RumbleType.kLeftRumble, -(float)lY);
+    	}
+    	else 
+    	{
+    		leftJoystick.setRumble(RumbleType.kRightRumble, 0);
+    		leftJoystick.setRumble(RumbleType.kLeftRumble, 0);
+    	}
+    }
     /**
      * This function is called periodically during test mode
      */

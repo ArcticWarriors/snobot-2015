@@ -3,6 +3,7 @@ package org.usfirst.frc.team174.robot;
 import org.usfirst.frc.team174.robot.DriverJoystick_Flightsticks.DriveMode;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
 
 public class DriverJoystick_Xbox implements DriverJoystick{
 	
@@ -17,12 +18,12 @@ public class DriverJoystick_Xbox implements DriverJoystick{
 
 	@Override
 	public double getRight() {
-		return joystick.getRawAxis(5);
+		return joystick.getRawAxis(1);
 	}
 
 	@Override
 	public double getLeft() {
-		return joystick.getRawAxis(1);
+		return joystick.getRawAxis(5);
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class DriverJoystick_Xbox implements DriverJoystick{
 
 	@Override
 	public double getRotate() {
-		return joystick.getRawAxis(4);
+		return -joystick.getRawAxis(4);
 	}
 
 	@Override

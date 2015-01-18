@@ -1,7 +1,10 @@
-package com.snobot.simulator;
+package com.snobot.simulator.joysticks;
 
 public class NullJoystick implements IMockJoystick 
 {
+	public NullJoystick()
+	{
+	}
 
 	@Override
 	public boolean getRawButton(int aIndex) {

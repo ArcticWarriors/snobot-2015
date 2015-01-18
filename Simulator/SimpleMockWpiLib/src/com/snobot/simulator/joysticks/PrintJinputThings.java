@@ -1,4 +1,4 @@
-package com.snobot.simulator;
+package com.snobot.simulator.joysticks;
 
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
@@ -17,7 +17,6 @@ public class PrintJinputThings {
         for(int i =0;i<ca.length;i++){
         	
         	if(
-        			ca[i].getType().toString().equals("Keyboard") || 
         			ca[i].getType().toString().equals("Mouse") || 
         			ca[i].getType().toString().equals("USB Receiver") || 
         			ca[i].getType().toString().equals("Unknown"))
@@ -59,6 +58,8 @@ public class PrintJinputThings {
             }
 
 			
+            
+            System.out.println("Number of rumblers: " + ca[i].getRumblers().length);
             
             System.out.println("\n\n");
         }
