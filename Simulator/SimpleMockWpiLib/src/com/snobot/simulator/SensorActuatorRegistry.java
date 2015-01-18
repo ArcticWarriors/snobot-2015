@@ -89,7 +89,6 @@ public class SensorActuatorRegistry
 	}
 
 	public Encoder getEncoder(int aPortA, int aPortB) {
-		System.out.println(mEncoderMap);
 		return mEncoderMap.get(new EncoderPair(aPortA, aPortB));
 	}
 

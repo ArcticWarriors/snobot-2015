@@ -1,26 +1,21 @@
-package com.snobot.simulator;
+package com.snobot.simulator.joysticks;
 
 import net.java.games.input.Component.Identifier;
 
-public class XboxJoystick extends GamepadJoystick {
+public class Ps4Joystick extends GamepadJoystick {
 
-	public XboxJoystick() 
+	public Ps4Joystick() 
 	{
 		super( 
-				"Controller (XBOX 360 For Windows)",
+				"Wireless Controller",
 
 				new Identifier[]{
 					Identifier.Axis.X,   //Left x
 					Identifier.Axis.Y,   //Left Y 
-					Identifier.Axis.Z,  //Right Trigger
-					Identifier.Axis.Z,  //Left Trigger
+					Identifier.Axis.RY,  //Right Trigger
+					Identifier.Axis.RX,  //Left Trigger
 					Identifier.Axis.Z,   //Right x 
-					Identifier.Axis.Z,  //Right x 
-					Identifier.Axis.Z,  //Right x 
-					Identifier.Axis.Z,  //Right x 
-					Identifier.Axis.Z,  //Right x 
-					Identifier.Axis.Z,  //Right x 
-					Identifier.Axis.Z,  //Right x 
+					Identifier.Axis.RZ,  //Right x 
 				}, 
 				
 				new Identifier[]{

@@ -1,4 +1,4 @@
-package com.snobot.simulator;
+package com.snobot.simulator.joysticks;
 import net.java.games.input.Component.Identifier;
 
 public class LogitechJoystick extends GamepadJoystick

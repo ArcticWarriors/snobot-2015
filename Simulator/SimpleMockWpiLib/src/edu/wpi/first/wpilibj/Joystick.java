@@ -1,7 +1,8 @@
 package edu.wpi.first.wpilibj;
 
-import com.snobot.simulator.IMockJoystick;
-import com.snobot.simulator.JoystickFactory;
+import com.snobot.simulator.joysticks.IMockJoystick;
+import com.snobot.simulator.joysticks.JoystickFactory;
+import com.snobot.simulator.joysticks.NullJoystick;
 
 public class Joystick extends GenericHID {
 
@@ -9,8 +10,12 @@ public class Joystick extends GenericHID {
 	private IMockJoystick mJoystickWrapper;
 	
 	public Joystick(int aJoystickIndex) {
-		System.out.println("Starting joystick");
 		mJoystickWrapper = factory.create(aJoystickIndex);
+		
+		if(mJoystickWrapper instanceof NullJoystick)
+		{
+			System.err.println("Warning: You are simulating a null joystick on port " + aJoystickIndex);
+		}
 	}
 
 	public boolean getRawButton(int aIndex) {

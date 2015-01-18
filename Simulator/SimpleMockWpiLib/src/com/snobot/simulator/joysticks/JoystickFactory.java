@@ -1,8 +1,10 @@
-package com.snobot.simulator;
+package com.snobot.simulator.joysticks;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,8 @@ public class JoystickFactory {
 	public JoystickFactory() {
 		
 		mJoystickMap = new HashMap<Integer, IMockJoystick>();
+		
+		String errorMessage = "";
 		try
 		{
 			InputStream input_stream = new FileInputStream(sJOYSTICK_CONFIG_FILE);
@@ -30,17 +34,27 @@ public class JoystickFactory {
 			loadSticks(properties);
 			
 		}
-		catch(Exception e)
+		catch(ClassNotFoundException e) {
+			errorMessage = "  ClassNotFoundException: " + e.getMessage();
+		} catch (InstantiationException e) {
+			errorMessage = "  InstantiationException: " + e.getMessage();
+		} catch (IllegalAccessException e) {
+			errorMessage = "  IllegalAccessException: " + e.getMessage();
+		} catch (IOException e) {
+			errorMessage = "  IOException: " + e.getMessage();
+		} 
+		
+		if(!errorMessage.isEmpty())
 		{
 			System.err.println("Could not read joystick properties file... will use default joystick");
-			e.printStackTrace();
+			System.err.println(errorMessage);
 			
 			updateToDefaultMap();
 			writeJoystickFile();
 		}
 	}
 	
-	private void loadSticks(Properties properties) throws Exception
+	private void loadSticks(Properties properties) throws ClassNotFoundException, InstantiationException, IllegalAccessException 
 	{
 	    ClassLoader classLoader = JoystickFactory.class.getClassLoader();
 	    
@@ -72,7 +86,7 @@ public class JoystickFactory {
 			FileOutputStream stream = new FileOutputStream(sJOYSTICK_CONFIG_FILE);
 
 			p.store(stream, "");
-			System.err.println("Wrote joystick config file to " + new File(sJOYSTICK_CONFIG_FILE).getAbsolutePath());
+			System.out.println("Wrote joystick config file to " + new File(sJOYSTICK_CONFIG_FILE).getAbsolutePath());
 			stream.close();
 		} 
 		catch (Exception e1) {
@@ -94,7 +108,6 @@ public class JoystickFactory {
 
 	public IMockJoystick create(int aJoystickIndex) {
 		return mJoystickMap.get(aJoystickIndex);
-//		return new Ps4Joystick(aJoystickIndex);
 	}
 
 }

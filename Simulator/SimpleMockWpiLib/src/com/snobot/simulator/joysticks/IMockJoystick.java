@@ -1,4 +1,4 @@
-package com.snobot.simulator;
+package com.snobot.simulator.joysticks;
 
 public interface IMockJoystick {
 
