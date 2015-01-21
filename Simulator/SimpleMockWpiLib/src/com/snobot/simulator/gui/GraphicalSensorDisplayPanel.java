@@ -32,10 +32,23 @@ public class GraphicalSensorDisplayPanel extends JPanel
 		mRelayPanel = new RelayGraphicDisplay(reg.getRelays());
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		add(mSpeedControllerPanel);
-		add(mSolenoidPanel);
-		add(mDigitalSourcePanel);
-		add(mRelayPanel);
+		
+		if(!mSpeedControllerPanel.isEmpty())
+		{
+			add(mSpeedControllerPanel);
+		}
+		if(!mSpeedControllerPanel.isEmpty())
+		{
+			add(mSolenoidPanel);
+		}
+		if(!mSpeedControllerPanel.isEmpty())
+		{
+			add(mDigitalSourcePanel);
+		}
+		if(!mSpeedControllerPanel.isEmpty())
+		{
+			add(mRelayPanel);
+		}
 	}
 
 	public void update() 

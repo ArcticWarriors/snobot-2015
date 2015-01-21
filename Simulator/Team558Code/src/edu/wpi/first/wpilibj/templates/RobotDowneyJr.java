@@ -9,10 +9,14 @@ package edu.wpi.first.wpilibj.templates;
 
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.templates.commands.CommandBase;
+import edu.wpi.first.wpilibj.templates.commands.DriveCommand;
 import edu.wpi.first.wpilibj.templates.commands.ShootandDriveForward;
 import edu.wpi.first.wpilibj.templates.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj.templates.subsystems.IntakeSubsystem;
@@ -30,9 +34,9 @@ import edu.wpi.first.wpilibj.Compressor;
  */
 public class RobotDowneyJr extends IterativeRobot {
 
-    Command autonomousCommand;
+    private Command autonomousCommand;
     private Positioning mPositioning;
-//    Compressor compressor = new Compressor(1,1);
+    private SendableChooser chooser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -40,8 +44,12 @@ public class RobotDowneyJr extends IterativeRobot {
      */
     public void robotInit() {
         // instantiate the command used for the autonomous period
+    	
+    	chooser = new SendableChooser();
+    	chooser.addDefault("Alans Mode", new ShootandDriveForward());
+    	chooser.addDefault("Drive Only", new DriveCommand());
+        SmartDashboard.putData("Auto Modes", chooser);
         
-        autonomousCommand = new ShootandDriveForward();
         // Initialize all subsystems
         CommandBase.init();
         
@@ -51,6 +59,8 @@ public class RobotDowneyJr extends IterativeRobot {
     public void autonomousInit() {
         // schedule the autonomous command (example)
     	mPositioning.reset();
+
+        autonomousCommand = (Command) chooser.getSelected();
         autonomousCommand.start();
 //        compressor.start();
     }
@@ -70,7 +80,10 @@ public class RobotDowneyJr extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
 //        compressor.start();
-       autonomousCommand.cancel();
+    	if(autonomousCommand != null)
+    	{
+    		autonomousCommand.cancel();
+    	}
     }
 
     /**

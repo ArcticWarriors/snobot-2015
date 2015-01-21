@@ -2,40 +2,28 @@ package com.snobot.operatorjoystick;
 
 /**
  * Used by SnobotOperatorJoystick to monitor
- * state of operator joystick
+ * State of operator joy stick
  * @author Alec/Jeffrey
  *
  */
 public interface IOperatorJoystick {
 
 	/**
-	 * Asks if stacker should be up
+	 * Asks if stacker is up
+	 * @return True if stacker is up else false
 	 */
 	boolean getStackerUp();
 	
 	/**
-	 * Asks if stacker should be down
-	 */
-	boolean getStackerDown();
-	
-	/**
-	 * Asks if claw should be up
+	 * Asks if claw is up
+	 * @return True if claw is up else false
 	 */
 	boolean getClawUp();
-	
-	/**
-	 * Asks if claw should be down
-	 */
-    boolean getClawDown();
     
     /**
-     * Asks if claw should be open
+     * Asks if claw is open
+     * @return True if claw is open else false
      */
     boolean getClawOpen();
-    
-    /**
-     * Asks if claw should be closed
-     */
-    boolean getClawClosed();
     
 }

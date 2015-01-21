@@ -1,10 +1,9 @@
-package com.snobot.simulator;
+package com.snobot.simulator.joysticks;
 
 public class NullJoystick implements IMockJoystick 
 {
 	public NullJoystick()
 	{
-		System.out.println("Creainting null joystik");
 	}
 
 	@Override
@@ -25,6 +24,20 @@ public class NullJoystick implements IMockJoystick
 	@Override
 	public double getY() {
 		return 0;
+	}
+
+	@Override
+	public int getAxisCount() {
+		return 0;
+	}
+
+	@Override
+	public int getButtonCount() {
+		return 0;
+	}
+
+	@Override
+	public void setRumble(short s) {
 	}
 
 }

@@ -1,20 +1,25 @@
 package com.snobot;
 
 import com.snobot.simulator.SensorActuatorRegistry;
-import com.snobot.simulator.sim.ISimulatorUpdater;
+import com.snobot.simulator.sim.ISimulatorContainer;
 import com.snobot.simulator.sim.LinearEncoderCalculator;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotBase.LoopListener;
 import edu.wpi.first.wpilibj.templates.RobotMap;
 
-public class Team558Simulator implements ISimulatorUpdater{
+public class Team558Simulator implements ISimulatorContainer 
+{
 
-	private final LinearEncoderCalculator right_encoder_pair;
-	private final LinearEncoderCalculator left_encoder_pair;
+	private LinearEncoderCalculator right_encoder_pair;
+	private LinearEncoderCalculator left_encoder_pair;
 	
-	public Team558Simulator(RobotBase aRobot)
+	public Team558Simulator()
 	{
+	}
+
+	@Override
+	public void setRobot(RobotBase aRobot) {
     	right_encoder_pair = new LinearEncoderCalculator(
     			SensorActuatorRegistry.get().getSpeedControllers().get(RobotMap.rightFrontMotorChannel), 
     			SensorActuatorRegistry.get().getEncoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB));
@@ -36,9 +41,9 @@ public class Team558Simulator implements ISimulatorUpdater{
 			}
 		});
 	}
-	
-	public void update()
-	{
-		
+
+	@Override
+	public void setConfigFile(String simulator_config) {
+		//Not implemented...
 	}
 }

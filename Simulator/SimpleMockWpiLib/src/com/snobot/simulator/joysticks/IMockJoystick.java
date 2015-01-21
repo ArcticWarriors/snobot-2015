@@ -1,4 +1,4 @@
-package com.snobot.simulator;
+package com.snobot.simulator.joysticks;
 
 public interface IMockJoystick {
 
@@ -8,5 +8,11 @@ public interface IMockJoystick {
 
 	double getX();
 	double getY();
+
+	int getAxisCount();
+
+	int getButtonCount();
+
+	void setRumble(short s);
 
 }

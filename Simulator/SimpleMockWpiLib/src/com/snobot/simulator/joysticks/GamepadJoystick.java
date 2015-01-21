@@ -1,4 +1,4 @@
-package com.snobot.simulator;
+package com.snobot.simulator.joysticks;
 
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
@@ -6,20 +6,15 @@ import net.java.games.input.Component.Identifier;
 
 public class GamepadJoystick implements IMockJoystick {
 
-	enum GamepadAxis
-	{
-		LeftX,
-		LeftY,
-		RightX,
-		RightY,
-	}
-
 	private final Identifier[] mAxis;
 	private final Identifier[] mButtons;
+	private final String mName;
 	private Controller mController;
 	
 	public GamepadJoystick(String aName, Identifier[] aAxisList, Identifier[] aButtonList) 
 	{
+		mName = aName;
+
 		ControllerEnvironment ce = ControllerEnvironment.getDefaultEnvironment(); 
 
 		Controller[] cs = ce.getControllers(); 
@@ -40,26 +35,42 @@ public class GamepadJoystick implements IMockJoystick {
 	@Override
 	public boolean getRawButton(int aIndex) 
 	{
-		if(mController != null)
+		if(mController != null && aIndex < mButtons.length)
 		{
 			mController.poll();
 			return mController.getComponent(mButtons[aIndex]).getPollData() == 1;
 		}
 		
-		System.err.println("Was not able to create joystick");
+		if(mController == null)
+		{
+			System.err.println("Controller is null.  The simulator could not setup a controller with the name '" + mName + "'");
+		}
+		else if(aIndex >= mButtons.length)
+		{
+			System.out.println("The button " + aIndex + " was not setup for this simulator joystick.  Note that this could be the simulators fault");
+		}
+		
 		return false;
 	}
 
 	@Override
 	public double getRawAxis(int aIndex) 
 	{
-		if(mController != null)
+		if(mController != null && aIndex < mAxis.length)
 		{
 			mController.poll();
 			return mController.getComponent(mAxis[aIndex]).getPollData();
 		}
 		
-		System.err.println("Was not able to create joystick");
+		if(mController == null)
+		{
+			System.err.println("Controller is null.  The simulator could not setup a controller with the name '" + mName + "'");
+		}
+		else if(aIndex >= mAxis.length)
+		{
+			System.out.println("The axis " + aIndex + " was not setup for this simulator joystick.  Note that this could be the simulators fault");
+		}
+		
 		return 0.0;
 	}
 
@@ -73,5 +84,21 @@ public class GamepadJoystick implements IMockJoystick {
 	public double getY() 
 	{
 		return getRawAxis(1);
+	}
+
+	@Override
+	public int getAxisCount() {
+		return mAxis.length;
+	}
+
+	@Override
+	public int getButtonCount() {
+		return mButtons.length;
+	}
+
+	@Override
+	public void setRumble(short s) {
+		// TODO Auto-generated method stub
+		
 	}
 }
