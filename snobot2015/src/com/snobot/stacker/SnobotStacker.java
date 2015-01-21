@@ -4,7 +4,7 @@ import com.snobot.operatorjoystick.IOperatorJoystick;
 
 /**
  * Main class for snobot Stacker subsystem
- * @author Alec/Jeffery
+ * @author Alec/Jeffrey
  *
  */
 public class SnobotStacker implements IStacker{

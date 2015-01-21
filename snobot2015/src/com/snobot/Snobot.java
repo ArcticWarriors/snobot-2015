@@ -65,6 +65,22 @@ public class Snobot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        mStacker.update();
+        mClaw.update();
+        mDriveTrain.update();
+        
+        mStacker.control();
+        mClaw.control();
+        mDriveTrain.control();
+
+        mStacker.updateSmartDashboard();
+        mClaw.updateSmartDashboard();
+        mDriveTrain.updateSmartDashboard();
+
+        mStacker.updateLog();
+        mClaw.updateLog();
+        mDriveTrain.updateLog();
+        
         
     }
     

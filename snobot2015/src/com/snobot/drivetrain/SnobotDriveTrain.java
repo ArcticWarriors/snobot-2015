@@ -4,6 +4,7 @@ import com.snobot.joystick.SnobotXBoxDriverJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Sets up specific snobot drive train 
@@ -13,7 +14,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 public class SnobotDriveTrain implements IDriveTrain{
 
 	private SpeedController mSpeedControllerLeft;
-	private SpeedController mSpeedControlleRight;		 
+	private SpeedController mSpeedControllerRight;		 
 	private SnobotXBoxDriverJoystick mDriverJoystick;
 	
 	/**
@@ -28,7 +29,7 @@ public class SnobotDriveTrain implements IDriveTrain{
 			SnobotXBoxDriverJoystick aDriverJoystick)
 	{
 		mSpeedControllerLeft = aSpeedControllerLeft;
-		mSpeedControlleRight =	aSpeedControllerRight;	 
+		mSpeedControllerRight =	aSpeedControllerRight;	 
 		mDriverJoystick = aDriverJoystick;  
 	}
 
@@ -59,8 +60,10 @@ public class SnobotDriveTrain implements IDriveTrain{
 	@Override
 	public void updateSmartDashboard() {
 		// TODO Auto-generated method stub
-		
+		SmartDashboard.putNumber("Left Drive Speed", mSpeedControllerLeft.get());
+		SmartDashboard.putNumber("Right Drive Speed",mSpeedControllerRight.get());
 	}
+	
 
 	@Override
 	public void updateLog() {
