@@ -3,6 +3,7 @@ package com.snobot.drivetrain;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,6 +17,7 @@ public class SnobotDriveTrain implements IDriveTrain{
 	private SpeedController mSpeedControllerLeft;
 	private SpeedController mSpeedControllerRight;		 
 	private SnobotXBoxDriverJoystick mDriverJoystick;
+	private RobotDrive mRobotDrive;
 	
 	/**
 	 * Takes 2 speed controllers and joy stick arguments
@@ -31,6 +33,7 @@ public class SnobotDriveTrain implements IDriveTrain{
 		mSpeedControllerLeft = aSpeedControllerLeft;
 		mSpeedControllerRight =	aSpeedControllerRight;	 
 		mDriverJoystick = aDriverJoystick;  
+		mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
 	}
 
 	@Override
@@ -47,7 +50,8 @@ public class SnobotDriveTrain implements IDriveTrain{
 
 	@Override
 	public void control() {
-		// TODO Auto-generated method stub
+		// TODO Add Tank drive
+		mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
 		
 	}
 
