@@ -2,21 +2,27 @@ package com.snobot.joystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+
 /**
- * Implements Driver Joy stick Interface
- * Sets up Snobot xBox Joy stick for Driver
+ * Implements Driver Joystick Interface
+ * Sets up Snobot Flight Stick for Driver
  * Ayush/Ammar
+ *
  */
-public class SnobotXBoxDriverJoystick implements IDriverJoystick {
+public class SnobotFlightstickJoystick implements IDriverJoystick{
+
+	private Joystick mLeftFlightStick;
+	private Joystick mRightFlightStick;
 	
-	private Joystick mXBoxStick;
 	/**
-	 * Constructor for xBox Joy stick
-	 * @param aXBoxStick Argument for xBox Stick
+	 * Constructor for Flight Stick 
+	 * @param aLeftFlightStick Argument for Left Flight Stick
+	 * @param aRightFlightStick Argument for Right Flight Stick
 	 */
-	public SnobotXBoxDriverJoystick (Joystick aXBoxStick)
+	public SnobotFlightstickJoystick (Joystick aLeftFlightStick, Joystick aRightFlightStick)
 	{
-		mXBoxStick = aXBoxStick;
+		mLeftFlightStick = aLeftFlightStick;
+		mRightFlightStick = aRightFlightStick;
 	}
 
 	@Override

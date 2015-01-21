@@ -2,6 +2,12 @@ package com.snobot.joystick;
 
 import com.snobot.ISubsystem;
 
+/**
+ * Main interface for Driver Joystick 
+ * @author Ayush/Ammar
+ *
+ */
+
 public interface IDriverJoystick extends ISubsystem {
 	
 	/**
@@ -25,7 +31,7 @@ public interface IDriverJoystick extends ISubsystem {
 	
 	/**
 	 * Gets angle for arcade mode
-	 * @return
+	 * @return double for joystick angle
 	 */
 	double getRotate ();
 }

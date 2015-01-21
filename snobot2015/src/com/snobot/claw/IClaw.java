@@ -2,26 +2,33 @@ package com.snobot.claw;
 
 import com.snobot.ISubsystem;
 
-public interface IClaw extends ISubsystem{
+/**
+ * 
+ * Interface for the claw subsystem
+ * 
+ * @author Alec/Jeffery
+ *
+ */
+public interface IClaw extends ISubsystem {
 
 	/**
 	 * Opens claw
 	 */
-	void open();
+	void openClaw();
 	
 	/**
 	 * Closes claw
 	 */
-	void close();
+	void closeClaw();
 	
 	/**
 	 * Moves claw up
 	 */
-	void up();
+	void moveClawUp();
 	
 	/**
 	 * Moves claw down
 	 */
-	void down();
-    	
+	void moveClawDown();
+    
 }
