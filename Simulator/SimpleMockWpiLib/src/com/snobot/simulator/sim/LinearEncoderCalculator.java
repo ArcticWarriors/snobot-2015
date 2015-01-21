@@ -1,21 +1,23 @@
 package com.snobot.simulator.sim;
 
+import com.snobot.simulator.SpeedControllerWrapper;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class LinearEncoderCalculator implements ISimulatorUpdater
 {
 
-	private SpeedController mSpeedController;
+	private SpeedControllerWrapper mSpeedController;
 	private Encoder mEncoder;
 	private double mKp;
 	
 
-	public LinearEncoderCalculator(SpeedController aSpeedController, Encoder aEncoder)
+	public LinearEncoderCalculator(SpeedControllerWrapper aSpeedController, Encoder aEncoder)
 	{
 		this(aSpeedController, aEncoder, 1.0);
 	}
-	public LinearEncoderCalculator(SpeedController aSpeedController, Encoder aEncoder, double aKp)
+	public LinearEncoderCalculator(SpeedControllerWrapper aSpeedController, Encoder aEncoder, double aKp)
 	{
 		mSpeedController = aSpeedController;
 		mEncoder = aEncoder;

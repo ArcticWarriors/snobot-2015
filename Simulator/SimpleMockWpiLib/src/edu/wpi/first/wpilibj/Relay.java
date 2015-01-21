@@ -10,12 +10,17 @@ package edu.wpi.first.wpilibj;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import com.snobot.simulator.SensorActuatorRegistry;
-
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+import edu.wpi.first.wpilibj.communication.UsageReporting;
+import edu.wpi.first.wpilibj.hal.DIOJNI;
+import edu.wpi.first.wpilibj.hal.HALUtil;
+import edu.wpi.first.wpilibj.hal.RelayJNI;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
 import edu.wpi.first.wpilibj.util.AllocationException;
+import edu.wpi.first.wpilibj.util.CheckedAllocationException;
 
 /**
  * Class for VEX Robotics Spike style relay outputs. Relays are intended to be
@@ -107,9 +112,10 @@ public class Relay extends SensorBase implements LiveWindowSendable {
 	}
 
 	private final int m_channel;
+	private ByteBuffer m_port;
 
 	private Direction m_direction;
-	private Value mState;
+	private static Resource relayChannels = new Resource(kRelayChannels * 2);
 
 	/**
 	 * Common relay initialization method. This code is common to all Relay
@@ -117,22 +123,36 @@ public class Relay extends SensorBase implements LiveWindowSendable {
 	 * need to be locked. Initially the relay is set to both lines at 0v.
 	 */
 	private void initRelay() {
-		
 		SensorBase.checkRelayChannel(m_channel);
-		
-
-		if(!SensorActuatorRegistry.get().register(this, m_channel))
-		{
-			throw new AllocationException("Digital port " + m_channel
-					+ " is already allocated");
+		try {
+			if (m_direction == Direction.kBoth
+					|| m_direction == Direction.kForward) {
+				relayChannels.allocate(m_channel * 2);
+				UsageReporting.report(tResourceType.kResourceType_Relay, m_channel);
+			}
+			if (m_direction == Direction.kBoth
+					|| m_direction == Direction.kReverse) {
+				relayChannels.allocate(m_channel * 2 + 1);
+				UsageReporting.report(tResourceType.kResourceType_Relay, m_channel + 128);
+			}
+		} catch (CheckedAllocationException e) {
+			throw new AllocationException("Relay channel " + m_channel + " is already allocated");
 		}
+
+		ByteBuffer status = ByteBuffer.allocateDirect(4);
+		status.order(ByteOrder.LITTLE_ENDIAN);
+
+		m_port = DIOJNI.initializeDigitalPort(DIOJNI.getPort((byte) m_channel), status.asIntBuffer());
+		HALUtil.checkStatus(status.asIntBuffer());
+
+		LiveWindow.addActuator("Relay", m_channel, this);
 	}
 
 	/**
 	 * Relay constructor given a channel.
 	 *
 	 * @param channel
-	 *            The channel number for this relay.
+	 *            The channel number for this relay (0 - 3).
 	 * @param direction
 	 *            The direction that the Relay object will control.
 	 */
@@ -149,7 +169,7 @@ public class Relay extends SensorBase implements LiveWindowSendable {
 	 * Relay constructor given a channel, allowing both directions.
 	 *
 	 * @param channel
-	 *            The channel number for this relay.
+	 *            The channel number for this relay (0 - 3).
 	 */
 	public Relay(final int channel) {
 		this(channel, Direction.kBoth);
@@ -157,6 +177,23 @@ public class Relay extends SensorBase implements LiveWindowSendable {
 
 	@Override
 	public void free() {
+		if (m_direction == Direction.kBoth || m_direction == Direction.kForward) {
+			relayChannels.free(m_channel*2);
+		}
+		if (m_direction == Direction.kBoth || m_direction == Direction.kReverse) {
+			relayChannels.free(m_channel*2 + 1);
+		}
+
+		ByteBuffer status = ByteBuffer.allocateDirect(4);
+		status.order(ByteOrder.LITTLE_ENDIAN);
+
+		RelayJNI.setRelayForward(m_port, (byte) 0, status.asIntBuffer());
+		HALUtil.checkStatus(status.asIntBuffer());
+		RelayJNI.setRelayReverse(m_port, (byte) 0, status.asIntBuffer());
+		HALUtil.checkStatus(status.asIntBuffer());
+
+		DIOJNI.freeDIO(m_port, status.asIntBuffer());
+		HALUtil.checkStatus(status.asIntBuffer());
 	}
 
 	/**
@@ -179,22 +216,56 @@ public class Relay extends SensorBase implements LiveWindowSendable {
 		ByteBuffer status = ByteBuffer.allocateDirect(4);
 		status.order(ByteOrder.LITTLE_ENDIAN);
 
-		mState = value;
-
 		switch (value) {
+		case kOff:
+			if (m_direction == Direction.kBoth
+					|| m_direction == Direction.kForward) {
+				RelayJNI.setRelayForward(m_port, (byte) 0, status.asIntBuffer());
+			}
+			if (m_direction == Direction.kBoth
+					|| m_direction == Direction.kReverse) {
+				RelayJNI.setRelayReverse(m_port, (byte) 0, status.asIntBuffer());
+			}
+			break;
+		case kOn:
+			if (m_direction == Direction.kBoth
+					|| m_direction == Direction.kForward) {
+				RelayJNI.setRelayForward(m_port, (byte) 1, status.asIntBuffer());
+			}
+			if (m_direction == Direction.kBoth
+					|| m_direction == Direction.kReverse) {
+				RelayJNI.setRelayReverse(m_port, (byte) 1, status.asIntBuffer());
+			}
+			break;
 		case kForward:
 			if (m_direction == Direction.kReverse)
 				throw new InvalidValueException(
 						"A relay configured for reverse cannot be set to forward");
+			if (m_direction == Direction.kBoth
+					|| m_direction == Direction.kForward) {
+				RelayJNI.setRelayForward(m_port, (byte) 1, status.asIntBuffer());
+			}
+			if (m_direction == Direction.kBoth) {
+				RelayJNI.setRelayReverse(m_port, (byte) 0, status.asIntBuffer());
+			}
 			break;
 		case kReverse:
 			if (m_direction == Direction.kForward)
 				throw new InvalidValueException(
 						"A relay configured for forward cannot be set to reverse");
+			if (m_direction == Direction.kBoth) {
+				RelayJNI.setRelayForward(m_port, (byte) 0, status.asIntBuffer());
+			}
+			if (m_direction == Direction.kBoth
+					|| m_direction == Direction.kReverse) {
+				RelayJNI.setRelayReverse(m_port, (byte) 1, status.asIntBuffer());
+			}
 			break;
 		default:
-			break;
+			// Cannot hit this, limited by Value enum
 		}
+
+		HALUtil.checkStatus(status.asIntBuffer());
 	}
 
 	/**
@@ -208,7 +279,30 @@ public class Relay extends SensorBase implements LiveWindowSendable {
 	 * @return The current state of the relay as a Relay::Value
 	 */
 	public Value get() {
-		return mState;
+		ByteBuffer status = ByteBuffer.allocateDirect(4);
+		status.order(ByteOrder.LITTLE_ENDIAN);
+
+		if (RelayJNI.getRelayForward(m_port, status.asIntBuffer()) != 0) {
+			if (RelayJNI.getRelayReverse(m_port, status.asIntBuffer()) != 0) {
+				return Value.kOn;
+			} else {
+				if (m_direction == Direction.kForward) {
+					return Value.kOn;
+				} else {
+					return Value.kForward;
+				}
+			}
+		} else {
+			if (RelayJNI.getRelayReverse(m_port, status.asIntBuffer()) != 0) {
+				if (m_direction == Direction.kReverse) {
+					return Value.kOn;
+				} else {
+					return Value.kReverse;
+				}
+			} else {
+				return Value.kOff;
+			}
+		}
 	}
 
 	/**

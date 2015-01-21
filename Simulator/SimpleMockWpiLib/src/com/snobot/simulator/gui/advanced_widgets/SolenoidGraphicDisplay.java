@@ -8,11 +8,12 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import com.snobot.simulator.SolenoidWrapper;
 import com.snobot.simulator.gui.widget_displays.BaseWidgetDisplay;
 
 import edu.wpi.first.wpilibj.Solenoid;
 
-public class SolenoidGraphicDisplay extends BaseWidgetDisplay<Solenoid>
+public class SolenoidGraphicDisplay extends BaseWidgetDisplay<SolenoidWrapper>
 {
 	private class SolenoidDisplay extends JPanel
 	{
@@ -59,21 +60,21 @@ public class SolenoidGraphicDisplay extends BaseWidgetDisplay<Solenoid>
 		}
 	}
 	
-	public SolenoidGraphicDisplay(Map<Integer, Solenoid> aMap) {
+	public SolenoidGraphicDisplay(Map<Integer, SolenoidWrapper> aMap) {
 		super(aMap);
 		setBorder(new TitledBorder("Solenoid"));
 	}
 
-	public void update(Map<Integer, Solenoid> aMap)
+	public void update(Map<Integer, SolenoidWrapper> aMap)
 	{
-		for(Entry<Integer, Solenoid> pair : aMap.entrySet())
+		for(Entry<Integer, SolenoidWrapper> pair : aMap.entrySet())
 		{
 			((SolenoidDisplay)mWidgetMap.get(pair.getKey())).updateDisplay(pair.getValue().get());
 		}
 	}
 
 	@Override
-	protected SolenoidDisplay createWidget(Entry<Integer, Solenoid> pair) {
+	protected SolenoidDisplay createWidget(Entry<Integer, SolenoidWrapper> pair) {
 		return new SolenoidDisplay();
 	}
 }
