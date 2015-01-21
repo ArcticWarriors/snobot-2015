@@ -6,8 +6,12 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+import edu.wpi.first.wpilibj.communication.UsageReporting;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
+import edu.wpi.first.wpilibj.util.BoundaryException;
 
 /**
  * Use a rate gyro to return the robots heading relative to a starting position.
@@ -18,10 +22,20 @@ import edu.wpi.first.wpilibj.tables.ITable;
  * determine the default offset. This is subtracted from each sample to
  * determine the heading.
  */
-public class Gyro extends SensorBase implements LiveWindowSendable {
+public class Gyro extends SensorBase implements PIDSource, LiveWindowSendable {
 
-
-	private AnalogInput m_analog;
+	static final int kOversampleBits = 10;
+	static final int kAverageBits = 0;
+	static final double kSamplesPerSecond = 50.0;
+	static final double kCalibrationSampleTime = 5.0;
+	static final double kDefaultVoltsPerDegreePerSecond = 0.007;
+	protected AnalogInput m_analog;
+	double m_voltsPerDegreePerSecond;
+	double m_offset;
+	int m_center;
+	boolean m_channelAllocated = false;
+	AccumulatorResult result;
+	private PIDSourceParameter m_pidSource;
 
 	/**
 	 * Initialize the gyro. Calibrate the gyro by running for a number of
@@ -32,31 +46,41 @@ public class Gyro extends SensorBase implements LiveWindowSendable {
 	 * first turned on while it's sitting at rest before the competition starts.
 	 */
 	public void initGyro() {
+		result = new AccumulatorResult();
 		if (m_analog == null) {
 			System.out.println("Null m_analog");
 		}
-
-		m_analog.setAverageBits(0);
-		m_analog.setOversampleBits(0);
-		AnalogInput.setGlobalSampleRate(0);
+		m_voltsPerDegreePerSecond = kDefaultVoltsPerDegreePerSecond;
+		m_analog.setAverageBits(kAverageBits);
+		m_analog.setOversampleBits(kOversampleBits);
+		double sampleRate = kSamplesPerSecond
+				* (1 << (kAverageBits + kOversampleBits));
+		AnalogInput.setGlobalSampleRate(sampleRate);
 		Timer.delay(1.0);
 
 		m_analog.initAccumulator();
 		m_analog.resetAccumulator();
 
-//		Timer.delay(kCalibrationSampleTime);
+		Timer.delay(kCalibrationSampleTime);
 
-		m_analog.setAccumulatorCenter(0);
+		m_analog.getAccumulatorOutput(result);
+
+		m_center = (int) ((double) result.value / (double) result.count + .5);
+
+		m_offset = ((double) result.value / (double) result.count)
+				- m_center;
+
+		m_analog.setAccumulatorCenter(m_center);
 		m_analog.resetAccumulator();
 
 		setDeadband(0.0);
 
-//		setPIDSourceParameter(PIDSourceParameter.kAngle);
-//
-//		UsageReporting.report(tResourceType.kResourceType_Gyro, m_analog.getChannel());
-//		LiveWindow.addSensor("Gyro", m_analog.getChannel(), this);
+		setPIDSourceParameter(PIDSourceParameter.kAngle);
+
+		UsageReporting.report(tResourceType.kResourceType_Gyro, m_analog.getChannel());
+		LiveWindow.addSensor("Gyro", m_analog.getChannel(), this);
 	}
-	
+
 	/**
 	 * Gyro constructor using the channel number
 	 *
@@ -66,6 +90,7 @@ public class Gyro extends SensorBase implements LiveWindowSendable {
 	 */
 	public Gyro(int channel) {
 		this(new AnalogInput(channel));
+		m_channelAllocated = true;
 	}
 
 	/**
@@ -101,6 +126,10 @@ public class Gyro extends SensorBase implements LiveWindowSendable {
 	 */
 	@Override
 	public void free() {
+		if (m_analog != null && m_channelAllocated) {
+			m_analog.free();
+		}
+		m_analog = null;
 	}
 
 	/**
@@ -119,8 +148,17 @@ public class Gyro extends SensorBase implements LiveWindowSendable {
 		if (m_analog == null) {
 			return 0.0;
 		} else {
+			m_analog.getAccumulatorOutput(result);
 
-			return m_analog.getAverageValue();
+			long value = result.value - (long) (result.count * m_offset);
+
+			double scaledValue = value
+					* 1e-9
+					* m_analog.getLSBWeight()
+					* (1 << m_analog.getAverageBits())
+					/ (AnalogInput.getGlobalSampleRate() * m_voltsPerDegreePerSecond);
+
+			return scaledValue;
 		}
 	}
 
@@ -135,7 +173,10 @@ public class Gyro extends SensorBase implements LiveWindowSendable {
 		if (m_analog == null) {
 			return 0.0;
 		} else {
-			return m_analog.getAverageValue();
+			return (m_analog.getAverageValue() - (m_center + m_offset))
+					* 1e-9
+					* m_analog.getLSBWeight()
+					/ ((1 << m_analog.getOversampleBits()) * m_voltsPerDegreePerSecond);
 		}
 	}
 
@@ -149,6 +190,7 @@ public class Gyro extends SensorBase implements LiveWindowSendable {
 	 *            The sensitivity in Volts/degree/second.
 	 */
 	public void setSensitivity(double voltsPerDegreePerSecond) {
+		m_voltsPerDegreePerSecond = voltsPerDegreePerSecond;
 	}
 
 	/**
@@ -160,8 +202,39 @@ public class Gyro extends SensorBase implements LiveWindowSendable {
 	 * @param volts The size of the deadband in volts
 	 */
 	void setDeadband(double volts) {
+		int deadband = (int)(volts * 1e9 / m_analog.getLSBWeight() * (1 << m_analog.getOversampleBits()));
+		m_analog.setAccumulatorDeadband(deadband);
 	}
 
+	/**
+	 * Set which parameter of the gyro you are using as a process control
+	 * variable. The Gyro class supports the rate and angle parameters
+	 *
+	 * @param pidSource
+	 *            An enum to select the parameter.
+	 */
+	public void setPIDSourceParameter(PIDSourceParameter pidSource) {
+		BoundaryException.assertWithinBounds(pidSource.value, 1, 2);
+		m_pidSource = pidSource;
+	}
+
+	/**
+	 * Get the output of the gyro for use with PIDControllers.
+	 * May be the angle or rate depending on the set PIDSourceParameter
+	 *
+	 * @return the output according to the gyro
+	 */
+	@Override
+	public double pidGet() {
+		switch (m_pidSource.value) {
+		case PIDSourceParameter.kRate_val:
+			return getRate();
+		case PIDSourceParameter.kAngle_val:
+			return getAngle();
+		default:
+			return 0.0;
+		}
+	}
 
 	/*
 	 * Live Window code, only does anything if live window is activated.

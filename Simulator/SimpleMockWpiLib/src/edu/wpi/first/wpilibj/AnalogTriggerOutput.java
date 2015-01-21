@@ -113,10 +113,10 @@ public class AnalogTriggerOutput extends DigitalSource {
 		return (m_trigger.m_index << 2) + m_outputType.value;
 	}
 
-//	@Override
-//	public byte getModuleForRouting() {
-//		return (byte) (m_trigger.m_index >> 2);
-//	}
+	@Override
+	public byte getModuleForRouting() {
+		return (byte) (m_trigger.m_index >> 2);
+	}
 
 	@Override
 	public boolean getAnalogTriggerForRouting() {

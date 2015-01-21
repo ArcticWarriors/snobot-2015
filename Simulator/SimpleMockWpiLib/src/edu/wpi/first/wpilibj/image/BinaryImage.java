@@ -7,7 +7,7 @@
 
 package edu.wpi.first.wpilibj.image;
 
-//import edu.wpi.first.wpilibj.util.SortedVector;
+import edu.wpi.first.wpilibj.util.SortedVector;
 import com.ni.vision.NIVision;
 
 /**
@@ -74,21 +74,21 @@ public class BinaryImage extends MonoImage {
         if (size > getNumberParticles())
             size = getNumberParticles();
         ParticleSizeReport[] reports = new ParticleSizeReport[size];
-//        SortedVector sorter = new SortedVector(new SortedVector.Comparator() {
-//            public int compare(Object object1, Object object2) {
-//                ParticleSizeReport p1 = (ParticleSizeReport) object1;
-//                ParticleSizeReport p2 = (ParticleSizeReport) object2;
-//                if (p1.size < p2.size)
-//                    return -1;
-//                else if (p1.size > p2.size)
-//                    return 1;
-//                return 0;
-//            }
-//        });
-//        for (int i = 0; i < getNumberParticles(); i++)
-//            sorter.addElement(new ParticleSizeReport(i));
-//        sorter.setSize(size);
-//        sorter.copyInto(reports);
+        SortedVector sorter = new SortedVector(new SortedVector.Comparator() {
+            public int compare(Object object1, Object object2) {
+                ParticleSizeReport p1 = (ParticleSizeReport) object1;
+                ParticleSizeReport p2 = (ParticleSizeReport) object2;
+                if (p1.size < p2.size)
+                    return -1;
+                else if (p1.size > p2.size)
+                    return 1;
+                return 0;
+            }
+        });
+        for (int i = 0; i < getNumberParticles(); i++)
+            sorter.addElement(new ParticleSizeReport(i));
+        sorter.setSize(size);
+        sorter.copyInto(reports);
         ParticleAnalysisReport[] finalReports = new ParticleAnalysisReport[reports.length];
         for (int i = 0; i < finalReports.length; i++)
             finalReports[i] = reports[i].getParticleAnalysisReport();

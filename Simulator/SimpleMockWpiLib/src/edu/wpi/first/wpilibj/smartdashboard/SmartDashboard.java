@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.networktables.NetworkTableKeyNotDefined;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
+import edu.wpi.first.wpilibj.HLUsageReporting;
 import java.util.Hashtable;
 import java.util.NoSuchElementException;
 
@@ -35,6 +36,7 @@ public class SmartDashboard {
     private static final Hashtable tablesToData = new Hashtable();
 
     static {
+        HLUsageReporting.reportSmartDashboard();
     }
 
     /**
