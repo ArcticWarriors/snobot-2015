@@ -89,7 +89,7 @@ public class Solenoid extends SolenoidBase implements LiveWindowSendable {
         byte value = (byte) (on ? 0xFF : 0x00);
         byte mask = (byte) (1 << m_channel);
 
-    	set(value, mask);
+        SolenoidJNI.__setSolenoid(m_solenoid_port, on);
     }
 
     /**
@@ -98,8 +98,10 @@ public class Solenoid extends SolenoidBase implements LiveWindowSendable {
      * @return The current value of the solenoid.
      */
     public boolean get() {
-        int value = getAll() & ( 1 << m_channel);
-        return (value != 0);
+//        int value = getAll() & ( 1 << m_channel);
+//        return (value != 0);
+
+        return SolenoidJNI.__getSolenoid(m_solenoid_port);
     }
 	/**
 	 * Check if solenoid is blacklisted.

@@ -18,7 +18,7 @@ public class SensorActuatorRegistry
 	private Map<Integer, SolenoidWrapper> mSolenoidMap = new HashMap<Integer, SolenoidWrapper>();
 	private Map<Integer, RelayWrapper> mRelayMap = new HashMap<Integer, RelayWrapper>();
 	private Map<Integer, DigitalSourceWrapper> mDigitalInputMap = new HashMap<Integer, DigitalSourceWrapper>();
-	private Map<EncoderPair, Encoder> mEncoderMap = new HashMap<EncoderPair, Encoder>();
+	private Map<EncoderPair, EncoderWrapper> mEncoderMap = new HashMap<EncoderPair, EncoderWrapper>();
 	
 	private SensorActuatorRegistry()
 	{
@@ -60,7 +60,7 @@ public class SensorActuatorRegistry
 		return registerItem(aActuator, aPort, mRelayMap, "Relay");
 	}
 	
-	public boolean register(Encoder aEncoder, EncoderPair aPorts)
+	public boolean register(EncoderWrapper aEncoder, EncoderPair aPorts)
 	{
 
 		if(mEncoderMap.containsKey(aPorts))
@@ -88,7 +88,7 @@ public class SensorActuatorRegistry
 		return mRelayMap;
 	}
 
-	public Encoder getEncoder(int aPortA, int aPortB) {
+	public EncoderWrapper getEncoder(int aPortA, int aPortB) {
 		return mEncoderMap.get(new EncoderPair(aPortA, aPortB));
 	}
 

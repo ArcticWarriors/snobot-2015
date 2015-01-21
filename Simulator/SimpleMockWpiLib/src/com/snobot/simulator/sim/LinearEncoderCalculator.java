@@ -1,5 +1,6 @@
 package com.snobot.simulator.sim;
 
+import com.snobot.simulator.EncoderWrapper;
 import com.snobot.simulator.SpeedControllerWrapper;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -9,15 +10,15 @@ public class LinearEncoderCalculator implements ISimulatorUpdater
 {
 
 	private SpeedControllerWrapper mSpeedController;
-	private Encoder mEncoder;
+	private EncoderWrapper mEncoder;
 	private double mKp;
 	
 
-	public LinearEncoderCalculator(SpeedControllerWrapper aSpeedController, Encoder aEncoder)
+	public LinearEncoderCalculator(SpeedControllerWrapper aSpeedController, EncoderWrapper aEncoder)
 	{
 		this(aSpeedController, aEncoder, 1.0);
 	}
-	public LinearEncoderCalculator(SpeedControllerWrapper aSpeedController, Encoder aEncoder, double aKp)
+	public LinearEncoderCalculator(SpeedControllerWrapper aSpeedController, EncoderWrapper aEncoder, double aKp)
 	{
 		mSpeedController = aSpeedController;
 		mEncoder = aEncoder;

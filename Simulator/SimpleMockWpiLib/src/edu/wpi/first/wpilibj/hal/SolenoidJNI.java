@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import com.snobot.simulator.DigitalSourceWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
 import com.snobot.simulator.SolenoidWrapper;
+import com.snobot.simulator.SpeedControllerWrapper;
 
 public class SolenoidJNI extends JNIWrapper {
 	
@@ -15,7 +16,7 @@ public class SolenoidJNI extends JNIWrapper {
 		SolenoidWrapper wrapper = new SolenoidWrapper();
 		SensorActuatorRegistry.get().register(wrapper, pin);
 		
-		return null;
+		return portPointer;
     }
 	public static void setSolenoid(ByteBuffer port, byte on, IntBuffer status)
     {
@@ -42,4 +43,18 @@ public class SolenoidJNI extends JNIWrapper {
     {
 
     }
+
+	private static SolenoidWrapper getWrapperFromBuffer(ByteBuffer digital_port_pointer)
+	{
+		int port = digital_port_pointer.get(0);
+		return SensorActuatorRegistry.get().getSolenoids().get(port);
+	}
+	
+	public static void __setSolenoid(ByteBuffer m_solenoid_port, boolean on) {
+		getWrapperFromBuffer(m_solenoid_port).set(on);
+	}
+	
+	public static boolean __getSolenoid(ByteBuffer m_solenoid_port) {
+		return getWrapperFromBuffer(m_solenoid_port).get();
+	}
 }

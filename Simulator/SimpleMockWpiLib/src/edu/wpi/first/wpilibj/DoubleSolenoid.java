@@ -6,14 +6,9 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
-import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
-import edu.wpi.first.wpilibj.communication.UsageReporting;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
-import edu.wpi.first.wpilibj.util.AllocationException;
-import edu.wpi.first.wpilibj.util.CheckedAllocationException;
 
 /**
  * DoubleSolenoid class for running 2 channels of high voltage Digital Output.
@@ -40,72 +35,39 @@ public class DoubleSolenoid extends SolenoidBase implements LiveWindowSendable {
             this.value = value;
         }
     }
-    private int m_forwardChannel; ///< The forward channel on the module to control.
-    private int m_reverseChannel; ///< The reverse channel on the module to control.
-    private byte m_forwardMask; ///< The mask for the forward channel.
-    private byte m_reverseMask; ///< The mask for the reverse channel.
+
+    private Solenoid fowardSolenoid;
+    private Solenoid reverseSolenoid;
 
     /**
      * Common function to implement constructor behavior.
+     * @param reverseChannel 
+     * @param forwardChannel 
      */
-    private synchronized void initSolenoid() {
+    private synchronized void initSolenoid(int forwardChannel, int reverseChannel) {
         checkSolenoidModule(m_moduleNumber);
-        checkSolenoidChannel(m_forwardChannel);
-        checkSolenoidChannel(m_reverseChannel);
+        checkSolenoidChannel(forwardChannel);
+        checkSolenoidChannel(reverseChannel);
 
-        try {
-            m_allocated.allocate(m_moduleNumber * kSolenoidChannels + m_forwardChannel);
-        } catch (CheckedAllocationException e) {
-            throw new AllocationException(
-                "Solenoid channel " + m_forwardChannel + " on module " + m_moduleNumber + " is already allocated");
-        }
-        try {
-            m_allocated.allocate(m_moduleNumber * kSolenoidChannels + m_reverseChannel);
-        } catch (CheckedAllocationException e) {
-            throw new AllocationException(
-                "Solenoid channel " + m_reverseChannel + " on module " + m_moduleNumber + " is already allocated");
-        }
-        m_forwardMask = (byte) (1 << m_forwardChannel);
-        m_reverseMask = (byte) (1 << m_reverseChannel);
-
-        UsageReporting.report(tResourceType.kResourceType_Solenoid, m_forwardChannel, m_moduleNumber);
-        UsageReporting.report(tResourceType.kResourceType_Solenoid, m_reverseChannel, m_moduleNumber);
-        LiveWindow.addActuator("DoubleSolenoid", m_moduleNumber, m_forwardChannel, this);
+    	fowardSolenoid = new Solenoid(forwardChannel);
+    	reverseSolenoid = new Solenoid(reverseChannel);
     }
 
     /**
      * Constructor.
      * Uses the default PCM ID of 0
-     * @param forwardChannel The forward channel number on the PCM (0..7).
-     * @param reverseChannel The reverse channel number on the PCM (0..7).
+     * @param forwardChannel The forward channel number on the PCM.
+     * @param reverseChannel The reverse channel number on the PCM.
      */
     public DoubleSolenoid(final int forwardChannel, final int reverseChannel) {
         super(getDefaultSolenoidModule());
-        m_forwardChannel = forwardChannel;
-        m_reverseChannel = reverseChannel;
-        initSolenoid();
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param moduleNumber The module number of the solenoid module to use.
-     * @param forwardChannel The forward channel on the module to control (0..7).
-     * @param reverseChannel The reverse channel on the module to control (0..7).
-     */
-    public DoubleSolenoid(final int moduleNumber, final int forwardChannel, final int reverseChannel) {
-        super(moduleNumber);
-        m_forwardChannel = forwardChannel;
-        m_reverseChannel = reverseChannel;
-        initSolenoid();
+        initSolenoid(forwardChannel, reverseChannel);
     }
 
     /**
      * Destructor.
      */
     public synchronized void free() {
-        m_allocated.free(m_moduleNumber * kSolenoidChannels + m_forwardChannel);
-        m_allocated.free(m_moduleNumber * kSolenoidChannels + m_reverseChannel);
     }
 
     /**
@@ -114,21 +76,21 @@ public class DoubleSolenoid extends SolenoidBase implements LiveWindowSendable {
      * @param value The value to set (Off, Forward, Reverse)
      */
     public void set(final Value value) {
-        byte rawValue = 0;
 
         switch (value.value) {
         case Value.kOff_val:
-            rawValue = 0x00;
+        	fowardSolenoid.set(false);
+        	reverseSolenoid.set(false);
             break;
         case Value.kForward_val:
-            rawValue = m_forwardMask;
+        	fowardSolenoid.set(true);
+        	reverseSolenoid.set(false);
             break;
         case Value.kReverse_val:
-            rawValue = m_reverseMask;
+        	fowardSolenoid.set(false);
+        	reverseSolenoid.set(true);
             break;
         }
-
-        set(rawValue, m_forwardMask | m_reverseMask);
     }
 
     /**
@@ -137,11 +99,19 @@ public class DoubleSolenoid extends SolenoidBase implements LiveWindowSendable {
      * @return The current value of the solenoid.
      */
     public Value get() {
-        byte value = getAll();
-
-        if ((value & m_forwardMask) != 0) return Value.kForward;
-        if ((value & m_reverseMask) != 0) return Value.kReverse;
-        return Value.kOff;
+    	if(fowardSolenoid.get() == false && reverseSolenoid.get() == false)
+    	{
+    		return new Value(Value.kOff_val);
+    	}
+    	else if(fowardSolenoid.get() == true && reverseSolenoid.get() == false)
+    	{
+    		return new Value(Value.kForward_val);
+    	}
+    	else if(fowardSolenoid.get() == false && reverseSolenoid.get() == true)
+    	{
+    		return new Value(Value.kReverse_val);
+    	}
+        return new Value(Value.kOff_val);
     }
 	/**
 	 * Check if the forward solenoid is blacklisted.
@@ -152,8 +122,7 @@ public class DoubleSolenoid extends SolenoidBase implements LiveWindowSendable {
 	 * @return If solenoid is disabled due to short.
 	 */
 	public boolean isFwdSolenoidBlackListed() {
-		int blackList = getPCMSolenoidBlackList();
-        return ((blackList & m_forwardMask) != 0);
+		return false;
 	}
 	/**
 	 * Check if the reverse solenoid is blacklisted.
@@ -164,8 +133,7 @@ public class DoubleSolenoid extends SolenoidBase implements LiveWindowSendable {
 	 * @return If solenoid is disabled due to short.
 	 */
 	public boolean isRevSolenoidBlackListed() {
-		int blackList = getPCMSolenoidBlackList();
-        return ((blackList & m_reverseMask) != 0);
+		return false;
 	}
 
     /*
@@ -229,4 +197,5 @@ public class DoubleSolenoid extends SolenoidBase implements LiveWindowSendable {
         // TODO: Broken, should only remove the listener from "Value" only.
         m_table.removeTableListener(m_table_listener);
     }
+    
 }

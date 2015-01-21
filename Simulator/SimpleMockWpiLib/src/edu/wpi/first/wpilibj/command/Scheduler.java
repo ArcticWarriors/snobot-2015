@@ -89,7 +89,7 @@ public class Scheduler implements NamedSendable {
      * Instantiates a {@link Scheduler}.
      */
     private Scheduler() {
-    	HLUsageReporting.reportScheduler();
+//    	HLUsageReporting.reportScheduler();
     }
 
     /**
