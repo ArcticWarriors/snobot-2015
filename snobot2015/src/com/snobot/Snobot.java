@@ -19,16 +19,22 @@ import edu.wpi.first.wpilibj.Talon;
  * directory.
  */
 public class Snobot extends IterativeRobot {
+	
+	//IO
+	private Joystick mRawOperatorJoystick;
+	private Joystick mRawDriverJoystick;
+	
 	private SnobotOperatorJoystick mOperatorJoystick;
-	private SnobotStacker mStacker;
 	private SnobotXBoxDriverJoystick mXBoxDriverJoystick;
+	
+	//Modules
+	private SnobotStacker mStacker;
 	private SnobotClaw mClaw;
 	private SnobotDriveTrain mDriveTrain;
 	
-	private Talon mTalonLeft;
-	private Talon mTalonRight;
-	private Joystick mRawOperatorJoystick;
-	private Joystick mRawDriverJoystick;
+	//Motors
+	private Talon mDriveLeft1;
+	private Talon mDriveRight1;
 	
 	
     /**
@@ -36,11 +42,16 @@ public class Snobot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	mDriveLeft1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
+    	mDriveRight1 = new Talon (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
+    	mRawOperatorJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt (ConfigurationNames.sOPERATOR_JOYSTICK_PORT, 1));
+    	mRawDriverJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
+    	
     	mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
     	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick);
     	mStacker = new SnobotStacker(mOperatorJoystick);
     	mClaw = new SnobotClaw (mOperatorJoystick);
-    	mDriveTrain=new SnobotDriveTrain(mTalonLeft, mTalonRight, mXBoxDriverJoystick);
+    	mDriveTrain=new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick);
     }
 
     /**
