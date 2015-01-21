@@ -21,13 +21,23 @@ public class ConfigurationNames {
 
 	//Analog Inputs
 
-	public static double getOrSetProperty(String aName, double aDefault)
+	public static double getOrSetPropertyDouble(String aName, double aDefault)
 	{
 		if(Preferences.getInstance().containsKey(aName))
 		{
 			return Preferences.getInstance().getDouble(aName, aDefault);
 		}
 		Preferences.getInstance().putDouble(aName, aDefault);
+		return aDefault;
+	}
+
+	public static int getOrSetPropertyInt(String aName, int aDefault)
+	{
+		if(Preferences.getInstance().containsKey(aName))
+		{
+			return Preferences.getInstance().getInt(aName, aDefault);
+		}
+		Preferences.getInstance().putInt(aName, aDefault);
 		return aDefault;
 	}
 
