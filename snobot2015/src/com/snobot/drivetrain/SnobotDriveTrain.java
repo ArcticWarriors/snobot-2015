@@ -1,5 +1,6 @@
 package com.snobot.drivetrain;
 
+import com.snobot.SmartDashboardNames;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -63,9 +64,8 @@ public class SnobotDriveTrain implements IDriveTrain{
 
 	@Override
 	public void updateSmartDashboard() {
-		// TODO Auto-generated method stub
-		SmartDashboard.putNumber("Left Drive Speed", mSpeedControllerLeft.get());
-		SmartDashboard.putNumber("Right Drive Speed",mSpeedControllerRight.get());
+		SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
+		SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
 	}
 	
 

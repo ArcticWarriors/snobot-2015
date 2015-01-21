@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.Preferences;
 
 public class ConfigurationNames {
 	
+	private static boolean sPropertyAdded = false;
+	
 	//Joysticks
 	public static final String sOPERATOR_JOYSTICK_PORT = "OperatorJoystickPort";
 	public static final String sDRIVER_FLIGHTSTICK_1_PORT = "DriverFlightstick1Port";
@@ -27,6 +29,8 @@ public class ConfigurationNames {
 		{
 			return Preferences.getInstance().getDouble(aName, aDefault);
 		}
+		
+		sPropertyAdded = true;
 		Preferences.getInstance().putDouble(aName, aDefault);
 		return aDefault;
 	}
@@ -37,8 +41,21 @@ public class ConfigurationNames {
 		{
 			return Preferences.getInstance().getInt(aName, aDefault);
 		}
+		
+		sPropertyAdded = true;
 		Preferences.getInstance().putInt(aName, aDefault);
 		return aDefault;
+	}
+	
+	public static void saveIfUpdated()
+	{
+		if(sPropertyAdded)
+		{
+			Preferences.getInstance().save();
+			System.out.println("-------------------------------------------");
+			System.out.println("Config file updated, saving it");
+			System.out.println("-------------------------------------------");
+		}
 	}
 
 }
