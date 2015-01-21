@@ -2,6 +2,11 @@ package edu.wpi.first.wpilibj;
 
 
 public class Timer {
+	private static StaticInterface impl;
+
+	public static void SetImplementation(StaticInterface ti) {
+		impl = ti;
+	}
 
 	/**
 	 * Return the system clock time in seconds. Return the time from the
@@ -43,6 +48,13 @@ public class Timer {
         } 
         catch (final InterruptedException e) {
         }
+	}
+
+	public interface StaticInterface {
+		double getFPGATimestamp();
+		double getMatchTime();
+		void delay(final double seconds);
+		Interface newTimer();
 	}
 
 	private long startTime = 0;
@@ -103,5 +115,48 @@ public class Timer {
 	public boolean hasPeriodPassed(double period)
 	{
 		return get() > period;
+	}
+	
+	public interface Interface {
+		/**
+		 * Get the current time from the timer. If the clock is running it is derived from
+		 * the current system clock the start time stored in the timer class. If the clock
+		 * is not running, then return the time when it was last stopped.
+		 *
+		 * @return Current time value for this timer in seconds
+		 */
+		public double get();
+
+		/**
+		 * Reset the timer by setting the time to 0.
+		 * Make the timer startTime the current time so new requests will be relative now
+		 */
+		public void reset();
+
+		/**
+		 * Start the timer running.
+		 * Just set the running flag to true indicating that all time requests should be
+		 * relative to the system clock.
+		 */
+		public void start();
+
+		/**
+		 * Stop the timer.
+		 * This computes the time as of now and clears the running flag, causing all
+		 * subsequent time requests to be read from the accumulated time rather than
+		 * looking at the system clock.
+		 */
+		public void stop();
+
+
+		/**
+		 * Check if the period specified has passed and if it has, advance the start
+		 * time by that period. This is useful to decide if it's time to do periodic
+		 * work without drifting later by the time it took to get around to checking.
+		 *
+		 * @param period The period to check for (in seconds).
+		 * @return If the period has passed.
+		 */
+		public boolean hasPeriodPassed(double period);
 	}
 }

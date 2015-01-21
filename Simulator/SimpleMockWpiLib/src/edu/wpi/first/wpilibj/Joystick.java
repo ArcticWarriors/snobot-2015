@@ -4,7 +4,16 @@ import com.snobot.simulator.joysticks.IMockJoystick;
 import com.snobot.simulator.joysticks.JoystickFactory;
 import com.snobot.simulator.joysticks.NullJoystick;
 
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
+
 public class Joystick extends GenericHID {
+
+	public static class RumbleType {
+
+		public static final RumbleType kRightRumble = null;
+		public static final RumbleType kLeftRumble = null;
+
+	}
 
 	private static final JoystickFactory factory = new JoystickFactory();
 	private IMockJoystick mJoystickWrapper;
@@ -76,6 +85,11 @@ public class Joystick extends GenericHID {
 	public int getPOV(int pov) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public void setRumble(RumbleType rumbleType, float f) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

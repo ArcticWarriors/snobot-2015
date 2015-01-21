@@ -7,6 +7,14 @@
 
 package edu.wpi.first.wpilibj;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+import edu.wpi.first.wpilibj.communication.UsageReporting;
+import edu.wpi.first.wpilibj.hal.DIOJNI;
+import edu.wpi.first.wpilibj.hal.HALUtil;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 
@@ -28,6 +36,9 @@ public class DigitalInput extends DigitalSource implements LiveWindowSendable {
 	 */
 	public DigitalInput(int channel) {
         initDigitalPort(channel, true);
+
+        LiveWindow.addSensor("DigitalInput", channel, this);
+        UsageReporting.report(tResourceType.kResourceType_DigitalInput, channel);
 	}
 
 	/**
@@ -37,7 +48,12 @@ public class DigitalInput extends DigitalSource implements LiveWindowSendable {
 	 * @return the status of the digital input
 	 */
 	public boolean get() {
-		return false;
+		ByteBuffer status = ByteBuffer.allocateDirect(4);
+		// set the byte order
+		status.order(ByteOrder.LITTLE_ENDIAN);
+		boolean value = DIOJNI.getDIO(m_port, status.asIntBuffer()) != 0;
+		HALUtil.checkStatus(status.asIntBuffer());
+		return value;
 	}
 
 	/**
@@ -47,6 +63,11 @@ public class DigitalInput extends DigitalSource implements LiveWindowSendable {
 	 */
 	public int getChannel() {
 		return m_channel;
+	}
+
+	@Override
+	public boolean getAnalogTriggerForRouting() {
+		return false;
 	}
 
 	/*
@@ -99,5 +120,4 @@ public class DigitalInput extends DigitalSource implements LiveWindowSendable {
 	@Override
 	public void stopLiveWindowMode() {
 	}
-
 }

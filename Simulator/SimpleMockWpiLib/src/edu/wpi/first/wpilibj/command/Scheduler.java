@@ -10,6 +10,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.NamedSendable;
 import edu.wpi.first.wpilibj.buttons.Trigger.ButtonScheduler;
 import edu.wpi.first.wpilibj.networktables2.type.NumberArray;
@@ -88,6 +89,7 @@ public class Scheduler implements NamedSendable {
      * Instantiates a {@link Scheduler}.
      */
     private Scheduler() {
+//    	HLUsageReporting.reportScheduler();
     }
 
     /**

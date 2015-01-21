@@ -7,12 +7,19 @@
 
 package edu.wpi.first.wpilibj;
 
-import com.snobot.simulator.SensorActuatorRegistry;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+import edu.wpi.first.wpilibj.communication.UsageReporting;
+import edu.wpi.first.wpilibj.hal.HALUtil;
+import edu.wpi.first.wpilibj.hal.SolenoidJNI;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
 import edu.wpi.first.wpilibj.util.AllocationException;
+import edu.wpi.first.wpilibj.util.CheckedAllocationException;
 
 /**
  * Solenoid class for running high voltage Digital Output.
@@ -20,34 +27,36 @@ import edu.wpi.first.wpilibj.util.AllocationException;
  * The Solenoid class is typically used for pneumatics solenoids, but could be used
  * for any device within the current spec of the PCM.
  */
-public class Solenoid extends SensorBase implements LiveWindowSendable {
+public class Solenoid extends SolenoidBase implements LiveWindowSendable {
 
     private int m_channel; ///< The channel to control.
-
-	private boolean mState = false;
-	@SuppressWarnings("unused")
-	private boolean mStateChanged = false;
+    private ByteBuffer m_solenoid_port;
 
     /**
      * Common function to implement constructor behavior.
      */
-    private synchronized void initSolenoid() 
-    {
+    private synchronized void initSolenoid() {
+        checkSolenoidModule(m_moduleNumber);
+        checkSolenoidChannel(m_channel);
 
-		checkSolenoidChannel(m_channel);
-		if(!SensorActuatorRegistry.get().register(this, m_channel))
-		{
-			throw new AllocationException("Solenoid port " + m_channel
-					+ " is already allocated");
-		}
+		ByteBuffer status = ByteBuffer.allocateDirect(4);
+		status.order(ByteOrder.LITTLE_ENDIAN);
+
+        ByteBuffer port = SolenoidJNI.getPortWithModule((byte) m_moduleNumber, (byte) m_channel);
+        m_solenoid_port = SolenoidJNI.initializeSolenoidPort(port, status.asIntBuffer());
+        HALUtil.checkStatus(status.asIntBuffer());
+
+        LiveWindow.addActuator("Solenoid", m_moduleNumber, m_channel, this);
+        UsageReporting.report(tResourceType.kResourceType_Solenoid, m_channel, m_moduleNumber);
     }
 
     /**
      * Constructor using the default PCM ID (0)
      *
-     * @param channel The channel on the PCM to control.
+     * @param channel The channel on the PCM to control (0..7).
      */
     public Solenoid(final int channel) {
+        super(getDefaultSolenoidModule());
         m_channel = channel;
         initSolenoid();
     }
@@ -59,6 +68,7 @@ public class Solenoid extends SensorBase implements LiveWindowSendable {
      * @param channel The channel on the PCM to control (0..7).
      */
     public Solenoid(final int moduleNumber, final int channel) {
+        super(moduleNumber);
         m_channel = channel;
         initSolenoid();
     }
@@ -75,17 +85,11 @@ public class Solenoid extends SensorBase implements LiveWindowSendable {
      *
      * @param on Turn the solenoid output off or on.
      */
-    public void set(boolean state) {
+    public void set(boolean on) {
+        byte value = (byte) (on ? 0xFF : 0x00);
+        byte mask = (byte) (1 << m_channel);
 
-		if(state != mState)
-		{
-			mStateChanged = true;
-		}
-		else
-		{
-			mStateChanged = false;
-		}
-		mState = state;
+        SolenoidJNI.__setSolenoid(m_solenoid_port, on);
     }
 
     /**
@@ -94,7 +98,10 @@ public class Solenoid extends SensorBase implements LiveWindowSendable {
      * @return The current value of the solenoid.
      */
     public boolean get() {
-        return mState;
+//        int value = getAll() & ( 1 << m_channel);
+//        return (value != 0);
+
+        return SolenoidJNI.__getSolenoid(m_solenoid_port);
     }
 	/**
 	 * Check if solenoid is blacklisted.
@@ -105,7 +112,8 @@ public class Solenoid extends SensorBase implements LiveWindowSendable {
 	 * @return If solenoid is disabled due to short.
 	 */
 	public boolean isBlackListed() {
-		return false;
+		int value = getPCMSolenoidBlackList() & ( 1 << m_channel);
+		return (value != 0);
 	}
     /*
      * Live Window code, only does anything if live window is activated.
@@ -113,7 +121,6 @@ public class Solenoid extends SensorBase implements LiveWindowSendable {
     public String getSmartDashboardType() {
         return "Solenoid";
     }
-
     private ITable m_table;
     private ITableListener m_table_listener;
 
