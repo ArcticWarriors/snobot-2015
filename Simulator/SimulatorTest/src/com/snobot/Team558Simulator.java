@@ -41,4 +41,9 @@ public class Team558Simulator implements ISimulatorContainer
 			}
 		});
 	}
+
+	@Override
+	public void setConfigFile(String simulator_config) {
+		//Not implemented...
+	}
 }

@@ -1,5 +1,12 @@
 package com.snobot;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import javax.swing.SwingUtilities;
 
 import com.snobot.simulator.gui.SimulatorFrame;
@@ -10,24 +17,60 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class Main {
+	
+	private static final String sPROPERTIES_FILE = "simulator_config.properties";
 
     public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException
     {
-
-//    	String class_name = "org.usfirst.frc.team174.robot.Snobot";
-    	String class_name = "edu.wpi.first.wpilibj.templates.RobotDowneyJr";
+    	String class_name = "com.snobot.Snobot";
+    	String simulator_classname = "com.snobot.Snobot2015Simulator";
+    	String simulator_config = "";
     	
-    	String simulator_classname = "com.snobot.Team558Simulator";
+    	try
+    	{
+    		System.out.println("Starting to read?");
+    		
+    		Properties p = new Properties();
+    		p.load(new FileInputStream(new File(sPROPERTIES_FILE)));
+    		
+    		class_name = p.getProperty("robot_class", class_name);
+    		simulator_classname = p.getProperty("simulator_class", simulator_classname);
+    		simulator_config = p.getProperty("simulator_config", simulator_config);
+    		
+    	}
+    	catch(FileNotFoundException e)
+    	{
+    		System.err.println("Could not read properties file, will use defaults and will overwrite the file if it exists");
+
+    		Properties p = new Properties();
+    		
+    		p.setProperty("robot_class", class_name);
+    		p.setProperty("simulator_class", simulator_classname);
+    		p.setProperty("simulator_config", simulator_config);
+    		
+    		try {
+				p.store(new FileOutputStream(new File(sPROPERTIES_FILE)), "Creating default file");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			} 
+    	}
+    	catch(Exception e)
+    	{
+    		e.printStackTrace();
+    		System.err.println("Could not read properties file");
+    	}
+    	
     	
         NetworkTable.setIPAddress("127.0.0.1");
         Preferences.__SetFileName(class_name + "_preferences.ini");
     	
-    	RobotBase iter = (RobotBase) Class.forName(class_name).newInstance();
+    	RobotBase simulated_robot = (RobotBase) Class.forName(class_name).newInstance();
     	
-    	if(simulator_classname != null)
+    	if(simulator_classname != null && !simulator_classname.isEmpty())
     	{
     		ISimulatorContainer simulator = (ISimulatorContainer) Class.forName(simulator_classname).newInstance();
-    		simulator.setRobot(iter);
+    		simulator.setRobot(simulated_robot);
+    		simulator.setConfigFile(simulator_config);
     	}
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -38,7 +81,7 @@ public class Main {
 		        frame.pack();
 		        frame.setVisible(true);
 		        
-		        frame.start(iter);
+		        frame.start(simulated_robot);
 			}
 		});
     }
