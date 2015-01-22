@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.RobotBase.LoopListener;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -52,7 +51,7 @@ public class SimulatorFrame extends JFrame
 	public void start(final RobotBase aRobot)
 	{
 		final Scheduler scheduler = Scheduler.getInstance();
-		aRobot.addLoopListener(new LoopListener() {
+		DriverStation.getInstance().addLoopListener(new DriverStation.LoopListener() {
 			
 			@Override
 			public void looped() {

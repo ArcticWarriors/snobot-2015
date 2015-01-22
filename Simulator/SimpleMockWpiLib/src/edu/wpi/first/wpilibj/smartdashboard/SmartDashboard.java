@@ -36,7 +36,7 @@ public class SmartDashboard {
     private static final Hashtable tablesToData = new Hashtable();
 
     static {
-//        HLUsageReporting.reportSmartDashboard();
+        HLUsageReporting.reportSmartDashboard();
     }
 
     /**

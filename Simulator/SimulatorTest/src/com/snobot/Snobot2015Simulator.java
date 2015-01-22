@@ -1,8 +1,9 @@
 package com.snobot;
 
 import com.snobot.simulator.sim.ISimulatorContainer;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.RobotBase.LoopListener;
 
 public class Snobot2015Simulator implements ISimulatorContainer  {
 
@@ -14,7 +15,7 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
 	@Override
 	public void setRobot(RobotBase aRobot) {
 
-    	aRobot.addLoopListener(new LoopListener() {
+    	DriverStation.getInstance().addLoopListener(new DriverStation.LoopListener() {
 			
 			@Override
 			public void looped() {

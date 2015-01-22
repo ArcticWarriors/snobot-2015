@@ -6,17 +6,16 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
+import java.nio.IntBuffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
-import edu.wpi.first.wpilibj.communication.HALAllianceStationID;
 import edu.wpi.first.wpilibj.communication.HALControlWord;
+import edu.wpi.first.wpilibj.communication.HALAllianceStationID;
 import edu.wpi.first.wpilibj.hal.HALUtil;
 import edu.wpi.first.wpilibj.hal.PowerJNI;
-
 
 /**
  * Provide access to the network communication data to / from the Driver Station.
@@ -32,7 +31,7 @@ public class DriverStation implements RobotState.Interface {
 		public int buttons;
 		public byte count;
 	}
-	
+
     /**
      * The robot alliance that the robot is a part of
      */
@@ -53,6 +52,19 @@ public class DriverStation implements RobotState.Interface {
 //            m_ds.task();
         }
     } /* DriverStationTask */
+    
+
+	protected ArrayList<LoopListener> mListeners = new ArrayList<>();
+	
+    public interface LoopListener
+    {
+    	public void looped();
+    }
+    
+    public void addLoopListener(LoopListener aListener)
+    {
+    	mListeners.add(aListener);
+    }
 
     private static DriverStation instance = new DriverStation();
 
@@ -60,13 +72,14 @@ public class DriverStation implements RobotState.Interface {
     private short[][] m_joystickPOVs = new short[kJoystickPorts][FRCNetworkCommunicationsLibrary.kMaxJoystickPOVs];
     private HALJoystickButtons[] m_joystickButtons = new HALJoystickButtons[kJoystickPorts];
 
+    private final Object m_dataSem;
     private volatile boolean m_thread_keepalive = true;
     private boolean m_userInDisabled = false;
     private boolean m_userInAutonomous = false;
     private boolean m_userInTeleop = false;
     private boolean m_userInTest = false;
     private boolean m_newControlData;
-    
+
     /**
      * Gets an instance of the DriverStation
      *
@@ -83,7 +96,7 @@ public class DriverStation implements RobotState.Interface {
      * instance static member variable.
      */
     protected DriverStation() {
-
+        m_dataSem = new Object();
 		for(int i=0; i<kJoystickPorts; i++)
 		{
 			m_joystickButtons[i] = new HALJoystickButtons();
@@ -95,6 +108,38 @@ public class DriverStation implements RobotState.Interface {
      */
     public void release() {
         m_thread_keepalive = false;
+    }
+
+    /**
+     * Provides the service routine for the DS polling thread.
+     */
+    private void task() {
+        int safetyCounter = 0;
+        while (m_thread_keepalive) {
+//        	HALUtil.takeMultiWait(m_packetDataAvailableSem, m_packetDataAvailableMutex, 0);
+        	synchronized (this) {
+                getData();
+            }
+            synchronized (m_dataSem) {
+                m_dataSem.notifyAll();
+            }
+            if (++safetyCounter >= 4) {
+                MotorSafetyHelper.checkMotors();
+                safetyCounter = 0;
+            }
+            if (m_userInDisabled) {
+                FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramDisabled();
+            }
+            if (m_userInAutonomous) {
+            	FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramAutonomous();
+            }
+            if (m_userInTeleop) {
+            	FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTeleop();
+            }
+            if (m_userInTest) {
+            	FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTest();
+            }
+        }
     }
 
     /**
@@ -111,6 +156,12 @@ public class DriverStation implements RobotState.Interface {
      * @param timeout The maximum time in milliseconds to wait.
      */
     public void waitForData(long timeout) {
+
+        for(LoopListener listener : mListeners)
+        {
+        	listener.looped();
+        }
+        
     	FRCNetworkCommunicationsLibrary.__delayTime();
     	
     	getData();
@@ -119,7 +170,6 @@ public class DriverStation implements RobotState.Interface {
     		FRCNetworkCommunicationsLibrary.__hasLooped();
     	}
     }
-    
     /**
      * Copy data from the DS task for the user.
      * If no new data exists, it will just be returned, otherwise
@@ -182,7 +232,7 @@ public class DriverStation implements RobotState.Interface {
         }
 
         if (axis >= m_joystickAxes[stick].length) {
-        	reportJoystickUnpluggedError("WARNING: Joystick axis " + axis + " on port " + stick + " not available, check if controller is plugged in\n");
+			reportJoystickUnpluggedError("WARNING: Joystick axis " + axis + " on port " + stick + " not available, check if controller is plugged in\n");
             return 0.0;
         }
 
@@ -301,7 +351,7 @@ public class DriverStation implements RobotState.Interface {
         
         return m_joystickButtons[stick].count;
     }
-    
+
     /**
      * Gets a value indicating whether the Driver Station requires the
      * robot to be enabled.

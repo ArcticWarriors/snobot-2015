@@ -144,9 +144,9 @@ public class SampleRobot extends RobotBase {
                         Timer.delay(0.01);
                     LiveWindow.setEnabled(false);
                 } else {
-//                    m_ds.InOperatorControl(true);
-//                    operatorControl();
-//                    m_ds.InOperatorControl(false);
+                    m_ds.InOperatorControl(true);
+                    operatorControl();
+                    m_ds.InOperatorControl(false);
                     while (isOperatorControl() && !isDisabled()) {
                         Timer.delay(0.01);
                     }

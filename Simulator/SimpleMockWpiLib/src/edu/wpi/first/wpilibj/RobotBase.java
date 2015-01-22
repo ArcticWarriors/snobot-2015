@@ -7,11 +7,24 @@
 
 package edu.wpi.first.wpilibj;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.jar.Manifest;
+import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+import edu.wpi.first.wpilibj.communication.UsageReporting;
+import edu.wpi.first.wpilibj.internal.HardwareHLUsageReporting;
+import edu.wpi.first.wpilibj.internal.HardwareTimer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-
+import edu.wpi.first.wpilibj.Utility;
 
 /**
  * Implement a Robot Program framework.
@@ -29,19 +42,6 @@ public abstract class RobotBase {
 
 	protected final DriverStation m_ds;
 
-
-	protected ArrayList<LoopListener> mListeners = new ArrayList<>();
-	
-    public interface LoopListener
-    {
-    	public void looped();
-    }
-    
-    public void addLoopListener(LoopListener aListener)
-    {
-    	mListeners.add(aListener);
-    }
-    
 	/**
 	 * Constructor for a generic robot program.
 	 * User code should be placed in the constructor that runs before the Autonomous or Operator
