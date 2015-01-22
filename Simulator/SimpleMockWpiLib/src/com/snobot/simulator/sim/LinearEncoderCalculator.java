@@ -1,21 +1,21 @@
 package com.snobot.simulator.sim;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SpeedController;
+import com.snobot.simulator.EncoderWrapper;
+import com.snobot.simulator.SpeedControllerWrapper;
 
 public class LinearEncoderCalculator implements ISimulatorUpdater
 {
 
-	private SpeedController mSpeedController;
-	private Encoder mEncoder;
+	private SpeedControllerWrapper mSpeedController;
+	private EncoderWrapper mEncoder;
 	private double mKp;
 	
 
-	public LinearEncoderCalculator(SpeedController aSpeedController, Encoder aEncoder)
+	public LinearEncoderCalculator(SpeedControllerWrapper aSpeedController, EncoderWrapper aEncoder)
 	{
 		this(aSpeedController, aEncoder, 1.0);
 	}
-	public LinearEncoderCalculator(SpeedController aSpeedController, Encoder aEncoder, double aKp)
+	public LinearEncoderCalculator(SpeedControllerWrapper aSpeedController, EncoderWrapper aEncoder, double aKp)
 	{
 		mSpeedController = aSpeedController;
 		mEncoder = aEncoder;
@@ -28,8 +28,11 @@ public class LinearEncoderCalculator implements ISimulatorUpdater
 	
 	public void update()
 	{
-		double distance_travelled = mSpeedController.get() * mKp;
+		if(mEncoder != null && mSpeedController != null)
+		{
+			double distance_travelled = mSpeedController.get() * mKp;
+			mEncoder.__addDistanceDelta(distance_travelled);
+		}
 		
-		mEncoder.__addDistanceDelta(distance_travelled);
 	}
 }

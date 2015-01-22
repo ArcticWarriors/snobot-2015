@@ -6,11 +6,18 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
-import com.snobot.simulator.EncoderPair;
-import com.snobot.simulator.SensorActuatorRegistry;
+import java.nio.ByteOrder;
+import java.nio.ByteBuffer;
 
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+import edu.wpi.first.wpilibj.communication.UsageReporting;
+import edu.wpi.first.wpilibj.hal.EncoderJNI;
+import edu.wpi.first.wpilibj.hal.HALUtil;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
 import edu.wpi.first.wpilibj.tables.ITable;
+import edu.wpi.first.wpilibj.util.BoundaryException;
 
 /**
  * Class to read quad encoders. Quadrature encoders are devices that count shaft
@@ -25,23 +32,90 @@ import edu.wpi.first.wpilibj.tables.ITable;
  * All encoders will immediately start counting - reset() them if you need them
  * to be zeroed before use.
  */
-public class Encoder extends SensorBase implements LiveWindowSendable {
+public class Encoder extends SensorBase implements CounterBase, PIDSource, LiveWindowSendable {
+	public enum IndexingType {
+		kResetWhileHigh, kResetWhileLow, kResetOnFallingEdge, kResetOnRisingEdge
+	}
 
+	/**
+	 * The a source
+	 */
 	protected DigitalSource m_aSource; // the A phase of the quad encoder
+	/**
+	 * The b source
+	 */
 	protected DigitalSource m_bSource; // the B phase of the quad encoder
-	private double m_distancePerPulse;
-	
-	private double __mDistance;
-	
-	public DigitalSource __getASource()
-	{
-		return m_aSource;
-	}
-	public DigitalSource __getBSource()
-	{
-		return m_bSource;
-	}
+	/**
+	 * The index source
+	 */
+	protected DigitalSource m_indexSource = null; // Index on some encoders
+	private ByteBuffer m_encoder;
+	private int m_index;
+	private double m_distancePerPulse; // distance of travel for each encoder
+										// tick
+	private Counter m_counter; // Counter object for 1x and 2x encoding
+	private EncodingType m_encodingType = EncodingType.k4X;
+	private int m_encodingScale; // 1x, 2x, or 4x, per the encodingType
+	private boolean m_allocatedA;
+	private boolean m_allocatedB;
+	private boolean m_allocatedI;
+	private PIDSourceParameter m_pidSource;
 
+	/**
+	 * Common initialization code for Encoders. This code allocates resources
+	 * for Encoders and is common to all constructors.
+	 *
+	 * The encoder will start counting immediately.
+	 *
+	 * @param reverseDirection
+	 *            If true, counts down instead of up (this is all relative)
+	 * @param encodingType
+	 *            either k1X, k2X, or k4X to indicate 1X, 2X or 4X decoding. If
+	 *            4X is selected, then an encoder FPGA object is used and the
+	 *            returned counts will be 4x the encoder spec'd value since all
+	 *            rising and falling edges are counted. If 1X or 2X are selected
+	 *            then a counter object will be used and the returned value will
+	 *            either exactly match the spec'd count or be double (2x) the
+	 *            spec'd count.
+	 */
+	private void initEncoder(boolean reverseDirection) {
+		switch (m_encodingType.value) {
+		case EncodingType.k4X_val:
+			m_encodingScale = 4;
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			ByteBuffer index = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			index.order(ByteOrder.LITTLE_ENDIAN);
+			m_encoder = EncoderJNI.initializeEncoder(
+					(byte) m_aSource.getModuleForRouting(),
+					m_aSource.getChannelForRouting(),
+					(byte) (m_aSource.getAnalogTriggerForRouting() ? 1 : 0),
+					(byte) m_bSource.getModuleForRouting(),
+					m_bSource.getChannelForRouting(),
+					(byte) (m_bSource.getAnalogTriggerForRouting() ? 1 : 0),
+					(byte) (reverseDirection ? 1 : 0), index.asIntBuffer(), status.asIntBuffer());
+			HALUtil.checkStatus(status.asIntBuffer());
+			m_index = index.asIntBuffer().get(0);
+			m_counter = null;
+			setMaxPeriod(.5);
+			break;
+		case EncodingType.k2X_val:
+		case EncodingType.k1X_val:
+			m_encodingScale = m_encodingType == EncodingType.k1X ? 1 : 2;
+			m_counter = new Counter(m_encodingType, m_aSource, m_bSource,
+					reverseDirection);
+			m_index = m_counter.getFPGAIndex();
+			break;
+		}
+		m_distancePerPulse = 1.0;
+		m_pidSource = PIDSourceParameter.kDistance;
+
+		UsageReporting.report(tResourceType.kResourceType_Encoder,
+				m_index, m_encodingType.value);
+		LiveWindow.addSensor("Encoder", m_aSource.getChannelForRouting(), this);
+	}
 
 	/**
 	 * Encoder constructor. Construct a Encoder given a and b channels.
@@ -59,12 +133,12 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 */
 	public Encoder(final int aChannel, final int bChannel,
 			boolean reverseDirection) {
-		
-		//This will do the allocation test
+		m_allocatedA = true;
+		m_allocatedB = true;
+		m_allocatedI = false;
 		m_aSource = new DigitalInput(aChannel);
 		m_bSource = new DigitalInput(bChannel);
-		
-		SensorActuatorRegistry.get().register(this, new EncoderPair(aChannel, bChannel));
+		initEncoder(reverseDirection);
 	}
 
 	/**
@@ -81,6 +155,86 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 		this(aChannel, bChannel, false);
 	}
 
+	/**
+	 * Encoder constructor. Construct a Encoder given a and b channels.
+	 *
+	 * The encoder will start counting immediately.
+	 *
+	 * @param aChannel
+	 *            The a channel digital input channel.
+	 * @param bChannel
+	 *            The b channel digital input channel.
+	 * @param reverseDirection
+	 *            represents the orientation of the encoder and inverts the
+	 *            output values if necessary so forward represents positive
+	 *            values.
+	 * @param encodingType
+	 *            either k1X, k2X, or k4X to indicate 1X, 2X or 4X decoding. If
+	 *            4X is selected, then an encoder FPGA object is used and the
+	 *            returned counts will be 4x the encoder spec'd value since all
+	 *            rising and falling edges are counted. If 1X or 2X are selected
+	 *            then a counter object will be used and the returned value will
+	 *            either exactly match the spec'd count or be double (2x) the
+	 *            spec'd count.
+	 */
+	public Encoder(final int aChannel, final int bChannel,
+			boolean reverseDirection, final EncodingType encodingType) {
+		m_allocatedA = true;
+		m_allocatedB = true;
+		m_allocatedI = false;
+		if (encodingType == null)
+			throw new NullPointerException("Given encoding type was null");
+		m_encodingType = encodingType;
+		m_aSource = new DigitalInput(aChannel);
+		m_bSource = new DigitalInput(bChannel);
+		initEncoder(reverseDirection);
+	}
+
+	/**
+	 * Encoder constructor. Construct a Encoder given a and b channels.
+	 * Using an index pulse forces 4x encoding
+	 *
+	 * The encoder will start counting immediately.
+	 *
+	 * @param aChannel
+	 *            The a channel digital input channel.
+	 * @param bChannel
+	 *            The b channel digital input channel.
+	 * @param indexChannel
+	 *            The index channel digital input channel.
+	 * @param reverseDirection
+	 *            represents the orientation of the encoder and inverts the
+	 *            output values if necessary so forward represents positive
+	 *            values.
+	 */
+	public Encoder(final int aChannel, final int bChannel,
+			final int indexChannel, boolean reverseDirection) {
+		m_allocatedA = true;
+		m_allocatedB = true;
+		m_allocatedI = true;
+		m_aSource = new DigitalInput(aChannel);
+		m_bSource = new DigitalInput(bChannel);
+		m_indexSource = new DigitalInput(indexChannel);
+		initEncoder(reverseDirection);
+	}
+
+	/**
+	 * Encoder constructor. Construct a Encoder given a and b channels.
+	 * Using an index pulse forces 4x encoding
+	 *
+	 * The encoder will start counting immediately.
+	 *
+	 * @param aChannel
+	 *            The a channel digital input channel.
+	 * @param bChannel
+	 *            The b channel digital input channel.
+	 * @param indexChannel
+	 *            The index channel digital input channel.
+	 */
+	public Encoder(final int aChannel, final int bChannel,
+			final int indexChannel) {
+		this(aChannel, bChannel, indexChannel, false);
+	}
 
 	/**
 	 * Encoder constructor. Construct a Encoder given a and b channels as
@@ -101,12 +255,16 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 */
 	public Encoder(DigitalSource aSource, DigitalSource bSource,
 			boolean reverseDirection) {
+		m_allocatedA = false;
+		m_allocatedB = false;
+		m_allocatedI = false;
 		if (aSource == null)
 			throw new NullPointerException("Digital Source A was null");
 		m_aSource = aSource;
 		if (bSource == null)
 			throw new NullPointerException("Digital Source B was null");
 		m_bSource = bSource;
+		initEncoder(reverseDirection);
 	}
 
 	/**
@@ -125,6 +283,50 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	public Encoder(DigitalSource aSource, DigitalSource bSource) {
 		this(aSource, bSource, false);
 	}
+
+	/**
+	 * Encoder constructor. Construct a Encoder given a and b channels as
+	 * digital inputs. This is used in the case where the digital inputs are
+	 * shared. The Encoder class will not allocate the digital inputs and assume
+	 * that they already are counted.
+	 *
+	 * The encoder will start counting immediately.
+	 *
+	 * @param aSource
+	 *            The source that should be used for the a channel.
+	 * @param bSource
+	 *            the source that should be used for the b channel.
+	 * @param reverseDirection
+	 *            represents the orientation of the encoder and inverts the
+	 *            output values if necessary so forward represents positive
+	 *            values.
+	 * @param encodingType
+	 *            either k1X, k2X, or k4X to indicate 1X, 2X or 4X decoding. If
+	 *            4X is selected, then an encoder FPGA object is used and the
+	 *            returned counts will be 4x the encoder spec'd value since all
+	 *            rising and falling edges are counted. If 1X or 2X are selected
+	 *            then a counter object will be used and the returned value will
+	 *            either exactly match the spec'd count or be double (2x) the
+	 *            spec'd count.
+	 */
+	public Encoder(DigitalSource aSource, DigitalSource bSource,
+			boolean reverseDirection, final EncodingType encodingType) {
+		m_allocatedA = false;
+		m_allocatedB = false;
+		m_allocatedI = false;
+		if (encodingType == null)
+			throw new NullPointerException("Given encoding type was null");
+		m_encodingType = encodingType;
+		if (aSource == null)
+			throw new NullPointerException("Digital Source A was null");
+		m_aSource = aSource;
+		if (bSource == null)
+			throw new NullPointerException("Digital Source B was null");
+		m_aSource = aSource;
+		m_bSource = bSource;
+		initEncoder(reverseDirection);
+	}
+
 	/**
 	 * Encoder constructor. Construct a Encoder given a and b channels as
 	 * digital inputs. This is used in the case where the digital inputs are
@@ -146,6 +348,9 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 */
 	public Encoder(DigitalSource aSource, DigitalSource bSource,
 			DigitalSource indexSource, boolean reverseDirection) {
+		m_allocatedA = false;
+		m_allocatedB = false;
+		m_allocatedI = false;
 		if (aSource == null)
 			throw new NullPointerException("Digital Source A was null");
 		m_aSource = aSource;
@@ -153,6 +358,8 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 			throw new NullPointerException("Digital Source B was null");
 		m_aSource = aSource;
 		m_bSource = bSource;
+		m_indexSource = indexSource;
+		initEncoder(reverseDirection);
 	}
 
 	/**
@@ -176,14 +383,47 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	}
 
 	/**
+	 * @return the Encoder's FPGA index
+	 */
+	public int getFPGAIndex() {
+		return m_index;
+	}
+
+	/**
 	 * @return the encoding scale factor 1x, 2x, or 4x, per the requested
 	 *   encodingType. Used to divide raw edge counts down to spec'd counts.
 	 */
 	public int getEncodingScale() {
-		return 0;
+		return m_encodingScale;
 	}
 
 	public void free() {
+		if (m_aSource != null && m_allocatedA) {
+			m_aSource.free();
+			m_allocatedA = false;
+		}
+		if (m_bSource != null && m_allocatedB) {
+			m_bSource.free();
+			m_allocatedB = false;
+		}
+		if (m_indexSource != null && m_allocatedI) {
+			m_indexSource.free();
+			m_allocatedI = false;
+		}
+
+		m_aSource = null;
+		m_bSource = null;
+		m_indexSource = null;
+		if (m_counter != null) {
+			m_counter.free();
+			m_counter = null;
+		} else {
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			EncoderJNI.freeEncoder(m_encoder, status.asIntBuffer());
+			HALUtil.checkStatus(status.asIntBuffer());
+		}
 	}
 
 	/**
@@ -193,7 +433,17 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * @return Current raw count from the encoder
 	 */
 	public int getRaw() {
-		return (int) (__mDistance * m_distancePerPulse);
+		int value;
+		if (m_counter != null) {
+			value = m_counter.get();
+		} else {
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			value = EncoderJNI.getEncoder(m_encoder, status.asIntBuffer());
+			HALUtil.checkStatus(status.asIntBuffer());
+		}
+		return value;
 	}
 
 	/**
@@ -212,7 +462,15 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * the encoder.
 	 */
 	public void reset() {
-		__mDistance = 0;
+		if (m_counter != null) {
+			m_counter.reset();
+		} else {
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			EncoderJNI.resetEncoder(m_encoder, status.asIntBuffer());
+			HALUtil.checkStatus(status.asIntBuffer());
+		}
 	}
 
 	/**
@@ -227,7 +485,17 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * @return Period in seconds of the most recent pulse.
 	 */
 	public double getPeriod() {
-		return 0;
+		double measuredPeriod;
+		if (m_counter != null) {
+			measuredPeriod = m_counter.getPeriod() / decodingScaleFactor();
+		} else {
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			measuredPeriod = EncoderJNI.getEncoderPeriod(m_encoder, status.asIntBuffer());
+			HALUtil.checkStatus(status.asIntBuffer());
+		}
+		return measuredPeriod;
 	}
 
 	/**
@@ -244,6 +512,15 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 *            seconds.
 	 */
 	public void setMaxPeriod(double maxPeriod) {
+		if (m_counter != null) {
+			m_counter.setMaxPeriod(maxPeriod * decodingScaleFactor());
+		} else {
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			EncoderJNI.setEncoderMaxPeriod(m_encoder, maxPeriod, status.asIntBuffer());
+			HALUtil.checkStatus(status.asIntBuffer());
+		}
 	}
 
 	/**
@@ -255,7 +532,16 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * @return True if the encoder is considered stopped.
 	 */
 	public boolean getStopped() {
-		return false;
+		if (m_counter != null) {
+			return m_counter.getStopped();
+		} else {
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			boolean value = EncoderJNI.getEncoderStopped(m_encoder, status.asIntBuffer()) != 0;
+			HALUtil.checkStatus(status.asIntBuffer());
+			return value;
+		}
 	}
 
 	/**
@@ -264,7 +550,16 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * @return The last direction the encoder value changed.
 	 */
 	public boolean getDirection() {
-		return false;
+		if (m_counter != null) {
+			return m_counter.getDirection();
+		} else {
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			boolean value = EncoderJNI.getEncoderDirection(m_encoder, status.asIntBuffer()) != 0;
+			HALUtil.checkStatus(status.asIntBuffer());
+			return value;
+		}
 	}
 
 	/**
@@ -272,7 +567,17 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * pulses.
 	 */
 	private double decodingScaleFactor() {
-		return 1;
+		switch (m_encodingType.value) {
+		case EncodingType.k1X_val:
+			return 1.0;
+		case EncodingType.k2X_val:
+			return 0.5;
+		case EncodingType.k4X_val:
+			return 0.25;
+		default:
+			// This is never reached, EncodingType enum limits values
+			return 0.0;
+		}
 	}
 
 	/**
@@ -282,7 +587,7 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 *         from setDistancePerPulse().
 	 */
 	public double getDistance() {
-		return __mDistance;
+		return getRaw() * decodingScaleFactor() * m_distancePerPulse;
 	}
 
 	/**
@@ -333,6 +638,11 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 *            true if the encoder direction should be reversed
 	 */
 	public void setReverseDirection(boolean reverseDirection) {
+		if (m_counter != null) {
+			m_counter.setReverseDirection(reverseDirection);
+		} else {
+
+		}
 	}
 
 	/**
@@ -348,6 +658,23 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 *            The number of samples to average from 1 to 127.
 	 */
 	public void setSamplesToAverage(int samplesToAverage) {
+		switch (m_encodingType.value) {
+		case EncodingType.k4X_val:
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			EncoderJNI.setEncoderSamplesToAverage(m_encoder, samplesToAverage,
+					status.asIntBuffer());
+			if (status.duplicate().get() == HALUtil.PARAMETER_OUT_OF_RANGE) {
+				throw new BoundaryException(BoundaryException.getMessage(
+						samplesToAverage, 1, 127));
+			}
+			HALUtil.checkStatus(status.asIntBuffer());
+			break;
+		case EncodingType.k1X_val:
+		case EncodingType.k2X_val:
+			m_counter.setSamplesToAverage(samplesToAverage);
+		}
 	}
 
 	/**
@@ -360,7 +687,31 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 *         127)
 	 */
 	public int getSamplesToAverage() {
+		switch (m_encodingType.value) {
+		case EncodingType.k4X_val:
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			// set the byte order
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			int value = EncoderJNI.getEncoderSamplesToAverage(m_encoder, status.asIntBuffer());
+			HALUtil.checkStatus(status.asIntBuffer());
+			return value;
+		case EncodingType.k1X_val:
+		case EncodingType.k2X_val:
+			return m_counter.getSamplesToAverage();
+		}
 		return 1;
+	}
+
+	/**
+	 * Set which parameter of the encoder you are using as a process control
+	 * variable. The encoder class supports the rate and distance parameters.
+	 *
+	 * @param pidSource
+	 *            An enum to select the parameter.
+	 */
+	public void setPIDSourceParameter(PIDSourceParameter pidSource) {
+		BoundaryException.assertWithinBounds(pidSource.value, 0, 1);
+		m_pidSource = pidSource;
 	}
 
 	/**
@@ -369,14 +720,79 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * @return The current value of the selected source parameter.
 	 */
 	public double pidGet() {
-		return 0;
+		switch (m_pidSource.value) {
+		case PIDSourceParameter.kDistance_val:
+			return getDistance();
+		case PIDSourceParameter.kRate_val:
+			return getRate();
+		default:
+			return 0.0;
+		}
+	}
+
+	/**
+	 * Set the index source for the encoder.  When this source rises, the encoder count automatically resets.
+	 *
+	 * @param channel A DIO channel to set as the encoder index
+	 * @param type The state that will cause the encoder to reset
+	 */
+	public void setIndexSource(int channel, IndexingType type) {
+		ByteBuffer status = ByteBuffer.allocateDirect(4);
+		status.order(ByteOrder.LITTLE_ENDIAN);
+			
+		boolean activeHigh = (type == IndexingType.kResetWhileHigh) || (type == IndexingType.kResetOnRisingEdge);
+		boolean edgeSensitive = (type == IndexingType.kResetOnFallingEdge) || (type == IndexingType.kResetOnRisingEdge);
+
+		EncoderJNI.setEncoderIndexSource(m_encoder, channel, false, activeHigh, edgeSensitive, status.asIntBuffer());
+		HALUtil.checkStatus(status.asIntBuffer());
+	}
+
+	/**
+	 * Set the index source for the encoder.  When this source is activated, the encoder count automatically resets.
+	 *
+	 * @param channel A DIO channel to set as the encoder index
+	 */
+	public void setIndexSource(int channel) {
+		this.setIndexSource(channel, IndexingType.kResetOnRisingEdge);
+	}
+
+	/**
+	 * Set the index source for the encoder.  When this source rises, the encoder count automatically resets.
+	 *
+	 * @param source A digital source to set as the encoder index
+	 * @param type The state that will cause the encoder to reset
+	 */
+	public void setIndexSource(DigitalSource source, IndexingType type) {
+		ByteBuffer status = ByteBuffer.allocateDirect(4);
+		status.order(ByteOrder.LITTLE_ENDIAN);
+			
+		boolean activeHigh = (type == IndexingType.kResetWhileHigh) || (type == IndexingType.kResetOnRisingEdge);
+		boolean edgeSensitive = (type == IndexingType.kResetOnFallingEdge) || (type == IndexingType.kResetOnRisingEdge);
+
+		EncoderJNI.setEncoderIndexSource(m_encoder, source.getChannelForRouting(), source.getAnalogTriggerForRouting(),
+				activeHigh, edgeSensitive, status.asIntBuffer());
+		HALUtil.checkStatus(status.asIntBuffer());
+	}
+
+	/**
+	 * Set the index source for the encoder.  When this source is activated, the encoder count automatically resets.
+	 *
+	 * @param source A digital source to set as the encoder index
+	 */
+	public void setIndexSource(DigitalSource source) {
+		this.setIndexSource(source, IndexingType.kResetOnRisingEdge);
 	}
 
 	/*
 	 * Live Window code, only does anything if live window is activated.
 	 */
 	public String getSmartDashboardType() {
-		return "Encoder";
+		switch (m_encodingType.value) {
+		case EncodingType.k4X_val:
+			return "Quadrature Encoder";
+		default:
+			return "Encoder";
+		}
 	}
 
 	private ITable m_table;
@@ -417,9 +833,5 @@ public class Encoder extends SensorBase implements LiveWindowSendable {
 	 * {@inheritDoc}
 	 */
 	public void stopLiveWindowMode() {
-	}
-
-	public void __addDistanceDelta(double distance_travelled) {
-		__mDistance += distance_travelled;
 	}
 }

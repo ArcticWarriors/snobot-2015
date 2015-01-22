@@ -3,22 +3,16 @@ package com.snobot.simulator;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.wpi.first.wpilibj.DigitalSource;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedController;
-
 public class SensorActuatorRegistry 
 {
 	
 	private static SensorActuatorRegistry mInstance = new SensorActuatorRegistry();
 
-	private Map<Integer, SpeedController> mSpeedControllerMap = new HashMap<Integer, SpeedController>();
-	private Map<Integer, Solenoid> mSolenoidMap = new HashMap<Integer, Solenoid>();
-	private Map<Integer, Relay> mRelayMap = new HashMap<Integer, Relay>();
-	private Map<Integer, DigitalSource> mDigitalInputMap = new HashMap<Integer, DigitalSource>();
-	private Map<EncoderPair, Encoder> mEncoderMap = new HashMap<EncoderPair, Encoder>();
+	private Map<Integer, SpeedControllerWrapper> mSpeedControllerMap = new HashMap<Integer, SpeedControllerWrapper>();
+	private Map<Integer, SolenoidWrapper> mSolenoidMap = new HashMap<Integer, SolenoidWrapper>();
+	private Map<Integer, RelayWrapper> mRelayMap = new HashMap<Integer, RelayWrapper>();
+	private Map<Integer, DigitalSourceWrapper> mDigitalInputMap = new HashMap<Integer, DigitalSourceWrapper>();
+	private Map<EncoderPair, EncoderWrapper> mEncoderMap = new HashMap<EncoderPair, EncoderWrapper>();
 	
 	private SensorActuatorRegistry()
 	{
@@ -41,26 +35,26 @@ public class SensorActuatorRegistry
 		return true;
 	}
 
-	public boolean register(SpeedController aActuator, int aPort)
+	public boolean register(SpeedControllerWrapper aActuator, int aPort)
 	{
 		return registerItem(aActuator, aPort, mSpeedControllerMap, "Speed Controller");
 	}
 
-	public boolean register(DigitalSource aSensor, int aPort) {
+	public boolean register(DigitalSourceWrapper aSensor, int aPort) {
 		return registerItem(aSensor, aPort, mDigitalInputMap, "Digital IO");
 	}
 	
-	public boolean register(Solenoid aActuator, int aPort)
+	public boolean register(SolenoidWrapper aActuator, int aPort)
 	{
 		return registerItem(aActuator, aPort, mSolenoidMap, "Solenoid");
 	}
 	
-	public boolean register(Relay aActuator, int aPort)
+	public boolean register(RelayWrapper aActuator, int aPort)
 	{
 		return registerItem(aActuator, aPort, mRelayMap, "Relay");
 	}
 	
-	public boolean register(Encoder aEncoder, EncoderPair aPorts)
+	public boolean register(EncoderWrapper aEncoder, EncoderPair aPorts)
 	{
 
 		if(mEncoderMap.containsKey(aPorts))
@@ -72,23 +66,23 @@ public class SensorActuatorRegistry
 		return true;
 	}
 
-	public Map<Integer, SpeedController> getSpeedControllers() {
+	public Map<Integer, SpeedControllerWrapper> getSpeedControllers() {
 		return mSpeedControllerMap;
 	}
 
-	public Map<Integer, Solenoid> getSolenoids() {
+	public Map<Integer, SolenoidWrapper> getSolenoids() {
 		return mSolenoidMap;
 	}
 
-	public Map<Integer, DigitalSource> getDigitalSources() {
+	public Map<Integer, DigitalSourceWrapper> getDigitalSources() {
 		return mDigitalInputMap;
 	}
 
-	public Map<Integer, Relay> getRelays() {
+	public Map<Integer, RelayWrapper> getRelays() {
 		return mRelayMap;
 	}
 
-	public Encoder getEncoder(int aPortA, int aPortB) {
+	public EncoderWrapper getEncoder(int aPortA, int aPortB) {
 		return mEncoderMap.get(new EncoderPair(aPortA, aPortB));
 	}
 

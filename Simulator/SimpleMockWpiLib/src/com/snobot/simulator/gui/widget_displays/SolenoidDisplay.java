@@ -6,26 +6,26 @@ import java.util.Map.Entry;
 import javax.swing.JCheckBox;
 import javax.swing.border.TitledBorder;
 
-import edu.wpi.first.wpilibj.Solenoid;
+import com.snobot.simulator.SolenoidWrapper;
 
-public class SolenoidDisplay extends BaseWidgetDisplay<Solenoid>
+public class SolenoidDisplay extends BaseWidgetDisplay<SolenoidWrapper>
 {
-	public SolenoidDisplay(Map<Integer, Solenoid> aMap) {
+	public SolenoidDisplay(Map<Integer, SolenoidWrapper> aMap) {
 		super(aMap);
 		
 		setBorder(new TitledBorder("Solenoids"));
 	}
 
-	public void update(Map<Integer, Solenoid> aMap)
+	public void update(Map<Integer, SolenoidWrapper> aMap)
 	{
-		for(Entry<Integer, Solenoid> pair : aMap.entrySet())
+		for(Entry<Integer, SolenoidWrapper> pair : aMap.entrySet())
 		{
 			((JCheckBox)mWidgetMap.get(pair.getKey())).setSelected(pair.getValue().get());
 		}
 	}
 
 	@Override
-	protected JCheckBox createWidget(Entry<Integer, Solenoid> pair) {
+	protected JCheckBox createWidget(Entry<Integer, SolenoidWrapper> pair) {
 		return new JCheckBox();
 	}
 }
