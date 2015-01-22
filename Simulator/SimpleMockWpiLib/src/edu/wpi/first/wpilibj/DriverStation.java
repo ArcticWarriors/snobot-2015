@@ -39,6 +39,22 @@ public class DriverStation implements RobotState.Interface {
      */
     public enum Alliance { Red, Blue, Invalid }
 
+    private static final double JOYSTICK_UNPLUGGED_MESSAGE_INTERVAL = 1.0;
+    private double m_nextMessageTime = 0.0;
+
+    private static class DriverStationTask implements Runnable {
+
+        private DriverStation m_ds;
+
+        DriverStationTask(DriverStation ds) {
+            m_ds = ds;
+        }
+
+        public void run() {
+//            m_ds.task();
+        }
+    } /* DriverStationTask */
+
     private static DriverStation instance = new DriverStation();
 
     private short[][] m_joystickAxes = new short[kJoystickPorts][FRCNetworkCommunicationsLibrary.kMaxJoystickAxes];
@@ -51,10 +67,6 @@ public class DriverStation implements RobotState.Interface {
     private boolean m_userInTeleop = false;
     private boolean m_userInTest = false;
     private boolean m_newControlData;
-    
-    private double mMatchTime;
-    
-    private static final double sWAIT_TIME = .02;
     
     /**
      * Gets an instance of the DriverStation
@@ -100,12 +112,12 @@ public class DriverStation implements RobotState.Interface {
      * @param timeout The maximum time in milliseconds to wait.
      */
     public void waitForData(long timeout) {
-    	Timer.delay(sWAIT_TIME);
+    	FRCNetworkCommunicationsLibrary.__delayTime();
     	
     	getData();
     	if(!isDisabled())
     	{
-    		mMatchTime += sWAIT_TIME;
+    		FRCNetworkCommunicationsLibrary.__hasLooped();
     	}
     }
     
@@ -146,11 +158,10 @@ public class DriverStation implements RobotState.Interface {
 	 * Throttles the errors so that they don't overwhelm the DS
 	 */
     private void reportJoystickUnpluggedError(String message) {
-//        double currentTime = Timer.getFPGATimestamp();
-//        if (currentTime > m_nextMessageTime) 
-        {
+        double currentTime = Timer.getFPGATimestamp();
+        if (currentTime > m_nextMessageTime) {
             reportError(message, false);
-//            m_nextMessageTime = currentTime + JOYSTICK_UNPLUGGED_MESSAGE_INTERVAL;
+            m_nextMessageTime = currentTime + JOYSTICK_UNPLUGGED_MESSAGE_INTERVAL;
         }
     }
 
@@ -172,8 +183,7 @@ public class DriverStation implements RobotState.Interface {
         }
 
         if (axis >= m_joystickAxes[stick].length) {
-			reportJoystickUnpluggedError("WARNING: Joystick axis " + axis + " on port " + stick + " not available, check if controller is plugged in"
-					+ "  Max is " + m_joystickAxes[stick].length + "\n");
+        	reportJoystickUnpluggedError("WARNING: Joystick axis " + axis + " on port " + stick + " not available, check if controller is plugged in\n");
             return 0.0;
         }
 
@@ -300,7 +310,8 @@ public class DriverStation implements RobotState.Interface {
      * @return True if the robot is enabled, false otherwise.
      */
     public boolean isEnabled() {
-        return !m_userInDisabled;
+		HALControlWord controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
+        return controlWord.getEnabled() && controlWord.getDSAttached();
     }
 
     /**
@@ -320,7 +331,8 @@ public class DriverStation implements RobotState.Interface {
      * @return True if autonomous mode should be enabled, false otherwise.
      */
     public boolean isAutonomous() {
-        return m_userInAutonomous;
+		HALControlWord controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
+        return controlWord.getAutonomous();
     }
 
     /**
@@ -329,7 +341,8 @@ public class DriverStation implements RobotState.Interface {
      * @return True if test mode should be enabled, false otherwise.
      */
     public boolean isTest() {
-    	return m_userInTest;
+		HALControlWord controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
+        return controlWord.getTest();
     }
 
     /**
@@ -349,7 +362,11 @@ public class DriverStation implements RobotState.Interface {
      * @return True if the FPGA outputs are enabled.
      */
 	public boolean isSysActive() {
-		return true;
+		ByteBuffer status = ByteBuffer.allocateDirect(4);
+		status.order(ByteOrder.LITTLE_ENDIAN);
+		boolean retVal = FRCNetworkCommunicationsLibrary.HALGetSystemActive(status.asIntBuffer());
+		HALUtil.checkStatus(status.asIntBuffer());
+		return retVal;
 	}
 	
 	/**
@@ -452,7 +469,7 @@ public class DriverStation implements RobotState.Interface {
 	 * @return Time remaining in current match period (auto or teleop) in seconds 
 	 */
     public double getMatchTime() {
-    	return mMatchTime;
+        return FRCNetworkCommunicationsLibrary.HALGetMatchTime();
     }
 	
 	/**
@@ -472,6 +489,10 @@ public class DriverStation implements RobotState.Interface {
 			}
 		}
 		System.err.println(errorString);
+		HALControlWord controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
+		if(controlWord.getDSAttached()) {
+			FRCNetworkCommunicationsLibrary.HALSetErrorData(errorString);
+		}
 	}
 
     /** Only to be used to tell the Driver Station what code you claim to be executing
@@ -479,7 +500,7 @@ public class DriverStation implements RobotState.Interface {
      * @param entering If true, starting disabled code; if false, leaving disabled code */
     public void InDisabled(boolean entering) {
         m_userInDisabled=entering;
-        mMatchTime = 0;
+        FRCNetworkCommunicationsLibrary.__setInDisabled(entering);
     }
 
     /** Only to be used to tell the Driver Station what code you claim to be executing
@@ -487,7 +508,15 @@ public class DriverStation implements RobotState.Interface {
      * @param entering If true, starting autonomous code; if false, leaving autonomous code */
     public void InAutonomous(boolean entering) {
         m_userInAutonomous=entering;
-        mMatchTime = 0;
+        FRCNetworkCommunicationsLibrary.__setInAutonomous(entering);
+    }
+
+    /** Only to be used to tell the Driver Station what code you claim to be executing
+    *   for diagnostic purposes only
+     * @param entering If true, starting teleop code; if false, leaving teleop code */
+    public void InOperatorControl(boolean entering) {
+        m_userInTeleop=entering;
+        FRCNetworkCommunicationsLibrary.__setInOperatorControl(entering);
     }
 
     /** Only to be used to tell the Driver Station what code you claim to be executing
@@ -495,5 +524,6 @@ public class DriverStation implements RobotState.Interface {
      * @param entering If true, starting test code; if false, leaving test code */
     public void InTest(boolean entering) {
         m_userInTest = entering;
+        FRCNetworkCommunicationsLibrary.__setInTest(entering);
     }
 }

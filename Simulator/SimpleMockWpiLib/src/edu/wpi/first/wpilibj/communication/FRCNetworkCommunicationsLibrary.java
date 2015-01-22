@@ -6,6 +6,7 @@ import java.nio.ShortBuffer;
 
 import com.snobot.simulator.joysticks.JoystickFactory;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.hal.JNIWrapper;
 /**
  * JNA Wrapper for library <b>FRC_NetworkCommunications</b><br>
@@ -530,20 +531,15 @@ public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
     {
 
     }
-
-	private static int NativeHALGetControlWord()
-    {
-		return 0;
-    }
+	
 	public static HALControlWord HALGetControlWord() {
-		int word = NativeHALGetControlWord();
 		return new HALControlWord(
-			(word & 1) != 0,
-			((word >> 1) & 1) != 0,
-			((word >> 2) & 1) != 0,
-			((word >> 3) & 1) != 0,
-			((word >> 4) & 1) != 0,
-			((word >> 5) & 1) != 0
+				enabled,
+				autonomous,
+				test,
+				eStop,
+				fmsAttached,
+				dsAttached
 		);
 	}
 
@@ -599,7 +595,7 @@ public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
     }
 	public static float HALGetMatchTime()
     {
-		return 0;
+		return sMatchTime;
 
     }
 	public static boolean HALGetSystemActive(IntBuffer status)
@@ -617,4 +613,44 @@ public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
     {
 		return 0;
     }
+
+
+    private static final double sWAIT_TIME = .02;
+    
+	private static boolean enabled = false;
+	private static boolean autonomous = false;
+	private static boolean test = false;
+	private static boolean eStop = false;
+	private static boolean fmsAttached = true;
+	private static boolean dsAttached  = true;
+    private static float sMatchTime = 0;
+	
+	public static void __setInDisabled(boolean entering)
+	{
+		enabled = !entering;
+        sMatchTime = 0;
+	}
+	
+	public static void __setInAutonomous(boolean entering)
+	{
+		autonomous = entering;
+        sMatchTime = 0;
+	}
+	
+	public static void __setInOperatorControl(boolean entering)
+	{
+		autonomous = !entering;
+	}
+	
+	public static void __setInTest(boolean entering)
+	{
+		test = entering;
+	}
+	public static void __hasLooped() {
+		sMatchTime += sWAIT_TIME;
+	}
+	
+	public static void __delayTime() {
+    	Timer.delay(sWAIT_TIME);
+	}
 }
