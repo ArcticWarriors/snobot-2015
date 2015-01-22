@@ -9,6 +9,9 @@ package edu.wpi.first.wpilibj;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
 
 /**
  * Implement a Robot Program framework.
@@ -53,7 +56,8 @@ public abstract class RobotBase {
 		// Resource.RestartProgram();
 
 		m_ds = DriverStation.getInstance();
-		RobotState.SetImplementation(DriverStation.getInstance());
+		NetworkTable.getTable("");  // forces network tables to initialize
+		NetworkTable.getTable("LiveWindow").getSubTable("~STATUS~").putBoolean("LW Enabled", false);
 	}
 
 	/**
@@ -138,6 +142,7 @@ public abstract class RobotBase {
 	 * your code when you are ready for the robot to be enabled.
 	 */
 	protected void prestart() {
+		FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramStarting();
 	}
 
 	public static boolean getBooleanProperty(String name, boolean defaultValue) {
@@ -153,11 +158,4 @@ public abstract class RobotBase {
 			throw new IllegalStateException(propVal);
 		}
 	}
-
-	/**
-	 * Common initialization for all robot programs.
-	 */
-	public static void initializeHardwareConfiguration(){
-	}
-
 }

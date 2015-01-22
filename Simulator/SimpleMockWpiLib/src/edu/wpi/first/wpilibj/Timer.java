@@ -1,5 +1,6 @@
 package edu.wpi.first.wpilibj;
 
+import edu.wpi.first.wpilibj.util.BaseSystemNotInitializedException;
 
 public class Timer {
 	private static StaticInterface impl;
@@ -15,7 +16,11 @@ public class Timer {
 	 * @return Robot running time in seconds.
 	 */
 	public static double getFPGATimestamp() {
-		return System.currentTimeMillis() / 1.0e3;
+		if (impl != null) {
+			return impl.getFPGATimestamp();
+		} else {
+			throw new BaseSystemNotInitializedException(StaticInterface.class, Timer.class);
+		}
 	}
 
 	/**
@@ -28,8 +33,12 @@ public class Timer {
 	 * Warning: This is not an official time (so it cannot be used to argue with referees)
 	 * @return Match time in seconds since the beginning of autonomous
 	 */
-	public static double getMatchTime() {		
-		return DriverStation.getInstance().getMatchTime();
+	public static double getMatchTime() {
+		if (impl != null) {
+			return impl.getMatchTime();
+		} else {
+			throw new BaseSystemNotInitializedException(StaticInterface.class, Timer.class);
+		}
 	}
 
 	/**
@@ -42,12 +51,11 @@ public class Timer {
 	 * @param seconds Length of time to pause
 	 */
 	public static void delay(final double seconds) {
-        try 
-        {
-            Thread.sleep((long) (seconds * 1e3));
-        } 
-        catch (final InterruptedException e) {
-        }
+		if (impl != null) {
+			impl.delay(seconds);
+		} else {
+			throw new BaseSystemNotInitializedException(StaticInterface.class, Timer.class);
+		}
 	}
 
 	public interface StaticInterface {
@@ -57,9 +65,14 @@ public class Timer {
 		Interface newTimer();
 	}
 
-	private long startTime = 0;
+	private final Interface timer;
 	
 	public Timer() {
+		if(impl != null){
+			timer = impl.newTimer();
+		} else {
+			throw new BaseSystemNotInitializedException(StaticInterface.class, Timer.class);
+		}
 	}
 
 	/**
@@ -70,11 +83,7 @@ public class Timer {
 	 * @return Current time value for this timer in seconds
 	 */
 	public double get() {
-		long currentTime = System.currentTimeMillis();
-		
-		long diff = currentTime - startTime;
-		
-		return diff/1000.0;
+		return timer.get();
 	}
 
 	/**
@@ -82,7 +91,7 @@ public class Timer {
 	 * Make the timer startTime the current time so new requests will be relative now
 	 */
 	public void reset() {
-		startTime = 0;
+		timer.reset();
 	}
 
 	/**
@@ -91,7 +100,7 @@ public class Timer {
 	 * relative to the system clock.
 	 */
 	public void start() {
-		startTime = System.currentTimeMillis();
+		timer.start();
 	}
 
 	/**
@@ -101,7 +110,7 @@ public class Timer {
 	 * looking at the system clock.
 	 */
 	public void stop() {
-		startTime = 0;
+		timer.stop();
 	}
 
 	/**
@@ -114,9 +123,9 @@ public class Timer {
 	 */
 	public boolean hasPeriodPassed(double period)
 	{
-		return get() > period;
+		return timer.hasPeriodPassed(period);
 	}
-	
+
 	public interface Interface {
 		/**
 		 * Get the current time from the timer. If the clock is running it is derived from

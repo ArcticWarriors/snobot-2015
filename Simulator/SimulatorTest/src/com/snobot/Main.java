@@ -11,8 +11,15 @@ import javax.swing.SwingUtilities;
 import com.snobot.simulator.gui.SimulatorFrame;
 import com.snobot.simulator.sim.ISimulatorContainer;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.HLUsageReporting;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Timer.Interface;
+import edu.wpi.first.wpilibj.internal.LocalHLUsageReporting;
+import edu.wpi.first.wpilibj.internal.LocalHardwareTimer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class Main {
@@ -24,7 +31,11 @@ public class Main {
     	String class_name = "com.snobot.Snobot";
     	String simulator_classname = "com.snobot.Snobot2015Simulator";
     	String simulator_config = "";
-    	
+
+		Timer.SetImplementation(new LocalHardwareTimer());
+		HLUsageReporting.SetImplementation(new LocalHLUsageReporting());
+		RobotState.SetImplementation(DriverStation.getInstance());
+		
     	try
     	{    		
     		Properties p = new Properties();
