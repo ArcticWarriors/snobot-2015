@@ -7,9 +7,16 @@
 package edu.wpi.first.wpilibj;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
 import java.util.Arrays;
 
+import edu.wpi.first.wpilibj.DriverStation_.Alliance;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
+import edu.wpi.first.wpilibj.communication.HALAllianceStationID;
+import edu.wpi.first.wpilibj.communication.HALControlWord;
+import edu.wpi.first.wpilibj.hal.HALUtil;
+import edu.wpi.first.wpilibj.hal.PowerJNI;
 
 
 /**
@@ -38,9 +45,12 @@ public class DriverStation implements RobotState.Interface {
     private short[][] m_joystickPOVs = new short[kJoystickPorts][FRCNetworkCommunicationsLibrary.kMaxJoystickPOVs];
     private HALJoystickButtons[] m_joystickButtons = new HALJoystickButtons[kJoystickPorts];
 
+    private volatile boolean m_thread_keepalive = true;
     private boolean m_userInDisabled = false;
     private boolean m_userInAutonomous = false;
+    private boolean m_userInTeleop = false;
     private boolean m_userInTest = false;
+    private boolean m_newControlData;
     
     private double mMatchTime;
     
@@ -73,12 +83,23 @@ public class DriverStation implements RobotState.Interface {
      * Kill the thread
      */
     public void release() {
+        m_thread_keepalive = false;
     }
 
     /**
      * Wait for new data from the driver station.
      */
     public void waitForData() {
+        waitForData(0);
+    }
+
+    /**
+     * Wait for new data or for timeout, which ever comes first.  If timeout is
+     * 0, wait for new data only.
+     *
+     * @param timeout The maximum time in milliseconds to wait.
+     */
+    public void waitForData(long timeout) {
     	Timer.delay(sWAIT_TIME);
     	
     	getData();
@@ -87,6 +108,7 @@ public class DriverStation implements RobotState.Interface {
     		mMatchTime += sWAIT_TIME;
     	}
     }
+    
     /**
      * Copy data from the DS task for the user.
      * If no new data exists, it will just be returned, otherwise
@@ -101,12 +123,9 @@ public class DriverStation implements RobotState.Interface {
 			ByteBuffer countBuffer = ByteBuffer.allocateDirect(1);
 			m_joystickButtons[stick].buttons = FRCNetworkCommunicationsLibrary.HALGetJoystickButtons((byte)stick, countBuffer);
 			m_joystickButtons[stick].count = countBuffer.get(0);
-			
-			System.out.println("  Updating stick" + stick + 
-					" : buttons = " + m_joystickButtons[stick].buttons + 
-					",  axis = " + Arrays.toString(m_joystickAxes[stick]));
         }
-        System.out.println();
+
+        m_newControlData = true;
     }
 
     /**
@@ -115,7 +134,11 @@ public class DriverStation implements RobotState.Interface {
      * @return The battery voltage in Volts.
      */
     public double getBatteryVoltage() {
-        return 0;
+        IntBuffer status = ByteBuffer.allocateDirect(4).asIntBuffer();
+        float voltage = PowerJNI.getVinVoltage(status);
+        HALUtil.checkStatus(status);
+
+        return voltage;
     }
 
 	/**
@@ -243,13 +266,12 @@ public class DriverStation implements RobotState.Interface {
 		
 
 		if(button > m_joystickButtons[stick].count) {
-			reportJoystickUnpluggedError("WARNING: Joystick button " + button + " on port " + stick + " not available, check if controller is plugged in... Max is " + 
-					m_joystickButtons[stick].count + "\n");
+			reportJoystickUnpluggedError("WARNING: Joystick Button " + button + " on port " + stick + " not available, check if controller is plugged in\n");
             return false;
 		}
 		if(button <= 0)
 		{
-			reportJoystickUnpluggedError("ERROR: Button indexes begin at 1 in WPILib for C++ and Java, got " + button + "\n");
+			reportJoystickUnpluggedError("ERROR: Button indexes begin at 1 in WPILib for C++ and Java\n");
 			return false;
 		}
 		return ((0x1 << (button - 1)) & m_joystickButtons[stick].buttons) != 0;
@@ -336,7 +358,11 @@ public class DriverStation implements RobotState.Interface {
      * @return True if the system is browned out
      */
 	public boolean isBrownedOut() {
-		return false;
+		ByteBuffer status = ByteBuffer.allocateDirect(4);
+		status.order(ByteOrder.LITTLE_ENDIAN);
+		boolean retVal = FRCNetworkCommunicationsLibrary.HALGetBrownedOut(status.asIntBuffer());
+		HALUtil.checkStatus(status.asIntBuffer());
+		return retVal;
 	}
 
     /**
@@ -352,7 +378,25 @@ public class DriverStation implements RobotState.Interface {
      * @return the current alliance
      */
     public Alliance getAlliance() {
-        return Alliance.Red;
+		HALAllianceStationID allianceStationID = FRCNetworkCommunicationsLibrary.HALGetAllianceStation();
+		if(allianceStationID == null) {
+			return Alliance.Invalid;
+		}
+		
+        switch (allianceStationID) {
+            case Red1:
+            case Red2:
+            case Red3:
+                return Alliance.Red;
+
+            case Blue1:
+            case Blue2:
+            case Blue3:
+                return Alliance.Blue;
+
+            default:
+                return Alliance.Invalid;
+        }
     }
 
     /**
@@ -361,7 +405,26 @@ public class DriverStation implements RobotState.Interface {
      * @return the location of the team's driver station controls: 1, 2, or 3
      */
     public int getLocation() {
-        return 1;
+		HALAllianceStationID allianceStationID = FRCNetworkCommunicationsLibrary.HALGetAllianceStation();
+		if(allianceStationID == null) {
+			return 0;
+		}
+        switch (allianceStationID) {
+            case Red1:
+            case Blue1:
+                return 1;
+
+            case Red2:
+            case Blue2:
+                return 2;
+
+            case Blue3:
+            case Red3:
+                return 3;
+
+            default:
+                return 0;
+        }
     }
 
     /**
@@ -370,11 +433,13 @@ public class DriverStation implements RobotState.Interface {
      * @return True if the robot is competing on a field being controlled by a Field Management System
      */
     public boolean isFMSAttached() {
-    	return false;
+		HALControlWord controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
+        return controlWord.getFMSAttached();
     }
 	
 	public boolean isDSAttached() {
-		return true;
+		HALControlWord controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
+		return controlWord.getDSAttached();
 	}
 
 	/**
