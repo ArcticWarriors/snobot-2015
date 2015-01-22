@@ -8,8 +8,6 @@ import javax.swing.border.TitledBorder;
 
 import com.snobot.simulator.SpeedControllerWrapper;
 
-import edu.wpi.first.wpilibj.SpeedController;
-
 
 public class SpeedControllerDisplay extends BaseWidgetDisplay<SpeedControllerWrapper>
 {

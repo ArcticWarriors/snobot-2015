@@ -6,11 +6,6 @@ import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
-import com.snobot.simulator.DigitalSourceWrapper;
-import com.snobot.simulator.SensorActuatorRegistry;
-
-import edu.wpi.first.wpilibj.DigitalSource;
-
 //
 // base class for all JNI wrappers
 //

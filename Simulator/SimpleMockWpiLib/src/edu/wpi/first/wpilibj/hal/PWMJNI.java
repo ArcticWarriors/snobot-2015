@@ -1,12 +1,10 @@
 package edu.wpi.first.wpilibj.hal;
 
-import java.nio.IntBuffer;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 import com.snobot.simulator.SensorActuatorRegistry;
 import com.snobot.simulator.SpeedControllerWrapper;
-
-import edu.wpi.first.wpilibj.SensorBase;
 
 
 public class PWMJNI extends DIOJNI {
@@ -20,7 +18,6 @@ public class PWMJNI extends DIOJNI {
 	public static boolean allocatePWMChannel(ByteBuffer digital_port_pointer, IntBuffer status)
     {
 		int port = digital_port_pointer.get(0);
-		System.out.println("Trying to allocate PWM : " + port);
 		SpeedControllerWrapper wrapper = new SpeedControllerWrapper();
 		SensorActuatorRegistry.get().register(wrapper, port);
 		return true;

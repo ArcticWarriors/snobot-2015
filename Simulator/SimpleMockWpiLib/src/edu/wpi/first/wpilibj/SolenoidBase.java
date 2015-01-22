@@ -31,12 +31,12 @@ public abstract class SolenoidBase extends SensorBase {
     public SolenoidBase(final int moduleNumber) {
         m_moduleNumber = moduleNumber;
         m_ports = new ByteBuffer[SensorBase.kSolenoidChannels];
-//        for (int i = 0; i < SensorBase.kSolenoidChannels; i++) {
-//            ByteBuffer port = SolenoidJNI.getPortWithModule((byte) moduleNumber, (byte) i);
-//            IntBuffer status = IntBuffer.allocate(1);
-//            m_ports[i] = SolenoidJNI.initializeSolenoidPort(port, status);
-//            HALUtil.checkStatus(status);
-//        }
+        for (int i = 0; i < SensorBase.kSolenoidChannels; i++) {
+            ByteBuffer port = SolenoidJNI.getPortWithModule((byte) moduleNumber, (byte) i);
+            IntBuffer status = IntBuffer.allocate(1);
+            m_ports[i] = SolenoidJNI.initializeSolenoidPort(port, status);
+            HALUtil.checkStatus(status);
+        }
     }
 
     /**
@@ -65,6 +65,7 @@ public abstract class SolenoidBase extends SensorBase {
         IntBuffer status = ByteBuffer.allocateDirect(4).asIntBuffer();
         for (int i = 0; i < SensorBase.kSolenoidChannels; i++) {
             value |= SolenoidJNI.getSolenoid(m_ports[i], status) << i;
+            System.out.println("  i = " + i + " = " + SolenoidJNI.getSolenoid(m_ports[i], status) );
         }
         HALUtil.checkStatus(status);
         return value;

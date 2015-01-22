@@ -3,12 +3,6 @@ package com.snobot.simulator;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.wpi.first.wpilibj.DigitalSource;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedController;
-
 public class SensorActuatorRegistry 
 {
 	

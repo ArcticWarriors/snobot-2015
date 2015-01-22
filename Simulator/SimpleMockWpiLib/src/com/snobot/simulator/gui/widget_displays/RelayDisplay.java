@@ -8,8 +8,6 @@ import javax.swing.border.TitledBorder;
 
 import com.snobot.simulator.RelayWrapper;
 
-import edu.wpi.first.wpilibj.Relay;
-
 
 public class RelayDisplay extends BaseWidgetDisplay<RelayWrapper>
 {

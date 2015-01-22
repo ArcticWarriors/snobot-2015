@@ -9,8 +9,6 @@ import javax.swing.border.TitledBorder;
 
 import com.snobot.simulator.DigitalSourceWrapper;
 
-import edu.wpi.first.wpilibj.DigitalSource;
-
 
 public class DigitalSourceDisplay extends BaseWidgetDisplay<DigitalSourceWrapper>
 {

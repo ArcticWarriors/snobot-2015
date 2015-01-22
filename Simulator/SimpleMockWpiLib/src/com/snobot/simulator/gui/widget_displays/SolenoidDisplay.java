@@ -8,8 +8,6 @@ import javax.swing.border.TitledBorder;
 
 import com.snobot.simulator.SolenoidWrapper;
 
-import edu.wpi.first.wpilibj.Solenoid;
-
 public class SolenoidDisplay extends BaseWidgetDisplay<SolenoidWrapper>
 {
 	public SolenoidDisplay(Map<Integer, SolenoidWrapper> aMap) {
