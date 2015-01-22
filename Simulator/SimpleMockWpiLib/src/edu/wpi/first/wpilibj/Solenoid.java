@@ -99,7 +99,6 @@ public class Solenoid extends SolenoidBase implements LiveWindowSendable {
      */
     public boolean get() {
         int value = getAll() & ( 1 << m_channel);
-        System.out.println("All solenoids : " + getAll());
         return (value != 0);
     }
 	/**

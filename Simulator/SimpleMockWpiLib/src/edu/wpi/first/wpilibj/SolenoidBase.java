@@ -65,7 +65,6 @@ public abstract class SolenoidBase extends SensorBase {
         IntBuffer status = ByteBuffer.allocateDirect(4).asIntBuffer();
         for (int i = 0; i < SensorBase.kSolenoidChannels; i++) {
             value |= SolenoidJNI.getSolenoid(m_ports[i], status) << i;
-            System.out.println("  i = " + i + " = " + SolenoidJNI.getSolenoid(m_ports[i], status) );
         }
         HALUtil.checkStatus(status);
         return value;

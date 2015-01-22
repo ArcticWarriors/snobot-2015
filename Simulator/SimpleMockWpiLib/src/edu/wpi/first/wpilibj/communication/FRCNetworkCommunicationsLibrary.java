@@ -4,6 +4,8 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
+import com.snobot.simulator.joysticks.JoystickFactory;
+
 import edu.wpi.first.wpilibj.hal.JNIWrapper;
 /**
  * JNA Wrapper for library <b>FRC_NetworkCommunications</b><br>
@@ -12,6 +14,9 @@ import edu.wpi.first.wpilibj.hal.JNIWrapper;
  * For help, please visit <a href="http://nativelibs4java.googlecode.com/">NativeLibs4Java</a> , <a href="http://rococoa.dev.java.net/">Rococoa</a>, or <a href="http://jna.dev.java.net/">JNA</a>.
  */
 public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
+
+	private static final JoystickFactory factory = new JoystickFactory();
+	
 	//public static final String JNA_LIBRARY_NAME = LibraryExtractor.getLibraryPath("FRC_NetworkCommunications", true, FRC_NetworkCommunicationsLibrary.class);
 	//public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(FRC_NetworkCommunicationsLibrary.JNA_LIBRARY_NAME, MangledFunctionMapper.DEFAULT_OPTIONS);
 	//static {
@@ -569,19 +574,26 @@ public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
 	public static int kMaxJoystickPOVs = 12;
 	public static short[] HALGetJoystickAxes(byte joystickNum)
     {
-		return new short[]{};
+		return factory.get(joystickNum).getAxisValues();
     }
 	public static short[] HALGetJoystickPOVs(byte joystickNum)
     {
-		return new short[]{};
+		return factory.get(joystickNum).getPovValues();
     }
 	public static int HALGetJoystickButtons(byte joystickNum, ByteBuffer count)
     {
-		return 0;
+		int num_buttons   = factory.get(joystickNum).getButtonCount();
+		int masked_values = factory.get(joystickNum).getButtonMask();
+		
+		count.clear();
+		count.put((byte) num_buttons);
+		
+		return masked_values;
 
     }
 	public static int HALSetJoystickOutputs(byte joystickNum, int outputs, short leftRumble, short rightRumble)
     {
+		factory.get(joystickNum).setRumble(leftRumble);
 		return 0;
 
     }
@@ -604,6 +616,5 @@ public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
 	public static int HALSetErrorData(String error)
     {
 		return 0;
-
     }
 }

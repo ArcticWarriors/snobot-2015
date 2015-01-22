@@ -106,7 +106,7 @@ public class JoystickFactory {
 		}
 	}
 
-	public IMockJoystick create(int aJoystickIndex) {
+	public IMockJoystick get(int aJoystickIndex) {
 		return mJoystickMap.get(aJoystickIndex);
 	}
 

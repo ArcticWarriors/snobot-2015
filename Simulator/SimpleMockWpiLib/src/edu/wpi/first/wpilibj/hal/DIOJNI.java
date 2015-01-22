@@ -15,7 +15,6 @@ public class DIOJNI extends JNIWrapper {
 	public static byte allocateDIO(ByteBuffer digital_port_pointer, byte input, IntBuffer status)
     {
 		int pin = digital_port_pointer.get(0);
-		System.out.println("Allocating DIO : " + pin);
 		DigitalSourceWrapper wrapper = new DigitalSourceWrapper();
 		SensorActuatorRegistry.get().register(wrapper, pin);
 		

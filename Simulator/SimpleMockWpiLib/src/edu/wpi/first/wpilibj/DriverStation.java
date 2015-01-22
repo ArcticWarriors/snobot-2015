@@ -6,6 +6,11 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
+
 
 /**
  * Provide access to the network communication data to / from the Driver Station.
@@ -17,12 +22,21 @@ public class DriverStation implements RobotState.Interface {
      */
     public static final int kJoystickPorts = 6;
 	
+	private class HALJoystickButtons {
+		public int buttons;
+		public byte count;
+	}
+	
     /**
      * The robot alliance that the robot is a part of
      */
     public enum Alliance { Red, Blue, Invalid }
 
     private static DriverStation instance = new DriverStation();
+
+    private short[][] m_joystickAxes = new short[kJoystickPorts][FRCNetworkCommunicationsLibrary.kMaxJoystickAxes];
+    private short[][] m_joystickPOVs = new short[kJoystickPorts][FRCNetworkCommunicationsLibrary.kMaxJoystickPOVs];
+    private HALJoystickButtons[] m_joystickButtons = new HALJoystickButtons[kJoystickPorts];
 
     private boolean m_userInDisabled = false;
     private boolean m_userInAutonomous = false;
@@ -48,6 +62,11 @@ public class DriverStation implements RobotState.Interface {
      * instance static member variable.
      */
     protected DriverStation() {
+
+		for(int i=0; i<kJoystickPorts; i++)
+		{
+			m_joystickButtons[i] = new HALJoystickButtons();
+		}
     }
 
     /**
@@ -62,18 +81,32 @@ public class DriverStation implements RobotState.Interface {
     public void waitForData() {
     	Timer.delay(sWAIT_TIME);
     	
+    	getData();
     	if(!isDisabled())
     	{
     		mMatchTime += sWAIT_TIME;
     	}
     }
-
     /**
      * Copy data from the DS task for the user.
      * If no new data exists, it will just be returned, otherwise
      * the data will be copied from the DS polling loop.
      */
     protected synchronized void getData() {
+
+        // Get the status of all of the joysticks
+        for(byte stick = 0; stick < kJoystickPorts; stick++) {
+            m_joystickAxes[stick] = FRCNetworkCommunicationsLibrary.HALGetJoystickAxes(stick);
+            m_joystickPOVs[stick] = FRCNetworkCommunicationsLibrary.HALGetJoystickPOVs(stick);
+			ByteBuffer countBuffer = ByteBuffer.allocateDirect(1);
+			m_joystickButtons[stick].buttons = FRCNetworkCommunicationsLibrary.HALGetJoystickButtons((byte)stick, countBuffer);
+			m_joystickButtons[stick].count = countBuffer.get(0);
+			
+			System.out.println("  Updating stick" + stick + 
+					" : buttons = " + m_joystickButtons[stick].buttons + 
+					",  axis = " + Arrays.toString(m_joystickAxes[stick]));
+        }
+        System.out.println();
     }
 
     /**
@@ -85,6 +118,159 @@ public class DriverStation implements RobotState.Interface {
         return 0;
     }
 
+	/**
+	 * Reports errors related to unplugged joysticks
+	 * Throttles the errors so that they don't overwhelm the DS
+	 */
+    private void reportJoystickUnpluggedError(String message) {
+//        double currentTime = Timer.getFPGATimestamp();
+//        if (currentTime > m_nextMessageTime) 
+        {
+            reportError(message, false);
+//            m_nextMessageTime = currentTime + JOYSTICK_UNPLUGGED_MESSAGE_INTERVAL;
+        }
+    }
+
+    /**
+     * Get the value of the axis on a joystick.
+     * This depends on the mapping of the joystick connected to the specified port.
+     *
+     * @param stick The joystick to read.
+     * @param axis The analog axis value to read from the joystick.
+     * @return The value of the axis on the joystick.
+     */
+    public synchronized double getStickAxis(int stick, int axis) {
+        if(stick < 0 || stick >= kJoystickPorts) {
+            throw new RuntimeException("Joystick index is out of range, should be 0-5");
+        }
+
+        if (axis < 0 || axis >= FRCNetworkCommunicationsLibrary.kMaxJoystickAxes) {
+            throw new RuntimeException("Joystick axis is out of range");
+        }
+
+        if (axis >= m_joystickAxes[stick].length) {
+			reportJoystickUnpluggedError("WARNING: Joystick axis " + axis + " on port " + stick + " not available, check if controller is plugged in"
+					+ "  Max is " + m_joystickAxes[stick].length + "\n");
+            return 0.0;
+        }
+
+        byte value = (byte)m_joystickAxes[stick][axis];
+
+        if(value < 0) {
+            return value / 128.0;
+        } else {
+            return value / 127.0;
+        }
+    }
+
+    /**
+    * Returns the number of axes on a given joystick port
+    *
+    * @param stick The joystick port number
+	* @return The number of axes on the indicated joystick
+    */
+    public synchronized int getStickAxisCount(int stick){
+
+        if(stick < 0 || stick >= kJoystickPorts) {
+            throw new RuntimeException("Joystick index is out of range, should be 0-5");
+        }
+        
+        return m_joystickAxes[stick].length;
+    }
+
+    /**
+     * Get the state of a POV on the joystick.
+     *
+     * @return the angle of the POV in degrees, or -1 if the POV is not pressed.
+     */
+    public synchronized int getStickPOV(int stick, int pov) {
+        if(stick < 0 || stick >= kJoystickPorts) {
+            throw new RuntimeException("Joystick index is out of range, should be 0-5");
+        }
+
+        if (pov < 0 || pov >= FRCNetworkCommunicationsLibrary.kMaxJoystickPOVs) {
+            throw new RuntimeException("Joystick POV is out of range");
+        }
+
+        if (pov >= m_joystickPOVs[stick].length) {
+			reportJoystickUnpluggedError("WARNING: Joystick POV " + pov + " on port " + stick + " not available, check if controller is plugged in\n");
+            return 0;
+        }
+
+        return m_joystickPOVs[stick][pov];
+    }
+
+    /**
+    * Returns the number of POVs on a given joystick port
+    *
+    * @param stick The joystick port number
+	* @return The number of POVs on the indicated joystick
+    */
+    public synchronized int getStickPOVCount(int stick){
+
+        if(stick < 0 || stick >= kJoystickPorts) {
+            throw new RuntimeException("Joystick index is out of range, should be 0-5");
+        }
+
+        return m_joystickPOVs[stick].length;
+    }
+
+    /**
+     * The state of the buttons on the joystick.
+     *
+     * @param stick The joystick to read.
+     * @return The state of the buttons on the joystick.
+     */
+    public synchronized int getStickButtons(final int stick) {
+        if(stick < 0 || stick >= kJoystickPorts) {
+            throw new RuntimeException("Joystick index is out of range, should be 0-3");
+        }
+
+        return m_joystickButtons[stick].buttons;
+    }
+
+    /**
+     * The state of one joystick button. Button indexes begin at 1.
+     *
+     * @param stick The joystick to read.
+     * @param button The button index, beginning at 1.
+     * @return The state of the joystick button.
+     */
+    public synchronized boolean getStickButton(final int stick, byte button) {
+        if(stick < 0 || stick >= kJoystickPorts) {
+            throw new RuntimeException("Joystick index is out of range, should be 0-3");
+        }
+		
+
+		if(button > m_joystickButtons[stick].count) {
+			reportJoystickUnpluggedError("WARNING: Joystick button " + button + " on port " + stick + " not available, check if controller is plugged in... Max is " + 
+					m_joystickButtons[stick].count + "\n");
+            return false;
+		}
+		if(button <= 0)
+		{
+			reportJoystickUnpluggedError("ERROR: Button indexes begin at 1 in WPILib for C++ and Java, got " + button + "\n");
+			return false;
+		}
+		return ((0x1 << (button - 1)) & m_joystickButtons[stick].buttons) != 0;
+    }
+
+    /**
+    * Gets the number of buttons on a joystick
+    *
+    * @param  stick The joystick port number
+	* @return The number of buttons on the indicated joystick
+    */
+    public synchronized int getStickButtonCount(int stick){
+
+        if(stick < 0 || stick >= kJoystickPorts) {
+            throw new RuntimeException("Joystick index is out of range, should be 0-5");
+        }
+        
+        
+        return m_joystickButtons[stick].count;
+    }
+    
     /**
      * Gets a value indicating whether the Driver Station requires the
      * robot to be enabled.
