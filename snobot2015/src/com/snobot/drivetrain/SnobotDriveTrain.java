@@ -1,28 +1,40 @@
 package com.snobot.drivetrain;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SpeedController;
+import com.snobot.SmartDashboardNames;
+import com.snobot.joystick.SnobotXBoxDriverJoystick;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+/**
+ * Sets up specific snobot drive train 
+ * @author Ayush/Ammar
+ *
+ */
 public class SnobotDriveTrain implements IDriveTrain{
 
 	private SpeedController mSpeedControllerLeft;
-	private SpeedController mSpeedControlleRight;		 
-	private Joystick mDriverJoystick;
+	private SpeedController mSpeedControllerRight;		 
+	private SnobotXBoxDriverJoystick mDriverJoystick;
+	private RobotDrive mRobotDrive;
 	
 	/**
 	 * Takes 2 speed controllers and joy stick arguments
-	 * @param aSpeedControllerLeft
-	 * @param aSpeedControllerRight
-	 * @param aDriverJoystick
+	 * @param aSpeedControllerLeft Argument for left Speed Controller
+	 * @param aSpeedControllerRight Argument for right Speed Controller
+	 * @param aDriverJoystick Argument Driver Joy stick
 	 */
 	public SnobotDriveTrain (
 			SpeedController aSpeedControllerLeft, 
 			SpeedController aSpeedControllerRight,				 
-			Joystick aDriverJoystick)
+			SnobotXBoxDriverJoystick aDriverJoystick)
 	{
 		mSpeedControllerLeft = aSpeedControllerLeft;
-		mSpeedControlleRight =	aSpeedControllerRight;	 
+		mSpeedControllerRight =	aSpeedControllerRight;	 
 		mDriverJoystick = aDriverJoystick;  
+		mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
 	}
 
 	@Override
@@ -39,7 +51,8 @@ public class SnobotDriveTrain implements IDriveTrain{
 
 	@Override
 	public void control() {
-		// TODO Auto-generated method stub
+		// TODO Add Tank drive
+		mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
 		
 	}
 
@@ -51,9 +64,10 @@ public class SnobotDriveTrain implements IDriveTrain{
 
 	@Override
 	public void updateSmartDashboard() {
-		// TODO Auto-generated method stub
-		
+		SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
+		SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
 	}
+	
 
 	@Override
 	public void updateLog() {

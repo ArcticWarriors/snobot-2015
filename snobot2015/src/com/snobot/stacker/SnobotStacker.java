@@ -2,26 +2,31 @@ package com.snobot.stacker;
 
 import com.snobot.operatorjoystick.IOperatorJoystick;
 
+/**
+ * Main class for snobot Stacker subsystem
+ * @author Alec/Jeffrey
+ *
+ */
 public class SnobotStacker implements IStacker{
 	
 	private IOperatorJoystick mOperatorJoystick;
 	
 	/**
 	 * Constructs a SnobotStacker object
-	 * @param aOperatorJoystick
+	 * @param aOperatorJoystick Argument of operator joy stick
 	 */
 	public SnobotStacker(IOperatorJoystick aOperatorJoystick){
 	    mOperatorJoystick=aOperatorJoystick;
 	}
 
 	@Override
-	public void up() {
+	public void moveStackerUp() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void down() {
+	public void moveStackerDown() {
 		// TODO Auto-generated method stub
 		
 	}

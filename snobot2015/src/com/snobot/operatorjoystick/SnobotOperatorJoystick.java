@@ -14,20 +14,14 @@ public class SnobotOperatorJoystick implements IOperatorJoystick{
 	
 	/**
 	 * Constructs a SnobotOperatorJoystick object
-	 * @param aJoystick
+	 * @param aOperatorJoystick Argument for operator Joystick
 	 */
-	public SnobotOperatorJoystick(Joystick aJoystick){
-	    mJoystick = aJoystick;
+	public SnobotOperatorJoystick(Joystick aOperatorJoystick){
+	    mJoystick = aOperatorJoystick;
 	}
 
 	@Override
 	public boolean getStackerUp() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getStackerDown() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -39,19 +33,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick{
 	}
 
 	@Override
-	public boolean getClawDown() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean getClawOpen() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getClawClosed() {
 		// TODO Auto-generated method stub
 		return false;
 	}
