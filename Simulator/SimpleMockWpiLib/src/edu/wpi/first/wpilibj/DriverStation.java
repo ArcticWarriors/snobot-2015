@@ -125,7 +125,6 @@ public class DriverStation implements RobotState.Interface {
                 MotorSafetyHelper.checkMotors();
                 safetyCounter = 0;
             }
-
             if (m_userInDisabled) {
                 FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramDisabled();
             }
@@ -138,9 +137,6 @@ public class DriverStation implements RobotState.Interface {
             if (m_userInTest) {
             	FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTest();
             }
-            
-//            System.out.println(" id : " + m_userInDisabled + ", " + m_userInAutonomous + ", " + m_userInTeleop + ", " + m_userInTest);
-//        	FRCNetworkCommunicationsLibrary.PrintState();
         }
     }
 
@@ -162,7 +158,6 @@ public class DriverStation implements RobotState.Interface {
             try {
                 m_dataSem.wait(timeout);
             } catch (InterruptedException ex) {
-            	System.out.println("Interrupted");
             }
         }
     }
@@ -179,7 +174,7 @@ public class DriverStation implements RobotState.Interface {
             m_joystickPOVs[stick] = FRCNetworkCommunicationsLibrary.HALGetJoystickPOVs(stick);
 			ByteBuffer countBuffer = ByteBuffer.allocateDirect(1);
 			m_joystickButtons[stick].buttons = FRCNetworkCommunicationsLibrary.HALGetJoystickButtons((byte)stick, countBuffer);
-			m_joystickButtons[stick].count = countBuffer.get(0);
+			m_joystickButtons[stick].count = countBuffer.get();
         }
 
         m_newControlData = true;

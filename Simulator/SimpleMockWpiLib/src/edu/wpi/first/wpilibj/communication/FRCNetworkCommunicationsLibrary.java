@@ -578,6 +578,7 @@ public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
 		
 		count.clear();
 		count.put((byte) num_buttons);
+		count.position(0);
 		
 		return masked_values;
 
