@@ -3,6 +3,7 @@ package org.usfirst.frc.team174.robot;
 import org.usfirst.frc.team174.robot.DriverJoystick_Flightsticks.DriveMode;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
 
 public class DriverJoystick_Xbox implements DriverJoystick{
 	

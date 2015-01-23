@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.util.BoundaryException;
 public class PIDController implements LiveWindowSendable, Controller {
 
     public static final double kDefaultPeriod = .05;
+    private static int instances = 0;
     private double m_P;     // factor for "proportional" control
     private double m_I;     // factor for "integral" control
     private double m_D;     // factor for "derivative" control
@@ -43,6 +44,9 @@ public class PIDController implements LiveWindowSendable, Controller {
     PIDSource m_pidInput;
     PIDOutput m_pidOutput;
     java.util.Timer m_controlLoop;
+    private boolean m_freed = false;
+    private boolean m_usingPercentTolerance;
+
     /**
      * Tolerance is the type of tolerance used to specify if the PID controller is on target.
      * The various implementations of this class such as PercentageTolerance and AbsoluteTolerance
@@ -140,6 +144,8 @@ public class PIDController implements LiveWindowSendable, Controller {
 
         m_controlLoop.schedule(new PIDTask(this), 0L, (long) (m_period * 1000));
 
+        instances++;
+        HLUsageReporting.reportPIDController(instances);
         m_tolerance = new NullTolerance();
     }
 
@@ -192,6 +198,7 @@ public class PIDController implements LiveWindowSendable, Controller {
     public void free() {
       m_controlLoop.cancel();
       synchronized (this) {
+        m_freed = true;
         m_pidOutput = null;
         m_pidInput = null;
         m_controlLoop = null;
@@ -539,22 +546,22 @@ public class PIDController implements LiveWindowSendable, Controller {
     private final ITableListener listener = new ITableListener() {
         @Override
     public void valueChanged(ITable table, String key, Object value, boolean isNew) {
-//            if (key.equals("p") || key.equals("i") || key.equals("d") || key.equals("f")) {
-//                if (getP() != table.getNumber("p", 0.0) || getI() != table.getNumber("i", 0.0) ||
-//                        getD() != table.getNumber("d", 0.0) || getF() != table.getNumber("f", 0.0))
-//                    setPID(table.getNumber("p", 0.0), table.getNumber("i", 0.0), table.getNumber("d", 0.0), table.getNumber("f", 0.0));
-//            } else if (key.equals("setpoint")) {
-//                if (getSetpoint() != ((Double) value).doubleValue())
-//                    setSetpoint(((Double) value).doubleValue());
-//            } else if (key.equals("enabled")) {
-//                if (isEnable() != ((Boolean) value).booleanValue()) {
-//                    if (((Boolean) value).booleanValue()) {
-//                        enable();
-//                    } else {
-//                        disable();
-//                    }
-//                }
-//            }
+            if (key.equals("p") || key.equals("i") || key.equals("d") || key.equals("f")) {
+                if (getP() != table.getNumber("p", 0.0) || getI() != table.getNumber("i", 0.0) ||
+                        getD() != table.getNumber("d", 0.0) || getF() != table.getNumber("f", 0.0))
+                    setPID(table.getNumber("p", 0.0), table.getNumber("i", 0.0), table.getNumber("d", 0.0), table.getNumber("f", 0.0));
+            } else if (key.equals("setpoint")) {
+                if (getSetpoint() != ((Double) value).doubleValue())
+                    setSetpoint(((Double) value).doubleValue());
+            } else if (key.equals("enabled")) {
+                if (isEnable() != ((Boolean) value).booleanValue()) {
+                    if (((Boolean) value).booleanValue()) {
+                        enable();
+                    } else {
+                        disable();
+                    }
+                }
+            }
         }
     };
     private ITable table;

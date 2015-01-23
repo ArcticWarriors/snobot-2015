@@ -4,6 +4,10 @@
  */
 package edu.wpi.first.wpilibj.livewindow;
 
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.tables.ITable;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -46,10 +50,42 @@ class LiveWindowComponent {
  */
 public class LiveWindow {
 
-    private static Vector<LiveWindowSendable> sensors = new Vector<LiveWindowSendable>();
+    private static Vector sensors = new Vector();
 //    private static Vector actuators = new Vector();
-    private static Hashtable<LiveWindowSendable, LiveWindowComponent> components = new Hashtable<LiveWindowSendable, LiveWindowComponent>();
+    private static Hashtable components = new Hashtable();
+    private static ITable livewindowTable;
+    private static ITable statusTable;
     private static boolean liveWindowEnabled = false;
+    private static boolean firstTime = true;
+
+    /**
+     * Initialize all the LiveWindow elements the first time we enter LiveWindow
+     * mode. By holding off creating the NetworkTable entries, it allows them to
+     * be redefined before the first time in LiveWindow mode. This allows
+     * default sensor and actuator values to be created that are replaced with
+     * the custom names from users calling addActuator and addSensor.
+     */
+    private static void initializeLiveWindowComponents() {
+        System.out.println("Initializing the components first time");
+        livewindowTable = NetworkTable.getTable("LiveWindow");
+        statusTable = livewindowTable.getSubTable("~STATUS~");
+        for (Enumeration e = components.keys(); e.hasMoreElements();) {
+            LiveWindowSendable component = (LiveWindowSendable) e.nextElement();
+            LiveWindowComponent c = (LiveWindowComponent) components.get(component);
+            String subsystem = c.getSubsystem();
+            String name = c.getName();
+            System.out.println("Initializing table for '" + subsystem + "' '" + name + "'");
+            livewindowTable.getSubTable(subsystem).putString("~TYPE~", "LW Subsystem");
+            ITable table = livewindowTable.getSubTable(subsystem).getSubTable(name);
+            table.putString("~TYPE~", component.getSmartDashboardType());
+            table.putString("Name", name);
+            table.putString("Subsystem", subsystem);
+            component.initTable(table);
+            if (c.isSensor()) {
+                sensors.addElement(component);
+            }
+        }
+    }
 
     /**
      * Set the enabled state of LiveWindow. If it's being enabled, turn off the
@@ -65,10 +101,26 @@ public class LiveWindow {
         if (liveWindowEnabled != enabled) {
             if (enabled) {
                 System.out.println("Starting live window mode.");
+                if (firstTime) {
+                    initializeLiveWindowComponents();
+                    firstTime = false;
+                }
+                Scheduler.getInstance().disable();
+                Scheduler.getInstance().removeAll();
+                for (Enumeration e = components.keys(); e.hasMoreElements();) {
+                    LiveWindowSendable component = (LiveWindowSendable) e.nextElement();
+                    component.startLiveWindowMode();
+                }
             } else {
                 System.out.println("stopping live window mode.");
+                for (Enumeration e = components.keys(); e.hasMoreElements();) {
+                    LiveWindowSendable component = (LiveWindowSendable) e.nextElement();
+                    component.stopLiveWindowMode();
+                }
+                Scheduler.getInstance().enable();
             }
             liveWindowEnabled = enabled;
+            statusTable.putBoolean("LW Enabled", enabled);
         }
     }
 

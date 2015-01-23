@@ -9,19 +9,18 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import com.snobot.simulator.DigitalSourceWrapper;
 import com.snobot.simulator.gui.widget_displays.BaseWidgetDisplay;
 
-import edu.wpi.first.wpilibj.DigitalSource;
-
-public class DigitalSourceGraphicDisplay extends BaseWidgetDisplay<DigitalSource>
+public class DigitalSourceGraphicDisplay extends BaseWidgetDisplay<DigitalSourceWrapper>
 {
-	private class DigitalSourceDisplay extends JPanel
+	private class DigitalSourceWrapperDisplay extends JPanel
 	{
 		private static final int sDOT_SIZE = 30;
 		
 		private boolean mState;
 		
-		public DigitalSourceDisplay()
+		public DigitalSourceWrapperDisplay()
 		{
 			setPreferredSize(new Dimension(sDOT_SIZE, sDOT_SIZE));
 		}
@@ -40,21 +39,21 @@ public class DigitalSourceGraphicDisplay extends BaseWidgetDisplay<DigitalSource
 		}
 	}
 	
-	public DigitalSourceGraphicDisplay(Map<Integer, DigitalSource> aMap) {
+	public DigitalSourceGraphicDisplay(Map<Integer, DigitalSourceWrapper> aMap) {
 		super(aMap);
 		setBorder(new TitledBorder("Digital IO"));
 	}
 
-	public void update(Map<Integer, DigitalSource> aMap)
+	public void update(Map<Integer, DigitalSourceWrapper> aMap)
 	{
-		for(Entry<Integer, DigitalSource> pair : aMap.entrySet())
+		for(Entry<Integer, DigitalSourceWrapper> pair : aMap.entrySet())
 		{
-			((DigitalSourceDisplay)mWidgetMap.get(pair.getKey())).updateDisplay(pair.getValue().get());
+			((DigitalSourceWrapperDisplay)mWidgetMap.get(pair.getKey())).updateDisplay(pair.getValue().get());
 		}
 	}
 
 	@Override
-	protected DigitalSourceDisplay createWidget(Entry<Integer, DigitalSource> pair) {
-		return new DigitalSourceDisplay();
+	protected DigitalSourceWrapperDisplay createWidget(Entry<Integer, DigitalSourceWrapper> pair) {
+		return new DigitalSourceWrapperDisplay();
 	}
 }

@@ -9,12 +9,13 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import com.snobot.simulator.RelayWrapper;
 import com.snobot.simulator.gui.widget_displays.BaseWidgetDisplay;
 
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Relay.Value;
 
-public class RelayGraphicDisplay extends BaseWidgetDisplay<Relay>
+public class RelayGraphicDisplay extends BaseWidgetDisplay<RelayWrapper>
 {
 	private class RelayDisplay extends JPanel
 	{
@@ -62,21 +63,21 @@ public class RelayGraphicDisplay extends BaseWidgetDisplay<Relay>
 		}
 	}
 	
-	public RelayGraphicDisplay(Map<Integer, Relay> aMap) {
+	public RelayGraphicDisplay(Map<Integer, RelayWrapper> aMap) {
 		super(aMap);
 		setBorder(new TitledBorder("Relay"));
 	}
 
-	public void update(Map<Integer, Relay> aMap)
+	public void update(Map<Integer, RelayWrapper> aMap)
 	{
-		for(Entry<Integer, Relay> pair : aMap.entrySet())
+		for(Entry<Integer, RelayWrapper> pair : aMap.entrySet())
 		{
 			((RelayDisplay)mWidgetMap.get(pair.getKey())).updateDisplay(pair.getValue().get());
 		}
 	}
 
 	@Override
-	protected RelayDisplay createWidget(Entry<Integer, Relay> pair) {
+	protected RelayDisplay createWidget(Entry<Integer, RelayWrapper> pair) {
 		return new RelayDisplay();
 	}
 }

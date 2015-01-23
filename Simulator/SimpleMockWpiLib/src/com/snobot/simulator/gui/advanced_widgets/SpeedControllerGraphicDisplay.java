@@ -8,12 +8,13 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import com.snobot.simulator.SpeedControllerWrapper;
 import com.snobot.simulator.gui.Util;
 import com.snobot.simulator.gui.widget_displays.BaseWidgetDisplay;
 
 import edu.wpi.first.wpilibj.SpeedController;
 
-public class SpeedControllerGraphicDisplay extends BaseWidgetDisplay<SpeedController>
+public class SpeedControllerGraphicDisplay extends BaseWidgetDisplay<SpeedControllerWrapper>
 {
 	private class MotorDisplay extends JPanel
 	{
@@ -40,21 +41,21 @@ public class SpeedControllerGraphicDisplay extends BaseWidgetDisplay<SpeedContro
 		}
 	}
 	
-	public SpeedControllerGraphicDisplay(Map<Integer, SpeedController> aMap) {
+	public SpeedControllerGraphicDisplay(Map<Integer, SpeedControllerWrapper> aMap) {
 		super(aMap);
 		setBorder(new TitledBorder("Speed Controllers"));
 	}
 
-	public void update(Map<Integer, SpeedController> aMap)
+	public void update(Map<Integer, SpeedControllerWrapper> aMap)
 	{
-		for(Entry<Integer, SpeedController> pair : aMap.entrySet())
+		for(Entry<Integer, SpeedControllerWrapper> pair : aMap.entrySet())
 		{
 			((MotorDisplay)mWidgetMap.get(pair.getKey())).updateDisplay(pair.getValue().get());
 		}
 	}
 
 	@Override
-	protected MotorDisplay createWidget(Entry<Integer, SpeedController> pair) {
+	protected MotorDisplay createWidget(Entry<Integer, SpeedControllerWrapper> pair) {
 		return new MotorDisplay();
 	}
 }
