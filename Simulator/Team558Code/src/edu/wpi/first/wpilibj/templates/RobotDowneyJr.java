@@ -47,7 +47,7 @@ public class RobotDowneyJr extends IterativeRobot {
     	
     	chooser = new SendableChooser();
     	chooser.addDefault("Alans Mode", new ShootandDriveForward());
-    	chooser.addDefault("Drive Only", new DriveCommand());
+    	chooser.addObject("Drive Only", new DriveCommand());
         SmartDashboard.putData("Auto Modes", chooser);
         
         // Initialize all subsystems
@@ -104,7 +104,7 @@ public class RobotDowneyJr extends IterativeRobot {
     
     public void updateSmartDashboard()
     {
-
+    	
 //        CommandBase.drivetrain
         CommandBase.intake.updateSmartDashboard();
         CommandBase.shooter.updateSmartDashboard();

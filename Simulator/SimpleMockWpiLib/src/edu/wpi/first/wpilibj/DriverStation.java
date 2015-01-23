@@ -9,7 +9,6 @@ package edu.wpi.first.wpilibj;
 import java.nio.IntBuffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
 import edu.wpi.first.wpilibj.communication.HALControlWord;
@@ -49,22 +48,9 @@ public class DriverStation implements RobotState.Interface {
         }
 
         public void run() {
-//            m_ds.task();
+            m_ds.task();
         }
     } /* DriverStationTask */
-    
-
-	protected ArrayList<LoopListener> mListeners = new ArrayList<>();
-	
-    public interface LoopListener
-    {
-    	public void looped();
-    }
-    
-    public void addLoopListener(LoopListener aListener)
-    {
-    	mListeners.add(aListener);
-    }
 
     private static DriverStation instance = new DriverStation();
 
@@ -72,6 +58,7 @@ public class DriverStation implements RobotState.Interface {
     private short[][] m_joystickPOVs = new short[kJoystickPorts][FRCNetworkCommunicationsLibrary.kMaxJoystickPOVs];
     private HALJoystickButtons[] m_joystickButtons = new HALJoystickButtons[kJoystickPorts];
 
+    private Thread m_thread;
     private final Object m_dataSem;
     private volatile boolean m_thread_keepalive = true;
     private boolean m_userInDisabled = false;
@@ -79,6 +66,8 @@ public class DriverStation implements RobotState.Interface {
     private boolean m_userInTeleop = false;
     private boolean m_userInTest = false;
     private boolean m_newControlData;
+    private final ByteBuffer m_packetDataAvailableMutex;
+    private final ByteBuffer m_packetDataAvailableSem;
 
     /**
      * Gets an instance of the DriverStation
@@ -101,6 +90,15 @@ public class DriverStation implements RobotState.Interface {
 		{
 			m_joystickButtons[i] = new HALJoystickButtons();
 		}
+
+        m_packetDataAvailableMutex = HALUtil.initializeMutexNormal();
+        m_packetDataAvailableSem = HALUtil.initializeMultiWait();
+        FRCNetworkCommunicationsLibrary.setNewDataSem(m_packetDataAvailableSem);
+
+        m_thread = new Thread(new DriverStationTask(this), "FRCDriverStation");
+        m_thread.setPriority((Thread.NORM_PRIORITY + Thread.MAX_PRIORITY) / 2);
+
+        m_thread.start();
     }
 
     /**
@@ -116,7 +114,7 @@ public class DriverStation implements RobotState.Interface {
     private void task() {
         int safetyCounter = 0;
         while (m_thread_keepalive) {
-//        	HALUtil.takeMultiWait(m_packetDataAvailableSem, m_packetDataAvailableMutex, 0);
+        	HALUtil.takeMultiWait(m_packetDataAvailableSem, m_packetDataAvailableMutex, 0);
         	synchronized (this) {
                 getData();
             }
@@ -127,6 +125,7 @@ public class DriverStation implements RobotState.Interface {
                 MotorSafetyHelper.checkMotors();
                 safetyCounter = 0;
             }
+
             if (m_userInDisabled) {
                 FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramDisabled();
             }
@@ -139,6 +138,9 @@ public class DriverStation implements RobotState.Interface {
             if (m_userInTest) {
             	FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTest();
             }
+            
+//            System.out.println(" id : " + m_userInDisabled + ", " + m_userInAutonomous + ", " + m_userInTeleop + ", " + m_userInTest);
+//        	FRCNetworkCommunicationsLibrary.PrintState();
         }
     }
 
@@ -156,19 +158,13 @@ public class DriverStation implements RobotState.Interface {
      * @param timeout The maximum time in milliseconds to wait.
      */
     public void waitForData(long timeout) {
-
-        for(LoopListener listener : mListeners)
-        {
-        	listener.looped();
+        synchronized (m_dataSem) {
+            try {
+                m_dataSem.wait(timeout);
+            } catch (InterruptedException ex) {
+            	System.out.println("Interrupted");
+            }
         }
-        
-    	FRCNetworkCommunicationsLibrary.__delayTime();
-    	
-    	getData();
-    	if(!isDisabled())
-    	{
-    		FRCNetworkCommunicationsLibrary.__hasLooped();
-    	}
     }
     /**
      * Copy data from the DS task for the user.
@@ -436,7 +432,9 @@ public class DriverStation implements RobotState.Interface {
      * @return True if the control data has been updated since the last call.
      */
     public synchronized boolean isNewControlData() {
-		return true;
+        boolean result = m_newControlData;
+        m_newControlData = false;
+        return result;
     }
 
     /**
@@ -549,7 +547,6 @@ public class DriverStation implements RobotState.Interface {
      * @param entering If true, starting disabled code; if false, leaving disabled code */
     public void InDisabled(boolean entering) {
         m_userInDisabled=entering;
-        FRCNetworkCommunicationsLibrary.__setInDisabled(entering);
     }
 
     /** Only to be used to tell the Driver Station what code you claim to be executing
@@ -557,7 +554,6 @@ public class DriverStation implements RobotState.Interface {
      * @param entering If true, starting autonomous code; if false, leaving autonomous code */
     public void InAutonomous(boolean entering) {
         m_userInAutonomous=entering;
-        FRCNetworkCommunicationsLibrary.__setInAutonomous(entering);
     }
 
     /** Only to be used to tell the Driver Station what code you claim to be executing
@@ -565,7 +561,6 @@ public class DriverStation implements RobotState.Interface {
      * @param entering If true, starting teleop code; if false, leaving teleop code */
     public void InOperatorControl(boolean entering) {
         m_userInTeleop=entering;
-        FRCNetworkCommunicationsLibrary.__setInOperatorControl(entering);
     }
 
     /** Only to be used to tell the Driver Station what code you claim to be executing
@@ -573,6 +568,5 @@ public class DriverStation implements RobotState.Interface {
      * @param entering If true, starting test code; if false, leaving test code */
     public void InTest(boolean entering) {
         m_userInTest = entering;
-        FRCNetworkCommunicationsLibrary.__setInTest(entering);
     }
 }

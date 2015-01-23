@@ -20,6 +20,11 @@ public class LinearEncoderCalculator implements ISimulatorUpdater
 		mSpeedController = aSpeedController;
 		mEncoder = aEncoder;
 		mKp = aKp;
+		
+		if(mSpeedController == null || mEncoder == null)
+		{
+			System.err.println("Warning, you have given a null paramter, simulation is not possible");
+		}
 	}
 
 	public void setSimulatorParams(double aKp) {
@@ -31,7 +36,7 @@ public class LinearEncoderCalculator implements ISimulatorUpdater
 		if(mEncoder != null && mSpeedController != null)
 		{
 			double distance_travelled = mSpeedController.get() * mKp;
-			mEncoder.__addDistanceDelta(distance_travelled);
+			mEncoder.addDistanceDelta(distance_travelled);
 		}
 		
 	}

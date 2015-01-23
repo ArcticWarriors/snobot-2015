@@ -6,7 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import com.snobot.simulator.RobotStateSingleton;
+
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -33,25 +34,25 @@ public class SimulatorFrame extends JFrame
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				DriverStation.getInstance().InDisabled(!mEnablePanel.isEnabled());
-				DriverStation.getInstance().InAutonomous(mEnablePanel.isAuton());
+				RobotStateSingleton.get().setDisabled(!mEnablePanel.isEnabled());
+				RobotStateSingleton.get().setAutonomous(mEnablePanel.isAuton());
 			}
 		});
 
 		add(mBasicPanel);
 		add(mEnablePanel, BorderLayout.NORTH);
 
-		DriverStation.getInstance().InDisabled(true);
-		DriverStation.getInstance().InAutonomous(false);
+		RobotStateSingleton.get().setDisabled(false);
+		RobotStateSingleton.get().setAutonomous(false);
 		
 		mEnablePanel.setRobotEnabled(true);
-		DriverStation.getInstance().InDisabled(false);
+		RobotStateSingleton.get().setDisabled(false);
 	}
 	
 	public void start(final RobotBase aRobot)
 	{
 		final Scheduler scheduler = Scheduler.getInstance();
-		DriverStation.getInstance().addLoopListener(new DriverStation.LoopListener() {
+		RobotStateSingleton.get().addLoopListener(new RobotStateSingleton.LoopListener() {
 			
 			@Override
 			public void looped() {

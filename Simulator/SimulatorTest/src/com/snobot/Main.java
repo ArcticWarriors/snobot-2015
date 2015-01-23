@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
+import com.snobot.simulator.RobotStateSingleton;
 import com.snobot.simulator.gui.SimulatorFrame;
 import com.snobot.simulator.sim.ISimulatorContainer;
 
@@ -76,8 +77,16 @@ public class Main {
     	
     	if(simulator_classname != null && !simulator_classname.isEmpty())
     	{
-    		ISimulatorContainer simulator = (ISimulatorContainer) Class.forName(simulator_classname).newInstance();
-    		simulator.setRobot(simulated_robot);
+    		final ISimulatorContainer simulator = (ISimulatorContainer) Class.forName(simulator_classname).newInstance();
+
+        	RobotStateSingleton.get().addLoopListener(new RobotStateSingleton.LoopListener() {
+    			
+    			@Override
+    			public void looped() {
+    				simulator.looped();
+    			}
+    		});
+    		
     		simulator.setConfigFile(simulator_config);
     	}
 

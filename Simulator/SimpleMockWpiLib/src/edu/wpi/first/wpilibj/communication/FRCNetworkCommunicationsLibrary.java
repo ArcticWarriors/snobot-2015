@@ -3,10 +3,9 @@ package edu.wpi.first.wpilibj.communication;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
-
+import com.snobot.simulator.RobotStateSingleton;
 import com.snobot.simulator.joysticks.JoystickFactory;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.hal.JNIWrapper;
 /**
  * JNA Wrapper for library <b>FRC_NetworkCommunications</b><br>
@@ -513,34 +512,30 @@ public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
     }
 	public static void FRCNetworkCommunicationObserveUserProgramDisabled()
     {
-
+		robotState.setDisabled(true);
     }
 	public static void FRCNetworkCommunicationObserveUserProgramAutonomous()
     {
-
+		robotState.setAutonomous(true);
     }
 	public static void FRCNetworkCommunicationObserveUserProgramTeleop()
     {
-
+		robotState.setAutonomous(false);
     }
 	public static void FRCNetworkCommunicationObserveUserProgramTest()
     {
-
+		robotState.setTest(true);
     }
 	public static void FRCNetworkCommunicationReserve()
     {
 
     }
 	
+	private static final RobotStateSingleton robotState = RobotStateSingleton.get();
+	
+	
 	public static HALControlWord HALGetControlWord() {
-		return new HALControlWord(
-				enabled,
-				autonomous,
-				test,
-				eStop,
-				fmsAttached,
-				dsAttached
-		);
+		return robotState.getControlWord();
 	}
 
 	private static int NativeHALGetAllianceStation()
@@ -595,7 +590,7 @@ public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
     }
 	public static float HALGetMatchTime()
     {
-		return sMatchTime;
+		return robotState.getMatchTime();
 
     }
 	public static boolean HALGetSystemActive(IntBuffer status)
@@ -613,44 +608,4 @@ public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
     {
 		return 0;
     }
-
-
-    private static final double sWAIT_TIME = .02;
-    
-	private static boolean enabled = false;
-	private static boolean autonomous = false;
-	private static boolean test = false;
-	private static boolean eStop = false;
-	private static boolean fmsAttached = true;
-	private static boolean dsAttached  = true;
-    private static float sMatchTime = 0;
-	
-	public static void __setInDisabled(boolean entering)
-	{
-		enabled = !entering;
-        sMatchTime = 0;
-	}
-	
-	public static void __setInAutonomous(boolean entering)
-	{
-		autonomous = entering;
-        sMatchTime = 0;
-	}
-	
-	public static void __setInOperatorControl(boolean entering)
-	{
-		autonomous = !entering;
-	}
-	
-	public static void __setInTest(boolean entering)
-	{
-		test = entering;
-	}
-	public static void __hasLooped() {
-		sMatchTime += sWAIT_TIME;
-	}
-	
-	public static void __delayTime() {
-    	Timer.delay(sWAIT_TIME);
-	}
 }
