@@ -13,6 +13,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 
 	private Joystick mLeftFlightStick;
 	private Joystick mRightFlightStick;
+	private boolean mDriveMode;
 	
 	/**
 	 * Constructor for Flight Stick 
@@ -71,31 +72,41 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	@Override
 	public double getLeftY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return mLeftFlightStick.getRawAxis(1);
 	}
-
+	
 	@Override
 	public double getRightY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return mRightFlightStick.getRawAxis(1);
 	}
 
 	@Override
 	public double getSpeed() {
 		// TODO Auto-generated method stub
-		return 0;
+		return mLeftFlightStick.getRawAxis(1);
 	}
 
 	@Override
 	public double getRotate() {
 		// TODO Auto-generated method stub
-		return 0;
+		return mRightFlightStick.getRawAxis(0);
 	}
+	
 	
 	public boolean getDriveMode()
 	{
 		// TODO Auto-generated method stub
 		
-		return true;
+		if ( mRightFlightStick.getRawButton(4))
+		{
+			mDriveMode = true;
+		}
+		else if (mRightFlightStick.getRawButton(5))
+		{
+			mDriveMode = false;
+		}
+		
+		return mDriveMode;
 	}
 }
