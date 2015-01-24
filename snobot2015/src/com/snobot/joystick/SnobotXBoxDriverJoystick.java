@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.Joystick;
 public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	
 	private Joystick mXBoxStick;
+	private boolean mDriveMode;
+	
 	/**
 	 * Constructor for xBox Joy stick
 	 * @param aXBoxStick Argument for xBox Stick
@@ -85,9 +87,20 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 		// TODO Auto-generated method stub
 		return mXBoxStick.getRawAxis(4);
 	}
+	
 	public boolean getDriveMode()
 	{
 		// TODO Auto-generated method stub
-		return mXBoxStick.getRawButton(1);
+		if ( mXBoxStick.getRawButton(1))
+		{
+			mDriveMode = true;
+		}
+		else if (mXBoxStick.getRawButton(2))
+		{
+			mDriveMode = false;
+		}
+		
+		return mDriveMode;
+		
 	}
 }
