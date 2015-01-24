@@ -1,51 +1,89 @@
 package com.snobot.stacker;
 
+import com.snobot.ConfigurationNames;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
+
 /**
- * Main class for snobot Stacker subsystem
+ * Main class for Snobot Stacker subsystem
  * @author Alec/Jeffrey
  *
  */
 public class SnobotStacker implements IStacker{
-	
+
+	private SpeedController mStackerMotor;
 	private IOperatorJoystick mOperatorJoystick;
+	private double mDefaultSpeed;
+	private boolean mUpperLimitSwitchState;
+	private boolean mLowerLimitSwitchState;
+	DigitalInput mUpperLimitSwitch;
+	DigitalInput mLowerLimitSwitch;
 	
 	/**
 	 * Constructs a SnobotStacker object
 	 * @param aOperatorJoystick Argument of operator joy stick
 	 */
-	public SnobotStacker(IOperatorJoystick aOperatorJoystick){
-	    mOperatorJoystick=aOperatorJoystick;
+	public SnobotStacker(IOperatorJoystick aOperatorJoystick, SpeedController aStackerMotor,
+			DigitalInput aUpperLimitSwitch, DigitalInput aLowerLimitSwitch){
+	    mOperatorJoystick= aOperatorJoystick;
+	    mStackerMotor = aStackerMotor; 
+	    mDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
+	    mUpperLimitSwitch = aUpperLimitSwitch;
+	    mLowerLimitSwitch = aLowerLimitSwitch;
 	}
 
 	@Override
 	public void moveStackerUp() {
-		// TODO Auto-generated method stub
+	
+		if (mUpperLimitSwitchState == true){
+			stop();
+		}
+		else {
+			mStackerMotor.set(mDefaultSpeed);
+		}
+		/**
+		 * Assuming Physical Limit Switch will stop stacker at limit
+		 */
 		
 	}
 
 	@Override
 	public void moveStackerDown() {
-		// TODO Auto-generated method stub
-		
+	
+		if (mLowerLimitSwitchState == true){
+			stop ();
+		}
+		else {
+			mStackerMotor.set(mDefaultSpeed);
+		}
+		/**
+		 * Assuming Physical Limit Switch will stop stacker at limit
+		 */
 	}
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		
+		stop ();
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		mUpperLimitSwitchState = mUpperLimitSwitch.get();
+		mLowerLimitSwitchState = mLowerLimitSwitch.get();
 		
 	}
 
 	@Override
 	public void control() {
-		// TODO Auto-generated method stub
+		 if (mOperatorJoystick.getStackerUp()){
+			 moveStackerUp();
+		 }
+		 else {
+			 moveStackerDown();
+		 }
 		
 	}
 
@@ -57,8 +95,7 @@ public class SnobotStacker implements IStacker{
 
 	@Override
 	public void updateSmartDashboard() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 
 	@Override
@@ -69,7 +106,7 @@ public class SnobotStacker implements IStacker{
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		mStackerMotor.set(0);
 		
 	}
 
