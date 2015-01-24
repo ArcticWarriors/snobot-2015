@@ -1,9 +1,18 @@
 
 package com.snobot;
 
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Vector;
+
 import com.snobot.claw.SnobotClaw;
 import com.snobot.drivetrain.SnobotDriveTrain;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
+import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.stacker.SnobotStacker;
 
@@ -22,7 +31,6 @@ import edu.wpi.first.wpilibj.Talon;
 public class Snobot extends IterativeRobot {
 	
 	//IO
-	private Joystick mDriverJoystick;
 	private Joystick mRawOperatorJoystick;
 	private Joystick mRawDriverJoystick;
 	private Joystick mRawDriverJoystickPrimary;
@@ -33,15 +41,23 @@ public class Snobot extends IterativeRobot {
 	private SnobotOperatorJoystick mOperatorJoystick;
 	private SnobotXBoxDriverJoystick mXBoxDriverJoystick;
 	
+	public String logHeader = "";
+	
 	//Modules
 	private SnobotStacker mStacker;
 	private SnobotClaw mClaw;
 	private SnobotDriveTrain mDriveTrain;
+	private Logger mLogger;
 	
 	//Motors
 	private Talon mDriveLeft1;
 	private Talon mDriveRight1;
 	private Talon mStackerMotor;
+	
+	
+	//Vector of iSubsystems for group actions
+	private ArrayList<ISubsystem> mSubsystems;
+	
 	
 	
     /**
@@ -51,11 +67,8 @@ public class Snobot extends IterativeRobot {
     public void robotInit() {
     	mDriveLeft1  = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
     	mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
-    	mDriverJoystick   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
     	mRawOperatorJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT, 1));
     	mRawDriverJoystick   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
-    	mUpperLimitSwitch = new DigitalInput (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH_PORT_1,1));
-    	mLowerLimitSwitch = new DigitalInput (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH_PORT_1, 1));
     	
     	mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
     	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick);
@@ -64,7 +77,28 @@ public class Snobot extends IterativeRobot {
     	mClaw = new SnobotClaw (mOperatorJoystick);
     	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick);
     	
+    	mSubsystems = new ArrayList<ISubsystem>();
+	    	mSubsystems.add(mOperatorJoystick);
+	    	mSubsystems.add(mXBoxDriverJoystick);
+	    	mSubsystems.add(mStacker);
+	    	mSubsystems.add(mClaw);
+	    	mSubsystems.add(mDriveTrain);
     	
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
+			String headerDate = sdf.format(new Date());
+	    	logHeader = logHeader + headerDate; 
+	    	
+    	for (ISubsystem iSubsystem : mSubsystems) {
+			iSubsystem.init();
+		}
+    	
+    	
+    	//TODO add "addHeaders" from separate modules/components
+    	
+    	mLogger = new Logger(logHeader,headerDate);
+
+			mLogger.init();
+		
     	ConfigurationNames.saveIfUpdated();
     }
 
@@ -79,21 +113,31 @@ public class Snobot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        mStacker.update();
-        mClaw.update();
-        mDriveTrain.update();
+        Date logDate = new Date();
         
-        mStacker.control();
-        mClaw.control();
-        mDriveTrain.control();
+        for (ISubsystem iSubsystem : mSubsystems) {
+			iSubsystem.update();
+			
+		}
+        for (ISubsystem iSubsystem : mSubsystems) {
+			iSubsystem.control();
+		}
+        for (ISubsystem iSubsystem : mSubsystems) {
+			iSubsystem.updateSmartDashboard();
+		}
+        
 
-        mStacker.updateSmartDashboard();
-        mClaw.updateSmartDashboard();
-        mDriveTrain.updateSmartDashboard();
-
-        mStacker.updateLog();
-        mClaw.updateLog();
-        mDriveTrain.updateLog();
+        mLogger.startLogEntry(); 
+        
+        for (ISubsystem iSubsystem : mSubsystems) {
+			iSubsystem.updateLog();
+			
+		mLogger.endLogger();
+			
+		}
+        
+        
+        
         
     }
     
@@ -103,5 +147,5 @@ public class Snobot extends IterativeRobot {
     public void testPeriodic() {
     
     }
-   
+    
 }
