@@ -1,6 +1,7 @@
 package com.snobot.claw;
 
 import com.snobot.SmartDashboardNames;
+import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -8,13 +9,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Class for the snobot claw and implements the main interface for claw
  * 
- * @author Alec/Jeffery
+ * @author Alec/Jeffrey
  *
  */
 public class SnobotClaw implements IClaw{
 
 	private IOperatorJoystick mJoystick;
 	private double mClawPressure;
+	private Logger mlogger;
 	
 	/**
 	 * Constructs a SnobotClaw  object
@@ -70,11 +72,16 @@ public class SnobotClaw implements IClaw{
 	@Override
 	public void updateSmartDashboard() {
 		// TODO Auto-generated method stub
-		SmartDashboard.putDouble(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressure );
+		SmartDashboard.putDouble(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressure);
+		
 	}
 	@Override
 	public void updateLog() {
 		// TODO Auto-generated method stub
+		 
+		String CalwPressureString = String.valueOf(mClawPressure);
+		
+		mlogger.updateLogger(CalwPressureString);
 		
 	}
 	@Override
