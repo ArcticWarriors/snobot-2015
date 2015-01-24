@@ -17,7 +17,7 @@ public class RobotMap {
     
     public static int intakeInButton   = 3;
     
-    public static int shortShotButton  = 0; //square
+    public static int shortShotButton  = 6; //square
     public static int longShotButton   = 2; //circle
     public static int harvestOut       = 4; //l1
     public static int harvestIn        = 5; //r1
