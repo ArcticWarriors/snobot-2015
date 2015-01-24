@@ -1,5 +1,7 @@
 package com.snobot.joystick;
 
+import com.snobot.ConfigurationNames;
+
 import edu.wpi.first.wpilibj.Joystick;
 
 
@@ -30,13 +32,20 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		
+		mDriveMode = true;
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+		if ( mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_4))
+		{
+			mDriveMode = true;
+		}
+		else if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_5))
+		{
+			mDriveMode = false;
+		}
 	}
 
 	@Override
@@ -72,41 +81,31 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	@Override
 	public double getLeftY() {
 		// TODO Auto-generated method stub
-		return mLeftFlightStick.getRawAxis(1);
+		return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
 	}
 	
 	@Override
 	public double getRightY() {
 		// TODO Auto-generated method stub
-		return mRightFlightStick.getRawAxis(1);
+		return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
 	}
 
 	@Override
 	public double getSpeed() {
 		// TODO Auto-generated method stub
-		return mLeftFlightStick.getRawAxis(1);
+		return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
 	}
 
 	@Override
 	public double getRotate() {
 		// TODO Auto-generated method stub
-		return mRightFlightStick.getRawAxis(0);
+		return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
 	}
 	
 	
 	public boolean getDriveMode()
 	{
 		// TODO Auto-generated method stub
-		
-		if ( mRightFlightStick.getRawButton(4))
-		{
-			mDriveMode = true;
-		}
-		else if (mRightFlightStick.getRawButton(5))
-		{
-			mDriveMode = false;
-		}
-		
 		return mDriveMode;
 	}
 }
