@@ -65,13 +65,13 @@ public class SnobotDriveTrain implements IDriveTrain{
 		
 		if (mDriverJoystick.getDriveMode() == true)
 		{
-			mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
-			System.out.println("Tank Drive");
+			mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
+			System.out.println("Aracde Drive");
 		}
 		else
 		{
-			mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
-			System.out.println("Aracde Drive");
+			mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
+			System.out.println("Tank Drive");	
 		}
 			
 	}

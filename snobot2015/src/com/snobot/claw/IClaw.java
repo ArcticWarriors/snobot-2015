@@ -6,7 +6,7 @@ import com.snobot.ISubsystem;
  * 
  * Interface for the claw subsystem
  * 
- * @author Alec/Jeffery
+ * @author Alec/Jeffrey
  *
  */
 public interface IClaw extends ISubsystem {
