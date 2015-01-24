@@ -1,6 +1,7 @@
 package com.snobot.joystick;
 
 import com.snobot.ConfigurationNames;
+import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -16,6 +17,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	private Joystick mLeftFlightStick;
 	private Joystick mRightFlightStick;
 	private boolean mDriveMode;
+	private Logger mLogger;
 	
 	/**
 	 * Constructor for Flight Stick 
@@ -69,7 +71,20 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	@Override
 	public void updateLog() {
 		// TODO Auto-generated method stub
-		
+//		mLogger.updateLogger(
+				
+			// Left Y Axis
+			mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+				
+			// Right Y Axis
+			mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+			
+			// Speed
+			mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+			
+			// Angle of the Joy stick (for arcade drive)
+			mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
+//		)
 	}
 
 	@Override

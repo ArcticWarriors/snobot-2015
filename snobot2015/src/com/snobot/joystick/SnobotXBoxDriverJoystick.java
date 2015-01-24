@@ -68,16 +68,16 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 		// TODO Auto-generated method stub
 		
 //		mLogger.updateLogger(
-				//Get Left Y Axis
+				// Left Y Axis
 				mXBoxStick.getRawAxis(ConfigurationNames.sXbox_Left_Y_Axis);
 				
-				//Get Right Y Axis
+				// Right Y Axis
 				mXBoxStick.getRawAxis(ConfigurationNames.sXbox_Right_Y_Axis);
 				
-				//Get Speed
+				// Speed
 				mXBoxStick.getRawAxis(ConfigurationNames.sXbox_Left_Y_Axis);
 				
-				//Get Angle of the Joy stick (for arcade drive)
+				// Angle of the Joy stick (for arcade drive)
 				mXBoxStick.getRawAxis(ConfigurationNames.sXbox_Right_X_Axis);
 //		)
 	}
