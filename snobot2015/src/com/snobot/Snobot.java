@@ -23,9 +23,14 @@ public class Snobot extends IterativeRobot {
 	
 	//IO
 	private Joystick mRawOperatorJoystick;
+<<<<<<< HEAD
 	private Joystick mRawDriverJoystick;
 	private DigitalInput mUpperLimitSwitch;
 	private DigitalInput mLowerLimitSwitch;
+=======
+	private Joystick mRawDriverJoystickPrimary;
+	private Joystick mRawDriverJoystickSecondary;
+>>>>>>> 132caa961a8c577ee3fc92269ba9bc058750c8e3
 	
 	private SnobotOperatorJoystick mOperatorJoystick;
 	private SnobotXBoxDriverJoystick mXBoxDriverJoystick;
@@ -78,6 +83,7 @@ public class Snobot extends IterativeRobot {
         mStacker.update();
         mClaw.update();
         mDriveTrain.update();
+        mDriverJoystick.update();
         
         mStacker.control();
         mClaw.control();
@@ -90,7 +96,6 @@ public class Snobot extends IterativeRobot {
         mStacker.updateLog();
         mClaw.updateLog();
         mDriveTrain.updateLog();
-        
         
     }
     
