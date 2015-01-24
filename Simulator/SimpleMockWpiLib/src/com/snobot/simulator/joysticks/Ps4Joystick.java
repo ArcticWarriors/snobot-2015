@@ -1,5 +1,7 @@
 package com.snobot.simulator.joysticks;
 
+import java.util.Arrays;
+
 import net.java.games.input.Component.Identifier;
 
 public class Ps4Joystick extends GamepadJoystick {
@@ -9,16 +11,16 @@ public class Ps4Joystick extends GamepadJoystick {
 		super( 
 				"Wireless Controller",
 
-				new Identifier[]{
+				Arrays.asList(
 					Identifier.Axis.X,   //Left x
 					Identifier.Axis.Y,   //Left Y 
 					Identifier.Axis.RY,  //Right Trigger
 					Identifier.Axis.RX,  //Left Trigger
 					Identifier.Axis.Z,   //Right x 
-					Identifier.Axis.RZ,  //Right x 
-				}, 
-				
-				new Identifier[]{
+					Identifier.Axis.RZ   //Right x 
+				), 
+
+				Arrays.asList(
 					Identifier.Button._0,  //Square
 					Identifier.Button._1,  //X
 					Identifier.Button._2,  //Circle
@@ -32,7 +34,7 @@ public class Ps4Joystick extends GamepadJoystick {
 					Identifier.Button._10, //L3
 					Identifier.Button._11, //R3
 					Identifier.Button._12, //ps4 button
-					Identifier.Button._13, //Motion pad
-				});
+					Identifier.Button._13  //Motion pad
+				));
 	}
 }

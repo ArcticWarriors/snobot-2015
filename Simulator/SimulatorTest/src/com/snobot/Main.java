@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Timer.Interface;
 import edu.wpi.first.wpilibj.internal.LocalHLUsageReporting;
 import edu.wpi.first.wpilibj.internal.LocalHardwareTimer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -27,16 +26,13 @@ public class Main {
 	
 	private static final String sPROPERTIES_FILE = "simulator_config.properties";
 
-    public static void main(String[] args) throws InstantiationException, IllegalAccessException, ClassNotFoundException
-    {
-    	String class_name = "com.snobot.Snobot";
-    	String simulator_classname = "com.snobot.Snobot2015Simulator";
-    	String simulator_config = "";
-
-		Timer.SetImplementation(new LocalHardwareTimer());
-		HLUsageReporting.SetImplementation(new LocalHLUsageReporting());
-		RobotState.SetImplementation(DriverStation.getInstance());
-		
+	private String class_name = "com.snobot.Snobot";
+	private String simulator_classname = "com.snobot.Snobot2015Simulator";
+	private String simulator_config = "";
+	private RobotBase simulated_robot;
+	
+	private void loadConfigFile()
+	{
     	try
     	{    		
     		Properties p = new Properties();
@@ -68,38 +64,74 @@ public class Main {
     		e.printStackTrace();
     		System.err.println("Could not read properties file");
     	}
-    	
-    	
-        NetworkTable.setIPAddress("127.0.0.1");
-        Preferences.__SetFileName(class_name + "_preferences.ini");
-    	
-    	final RobotBase simulated_robot = (RobotBase) Class.forName(class_name).newInstance();
-    	
-    	if(simulator_classname != null && !simulator_classname.isEmpty())
-    	{
-    		final ISimulatorContainer simulator = (ISimulatorContainer) Class.forName(simulator_classname).newInstance();
-
-        	RobotStateSingleton.get().addLoopListener(new RobotStateSingleton.LoopListener() {
-    			
-    			@Override
-    			public void looped() {
-    				simulator.looped();
-    			}
-    		});
-    		
-    		simulator.setConfigFile(simulator_config);
-    	}
-
-        SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-		        SimulatorFrame frame = new SimulatorFrame();
-		        frame.pack();
-		        frame.setVisible(true);
-		        
-		        frame.start(simulated_robot);
+	}
+	
+	private void startSimulator() throws Exception
+	{
+		try
+		{
+	        NetworkTable.setIPAddress("127.0.0.1");
+	        Preferences.__SetFileName(class_name + "_preferences.ini");
+	    	simulated_robot = (RobotBase) Class.forName(class_name).newInstance();
+	    	
+	    	if(simulator_classname != null && !simulator_classname.isEmpty())
+	    	{
+	    		final ISimulatorContainer simulator = (ISimulatorContainer) Class.forName(simulator_classname).newInstance();
+	
+	        	RobotStateSingleton.get().addLoopListener(new RobotStateSingleton.LoopListener() {
+	    			
+	    			@Override
+	    			public void looped() {
+	    				simulator.looped();
+	    			}
+	    		});
+	    		
+	    		simulator.setConfigFile(simulator_config);
+	    	}
+		}
+		catch(RuntimeException e)
+		{
+			if(e.getMessage().equals("NetworkTable could not be initialized: java.net.BindException: Address already in use: JVM_Bind: Address already in use: JVM_Bind"))
+			{
+				throw new Exception("Could not start the NetworkTables, check if you have two simulator instances open");
 			}
-		});
+			else
+			{
+				throw e;
+			}
+		}
+	}
+
+    public static void main(String[] args) throws Exception
+    {
+
+		Timer.SetImplementation(new LocalHardwareTimer());
+		HLUsageReporting.SetImplementation(new LocalHLUsageReporting());
+		RobotState.SetImplementation(DriverStation.getInstance());
+		
+
+		try
+		{
+			Main main = new Main();
+			main.loadConfigFile();
+			main.startSimulator();
+	    	
+	        SwingUtilities.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+			        SimulatorFrame frame = new SimulatorFrame();
+			        frame.pack();
+			        frame.setVisible(true);
+			        
+			        frame.start(main.simulated_robot);
+				}
+			});
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.exit(-1);
+		}
     }
 }

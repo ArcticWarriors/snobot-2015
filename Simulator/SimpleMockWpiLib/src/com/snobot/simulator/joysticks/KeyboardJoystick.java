@@ -1,5 +1,7 @@
 package com.snobot.simulator.joysticks;
 
+import java.util.Arrays;
+
 import net.java.games.input.Component.Identifier;
 
 public class KeyboardJoystick extends GamepadJoystick
@@ -10,7 +12,7 @@ public class KeyboardJoystick extends GamepadJoystick
 		super( 
 				"Standard PS/2 Keyboard",
 
-				new Identifier[]{
+				Arrays.asList(
 						Identifier.Key.W,
 						Identifier.Key.A,
 						Identifier.Key.S,
@@ -18,10 +20,10 @@ public class KeyboardJoystick extends GamepadJoystick
 						Identifier.Key.I,
 						Identifier.Key.J,
 						Identifier.Key.K,
-						Identifier.Key.L,
-				}, 
+						Identifier.Key.L
+				), 
 				
-				new Identifier[]{
+				Arrays.asList(
 						Identifier.Key._0,
 						Identifier.Key._1,
 						Identifier.Key._2,
@@ -31,7 +33,7 @@ public class KeyboardJoystick extends GamepadJoystick
 						Identifier.Key._6,
 						Identifier.Key._7,
 						Identifier.Key._8,
-						Identifier.Key._9,
-				});
+						Identifier.Key._9
+				));
 	}
 }
