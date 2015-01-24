@@ -6,6 +6,12 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+import edu.wpi.first.wpilibj.communication.UsageReporting;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
  * IterativeRobot implements a specific type of Robot Program framework, extending the RobotBase class.
@@ -53,6 +59,8 @@ public class IterativeRobot extends RobotBase {
         m_teleopInitialized = false;
         m_testInitialized = false;
 
+        UsageReporting.report(tResourceType.kResourceType_Framework, tInstances.kFramework_Iterative);
+
         robotInit();
     }
     
@@ -68,12 +76,21 @@ public class IterativeRobot extends RobotBase {
      */
     public void startCompetition() {
         
+        // We call this now (not in prestart like default) so that the robot
+        // won't enable until the initialization has finished. This is useful
+        // because otherwise it's sometimes possible to enable the robot
+        // before the code is ready. 
+        FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramStarting();
+
+        // loop forever, calling the appropriate mode-dependent function
+        LiveWindow.setEnabled(false);
         while (true) {
             // Call the appropriate function depending upon the current robot mode
             if (isDisabled()) {
                 // call DisabledInit() if we are now just entering disabled mode from
                 // either a different mode or from power-on
                 if (!m_disabledInitialized) {
+                    LiveWindow.setEnabled(false);
                     disabledInit();
                     m_disabledInitialized = true;
                     // reset the initialization flags for the other modes
@@ -82,12 +99,14 @@ public class IterativeRobot extends RobotBase {
                     m_testInitialized = false;
                 }
                 if (nextPeriodReady()) {
+                	FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramDisabled();
                     disabledPeriodic();
                 }
             } else if (isTest()) {
                 // call TestInit() if we are now just entering test mode from either
                 // a different mode or from power-on
                 if (!m_testInitialized) {
+                    LiveWindow.setEnabled(true);
                     testInit();
                     m_testInitialized = true;
                     m_autonomousInitialized = false;
@@ -95,12 +114,14 @@ public class IterativeRobot extends RobotBase {
                     m_disabledInitialized = false;
                 }
                 if (nextPeriodReady()) {
+                	FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTest();
                     testPeriodic();
                 }
             } else if (isAutonomous()) {
                 // call Autonomous_Init() if this is the first time
                 // we've entered autonomous_mode
                 if (!m_autonomousInitialized) {
+                    LiveWindow.setEnabled(false);
                     // KBS NOTE: old code reset all PWMs and relays to "safe values"
                     // whenever entering autonomous mode, before calling
                     // "Autonomous_Init()"
@@ -111,12 +132,14 @@ public class IterativeRobot extends RobotBase {
                     m_disabledInitialized = false;
                 }
                 if (nextPeriodReady()) {
+                    FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramAutonomous();
                     autonomousPeriodic();
                 }
             } else {
                 // call Teleop_Init() if this is the first time
                 // we've entered teleop_mode
                 if (!m_teleopInitialized) {
+                    LiveWindow.setEnabled(false);
                     teleopInit();
                     m_teleopInitialized = true;
                     m_testInitialized = false;
@@ -124,15 +147,10 @@ public class IterativeRobot extends RobotBase {
                     m_disabledInitialized = false;
                 }
                 if (nextPeriodReady()) {
+                    FRCNetworkCommunicationsLibrary.FRCNetworkCommunicationObserveUserProgramTeleop();
                     teleopPeriodic();
                 }
             }
-            
-            for(LoopListener listener : mListeners)
-            {
-            	listener.looped();
-            }
-
             m_ds.waitForData();
         }
     }

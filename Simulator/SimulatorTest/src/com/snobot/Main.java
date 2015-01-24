@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
+import com.snobot.simulator.RobotStateSingleton;
 import com.snobot.simulator.gui.SimulatorFrame;
 import com.snobot.simulator.sim.ISimulatorContainer;
 
@@ -72,12 +73,20 @@ public class Main {
         NetworkTable.setIPAddress("127.0.0.1");
         Preferences.__SetFileName(class_name + "_preferences.ini");
     	
-    	RobotBase simulated_robot = (RobotBase) Class.forName(class_name).newInstance();
+    	final RobotBase simulated_robot = (RobotBase) Class.forName(class_name).newInstance();
     	
     	if(simulator_classname != null && !simulator_classname.isEmpty())
     	{
-    		ISimulatorContainer simulator = (ISimulatorContainer) Class.forName(simulator_classname).newInstance();
-    		simulator.setRobot(simulated_robot);
+    		final ISimulatorContainer simulator = (ISimulatorContainer) Class.forName(simulator_classname).newInstance();
+
+        	RobotStateSingleton.get().addLoopListener(new RobotStateSingleton.LoopListener() {
+    			
+    			@Override
+    			public void looped() {
+    				simulator.looped();
+    			}
+    		});
+    		
     		simulator.setConfigFile(simulator_config);
     	}
 

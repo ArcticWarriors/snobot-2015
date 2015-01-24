@@ -23,13 +23,13 @@ public class DrivetrainSubsystem extends Subsystem {
     private RobotDrive robotDrive = new RobotDrive(leftFront, leftRear, rightFront, rightRear);
 
     //Hacky making these public....
-    public Encoder rightEncoder = new Encoder(1, 2);
-    public Encoder leftEncoder = new Encoder(3, 4);
+    public Encoder rightEncoder = new Encoder(RobotMap.rightEncoderA, RobotMap.rightEncoderB);
+    public Encoder leftEncoder = new Encoder(RobotMap.leftEncoderA, RobotMap.leftEncoderB);
     
     public DrivetrainSubsystem()
     {
-    	rightEncoder.setDistancePerPulse(255);
-    	leftEncoder.setDistancePerPulse(255);
+    	rightEncoder.setDistancePerPulse(1.0/255);
+    	leftEncoder.setDistancePerPulse(1.0/255);
     }
 
     public void initDefaultCommand() {
