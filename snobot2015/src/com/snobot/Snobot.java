@@ -47,6 +47,7 @@ public class Snobot extends IterativeRobot {
 	
 	private IDriverJoystick mDriverJoystick;
 	
+	//TODO Calvin - This is for testing, remove later
 	public String logHeader = "";
 	
 	private SendableChooser mTankModeButtonChooser;

@@ -16,7 +16,7 @@ public class SnobotClaw implements IClaw{
 
 	private IOperatorJoystick mJoystick;
 	private double mClawPressure;
-	private Logger mlogger;
+	private Logger mLogger;
 	
 	/**
 	 * Constructs a SnobotClaw  object
@@ -72,16 +72,16 @@ public class SnobotClaw implements IClaw{
 	@Override
 	public void updateSmartDashboard() {
 		// TODO Auto-generated method stub
-		SmartDashboard.putDouble(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressure);
+		SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressure);
 		
 	}
 	@Override
 	public void updateLog() {
 		// TODO Auto-generated method stub
 		 
-		String CalwPressureString = String.valueOf(mClawPressure);
+		String clawPressureString = String.valueOf(mClawPressure);
 		
-		mlogger.updateLogger(CalwPressureString);
+		mLogger.updateLogger(clawPressureString);
 		
 	}
 	@Override

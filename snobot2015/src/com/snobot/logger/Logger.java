@@ -17,7 +17,7 @@ public class Logger
 	private String mLogHeader;
 	private String mHeaderDate;
 	private String mLogDate;
-	private FileWriter logWriter;
+	private FileWriter mLogWriter;
 	
 	public Logger(String aLogHeader, String aHeaderDate)
 	{
@@ -40,12 +40,12 @@ public class Logger
 		
 		try 
 		{
-			logWriter = new FileWriter ("RobotLog_" + mHeaderDate);
+			mLogWriter = new FileWriter ("RobotLog_" + mHeaderDate);
 			
 			for(int logCount = 0; logCount< 1; logCount++)
 			{
-				logWriter.write(mLogHeader);
-				logWriter.write("\n");
+				mLogWriter.write(mLogHeader);
+				mLogWriter.write("\n");
 			}
 		} 
 		catch (IOException e) 
@@ -85,9 +85,9 @@ public class Logger
 		{
 			try 
 			{
-				if(logWriter != null)
+				if(mLogWriter != null)
 				{
-				logWriter.write(mLogDate);
+				mLogWriter.write(mLogDate);
 				}
 			} 
 			catch (IOException e) 
@@ -104,13 +104,13 @@ public class Logger
 	 * Updates log information
 	 * @param aEntry
 	 */
-	public void updateLogger (String aEntry) {  //String aEntry
+	public void updateLogger (String aEntry) {
 		
 		for(int logCount = 0; logCount< 1; logCount++)
 		{
 			try 
 			{
-				logWriter.write("," + "aEntry");
+				mLogWriter.write("," + "aEntry");
 			} 
 			catch (IOException e) 
 			{
@@ -128,7 +128,7 @@ public class Logger
 	{
 		try
 		{
-			logWriter.write("\n");
+			mLogWriter.write("\n");
 		} 
 		catch (IOException e)
 		{
@@ -144,7 +144,7 @@ public class Logger
 	{
 		try 
 		{
-			logWriter.close();
+			mLogWriter.close();
 		} 
 		catch (IOException e) 
 		{
