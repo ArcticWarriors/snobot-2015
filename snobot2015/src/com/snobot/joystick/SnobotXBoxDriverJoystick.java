@@ -16,6 +16,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	 */
 	public SnobotXBoxDriverJoystick (Joystick aXBoxStick)
 	{
+		System.out.println("Creating xbox joystick");
 		mXBoxStick = aXBoxStick;
 	}
 
@@ -64,24 +65,29 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	@Override
 	public double getLeftY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return mXBoxStick.getRawAxis(1);
 	}
 
 	@Override
 	public double getRightY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return mXBoxStick.getRawAxis(5);
 	}
 
 	@Override
 	public double getSpeed() {
 		// TODO Auto-generated method stub
-		return 0;
+		return mXBoxStick.getRawAxis(1);
 	}
 
 	@Override
 	public double getRotate() {
 		// TODO Auto-generated method stub
-		return 0;
+		return mXBoxStick.getRawAxis(4);
+	}
+	public boolean getDriveMode()
+	{
+		// TODO Auto-generated method stub
+		return mXBoxStick.getRawButton(1);
 	}
 }

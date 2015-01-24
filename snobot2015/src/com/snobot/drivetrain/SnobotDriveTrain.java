@@ -1,6 +1,8 @@
 package com.snobot.drivetrain;
 
+
 import com.snobot.SmartDashboardNames;
+import com.snobot.joystick.IDriverJoystick;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -15,10 +17,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class SnobotDriveTrain implements IDriveTrain{
 
+	public enum DriveMode
+	{
+		Arcade, Tank
+	}
+	
 	private SpeedController mSpeedControllerLeft;
 	private SpeedController mSpeedControllerRight;		 
-	private SnobotXBoxDriverJoystick mDriverJoystick;
+	private IDriverJoystick mDriverJoystick;
 	private RobotDrive mRobotDrive;
+	private DriveMode driveMode;
 	
 	/**
 	 * Takes 2 speed controllers and joy stick arguments
@@ -29,13 +37,15 @@ public class SnobotDriveTrain implements IDriveTrain{
 	public SnobotDriveTrain (
 			SpeedController aSpeedControllerLeft, 
 			SpeedController aSpeedControllerRight,				 
-			SnobotXBoxDriverJoystick aDriverJoystick)
-	{
-		mSpeedControllerLeft = aSpeedControllerLeft;
-		mSpeedControllerRight =	aSpeedControllerRight;	 
-		mDriverJoystick = aDriverJoystick;  
-		mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
-	}
+			IDriverJoystick aDriverJoystick)
+		{
+			
+			driveMode = driveMode.Tank;
+			mSpeedControllerLeft = aSpeedControllerLeft;
+			mSpeedControllerRight =	aSpeedControllerRight;	 
+			mDriverJoystick = aDriverJoystick;  
+			mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
+		}
 
 	@Override
 	public void init() {
@@ -51,9 +61,19 @@ public class SnobotDriveTrain implements IDriveTrain{
 
 	@Override
 	public void control() {
-		// TODO Add Tank drive
-		mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
+		// TODO Add switch between the two drives
 		
+		if (mDriverJoystick.getDriveMode() == true)
+		{
+			mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
+			System.out.println("Tank Drive");
+		}
+		else
+		{
+			mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
+			System.out.println("Aracde Drive");
+		}
+			
 	}
 
 	@Override

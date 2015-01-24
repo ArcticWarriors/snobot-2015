@@ -1,8 +1,12 @@
 
 package com.snobot;
 
+import javax.security.auth.login.Configuration;
+
 import com.snobot.claw.SnobotClaw;
 import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.joystick.IDriverJoystick;
+import com.snobot.joystick.SnobotFlightstickJoystick;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.stacker.SnobotStacker;
@@ -22,10 +26,12 @@ public class Snobot extends IterativeRobot {
 	
 	//IO
 	private Joystick mRawOperatorJoystick;
-	private Joystick mRawDriverJoystick;
+	private Joystick mRawDriverJoystickPrimary;
+	private Joystick mRawDriverJoystickSecondary;
+	
 	
 	private SnobotOperatorJoystick mOperatorJoystick;
-	private SnobotXBoxDriverJoystick mXBoxDriverJoystick;
+	private IDriverJoystick mDriverJoystick;
 	
 	//Modules
 	private SnobotStacker mStacker;
@@ -45,15 +51,30 @@ public class Snobot extends IterativeRobot {
     	mDriveLeft1  = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
     	mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
     	mRawOperatorJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT, 1));
-    	mRawDriverJoystick   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
+    	
+    	mRawDriverJoystickPrimary   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
     	
     	mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
-    	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick);
+    	
+    	String joystickType = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sJoystickMode, ConfigurationNames.sJoystickMode_Xbox);
+    	
+    	if(joystickType.equals(ConfigurationNames.sJoystickMode_Xbox))
+    	{
+        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary);
+    	}
+    	else 
+    	{
+    		mRawDriverJoystickPrimary = new Joystick (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
+    		mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary);
+    	}
+    	
     	mStacker = new SnobotStacker(mOperatorJoystick);
     	mClaw = new SnobotClaw (mOperatorJoystick);
-    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick);
+    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick);
     	
     	ConfigurationNames.saveIfUpdated();
+    	
+    	
     }
 
     /**

@@ -21,6 +21,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	 */
 	public SnobotFlightstickJoystick (Joystick aLeftFlightStick, Joystick aRightFlightStick)
 	{
+		System.out.println("Creating flightstick joystick");
 		mLeftFlightStick = aLeftFlightStick;
 		mRightFlightStick = aRightFlightStick;
 	}
@@ -89,5 +90,12 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	public double getRotate() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public boolean getDriveMode()
+	{
+		// TODO Auto-generated method stub
+		
+		return true;
 	}
 }

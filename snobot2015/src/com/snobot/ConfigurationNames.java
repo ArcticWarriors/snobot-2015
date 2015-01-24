@@ -11,6 +11,10 @@ public class ConfigurationNames {
 	public static final String sDRIVER_FLIGHTSTICK_1_PORT = "DriverFlightstick1Port";
 	public static final String sDRIVER_FLIGHTSTICK_2_PORT = "DriverFlightstick2Port";
 	
+	public static final String sJoystickMode_Xbox = "Xbox mode";
+	public static final String sJoystickMode_flightstick = "Flightstick Mode";
+	public static final String sJoystickMode = "sJoystickMode";
+	
 	//Motors
 	public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
 	public static final String sDRIVE_MOTOR_LEFT_2 = "LeftDriveMotor2";
@@ -44,6 +48,18 @@ public class ConfigurationNames {
 		
 		sPropertyAdded = true;
 		Preferences.getInstance().putInt(aName, aDefault);
+		return aDefault;
+	}
+
+	public static String getOrSetPropertyString(String aName, String aDefault)
+	{
+		if(Preferences.getInstance().containsKey(aName))
+		{
+			return Preferences.getInstance().getString(aName, aDefault);
+		}
+		
+		sPropertyAdded = true;
+		Preferences.getInstance().putString(aName, aDefault);
 		return aDefault;
 	}
 	

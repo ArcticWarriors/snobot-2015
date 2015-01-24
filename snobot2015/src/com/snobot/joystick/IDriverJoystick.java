@@ -34,4 +34,10 @@ public interface IDriverJoystick extends ISubsystem {
 	 * @return double for joystick angle
 	 */
 	double getRotate ();
+	
+	/**
+	 * 
+	 * @return if true, tank drive mode else arcade drive mode
+	 */
+	boolean getDriveMode();
 }
