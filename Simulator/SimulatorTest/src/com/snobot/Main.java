@@ -25,6 +25,26 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 public class Main {
 	
 	private static final String sPROPERTIES_FILE = "simulator_config.properties";
+	private static final String sNETWORK_ERROR_MSG = "NetworkTable could not be initialized: java.net.BindException: Address already in use: JVM_Bind: Address already in use: JVM_Bind";
+	
+	private static final String sDEFAULT_PROPERTIES_FILE_COMMENT = 
+			//Snobot class
+			"Uncomment whichever lines you want to simulate\n\n" + 
+			"REAL ROBOT\n" + 
+			"robot_class=com.snobot.Snobot\n" + 
+			"simulator_class=com.snobot.Snobot2015Simulator\n" + 
+			"simulator_config=\n" + 
+			"\n" + 
+			"TEAM 558\n" +
+			"robot_class=edu.wpi.first.wpilibj.templates.RobotDowneyJr\n" + 
+			"simulator_class=com.snobot.Team558Simulator\n" + 
+			"simulator_config=\n" + 
+			"\n" +
+			"TEST BED\n" + 
+			"robot_class=org.usfirst.frc.team174.robot.Snobot\n" + 
+			"simulator_class=\n" + 
+			"simulator_config=\n" + 
+			"\n";
 
 	private String class_name = "com.snobot.Snobot";
 	private String simulator_classname = "com.snobot.Snobot2015Simulator";
@@ -54,7 +74,7 @@ public class Main {
     		p.setProperty("simulator_config", simulator_config);
     		
     		try {
-				p.store(new FileOutputStream(new File(sPROPERTIES_FILE)), "Creating default file");
+				p.store(new FileOutputStream(new File(sPROPERTIES_FILE)), sDEFAULT_PROPERTIES_FILE_COMMENT);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			} 
@@ -91,14 +111,19 @@ public class Main {
 		}
 		catch(RuntimeException e)
 		{
-			if(e.getMessage().equals("NetworkTable could not be initialized: java.net.BindException: Address already in use: JVM_Bind: Address already in use: JVM_Bind"))
+			if(e.getMessage() != null && e.getMessage().equals(sNETWORK_ERROR_MSG))
 			{
 				throw new Exception("Could not start the NetworkTables, check if you have two simulator instances open");
 			}
 			else
 			{
+				System.out.println("Unexpected error.  The real code would say \"Robots don't quit\"");
 				throw e;
 			}
+		}
+		catch(UnsatisfiedLinkError e)
+		{
+			throw new Exception("Linking error, this is probably PJ's fault.  Come find me and yell at me. Error message:\n    " + e.getMessage());
 		}
 	}
 
