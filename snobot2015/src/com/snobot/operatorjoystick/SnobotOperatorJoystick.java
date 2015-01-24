@@ -23,7 +23,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick{
 	@Override
 	public boolean getStackerUp() {
 		
-		if (mOperatorJoystick.getRawAxis(1) == 1){
+		if (mOperatorJoystick.getRawAxis(1) == 1){ // remember to change magic number in getRawAxis()
 			return true;
 		}
 		else {
