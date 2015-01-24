@@ -1,16 +1,13 @@
 
 package com.snobot;
 
-import javax.security.auth.login.Configuration;
-
 import com.snobot.claw.SnobotClaw;
 import com.snobot.drivetrain.SnobotDriveTrain;
-import com.snobot.joystick.IDriverJoystick;
-import com.snobot.joystick.SnobotFlightstickJoystick;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.stacker.SnobotStacker;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -26,12 +23,12 @@ public class Snobot extends IterativeRobot {
 	
 	//IO
 	private Joystick mRawOperatorJoystick;
-	private Joystick mRawDriverJoystickPrimary;
-	private Joystick mRawDriverJoystickSecondary;
-	
+	private Joystick mRawDriverJoystick;
+	private DigitalInput mUpperLimitSwitch;
+	private DigitalInput mLowerLimitSwitch;
 	
 	private SnobotOperatorJoystick mOperatorJoystick;
-	private IDriverJoystick mDriverJoystick;
+	private SnobotXBoxDriverJoystick mXBoxDriverJoystick;
 	
 	//Modules
 	private SnobotStacker mStacker;
@@ -41,6 +38,7 @@ public class Snobot extends IterativeRobot {
 	//Motors
 	private Talon mDriveLeft1;
 	private Talon mDriveRight1;
+	private Talon mStackerMotor;
 	
 	
     /**
@@ -51,30 +49,19 @@ public class Snobot extends IterativeRobot {
     	mDriveLeft1  = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
     	mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
     	mRawOperatorJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT, 1));
-    	
-    	mRawDriverJoystickPrimary   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
+    	mRawDriverJoystick   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
+    	mUpperLimitSwitch = new DigitalInput (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH_PORT_1,1));
+    	mLowerLimitSwitch = new DigitalInput (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH_PORT_1, 1));
     	
     	mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
-    	
-    	String joystickType = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sJoystickMode, ConfigurationNames.sJoystickMode_Xbox);
-    	
-    	if(joystickType.equals(ConfigurationNames.sJoystickMode_Xbox))
-    	{
-        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary);
-    	}
-    	else 
-    	{
-    		mRawDriverJoystickPrimary = new Joystick (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
-    		mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary);
-    	}
-    	
-    	mStacker = new SnobotStacker(mOperatorJoystick);
+    	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick);
+    	mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor,
+    			mUpperLimitSwitch, mLowerLimitSwitch);
     	mClaw = new SnobotClaw (mOperatorJoystick);
-    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick);
+    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick);
+    	
     	
     	ConfigurationNames.saveIfUpdated();
-    	
-    	
     }
 
     /**
@@ -113,5 +100,5 @@ public class Snobot extends IterativeRobot {
     public void testPeriodic() {
     
     }
-    
+   
 }

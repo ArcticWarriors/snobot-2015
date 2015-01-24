@@ -11,21 +11,21 @@ public class ConfigurationNames {
 	public static final String sDRIVER_FLIGHTSTICK_1_PORT = "DriverFlightstick1Port";
 	public static final String sDRIVER_FLIGHTSTICK_2_PORT = "DriverFlightstick2Port";
 	
-	public static final String sJoystickMode_Xbox = "Xbox mode";
-	public static final String sJoystickMode_flightstick = "Flightstick Mode";
-	public static final String sJoystickMode = "sJoystickMode";
-	
 	//Motors
 	public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
 	public static final String sDRIVE_MOTOR_LEFT_2 = "LeftDriveMotor2";
 	public static final String sDRIVE_MOTOR_RIGHT_1 = "RightDriveMotor1";
 	public static final String sDRIVE_MOTOR_RIGHT_2 = "RightDriveMotor2";
+	public static final String sSTACKER_DEFAULT_SPEED = "StackerDefaultSpeed";
 	
 	//Solenoid
 
 	//Digital Inputs
+	public static final String sSTACKER_UPPER_LIMIT_SWITCH_PORT_1 = "UpperStackerLimit";
+	public static final String sSTACKER_LOWER_LIMIT_SWITCH_PORT_1 = "LowerStackerLimit";
 
 	//Analog Inputs
+	public static final int sOperator_Left_Axis = 1;
 
 	public static double getOrSetPropertyDouble(String aName, double aDefault)
 	{
@@ -48,18 +48,6 @@ public class ConfigurationNames {
 		
 		sPropertyAdded = true;
 		Preferences.getInstance().putInt(aName, aDefault);
-		return aDefault;
-	}
-
-	public static String getOrSetPropertyString(String aName, String aDefault)
-	{
-		if(Preferences.getInstance().containsKey(aName))
-		{
-			return Preferences.getInstance().getString(aName, aDefault);
-		}
-		
-		sPropertyAdded = true;
-		Preferences.getInstance().putString(aName, aDefault);
 		return aDefault;
 	}
 	

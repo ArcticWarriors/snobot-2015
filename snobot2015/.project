@@ -3,6 +3,7 @@
 	<name>snobot2015</name>
 	<comment></comment>
 	<projects>
+		<project>MockWpiLib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

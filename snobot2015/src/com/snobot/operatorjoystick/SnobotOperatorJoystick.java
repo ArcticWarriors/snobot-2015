@@ -10,20 +10,25 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class SnobotOperatorJoystick implements IOperatorJoystick{
 	
-	private Joystick mJoystick;
+	private Joystick mOperatorJoystick;
 	
 	/**
 	 * Constructs a SnobotOperatorJoystick object
 	 * @param aOperatorJoystick Argument for operator Joystick
 	 */
 	public SnobotOperatorJoystick(Joystick aOperatorJoystick){
-	    mJoystick = aOperatorJoystick;
+	    mOperatorJoystick = aOperatorJoystick;
 	}
 
 	@Override
 	public boolean getStackerUp() {
-		// TODO Auto-generated method stub
+		
+		if (mOperatorJoystick.getRawAxis(1) == 1){
+			return true;
+		}
+		else {
 		return false;
+		}
 	}
 
 	@Override
@@ -37,5 +42,56 @@ public class SnobotOperatorJoystick implements IOperatorJoystick{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	/**
+	 * Perform initialization.
+	 */
+	public void init() {
+	}
+	
+	/**
+	 * Gathering and storing current sensor information. 
+	 * Ex. Motor Speed.
+	 */
+	public void update(){
+		
+	}
+	
+	/**
+	 * Setting sensor and device states.
+	 */
+	public void control(){
+		
+	}
+	
+	/**
+	 * Rereads and applies current preferences.
+	 */
+	public void rereadPreferences() {
+		
+	}
+	
+	/**
+	 * Updates information that is sent to SmartDashboard
+	 * Takes Enum argument
+	 */
+	public void updateSmartDashboard(){
+		
+	}
+	
+	/**
+	 * Updates the logger.
+	 */
+	public void updateLog(){
+		
+	}
+	
+	/**
+	 * Stops all sensors and motors
+	 */
+	public void stop() {
+		
+	}
 
+	
 }
