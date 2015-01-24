@@ -4,7 +4,7 @@ import com.snobot.ISubsystem;
 
 /**
  * Main interface for stacker subsystem
- * @author Alec/Jeffery
+ * @author Alec/Jeffrey
  *
  */
 public interface IStacker extends ISubsystem {
