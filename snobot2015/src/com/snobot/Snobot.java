@@ -14,6 +14,8 @@ import com.snobot.stacker.SnobotStacker;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,6 +33,9 @@ public class Snobot extends IterativeRobot {
 	
 	private SnobotOperatorJoystick mOperatorJoystick;
 	private IDriverJoystick mDriverJoystick;
+	
+	private SendableChooser mTankModeButtonChooser;
+	private SendableChooser mArcadeModeButton;
 	
 	//Modules
 	private SnobotStacker mStacker;
@@ -57,9 +62,14 @@ public class Snobot extends IterativeRobot {
     	
     	String joystickType = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sJoystickMode, ConfigurationNames.sJoystickMode_Xbox);
     	
+    	mTankModeButtonChooser = new SendableChooser();
+    	mTankModeButtonChooser.addDefault("xboxButtonA", ConfigurationNames.sXbox_Button_A);
+    	mTankModeButtonChooser.addObject("xboxButtonB", ConfigurationNames.sXbox_Button_B);
+    	SmartDashboard.putData("Tank Mode Button Chooser", mTankModeButtonChooser);
+    	
     	if(joystickType.equals(ConfigurationNames.sJoystickMode_Xbox))
     	{
-        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary);
+        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mTankModeButtonChooser);
     	}
     	else 
     	{
@@ -70,6 +80,7 @@ public class Snobot extends IterativeRobot {
     	mStacker = new SnobotStacker(mOperatorJoystick);
     	mClaw = new SnobotClaw (mOperatorJoystick);
     	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick);
+    	
     	
     	ConfigurationNames.saveIfUpdated();
     	
@@ -111,6 +122,10 @@ public class Snobot extends IterativeRobot {
      */
     public void testPeriodic() {
     
+    }
+    
+    public void teleopInit() {
+  
     }
     
 }

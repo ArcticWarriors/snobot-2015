@@ -4,6 +4,7 @@ import com.snobot.ConfigurationNames;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * Implements Driver Joy stick Interface
@@ -15,27 +16,31 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	private Joystick mXBoxStick;
 	private boolean mDriveMode;
 	private Logger mLogger;
+	private int mTankModeButton;
+	private SendableChooser mTankModeChooser;
 	
 	/**
 	 * Constructor for xBox Joy stick
 	 * @param aXBoxStick Argument for xBox Stick
 	 */
-	public SnobotXBoxDriverJoystick (Joystick aXBoxStick)
+	public SnobotXBoxDriverJoystick (Joystick aXBoxStick, SendableChooser aTankModeChooser)
 	{
 		System.out.println("Creating xbox joystick");
 		mXBoxStick = aXBoxStick;
+		mTankModeChooser = aTankModeChooser;
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
+		mTankModeButton = (int) (mTankModeChooser.getSelected());
 		mDriveMode = true;
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		if ( mXBoxStick.getRawButton(ConfigurationNames.sXbox_Button_A))
+		if ( mXBoxStick.getRawButton(mTankModeButton))
 		{
 			mDriveMode = true;
 		}
