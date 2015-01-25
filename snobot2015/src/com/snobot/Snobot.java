@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import com.snobot.claw.SnobotClaw;
 import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.drivetrain.SnobotDriveTrain.DriveMode;
 import com.snobot.joystick.IDriverJoystick;
 import com.snobot.joystick.SnobotFlightstickJoystick;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
@@ -47,6 +48,8 @@ public class Snobot extends IterativeRobot {
 	
 	private IDriverJoystick mDriverJoystick;
 	
+	private DriveMode mDriveMode;
+	
 	//TODO Calvin - This is for testing, remove later
 	public String logHeader = "";
 	
@@ -81,11 +84,10 @@ public class Snobot extends IterativeRobot {
     	mRawDriverJoystick   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
     	
     	mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
-    	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick, mTankModeButtonChooser);
-    	mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor,
-    			mUpperLimitSwitch, mLowerLimitSwitch);
+    	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick, mTankModeButtonChooser, mDriveMode);
+    	mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch);
     	mClaw = new SnobotClaw (mOperatorJoystick);
-    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick);
+    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick, mDriveMode);
     	
     	String joystickType = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sJoystickMode, ConfigurationNames.sJoystickMode_Xbox);
     	
@@ -96,7 +98,7 @@ public class Snobot extends IterativeRobot {
     	
     	if(joystickType.equals(ConfigurationNames.sJoystickMode_Xbox))
     	{
-        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mTankModeButtonChooser);
+        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mTankModeButtonChooser, mDriveMode);
     	}
     	else 
     	{
