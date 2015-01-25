@@ -18,6 +18,7 @@ import com.snobot.joystick.SnobotXBoxDriverJoystick;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.stacker.SnobotStacker;
+import com.snobot.SmartDashboardNames;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -89,14 +90,14 @@ public class Snobot extends IterativeRobot {
     	mClaw = new SnobotClaw (mOperatorJoystick);
     	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick, mDriveMode);
     	
-    	String joystickType = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sJoystickMode, ConfigurationNames.sJoystickMode_Xbox);
+    	String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
     	
     	mTankModeButtonChooser = new SendableChooser();
     	mTankModeButtonChooser.addDefault("xboxButtonA", ConfigurationNames.sXbox_Button_A);
     	mTankModeButtonChooser.addObject("xboxButtonB", ConfigurationNames.sXbox_Button_B);
     	SmartDashboard.putData("Tank Mode Button Chooser", mTankModeButtonChooser);
     	
-    	if(joystickType.equals(ConfigurationNames.sJoystickMode_Xbox))
+    	if(joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox))
     	{
         	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mTankModeButtonChooser, mDriveMode);
     	}

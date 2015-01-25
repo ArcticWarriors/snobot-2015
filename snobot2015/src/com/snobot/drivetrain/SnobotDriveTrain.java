@@ -3,6 +3,7 @@ package com.snobot.drivetrain;
 
 import com.snobot.SmartDashboardNames;
 import com.snobot.joystick.IDriverJoystick;
+import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -25,6 +26,7 @@ public class SnobotDriveTrain implements IDriveTrain{
 	private IDriverJoystick mDriverJoystick;
 	private RobotDrive mRobotDrive;
 	private DriveMode mDriveMode;
+	private Logger mLogger;
 	
 	/**
 	 * Takes 2 speed controllers and joy stick arguments
