@@ -51,9 +51,6 @@ public class Snobot extends IterativeRobot {
 	
 	private DriveMode mDriveMode;
 	
-	//TODO Calvin - This is for testing, remove later
-	public String logHeader = "";
-	
 	private SendableChooser mTankModeButtonChooser;
 	private SendableChooser mArcadeModeButton;
 	
@@ -72,6 +69,7 @@ public class Snobot extends IterativeRobot {
 	//Vector of iSubsystems for group actions
 	private ArrayList<ISubsystem> mSubsystems;
 	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
 	
 	
     /**
@@ -114,24 +112,17 @@ public class Snobot extends IterativeRobot {
 	    	mSubsystems.add(mClaw);
 	    	mSubsystems.add(mDriveTrain);
     	
-	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
-			String headerDate = sdf.format(new Date());
-	    	logHeader = logHeader + headerDate; 
-	    	
+    	String headerDate = sdf.format(new Date());
+    	mLogger = new Logger(headerDate);
+
+		mLogger.init();
+		
     	for (ISubsystem iSubsystem : mSubsystems) {
 			iSubsystem.init();
 		}
     	
-
+    	mLogger.endHeader();
     	
-    	ConfigurationNames.saveIfUpdated();
-    	
-    	//TODO add "addHeaders" from separate modules/components
-    	
-    	mLogger = new Logger(logHeader,headerDate);
-
-			mLogger.init();
-		
     	ConfigurationNames.saveIfUpdated();
     }
 
@@ -146,7 +137,8 @@ public class Snobot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        Date logDate = new Date();
+
+        String logDate = sdf.format(new Date());
         
         for (ISubsystem iSubsystem : mSubsystems) {
 			iSubsystem.update();
@@ -159,18 +151,14 @@ public class Snobot extends IterativeRobot {
 			iSubsystem.updateSmartDashboard();
 		}
         
-
-        mLogger.startLogEntry(); 
+        mLogger.startLogEntry(logDate); 
         
         for (ISubsystem iSubsystem : mSubsystems) {
 			iSubsystem.updateLog();
 			
 		mLogger.endLogger();
 			
-		}
-        
-        
-        
+		} 
         
     }
     

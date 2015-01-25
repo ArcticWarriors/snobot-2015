@@ -15,15 +15,10 @@ import java.util.Date;
 public class Logger
 {
 	private String mLogHeader;
-	private String mHeaderDate;
+
 	private String mLogDate;
 	private FileWriter mLogWriter;
-	
-	public Logger(String aLogHeader, String aHeaderDate)
-	{
-		mLogHeader = aLogHeader;
-		mHeaderDate = aHeaderDate;
-	}
+
 	public Logger(String aLogDate)
 	{
 		mLogDate = aLogDate;
@@ -40,12 +35,12 @@ public class Logger
 		
 		try 
 		{
-			mLogWriter = new FileWriter ("RobotLog_" + mHeaderDate);
+			mLogWriter = new FileWriter ("RobotLog_" + mLogDate);
 			
 			for(int logCount = 0; logCount< 1; logCount++)
 			{
-				mLogWriter.write(mLogHeader);
-				mLogWriter.write("\n");
+				mLogWriter.write(mLogDate);
+			
 			}
 		} 
 		catch (IOException e) 
@@ -65,21 +60,50 @@ public class Logger
 	 */
 	public void addHeader (String aHeader) 
 	{
-		
+		for(int logCount = 0;logCount<1;logCount++)
+		{
+			
+				try
+				{
+					if(mLogWriter != null)
+					{
+						mLogWriter.write("," + "aHeader");
+					}
+				}
+				catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+		}
 	}
+	
 	
 	/**
 	 * Stops accepting new headers
 	 */
 	public void endHeader () 
 	{
-		
+		try
+		{	
+			if(mLogWriter != null)
+			{
+				mLogWriter.write("\n");
+			}
+			
+		} 
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Begins accepting new log entries
 	 */
-	public void startLogEntry () {
+	public void startLogEntry (String mLogDate) {
 		
 		for(int logCount = 0; logCount< 1; logCount++)
 		{
@@ -87,7 +111,7 @@ public class Logger
 			{
 				if(mLogWriter != null)
 				{
-				mLogWriter.write(mLogDate);
+					mLogWriter.write(mLogDate);
 				}
 			} 
 			catch (IOException e) 
@@ -110,7 +134,86 @@ public class Logger
 		{
 			try 
 			{
-				mLogWriter.write("," + "aEntry");
+				if(mLogWriter != null)
+				{
+					mLogWriter.write("," + "aEntry");
+				}
+				
+			} 
+			catch (IOException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
+	/**
+	 * Updates log information
+	 * @param aEntry
+	 */
+	public void updateLogger (int aEntry) {
+		
+		for(int logCount = 0; logCount< 1; logCount++)
+		{
+			try 
+			{
+				if(mLogWriter != null)
+				{
+					mLogWriter.write("," + "aEntry");
+				}
+				
+			} 
+			catch (IOException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
+	/**
+	 * Updates log information
+	 * @param aEntry
+	 */
+	public void updateLogger (double aEntry) {
+		
+		for(int logCount = 0; logCount< 1; logCount++)
+		{
+			try 
+			{
+				if(mLogWriter != null)
+				{
+					mLogWriter.write("," + "aEntry");
+				}
+				
+			} 
+			catch (IOException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
+	
+	/**
+	 * Updates log information
+	 * @param aEntry
+	 */
+	public void updateLogger (boolean aEntry) {
+		
+		for(int logCount = 0; logCount< 1; logCount++)
+		{
+			try 
+			{
+				if(mLogWriter != null)
+				{
+					mLogWriter.write("," + "aEntry");
+				}
+				
 			} 
 			catch (IOException e) 
 			{
@@ -128,7 +231,11 @@ public class Logger
 	{
 		try
 		{
-			mLogWriter.write("\n");
+			if(mLogWriter != null)
+			{
+				mLogWriter.write("\n");
+			}
+			
 		} 
 		catch (IOException e)
 		{
@@ -144,7 +251,10 @@ public class Logger
 	{
 		try 
 		{
-			mLogWriter.close();
+			if(mLogWriter != null)
+			{
+				mLogWriter.close();
+			}
 		} 
 		catch (IOException e) 
 		{
