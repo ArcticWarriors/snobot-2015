@@ -11,27 +11,31 @@ public class Util
 
     public static Color getMotorColor(double aSpeed)
     {
+    	return colorGetShaededColor(aSpeed, 1, -1);
+    }
+    
+	public static Color colorGetShaededColor(double aSpeed, double aMax, double aMin)
+	{
     	if(Double.isNaN(aSpeed))
     	{
     		aSpeed = 0;
     	}
-    	if(aSpeed > 1)
+    	if(aSpeed > aMax)
     	{
-    		aSpeed = 1;
+    		aSpeed = aMax;
     	}
-    	else if(aSpeed < -1)
+    	else if(aSpeed < aMin)
     	{
-    		aSpeed = -1;
+    		aSpeed = aMin;
     	}
     	
-        float percent = (float) ((aSpeed + 1)/2);
+        float percent = (float) ((aSpeed - aMin)/(aMax - aMin));
         float hue = percent * .33f;
         float saturation = 1f;
         float brightness = 1f;
         
         return Color.getHSBColor(hue, saturation, brightness);
-        
-    }
+	}
 
     /**
      * Modifies the color to make it more see through

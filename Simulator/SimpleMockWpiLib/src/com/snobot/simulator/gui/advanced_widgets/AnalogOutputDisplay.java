@@ -1,5 +1,6 @@
 package com.snobot.simulator.gui.advanced_widgets;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.Map;
@@ -8,20 +9,20 @@ import java.util.Map.Entry;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import com.snobot.simulator.AnalogWrapper;
+import com.snobot.simulator.RelayWrapper;
 import com.snobot.simulator.SpeedControllerWrapper;
 import com.snobot.simulator.gui.Util;
 
-import edu.wpi.first.wpilibj.SpeedController;
+public class AnalogOutputDisplay extends BaseWidgetDisplay<AnalogWrapper> {
 
-public class SpeedControllerGraphicDisplay extends BaseWidgetDisplay<SpeedControllerWrapper>
-{
-	private class MotorDisplay extends JPanel
+	private class AnalogDisplay extends JPanel
 	{
 		private static final int sDOT_SIZE = 30;
 		
 		private double mMotorSpeed;
 		
-		public MotorDisplay()
+		public AnalogDisplay()
 		{
 			setPreferredSize(new Dimension(sDOT_SIZE, sDOT_SIZE));
 		}
@@ -35,26 +36,26 @@ public class SpeedControllerGraphicDisplay extends BaseWidgetDisplay<SpeedContro
 		public void paint(Graphics g)
 		{
 			g.clearRect(0, 0, getWidth(), getHeight());
-			g.setColor(Util.getMotorColor(mMotorSpeed));
+			g.setColor(Util.colorGetShaededColor(mMotorSpeed, 5, 0));
 			g.fillOval(0, 0, sDOT_SIZE, sDOT_SIZE);
 		}
 	}
 	
-	public SpeedControllerGraphicDisplay(Map<Integer, SpeedControllerWrapper> aMap) {
+	public AnalogOutputDisplay(Map<Integer, AnalogWrapper> aMap) {
 		super(aMap);
-		setBorder(new TitledBorder("Speed Controllers"));
+		setBorder(new TitledBorder("Analog"));
 	}
 
-	public void update(Map<Integer, SpeedControllerWrapper> aMap)
+	public void update(Map<Integer, AnalogWrapper> aMap)
 	{
-		for(Entry<Integer, SpeedControllerWrapper> pair : aMap.entrySet())
+		for(Entry<Integer, AnalogWrapper> pair : aMap.entrySet())
 		{
-			((MotorDisplay)mWidgetMap.get(pair.getKey())).updateDisplay(pair.getValue().get());
+			((AnalogDisplay)mWidgetMap.get(pair.getKey())).updateDisplay(pair.getValue().getVoltage());
 		}
 	}
 
 	@Override
-	protected MotorDisplay createWidget(Entry<Integer, SpeedControllerWrapper> pair) {
-		return new MotorDisplay();
+	protected AnalogDisplay createWidget(Entry<Integer, AnalogWrapper> pair) {
+		return new AnalogDisplay();
 	}
 }

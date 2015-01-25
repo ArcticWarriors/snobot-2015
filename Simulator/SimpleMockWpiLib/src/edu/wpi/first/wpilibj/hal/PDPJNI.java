@@ -4,12 +4,36 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 public class PDPJNI extends JNIWrapper {
-	public static native double getPDPTemperature(IntBuffer status);
-	public static native double getPDPVoltage(IntBuffer status);
-	public static native double getPDPChannelCurrent(byte channel, IntBuffer status);
-	public static native double getPDPTotalCurrent(IntBuffer status);
-	public static native double getPDPTotalPower(IntBuffer status);
-	public static native double getPDPTotalEnergy(IntBuffer status);
-	public static native void resetPDPTotalEnergy(IntBuffer status);
-	public static native void clearPDPStickyFaults(IntBuffer status);
+	public static double getPDPTemperature(IntBuffer status)
+    {
+		return 0;
+    }
+	public static double getPDPVoltage(IntBuffer status)
+    {
+		return 0;
+    }
+	public static double getPDPChannelCurrent(byte channel, IntBuffer status)
+    {
+		return 0;
+    }
+	public static double getPDPTotalCurrent(IntBuffer status)
+    {
+		return 0;
+    }
+	public static double getPDPTotalPower(IntBuffer status)
+    {
+		return 0;
+    }
+	public static double getPDPTotalEnergy(IntBuffer status)
+    {
+		return 0;
+    }
+	public static void resetPDPTotalEnergy(IntBuffer status)
+    {
+
+    }
+	public static void clearPDPStickyFaults(IntBuffer status)
+    {
+
+    }
 }
