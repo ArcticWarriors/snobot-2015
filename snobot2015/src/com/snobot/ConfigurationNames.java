@@ -11,10 +11,6 @@ public class ConfigurationNames {
 	public static final String sDRIVER_FLIGHTSTICK_1_PORT = "DriverFlightstick1Port";
 	public static final String sDRIVER_FLIGHTSTICK_2_PORT = "DriverFlightstick2Port";
 	
-	public static final String sJoystickMode_Xbox = "Xbox mode";
-	public static final String sJoystickMode_flightstick = "Flightstick Mode";
-	public static final String sJoystickMode = "sJoystickMode";
-	
 	//Gem Pad X or Xbox Controller 
 	public static final int sXbox_Left_X_Axis = 0;
 	public static final int sXbox_Left_Y_Axis = 1;

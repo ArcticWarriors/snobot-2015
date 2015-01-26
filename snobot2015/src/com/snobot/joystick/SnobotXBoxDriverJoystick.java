@@ -1,6 +1,7 @@
 package com.snobot.joystick;
 
 import com.snobot.ConfigurationNames;
+import com.snobot.drivetrain.SnobotDriveTrain.DriveMode;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	
 	private Joystick mXBoxStick;
-	private boolean mDriveMode;
+	private DriveMode mDriveMode;
 	private Logger mLogger;
 	private int mTankModeButton;
 	private SendableChooser mTankModeChooser;
@@ -23,18 +24,19 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	 * Constructor for xBox Joy stick
 	 * @param aXBoxStick Argument for xBox Stick
 	 */
-	public SnobotXBoxDriverJoystick (Joystick aXBoxStick, SendableChooser aTankModeChooser)
+	public SnobotXBoxDriverJoystick (Joystick aXBoxStick, SendableChooser aTankModeChooser, DriveMode aDriveMode)
 	{
 		System.out.println("Creating xbox joystick");
 		mXBoxStick = aXBoxStick;
 		mTankModeChooser = aTankModeChooser;
+		mDriveMode = aDriveMode;
 	}
 
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
 		mTankModeButton = (int) (mTankModeChooser.getSelected());
-		mDriveMode = true;
+		mDriveMode = DriveMode.Tank;
 	}
 
 	@Override
@@ -42,11 +44,11 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 		// TODO Auto-generated method stub
 		if ( mXBoxStick.getRawButton(mTankModeButton))
 		{
-			mDriveMode = true;
+			mDriveMode = DriveMode.Tank;
 		}
 		else if (mXBoxStick.getRawButton(ConfigurationNames.sXbox_Button_B))
 		{
-			mDriveMode = false;
+			mDriveMode = DriveMode.Arcade;
 		}
 	}
 
@@ -115,11 +117,5 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	public double getRotate() {
 		// TODO Auto-generated method stub
 		return mXBoxStick.getRawAxis(ConfigurationNames.sXbox_Right_X_Axis);
-	}
-	
-	public boolean getDriveMode()
-	{
-		// TODO Auto-generated method stub
-		return mDriveMode;
 	}
 }

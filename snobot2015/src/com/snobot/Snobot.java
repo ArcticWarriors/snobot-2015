@@ -11,12 +11,14 @@ import java.util.Vector;
 
 import com.snobot.claw.SnobotClaw;
 import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.drivetrain.SnobotDriveTrain.DriveMode;
 import com.snobot.joystick.IDriverJoystick;
 import com.snobot.joystick.SnobotFlightstickJoystick;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.stacker.SnobotStacker;
+import com.snobot.SmartDashboardNames;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -47,8 +49,7 @@ public class Snobot extends IterativeRobot {
 	
 	private IDriverJoystick mDriverJoystick;
 	
-	//TODO Calvin - This is for testing, remove later
-	public String logHeader = "";
+	private DriveMode mDriveMode;
 	
 	private SendableChooser mTankModeButtonChooser;
 	private SendableChooser mArcadeModeButton;
@@ -68,6 +69,7 @@ public class Snobot extends IterativeRobot {
 	//Vector of iSubsystems for group actions
 	private ArrayList<ISubsystem> mSubsystems;
 	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
 	
 	
     /**
@@ -81,22 +83,21 @@ public class Snobot extends IterativeRobot {
     	mRawDriverJoystick   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
     	
     	mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
-    	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick, mTankModeButtonChooser);
-    	mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor,
-    			mUpperLimitSwitch, mLowerLimitSwitch);
+    	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick, mTankModeButtonChooser, mDriveMode);
+    	mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch);
     	mClaw = new SnobotClaw (mOperatorJoystick);
-    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick);
+    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick, mDriveMode);
     	
-    	String joystickType = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sJoystickMode, ConfigurationNames.sJoystickMode_Xbox);
+    	String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
     	
     	mTankModeButtonChooser = new SendableChooser();
     	mTankModeButtonChooser.addDefault("xboxButtonA", ConfigurationNames.sXbox_Button_A);
     	mTankModeButtonChooser.addObject("xboxButtonB", ConfigurationNames.sXbox_Button_B);
     	SmartDashboard.putData("Tank Mode Button Chooser", mTankModeButtonChooser);
     	
-    	if(joystickType.equals(ConfigurationNames.sJoystickMode_Xbox))
+    	if(joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox))
     	{
-        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mTankModeButtonChooser);
+        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mTankModeButtonChooser, mDriveMode);
     	}
     	else 
     	{
@@ -111,24 +112,17 @@ public class Snobot extends IterativeRobot {
 	    	mSubsystems.add(mClaw);
 	    	mSubsystems.add(mDriveTrain);
     	
-	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
-			String headerDate = sdf.format(new Date());
-	    	logHeader = logHeader + headerDate; 
-	    	
+    	String headerDate = sdf.format(new Date());
+    	mLogger = new Logger(headerDate);
+
+		mLogger.init();
+		
     	for (ISubsystem iSubsystem : mSubsystems) {
 			iSubsystem.init();
 		}
     	
-
+    	mLogger.endHeader();
     	
-    	ConfigurationNames.saveIfUpdated();
-    	
-    	//TODO add "addHeaders" from separate modules/components
-    	
-    	mLogger = new Logger(logHeader,headerDate);
-
-			mLogger.init();
-		
     	ConfigurationNames.saveIfUpdated();
     }
 
@@ -143,7 +137,8 @@ public class Snobot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        Date logDate = new Date();
+
+        String logDate = sdf.format(new Date());
         
         for (ISubsystem iSubsystem : mSubsystems) {
 			iSubsystem.update();
@@ -156,18 +151,14 @@ public class Snobot extends IterativeRobot {
 			iSubsystem.updateSmartDashboard();
 		}
         
-
-        mLogger.startLogEntry(); 
+        mLogger.startLogEntry(logDate); 
         
         for (ISubsystem iSubsystem : mSubsystems) {
 			iSubsystem.updateLog();
 			
 		mLogger.endLogger();
 			
-		}
-        
-        
-        
+		} 
         
     }
     
