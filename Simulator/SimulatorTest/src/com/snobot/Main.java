@@ -18,8 +18,8 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.internal.LocalHLUsageReporting;
-import edu.wpi.first.wpilibj.internal.LocalHardwareTimer;
+import edu.wpi.first.wpilibj.internal.HardwareHLUsageReporting;
+import edu.wpi.first.wpilibj.internal.HardwareTimer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class Main {
@@ -130,8 +130,8 @@ public class Main {
     public static void main(String[] args) throws Exception
     {
 
-		Timer.SetImplementation(new LocalHardwareTimer());
-		HLUsageReporting.SetImplementation(new LocalHLUsageReporting());
+		Timer.SetImplementation(new HardwareTimer());
+		HLUsageReporting.SetImplementation(new HardwareHLUsageReporting());
 		RobotState.SetImplementation(DriverStation.getInstance());
 		
 
@@ -145,11 +145,20 @@ public class Main {
 				
 				@Override
 				public void run() {
-			        SimulatorFrame frame = new SimulatorFrame();
-			        frame.pack();
-			        frame.setVisible(true);
+					
+			        try
+			        {
+				        SimulatorFrame frame = new SimulatorFrame();
+				        frame.pack();
+				        frame.setVisible(true);
 			        
-			        frame.start(main.simulated_robot);
+			        	frame.start(main.simulated_robot);
+			        }
+			        catch(Exception e)
+			        {
+			        	e.printStackTrace();
+						System.exit(-1);
+			        }
 				}
 			});
 		}

@@ -113,7 +113,7 @@ public class AnalogJNI extends JNIWrapper {
     }
 	public static int getAnalogLSBWeight(ByteBuffer analog_port_pointer, IntBuffer status)
     {
-		return 0;
+		return 1;
     }
 	public static int getAnalogOffset(ByteBuffer analog_port_pointer, IntBuffer status)
     {
@@ -129,7 +129,7 @@ public class AnalogJNI extends JNIWrapper {
     }
 	public static void resetAccumulator(ByteBuffer analog_port_pointer, IntBuffer status)
     {
-
+		getWrapperFromBuffer(analog_port_pointer).setAccumulator(0);
     }
 	public static void setAccumulatorCenter(ByteBuffer analog_port_pointer, int center, IntBuffer status)
     {
@@ -149,7 +149,13 @@ public class AnalogJNI extends JNIWrapper {
     }
 	public static void getAccumulatorOutput(ByteBuffer analog_port_pointer, LongBuffer value, IntBuffer count, IntBuffer status)
     {
+		double accum_value = getWrapperFromBuffer(analog_port_pointer).getAccumulator();
+		accum_value *= 1000000000;
+		accum_value *= .007; //Volts per degree second
+		accum_value *= 100;
 
+		value.put((long) accum_value);
+		count.put(1);
     }
 	public static ByteBuffer initializeAnalogTrigger(ByteBuffer port_pointer, IntBuffer index, IntBuffer status)
     {
