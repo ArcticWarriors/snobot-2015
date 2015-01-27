@@ -23,8 +23,9 @@ public class SnobotClaw implements IClaw{
 	 * @param aJoystick Argument for operator Joystick
 	 *
 	 */
-	public SnobotClaw(IOperatorJoystick aJoystick){
+	public SnobotClaw(IOperatorJoystick aJoystick,Logger alogger){
 		mJoystick=aJoystick;
+		mLogger=alogger;
 	}
 	@Override
 	public void openClaw() {

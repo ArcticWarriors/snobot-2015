@@ -85,7 +85,7 @@ public class Snobot extends IterativeRobot {
     	mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
     	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick, mTankModeButtonChooser, mDriveMode);
     	mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch);
-    	mClaw = new SnobotClaw (mOperatorJoystick);
+    	mClaw = new SnobotClaw (mOperatorJoystick, mLogger);
     	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick, mDriveMode);
     	
     	String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
