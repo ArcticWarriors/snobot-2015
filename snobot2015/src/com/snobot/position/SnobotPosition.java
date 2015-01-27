@@ -116,7 +116,8 @@ public class SnobotPosition{
 		// TODO Add different sets of calculations for specific units of measure
 		// TODO distanceLeft/distanceRight are also instantiated here
 		
-		return (distanceRight+distanceLeft)/2;
+		// return (distanceRight+distanceLeft)/2;
+		return 0;
 	}
 	
 	/**
