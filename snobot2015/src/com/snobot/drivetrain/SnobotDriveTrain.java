@@ -25,6 +25,7 @@ public class SnobotDriveTrain implements IDriveTrain{
 	private DriveMode mDriveMode;
 	
 	private Logger mLogger;
+	private UnitOfMeasure mDefaultMeasure;
 	
 	/**
 	 * Takes 2 speed controllers and joy stick arguments
@@ -43,6 +44,7 @@ public class SnobotDriveTrain implements IDriveTrain{
 			mDriverJoystick = aDriverJoystick;  
 			mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
 			mDriveMode = aDriveMode;
+			mDefaultMeasure=UnitOfMeasure.Feet;
 		}
 
 	@Override
@@ -102,6 +104,26 @@ public class SnobotDriveTrain implements IDriveTrain{
 	@Override
 	public void setMotorSpeed(double aLeft, double aRight) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double calculateDistanceRight() {
+		// TODO Code to calculate distance goes here; needs encoders
+		// Remember to refer to mDefaultMeasure
+		return 0;
+	}
+
+	@Override
+	public double calculateDistanceLeft() {
+		// TODO Code to calculate distance goes here; needs encoders
+		// Remember to refer to mDefaultMeasure
+		return 0;
+	}
+
+	@Override
+	public void setDefaultMeasure(UnitOfMeasure aMeasure) {
+		mDefaultMeasure=aMeasure;
 		
 	}
 }

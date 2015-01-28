@@ -45,14 +45,14 @@ public class Snobot extends IterativeRobot {
 	private DigitalInput mLowerLimitSwitch;
 
 	private SnobotOperatorJoystick mOperatorJoystick;
-	private SnobotXBoxDriverJoystick mXBoxDriverJoystick;
-	
 	private IDriverJoystick mDriverJoystick;
 	
 	private DriveMode mDriveMode;
 	
 	private SendableChooser mTankModeButtonChooser;
 	private SendableChooser mArcadeModeButtonChooser;
+	private int mTankModeButton;
+	private int mArcadeModeButton;
 	
 	//Modules
 	private SnobotStacker mStacker;
@@ -77,16 +77,23 @@ public class Snobot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	
+
+    	sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
+		String headerDate = sdf.format(new Date());
+		mLogger = new Logger(headerDate);
+	
+		mLogger.init();
+	
+	
     	mDriveLeft1  = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
     	mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
     	mRawOperatorJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT, 1));
     	mRawDriverJoystick   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
     	
     	mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
-    	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick, mTankModeButtonChooser, mArcadeModeButtonChooser, mDriveMode);
     	mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch);
     	mClaw = new SnobotClaw (mOperatorJoystick, mLogger);
-    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick, mDriveMode);
     	
     	// Various Button Chooser for mode changes
     	mTankModeButtonChooser = new SendableChooser();
@@ -111,7 +118,7 @@ public class Snobot extends IterativeRobot {
     	
     	if(joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox))
     	{
-        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mTankModeButtonChooser, mArcadeModeButtonChooser, mDriveMode);
+        	mDriverJoystick = new SnobotXBoxDriverJoystick(mTankModeButton, mArcadeModeButton, mRawDriverJoystickPrimary, mLogger, mTankModeButtonChooser, mArcadeModeButtonChooser, mDriveMode);
     	}
     	else 
     	{
@@ -119,18 +126,15 @@ public class Snobot extends IterativeRobot {
     		mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary);
     	}
 
+    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode);
+
     	mSubsystems = new ArrayList<ISubsystem>();
 	    	mSubsystems.add(mOperatorJoystick);
-	    	mSubsystems.add(mXBoxDriverJoystick);
+	    	mSubsystems.add(mDriverJoystick);
 	    	mSubsystems.add(mStacker);
 	    	mSubsystems.add(mClaw);
 	    	mSubsystems.add(mDriveTrain);
     	
-    	sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
-    	String headerDate = sdf.format(new Date());
-    	mLogger = new Logger(headerDate);
-
-		mLogger.init();
 		
     	for (ISubsystem iSubsystem : mSubsystems) {
 			iSubsystem.init();

@@ -25,13 +25,16 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	 * Constructor for xBox Joy stick
 	 * @param aXBoxStick Argument for xBox Stick
 	 */
-	public SnobotXBoxDriverJoystick (Joystick aXBoxStick, SendableChooser aTankModeChooser, SendableChooser aArcadeModeChooser, DriveMode aDriveMode)
+	public SnobotXBoxDriverJoystick (int aTankModeButton, int aArcadeModeButton, Joystick aXBoxStick, Logger aLogger, SendableChooser aTankModeChooser, SendableChooser aArcadeModeChooser, DriveMode aDriveMode)
 	{
 		System.out.println("Creating xbox joystick");
 		mXBoxStick = aXBoxStick;
 		mTankModeChooser = aTankModeChooser;
 		mDriveMode = aDriveMode;
 		mArcadeModeChooser = aArcadeModeChooser;
+		mLogger = aLogger;
+		mTankModeButton = aTankModeButton;
+		mArcadeModeButton = aArcadeModeButton;
 	}
 
 	@Override

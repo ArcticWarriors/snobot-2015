@@ -1,5 +1,7 @@
 package com.snobot.position;
 
+import com.snobot.drivetrain.SnobotDriveTrain;
+
 import edu.wpi.first.wpilibj.Gyro;
 
 /**
@@ -37,15 +39,7 @@ public class SnobotPosition{
 	 */
 	private Gyro mGyroSensor;
 	
-	/**
-	 * Unit of measure to return as the distance traveled
-	 */
-	public enum unitOfMeasure{Feet, Meters, Inches, Centimeters}
-	
-	/**
-	 * Default unit of measure used by updateAll()
-	 */
-	private unitOfMeasure mDefaultMeasure;
+	private SnobotDriveTrain mDriveTrain;
 	
 	/**
 	 * Constructs a SnobotPosition object
@@ -56,15 +50,14 @@ public class SnobotPosition{
 	 * @param aDefaultMeasure Measure that is to be used by default
 	 */
 	public SnobotPosition(double aPositionX, double aPositionY, double aRadianRotation, 
-			Gyro aGyroSensor, unitOfMeasure aDefaultMeasure) {
-		mPositionX=aPositionX;
-		mPositionY=aPositionY;
-		mRadianRotation=aRadianRotation;
+			Gyro aGyroSensor, SnobotDriveTrain aDriveTrain) {
+		this.mPositionX=aPositionX;
+		this.mPositionY=aPositionY;
+		this.mRadianRotation=aRadianRotation;
 		
 		// TODO Add Gyro declaration to com.snobot.Snobot and port to com.snobot.ConfigurationNames (0-1 only)
-		mGyroSensor=aGyroSensor;
-		
-		mDefaultMeasure=aDefaultMeasure;
+		this.mGyroSensor=aGyroSensor;
+		this.mDriveTrain=aDriveTrain;
 	}
 
 	/**
@@ -72,8 +65,8 @@ public class SnobotPosition{
 	 * side of the field being north
 	 * @return Snobot's X-position
 	 */
-	public double getSnobotX() {
-		return Math.sin(mRadianRotation)*mDistanceTraveled+mPositionX;
+	private double calculateX() {
+		return Math.sin(this.mRadianRotation)*this.mDistanceTraveled+this.mPositionX;
 	}
 
 	/**
@@ -81,8 +74,9 @@ public class SnobotPosition{
 	 * side of the field being north
 	 * @return Snobot's Y-position
 	 */
-	public double getSnobotY() {
-		return Math.cos(mRadianRotation)*mDistanceTraveled;
+	private double calculateY() {
+		
+		return Math.cos(this.mRadianRotation)*this.mDistanceTraveled+this.mPositionY;
 	}
 
 	/**
@@ -90,7 +84,7 @@ public class SnobotPosition{
 	 * @return The direction Snobot is facing in radians
 	 * between 2PI and -2PI
 	 */
-	public double getSnobotDirection() {
+	private double calculateDirection() {
 		double gyroDegrees=mGyroSensor.getAngle();
 		if(gyroDegrees>360){
 			gyroDegrees=gyroDegrees-360;;
@@ -105,19 +99,13 @@ public class SnobotPosition{
 	/**
 	 * Calculates the distance traveled by Snobot as the
 	 * average of the left/right distances
-	 * @return The distance traveled by Snobot
+	 * @return The distance traveled by Snobot since last update
 	 */
-	public double getDistanceTraveled(unitOfMeasure aMeasure) {
-		double distanceRight;
-		double distanceLeft;
+	private double calculateDistanceTraveled() {
+		double distanceRight=this.mDriveTrain.calculateDistanceRight();
+		double distanceLeft=this.mDriveTrain.calculateDistanceLeft();
 		
-		// TODO Code for getting wheel rotations goes here  (encoders needed)
-		// Forward/backward must be considered
-		// TODO Add different sets of calculations for specific units of measure
-		// TODO distanceLeft/distanceRight are also instantiated here
-		
-		// return (distanceRight+distanceLeft)/2;
-		return 0;
+		return (distanceRight+distanceLeft)/2;
 	}
 	
 	/**
@@ -125,19 +113,10 @@ public class SnobotPosition{
 	 * via object methods
 	 */
 	public void updateAll(){
-		this.mRadianRotation=this.getSnobotDirection();
-		this.mDistanceTraveled=this.getDistanceTraveled(mDefaultMeasure);
-		this.mPositionX=this.getSnobotX();
-		this.mPositionY=this.getSnobotY();
-	}
-	
-	/**
-	 * Changes the default unit of measure to
-	 * the one provided
-	 * @param aNewMeasure The desired default measure
-	 */
-	public void setNewDefaultMeasure(unitOfMeasure aNewMeasure){
-		mDefaultMeasure=aNewMeasure;
+		this.mRadianRotation=this.calculateDirection();
+		this.mDistanceTraveled=this.calculateDistanceTraveled();
+		this.mPositionX=this.calculateX();
+		this.mPositionY=this.calculateY();
 	}
 	
 	/**
@@ -145,7 +124,39 @@ public class SnobotPosition{
 	 * @return mRadianRotation in human-friendly degrees
 	 */
 	public double getSnobotDegrees(){
-		return Math.toDegrees(mRadianRotation);
+		return Math.toDegrees(this.mRadianRotation);
+	}
+	
+	/**
+	 * Gets Snobot's X-position from mPositionX
+	 * @return Snobot's X-position
+	 */
+	public double getSnobotX(){
+		return this.mPositionX;
+	}
+	
+	/**
+	 * Gets Snobot's Y-position from mPositionY
+	 * @return Snobot's Y-position
+	 */
+	public double getSnobotY(){
+		return this.mPositionY;
+	}
+	
+	/**
+	 * Gets Snobot's radian rotation from mRadianRotation
+	 * @return Snobot's rotation in radians
+	 */
+	public double getSnobotRadians(){
+		return this.mRadianRotation;
+	}
+	
+	/**
+	 * Gets the distance traveled from mDistanceTraveled
+	 * @return The distance traveled by Snobot since last update
+	 */
+	public double getSnobotDistance(){
+		return this.mDistanceTraveled;
 	}
 	
 	//TODO Add logger method(s)

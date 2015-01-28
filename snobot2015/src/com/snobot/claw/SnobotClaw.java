@@ -80,10 +80,7 @@ public class SnobotClaw implements IClaw{
 	public void updateLog() {
 		// TODO Auto-generated method stub
 		 
-		String clawPressureString = String.valueOf(mClawPressure);
-		
-		mLogger.updateLogger(clawPressureString);
-		
+		mLogger.updateLogger(mClawPressure);
 	}
 	@Override
 	public void stop() {
