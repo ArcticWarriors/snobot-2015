@@ -126,7 +126,7 @@ public class Snobot extends IterativeRobot {
 	    	mSubsystems.add(mClaw);
 	    	mSubsystems.add(mDriveTrain);
     	
-	    	sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
+    	sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
     	String headerDate = sdf.format(new Date());
     	mLogger = new Logger(headerDate);
 

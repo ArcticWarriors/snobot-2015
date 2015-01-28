@@ -40,7 +40,6 @@ public class Logger
 			for(int logCount = 0; logCount< 1; logCount++)
 			{
 				mLogWriter.write(mLogDate);
-			
 			}
 		} 
 		catch (IOException e) 
@@ -67,7 +66,7 @@ public class Logger
 				{
 					if(mLogWriter != null)
 					{
-						mLogWriter.write("," + "aHeader");
+						mLogWriter.write("," + aHeader);
 					}
 				}
 				catch (IOException e)
@@ -137,7 +136,7 @@ public class Logger
 			{
 				if(mLogWriter != null)
 				{
-					mLogWriter.write("," + "aEntry");
+					mLogWriter.write("," + aEntry);
 				}
 				
 			} 
@@ -162,7 +161,7 @@ public class Logger
 			{
 				if(mLogWriter != null)
 				{
-					mLogWriter.write("," + "aEntry");
+					mLogWriter.write("," + aEntry);
 				}
 				
 			} 
@@ -187,7 +186,7 @@ public class Logger
 			{
 				if(mLogWriter != null)
 				{
-					mLogWriter.write("," + "aEntry");
+					mLogWriter.write("," + aEntry);
 				}
 				
 			} 
@@ -212,7 +211,7 @@ public class Logger
 			{
 				if(mLogWriter != null)
 				{
-					mLogWriter.write("," + "aEntry");
+					mLogWriter.write("," + aEntry);
 				}
 				
 			} 
