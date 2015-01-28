@@ -1,7 +1,11 @@
 package com.snobot;
 
 import edu.wpi.first.wpilibj.Preferences;
-
+/**
+ * This is the maps of the ports.
+ * @author jbnol_000
+ *
+ */
 public class ConfigurationNames {
 	
 	private static boolean sPropertyAdded = false;

@@ -3,6 +3,7 @@ package com.snobot.drivetrain;
 
 import com.snobot.SmartDashboardNames;
 import com.snobot.joystick.IDriverJoystick;
+import com.snobot.joystick.IDriverJoystick.DriveMode;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -16,16 +17,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class SnobotDriveTrain implements IDriveTrain{
 
-	public enum DriveMode
-	{
-		Arcade, Tank
-	}
 	
 	private SpeedController mSpeedControllerLeft;
 	private SpeedController mSpeedControllerRight;		 
 	private IDriverJoystick mDriverJoystick;
 	private RobotDrive mRobotDrive;
 	private DriveMode mDriveMode;
+	
 	private Logger mLogger;
 	
 	/**
@@ -40,8 +38,6 @@ public class SnobotDriveTrain implements IDriveTrain{
 			IDriverJoystick aDriverJoystick, 
 			DriveMode aDriveMode)
 		{
-			
-			mDriveMode = aDriveMode;
 			mSpeedControllerLeft = aSpeedControllerLeft;
 			mSpeedControllerRight =	aSpeedControllerRight;	 
 			mDriverJoystick = aDriverJoystick;  
@@ -65,12 +61,12 @@ public class SnobotDriveTrain implements IDriveTrain{
 	public void control() {
 		// TODO Add switch between the two drives
 		
-		if (mDriveMode == DriveMode.Arcade)
+		if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode())
 		{
 			mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
 			System.out.println("Aracde Drive");
 		}
-		else if (mDriveMode == DriveMode.Tank)
+		else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
 		{
 			mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
 			System.out.println("Tank Drive");
