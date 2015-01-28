@@ -66,7 +66,17 @@ public class SimulatorFrame extends JFrame
 			
 			@Override
 			public void run() {
-				aRobot.startCompetition();
+				
+				try
+				{
+					aRobot.startCompetition();
+				}
+				catch(Exception e)
+				{
+					System.out.println("Unexpected exception, shutting down simulator");
+					e.printStackTrace();
+					System.exit(-1);
+				}
 			}
 		});
         t.start();

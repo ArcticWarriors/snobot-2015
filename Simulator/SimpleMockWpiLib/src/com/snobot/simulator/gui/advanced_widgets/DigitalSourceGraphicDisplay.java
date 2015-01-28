@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import com.snobot.simulator.DigitalSourceWrapper;
-import com.snobot.simulator.gui.widget_displays.BaseWidgetDisplay;
 
 public class DigitalSourceGraphicDisplay extends BaseWidgetDisplay<DigitalSourceWrapper>
 {

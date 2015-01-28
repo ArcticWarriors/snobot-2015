@@ -1,6 +1,6 @@
 package edu.wpi.first.wpilibj.templates.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Positioning {
@@ -16,11 +16,13 @@ public class Positioning {
     private double wheelDiff = 0;
 	
 	private DrivetrainSubsystem mDrivetrain;
+	private Gyro mGyro;
 	
-	public Positioning(DrivetrainSubsystem aDrivetrain)
+	public Positioning(DrivetrainSubsystem aDrivetrain, Gyro aGyro)
 	{
 		mX = mY = mInitAngle = 0;
 		mDrivetrain = aDrivetrain;
+		mGyro = aGyro;
 	}
 	
 	public void setPosition(double x, double y, double angle)
@@ -28,6 +30,7 @@ public class Positioning {
 		mX = x;
 		mY = y;
 		mInitAngle = angle;
+		mGyro.reset();
 	}
 
 
@@ -80,5 +83,6 @@ public class Positioning {
         SmartDashboard.putNumber("Robot X", mX);
         SmartDashboard.putNumber("Robot Y", mY);
         SmartDashboard.putNumber("Angle", mAngle);
+        SmartDashboard.putNumber("Angle2", mGyro.getAngle());
     }
 }

@@ -454,6 +454,12 @@ public class CANJNI extends JNIWrapper{
 	public static final int CAN_IS_FRAME_REMOTE = 0x80000000;
 	public static final int CAN_IS_FRAME_11BIT = 0x40000000;
 
-	public static native void FRCNetworkCommunicationCANSessionMuxSendMessage(int messageID, ByteBuffer data, int periodMs, IntBuffer status);
-	public static native ByteBuffer FRCNetworkCommunicationCANSessionMuxReceiveMessage(IntBuffer messageID, int messageIDMask, ByteBuffer timeStamp, IntBuffer status);
+	public static void FRCNetworkCommunicationCANSessionMuxSendMessage(int messageID, ByteBuffer data, int periodMs, IntBuffer status)
+    {
+
+    }
+	public static ByteBuffer FRCNetworkCommunicationCANSessionMuxReceiveMessage(IntBuffer messageID, int messageIDMask, ByteBuffer timeStamp, IntBuffer status)
+    {
+		return null;
+    }
 }
