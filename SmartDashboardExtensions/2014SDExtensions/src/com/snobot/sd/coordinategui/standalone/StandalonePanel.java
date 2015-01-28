@@ -162,7 +162,16 @@ public class StandalonePanel extends JPanel
 	{
 		try 
 		{
-			mProperties.load(new FileReader(new File(sPROPERTIES_FILE)));
+			File f = new File(sPROPERTIES_FILE);
+			
+			if(f.exists())
+			{
+				mProperties.load(new FileReader(f));
+			}
+			else
+			{
+				System.err.println("Could not read properties file at '" + sPROPERTIES_FILE + "', will use defaults");
+			}
 			
 			mFieldDrawer.setDrawAuton( Boolean.parseBoolean( 
 					mProperties.getProperty(sDRAW_AUTON_KEY, "false") ));
