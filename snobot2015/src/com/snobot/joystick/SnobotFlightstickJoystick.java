@@ -34,7 +34,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		mLogger.addHeader("FLighsticks Joystick Inputs");
+		mLogger.addHeader("Flighsticks Joystick Inputs");
 		mDriveMode = DriveMode.Tank;
 	}
 
