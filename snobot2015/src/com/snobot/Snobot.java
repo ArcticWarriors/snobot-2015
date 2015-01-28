@@ -17,10 +17,12 @@ import com.snobot.joystick.SnobotFlightstickJoystick;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
+import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
 import com.snobot.SmartDashboardNames;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -43,6 +45,7 @@ public class Snobot extends IterativeRobot {
 	private Joystick mRawDriverJoystickSecondary;
 	private DigitalInput mUpperLimitSwitch;
 	private DigitalInput mLowerLimitSwitch;
+	private Gyro mGyroSensor;
 
 	private SnobotOperatorJoystick mOperatorJoystick;
 	private IDriverJoystick mDriverJoystick;
@@ -59,6 +62,7 @@ public class Snobot extends IterativeRobot {
 	private SnobotClaw mClaw;
 	private SnobotDriveTrain mDriveTrain;
 	private Logger mLogger;
+	private SnobotPosition mPositioner;
 	
 	//Motors
 	private Talon mDriveLeft1;
@@ -84,7 +88,6 @@ public class Snobot extends IterativeRobot {
 		mLogger = new Logger(headerDate);
 	
 		mLogger.init();
-	
 	
     	mDriveLeft1  = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
     	mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
@@ -131,6 +134,10 @@ public class Snobot extends IterativeRobot {
     	}
 
     	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode);
+    	
+    	mGyroSensor=new Gyro(ConfigurationNames.getOrSetPropertyInt("Gyro_Sensor", 0));
+    	
+    	mPositioner=new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 
     	mSubsystems = new ArrayList<ISubsystem>();
 	    	mSubsystems.add(mOperatorJoystick);

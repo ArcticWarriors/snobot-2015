@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Gyro;
  *
  */
 public class SnobotPosition{
-	// TODO Add SnobotPosition object declaration to com.snobot.Snobot
 	
 	/**
 	 * Snobot's X-position
@@ -58,13 +57,10 @@ public class SnobotPosition{
 	 * @param aGryroSensor Gyro object to calculate orientation
 	 * @param aDefaultMeasure Measure that is to be used by default
 	 */
-	public SnobotPosition(double aPositionX, double aPositionY, double aRadianRotation, 
-			Gyro aGyroSensor, SnobotDriveTrain aDriveTrain, Logger aLogger) {
-		this.mPositionX=aPositionX;
-		this.mPositionY=aPositionY;
-		this.mRadianRotation=aRadianRotation;
-		
-		// TODO Add Gyro declaration to com.snobot.Snobot and port to com.snobot.ConfigurationNames (ports 0-1 only)
+	public SnobotPosition(Gyro aGyroSensor, SnobotDriveTrain aDriveTrain, Logger aLogger) {
+		this.mPositionX=0;
+		this.mPositionY=0;
+		this.mRadianRotation=0;
 		this.mGyroSensor=aGyroSensor;
 		this.mDriveTrain=aDriveTrain;
 		this.mLogger=aLogger;
@@ -168,6 +164,31 @@ public class SnobotPosition{
 	public double getSnobotDistance(){
 		return this.mDistanceTraveled;
 	}
+	
+	/**
+	 * Sets Snobot's X-position
+	 * @param aXPosition Snobot's new X-position
+	 */
+	public void setSnobotXPosition(double aXPosition){
+		this.mPositionX=aXPosition;
+	}
+	
+	/**
+	 * Sets Snobot's Y-position
+	 * @param aYPosition Snobot's new Y-position
+	 */
+	public void setSnobotYPosition(double aYPosition){
+		this.mPositionY=aYPosition;
+	}
+	
+	/**
+	 * Sets Snobot's orientation
+	 * @param aDegrees Snobot's new orientation in degrees
+	 */
+	public void setSnobotDegreeRotation(double aDegrees){
+		this.mRadianRotation=Math.toRadians(aDegrees);
+	}
+	
 	/**
 	 * Gives Logger headers for entries: X-position, Y-position, Degrees, Distance
 	 */

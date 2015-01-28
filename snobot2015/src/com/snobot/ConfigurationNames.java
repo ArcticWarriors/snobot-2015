@@ -55,6 +55,7 @@ public class ConfigurationNames {
 
 	//Analog Inputs
 	public static final int sOperator_Left_Axis = 1;
+	public static final String sGyro_Sensor="GyroSensor";
 
 	public static double getOrSetPropertyDouble(String aName, double aDefault)
 	{
