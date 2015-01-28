@@ -36,8 +36,7 @@ public class SnobotStacker implements IStacker {
             DigitalInput aLowerLimitSwitch, Logger aLogger) {
         mOperatorJoystick = aOperatorJoystick;
         mStackerMotor = aStackerMotor;
-        mStackerDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(
-                ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
+        mStackerDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
         mUpperLimitSwitch = aUpperLimitSwitch;
         mLowerLimitSwitch = aLowerLimitSwitch;
         mLogger = aLogger;

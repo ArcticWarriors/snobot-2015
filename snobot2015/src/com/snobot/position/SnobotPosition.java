@@ -105,7 +105,6 @@ public class SnobotPosition {
         double gyroDegrees = mGyroSensor.getAngle();
         if (gyroDegrees > 360) {
             gyroDegrees = gyroDegrees - 360;
-            ;
         }
 
         else if (gyroDegrees < -360) {

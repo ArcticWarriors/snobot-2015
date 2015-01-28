@@ -65,14 +65,11 @@ public class SnobotDriveTrain implements IDriveTrain {
         // TODO Add switch between the two drives
 
         if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode()) {
-            mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(),
-                    mDriverJoystick.getRotate());
+            mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
             System.out.println("Aracde Drive");
         }
-        else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick
-                .getDriveMode()) {
-            mRobotDrive.tankDrive(mDriverJoystick.getLeftY(),
-                    mDriverJoystick.getRightY(), true);
+        else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode()) {
+            mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
             System.out.println("Tank Drive");
         }
 
@@ -86,10 +83,8 @@ public class SnobotDriveTrain implements IDriveTrain {
 
     @Override
     public void updateSmartDashboard() {
-        SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED,
-                mSpeedControllerLeft.get());
-        SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED,
-                mSpeedControllerRight.get());
+        SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED,  mSpeedControllerLeft.get());
+        SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
     }
 
     @Override

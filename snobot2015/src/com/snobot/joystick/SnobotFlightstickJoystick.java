@@ -106,22 +106,19 @@ public class SnobotFlightstickJoystick implements IDriverJoystick {
     @Override
     public double getRightY() {
         // TODO Auto-generated method stub
-        return mRightFlightStick
-                .getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
     }
 
     @Override
     public double getSpeed() {
         // TODO Auto-generated method stub
-        return mLeftFlightStick
-                .getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
     }
 
     @Override
     public double getRotate() {
         // TODO Auto-generated method stub
-        return mRightFlightStick
-                .getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
+        return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
     }
 
     @Override

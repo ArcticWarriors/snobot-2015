@@ -13,10 +13,8 @@ public interface IDriveTrain extends ISubsystem {
     /**
      * Will set speed of motors.
      * 
-     * @param aRight
-     *            Right Motor Speed
-     * @param aLeft
-     *            Left Motor Speed
+     * @param aRight Right Motor Speed
+     * @param aLeft Left Motor Speed
      */
     public void setMotorSpeed(double aLeft, double aRight);
 
