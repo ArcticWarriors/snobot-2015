@@ -23,11 +23,22 @@ public class SnobotOperatorJoystick implements IOperatorJoystick{
 	@Override
 	public boolean getStackerUp() {
 		
-		if (mOperatorJoystick.getRawAxis(1) == 1){
+		if (mOperatorJoystick.getRawAxis(1) >= .2){
 			return true;
 		}
 		else {
-		return false;
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean getStackerDown() {
+		
+		if (mOperatorJoystick.getRawAxis(1) <= - .2){
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 
