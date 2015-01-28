@@ -1,6 +1,6 @@
 package com.snobot.joystick;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.XboxButtonMap;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -104,25 +104,25 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
 	@Override
 	public double getLeftY() {
 		// TODO Auto-generated method stub
-		return mXBoxStick.getRawAxis(ConfigurationNames.sXbox_Left_Y_Axis);
+		return mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
 	}
 
 	@Override
 	public double getRightY() {
 		// TODO Auto-generated method stub
-		return mXBoxStick.getRawAxis(ConfigurationNames.sXbox_Right_Y_Axis);
+		return mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
 	}
 
 	@Override
 	public double getSpeed() {
 		// TODO Auto-generated method stub
-		return mXBoxStick.getRawAxis(ConfigurationNames.sXbox_Left_Y_Axis);
+		return mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
 	}
 
 	@Override
 	public double getRotate() {
 		// TODO Auto-generated method stub
-		return mXBoxStick.getRawAxis(ConfigurationNames.sXbox_Right_X_Axis);
+		return mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
 	}
 
 	@Override

@@ -2,13 +2,9 @@
 package com.snobot;
 
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Vector;
-
 import com.snobot.claw.SnobotClaw;
 import com.snobot.drivetrain.SnobotDriveTrain;
 import com.snobot.joystick.IDriverJoystick;
@@ -85,7 +81,6 @@ public class Snobot extends IterativeRobot {
     	sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
 		String headerDate = sdf.format(new Date());
 		mLogger = new Logger(headerDate);
-	
 		mLogger.init();
 	
     	mDriveLeft1  = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
@@ -103,21 +98,21 @@ public class Snobot extends IterativeRobot {
     	
     	// Various Button Chooser for mode changes
     	mTankModeButtonChooser = new SendableChooser();
-    	mTankModeButtonChooser.addDefault("xboxButtonA", ConfigurationNames.sXbox_Button_A);
-    	mTankModeButtonChooser.addObject("xboxButtonB", ConfigurationNames.sXbox_Button_B);
-    	mTankModeButtonChooser.addObject("xboxButtonX", ConfigurationNames.sXbox_Button_X);
-    	mTankModeButtonChooser.addObject("xboxButtonY", ConfigurationNames.sXbox_Button_Y);
-    	mTankModeButtonChooser.addObject("xboxButtonLeftBumper", ConfigurationNames.sXbox_Button_Left_Bumper);
-    	mTankModeButtonChooser.addObject("xboxButtonRightBumper", ConfigurationNames.sXbox_Button_Right_Bumper);
+    	mTankModeButtonChooser.addDefault("xboxButtonA", XboxButtonMap.A_BUTTON);
+    	mTankModeButtonChooser.addObject("xboxButtonB", XboxButtonMap.B_BUTTON);
+    	mTankModeButtonChooser.addObject("xboxButtonX", XboxButtonMap.X_BUTTON);
+    	mTankModeButtonChooser.addObject("xboxButtonY", XboxButtonMap.Y_BUTTON);
+    	mTankModeButtonChooser.addObject("xboxButtonLeftBumper", XboxButtonMap.LB_BUTTON);
+    	mTankModeButtonChooser.addObject("xboxButtonRightBumper", XboxButtonMap.RB_BUTTON);
     	SmartDashboard.putData("Tank Mode Button Chooser", mTankModeButtonChooser);
     	
     	mArcadeModeButtonChooser = new SendableChooser();
-    	mArcadeModeButtonChooser.addDefault("xboxButtonB", ConfigurationNames.sXbox_Button_B);
-    	mArcadeModeButtonChooser.addObject("xboxButtonA", ConfigurationNames.sXbox_Button_A);
-    	mArcadeModeButtonChooser.addObject("xboxButtonX", ConfigurationNames.sXbox_Button_X);
-    	mArcadeModeButtonChooser.addObject("xboxButtonY", ConfigurationNames.sXbox_Button_Y);
-    	mArcadeModeButtonChooser.addObject("xboxButtonLeftBumper", ConfigurationNames.sXbox_Button_Left_Bumper);
-    	mArcadeModeButtonChooser.addObject("xboxButtonRightBumper", ConfigurationNames.sXbox_Button_Right_Bumper);
+    	mArcadeModeButtonChooser.addDefault("xboxButtonB", XboxButtonMap.B_BUTTON);
+    	mArcadeModeButtonChooser.addObject("xboxButtonA", XboxButtonMap.A_BUTTON);
+    	mArcadeModeButtonChooser.addObject("xboxButtonX", XboxButtonMap.X_BUTTON);
+    	mArcadeModeButtonChooser.addObject("xboxButtonY", XboxButtonMap.Y_BUTTON);
+    	mArcadeModeButtonChooser.addObject("xboxButtonLeftBumper", XboxButtonMap.LB_BUTTON);
+    	mArcadeModeButtonChooser.addObject("xboxButtonRightBumper", XboxButtonMap.RB_BUTTON);
     	SmartDashboard.putData("Arcade Mode Button Choose", mArcadeModeButtonChooser);
     	
     	String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
@@ -136,16 +131,16 @@ public class Snobot extends IterativeRobot {
 
     	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode);
     	
-    	mGyroSensor=new Gyro(ConfigurationNames.getOrSetPropertyInt("Gyro_Sensor", 0));
+    	mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt("Gyro_Sensor", 0));
     	
-    	mPositioner=new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
+    	mPositioner = new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 
     	mSubsystems = new ArrayList<ISubsystem>();
-	    	mSubsystems.add(mOperatorJoystick);
-	    	mSubsystems.add(mDriverJoystick);
-	    	mSubsystems.add(mStacker);
-	    	mSubsystems.add(mClaw);
-	    	mSubsystems.add(mDriveTrain);
+    	mSubsystems.add(mOperatorJoystick);
+    	mSubsystems.add(mDriverJoystick);
+    	mSubsystems.add(mStacker);
+    	mSubsystems.add(mClaw);
+    	mSubsystems.add(mDriveTrain);
     	
 		
     	for (ISubsystem iSubsystem : mSubsystems) {
