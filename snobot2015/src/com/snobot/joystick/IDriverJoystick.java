@@ -11,6 +11,17 @@ import com.snobot.ISubsystem;
 public interface IDriverJoystick extends ISubsystem {
 	
 	/**
+	 * enumeration to decide drive mode
+	 * @author ayush_000
+	 *
+	 */
+	public enum DriveMode
+	{
+		Arcade, Tank
+	}
+	
+	
+	/**
 	 * Gets input from Left Stick in tank mode
 	 * @return double for Left Joy stick (-1 to 1)
 	 */
@@ -34,4 +45,11 @@ public interface IDriverJoystick extends ISubsystem {
 	 * @return double for joy stick angle
 	 */
 	double getRotate ();
+	
+	/**
+	 * 
+	 * @return drive mode (Tank/Arcade)
+	 */
+	DriveMode getDriveMode ();
+	
 }

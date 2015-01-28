@@ -1,7 +1,11 @@
 package com.snobot;
 
 import edu.wpi.first.wpilibj.Preferences;
-
+/**
+ * This is the maps of the ports.
+ * @author jbnol_000
+ *
+ */
 public class ConfigurationNames {
 	
 	private static boolean sPropertyAdded = false;
@@ -41,6 +45,7 @@ public class ConfigurationNames {
 	public static final String sDRIVE_MOTOR_RIGHT_1 = "RightDriveMotor1";
 	public static final String sDRIVE_MOTOR_RIGHT_2 = "RightDriveMotor2";
 	public static final String sSTACKER_DEFAULT_SPEED = "StackerDefaultSpeed";
+	public static final String sSTACKER_MOTOR = "StackerMotor";
 	
 	//Solenoid
 
@@ -50,6 +55,7 @@ public class ConfigurationNames {
 
 	//Analog Inputs
 	public static final int sOperator_Left_Axis = 1;
+	public static final String sGyro_Sensor="GyroSensor";
 
 	public static double getOrSetPropertyDouble(String aName, double aDefault)
 	{

@@ -1,6 +1,7 @@
 package com.snobot.stacker;
 
 import com.snobot.ConfigurationNames;
+import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -16,9 +17,10 @@ public class SnobotStacker implements IStacker{
 
 	private SpeedController mStackerMotor;
 	private IOperatorJoystick mOperatorJoystick;
-	private double mDefaultSpeed;
+	private double mStackerDefaultSpeed;
 	private boolean mUpperLimitSwitchState;
 	private boolean mLowerLimitSwitchState;
+	private Logger mLogger;
 	DigitalInput mUpperLimitSwitch;
 	DigitalInput mLowerLimitSwitch;
 	
@@ -27,12 +29,13 @@ public class SnobotStacker implements IStacker{
 	 * @param aOperatorJoystick Argument of operator joy stick
 	 */
 	public SnobotStacker(IOperatorJoystick aOperatorJoystick, SpeedController aStackerMotor,
-			DigitalInput aUpperLimitSwitch, DigitalInput aLowerLimitSwitch){
+			DigitalInput aUpperLimitSwitch, DigitalInput aLowerLimitSwitch, Logger aLogger ){
 	    mOperatorJoystick= aOperatorJoystick;
 	    mStackerMotor = aStackerMotor; 
-	    mDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
+	    mStackerDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
 	    mUpperLimitSwitch = aUpperLimitSwitch;
 	    mLowerLimitSwitch = aLowerLimitSwitch;
+	    mLogger = aLogger;
 	}
 
 	@Override
@@ -42,7 +45,7 @@ public class SnobotStacker implements IStacker{
 			stop();
 		}
 		else {
-			mStackerMotor.set(mDefaultSpeed);
+			mStackerMotor.set(mStackerDefaultSpeed);
 		}
 		/**
 		 * Assuming Physical Limit Switch will stop stacker at limit
@@ -57,7 +60,7 @@ public class SnobotStacker implements IStacker{
 			stop ();
 		}
 		else {
-			mStackerMotor.set(mDefaultSpeed);
+			mStackerMotor.set(-mStackerDefaultSpeed);
 		}
 		/**
 		 * Assuming Physical Limit Switch will stop stacker at limit
@@ -81,8 +84,11 @@ public class SnobotStacker implements IStacker{
 		 if (mOperatorJoystick.getStackerUp()){
 			 moveStackerUp();
 		 }
-		 else {
+		 else if (mOperatorJoystick.getStackerDown()){
 			 moveStackerDown();
+		 }
+		 else {
+			 stop();
 		 }
 		
 	}
@@ -100,7 +106,9 @@ public class SnobotStacker implements IStacker{
 
 	@Override
 	public void updateLog() {
-		// TODO Auto-generated method stub
+
+		mLogger.updateLogger(mUpperLimitSwitchState);
+		mLogger.updateLogger(mLowerLimitSwitchState);
 		
 	}
 

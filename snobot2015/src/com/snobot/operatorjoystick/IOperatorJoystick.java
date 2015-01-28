@@ -15,6 +15,12 @@ public interface IOperatorJoystick extends ISubsystem {
 	 * @return True if stacker is up else false
 	 */
 	boolean getStackerUp();
+		
+	/**
+	 * Asks if stacker is down
+	 * @return True if stacker is down else false
+	 */
+	boolean getStackerDown ();
 	
 	/**
 	 * Asks if claw is up

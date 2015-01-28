@@ -11,16 +11,18 @@ import java.util.Vector;
 
 import com.snobot.claw.SnobotClaw;
 import com.snobot.drivetrain.SnobotDriveTrain;
-import com.snobot.drivetrain.SnobotDriveTrain.DriveMode;
 import com.snobot.joystick.IDriverJoystick;
+import com.snobot.joystick.IDriverJoystick.DriveMode;
 import com.snobot.joystick.SnobotFlightstickJoystick;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
+import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
 import com.snobot.SmartDashboardNames;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
@@ -38,27 +40,28 @@ public class Snobot extends IterativeRobot {
 	
 	//IO
 	private Joystick mRawOperatorJoystick;
-	private Joystick mRawDriverJoystick;
 	private Joystick mRawDriverJoystickPrimary;
 	private Joystick mRawDriverJoystickSecondary;
 	private DigitalInput mUpperLimitSwitch;
 	private DigitalInput mLowerLimitSwitch;
+	private Gyro mGyroSensor;
 
 	private SnobotOperatorJoystick mOperatorJoystick;
-	private SnobotXBoxDriverJoystick mXBoxDriverJoystick;
-	
 	private IDriverJoystick mDriverJoystick;
 	
 	private DriveMode mDriveMode;
 	
 	private SendableChooser mTankModeButtonChooser;
-	private SendableChooser mArcadeModeButton;
+	private SendableChooser mArcadeModeButtonChooser;
+	private int mTankModeButton;
+	private int mArcadeModeButton;
 	
 	//Modules
 	private SnobotStacker mStacker;
 	private SnobotClaw mClaw;
 	private SnobotDriveTrain mDriveTrain;
 	private Logger mLogger;
+	private SnobotPosition mPositioner;
 	
 	//Motors
 	private Talon mDriveLeft1;
@@ -69,7 +72,7 @@ public class Snobot extends IterativeRobot {
 	//Vector of iSubsystems for group actions
 	private ArrayList<ISubsystem> mSubsystems;
 	
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
+	SimpleDateFormat sdf;
 	
 	
     /**
@@ -77,45 +80,73 @@ public class Snobot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	
+
+    	sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
+		String headerDate = sdf.format(new Date());
+		mLogger = new Logger(headerDate);
+	
+		mLogger.init();
+	
     	mDriveLeft1  = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
     	mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
     	mRawOperatorJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT, 1));
-    	mRawDriverJoystick   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
+
+    	mUpperLimitSwitch = new DigitalInput (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH_PORT_1, 1));
+    	mLowerLimitSwitch = new DigitalInput (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH_PORT_1, 2));
+    	
     	
     	mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
-    	mXBoxDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystick, mTankModeButtonChooser, mDriveMode);
-    	mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch);
-    	mClaw = new SnobotClaw (mOperatorJoystick);
-    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mXBoxDriverJoystick, mDriveMode);
+    	mStackerMotor = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR, 2));
+    	mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger);
+    	mClaw = new SnobotClaw (mOperatorJoystick, mLogger);
     	
-    	String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
-    	
+    	// Various Button Chooser for mode changes
     	mTankModeButtonChooser = new SendableChooser();
     	mTankModeButtonChooser.addDefault("xboxButtonA", ConfigurationNames.sXbox_Button_A);
     	mTankModeButtonChooser.addObject("xboxButtonB", ConfigurationNames.sXbox_Button_B);
+    	mTankModeButtonChooser.addObject("xboxButtonX", ConfigurationNames.sXbox_Button_X);
+    	mTankModeButtonChooser.addObject("xboxButtonY", ConfigurationNames.sXbox_Button_Y);
+    	mTankModeButtonChooser.addObject("xboxButtonLeftBumper", ConfigurationNames.sXbox_Button_Left_Bumper);
+    	mTankModeButtonChooser.addObject("xboxButtonRightBumper", ConfigurationNames.sXbox_Button_Right_Bumper);
     	SmartDashboard.putData("Tank Mode Button Chooser", mTankModeButtonChooser);
+    	
+    	mArcadeModeButtonChooser = new SendableChooser();
+    	mArcadeModeButtonChooser.addDefault("xboxButtonB", ConfigurationNames.sXbox_Button_B);
+    	mArcadeModeButtonChooser.addObject("xboxButtonA", ConfigurationNames.sXbox_Button_A);
+    	mArcadeModeButtonChooser.addObject("xboxButtonX", ConfigurationNames.sXbox_Button_X);
+    	mArcadeModeButtonChooser.addObject("xboxButtonY", ConfigurationNames.sXbox_Button_Y);
+    	mArcadeModeButtonChooser.addObject("xboxButtonLeftBumper", ConfigurationNames.sXbox_Button_Left_Bumper);
+    	mArcadeModeButtonChooser.addObject("xboxButtonRightBumper", ConfigurationNames.sXbox_Button_Right_Bumper);
+    	SmartDashboard.putData("Arcade Mode Button Choose", mArcadeModeButtonChooser);
+    	
+    	String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
     	
     	if(joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox))
     	{
-        	mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mTankModeButtonChooser, mDriveMode);
+    		mRawDriverJoystickPrimary   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
+        	mDriverJoystick = new SnobotXBoxDriverJoystick(mTankModeButton, mArcadeModeButton, mRawDriverJoystickPrimary, mLogger, mTankModeButtonChooser, mArcadeModeButtonChooser, mDriveMode);
     	}
     	else 
     	{
-    		mRawDriverJoystickPrimary = new Joystick (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
-    		mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary);
+    		mRawDriverJoystickPrimary   = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
+    		mRawDriverJoystickSecondary = new Joystick (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
+    		mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
     	}
+
+    	mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode);
+    	
+    	mGyroSensor=new Gyro(ConfigurationNames.getOrSetPropertyInt("Gyro_Sensor", 0));
+    	
+    	mPositioner=new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 
     	mSubsystems = new ArrayList<ISubsystem>();
 	    	mSubsystems.add(mOperatorJoystick);
-	    	mSubsystems.add(mXBoxDriverJoystick);
+	    	mSubsystems.add(mDriverJoystick);
 	    	mSubsystems.add(mStacker);
 	    	mSubsystems.add(mClaw);
 	    	mSubsystems.add(mDriveTrain);
     	
-    	String headerDate = sdf.format(new Date());
-    	mLogger = new Logger(headerDate);
-
-		mLogger.init();
 		
     	for (ISubsystem iSubsystem : mSubsystems) {
 			iSubsystem.init();
