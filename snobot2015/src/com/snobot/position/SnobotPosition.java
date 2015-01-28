@@ -1,6 +1,7 @@
 package com.snobot.position;
 
 import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Gyro;
 
@@ -39,7 +40,15 @@ public class SnobotPosition{
 	 */
 	private Gyro mGyroSensor;
 	
+	/**
+	 * Snobot's drive-train that SnobotPosition uses to get distance
+	 */
 	private SnobotDriveTrain mDriveTrain;
+	
+	/**
+	 * Logger for recording data
+	 */
+	private Logger mLogger;
 	
 	/**
 	 * Constructs a SnobotPosition object
@@ -50,14 +59,15 @@ public class SnobotPosition{
 	 * @param aDefaultMeasure Measure that is to be used by default
 	 */
 	public SnobotPosition(double aPositionX, double aPositionY, double aRadianRotation, 
-			Gyro aGyroSensor, SnobotDriveTrain aDriveTrain) {
+			Gyro aGyroSensor, SnobotDriveTrain aDriveTrain, Logger aLogger) {
 		this.mPositionX=aPositionX;
 		this.mPositionY=aPositionY;
 		this.mRadianRotation=aRadianRotation;
 		
-		// TODO Add Gyro declaration to com.snobot.Snobot and port to com.snobot.ConfigurationNames (0-1 only)
+		// TODO Add Gyro declaration to com.snobot.Snobot and port to com.snobot.ConfigurationNames (ports 0-1 only)
 		this.mGyroSensor=aGyroSensor;
 		this.mDriveTrain=aDriveTrain;
+		this.mLogger=aLogger;
 	}
 
 	/**
@@ -158,7 +168,26 @@ public class SnobotPosition{
 	public double getSnobotDistance(){
 		return this.mDistanceTraveled;
 	}
+	/**
+	 * Gives Logger headers for entries: X-position, Y-position, Degrees, Distance
+	 */
+	public void giveHeaders(){
+		this.mLogger.addHeader("Snobot X-position");
+		this.mLogger.addHeader("Snobot's Y-position");
+		this.mLogger.addHeader("Snobot's orientation in degrees");
+		this.mLogger.addHeader("Distance traveled since last update");
+		
+	}
+	/**
+	 * Gives Logger entries: X-position, Y-position, Degrees, Distance
+	 */
+	public void giveEntry(){
+		this.mLogger.updateLogger(mPositionX);
+		this.mLogger.updateLogger(mPositionY);
+		this.mLogger.updateLogger(this.getSnobotDegrees());
+		this.mLogger.updateLogger(this.mDistanceTraveled);
+	}
 	
-	//TODO Add logger method(s)
+	
 
 }
