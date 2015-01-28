@@ -90,6 +90,7 @@ public class Logger
 			if(mLogWriter != null)
 			{
 				mLogWriter.write("\n");
+				mLogWriter.flush();
 			}
 			
 		} 
@@ -234,6 +235,7 @@ public class Logger
 			if(mLogWriter != null)
 			{
 				mLogWriter.write("\n");
+				mLogWriter.flush();
 			}
 			
 		} 

@@ -16,7 +16,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 
 	private Joystick mLeftFlightStick;
 	private Joystick mRightFlightStick;
-	private boolean mDriveMode;
+	private DriveMode mDriveMode;
 	private Logger mLogger;
 	
 	/**
@@ -34,7 +34,8 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
-		mDriveMode = true;
+		mLogger.addHeader("FLighsticks Joystick Inputs");
+		mDriveMode = DriveMode.Tank;
 	}
 
 	@Override
@@ -42,11 +43,11 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 		// TODO Auto-generated method stub
 		if ( mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_4))
 		{
-			mDriveMode = true;
+			mDriveMode = DriveMode.Tank;
 		}
 		else if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_5))
 		{
-			mDriveMode = false;
+			mDriveMode = DriveMode.Arcade;
 		}
 	}
 
@@ -71,20 +72,17 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 	@Override
 	public void updateLog() {
 		// TODO Auto-generated method stub
-//		mLogger.updateLogger(
-				
 			// Left Y Axis
-			mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+			mLogger.updateLogger(mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis));
 				
 			// Right Y Axis
-			mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+			mLogger.updateLogger(mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis));
 			
 			// Speed
-			mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+			mLogger.updateLogger(mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis));
 			
 			// Angle of the Joy stick (for arcade drive)
-			mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
-//		)
+			mLogger.updateLogger(mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis));
 	}
 
 	@Override
@@ -116,11 +114,12 @@ public class SnobotFlightstickJoystick implements IDriverJoystick{
 		// TODO Auto-generated method stub
 		return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
 	}
-	
-	
-	public boolean getDriveMode()
-	{
+
+	@Override
+	public DriveMode getDriveMode() {
 		// TODO Auto-generated method stub
 		return mDriveMode;
 	}
+
+
 }
