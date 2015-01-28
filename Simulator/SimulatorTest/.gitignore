@@ -1,4 +1,5 @@
 /bin/
 simulator_config.properties
-*_preferences.ini
 joystick_config.properties
+*_preferences.ini
+*_log.csv

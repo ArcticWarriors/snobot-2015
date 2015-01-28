@@ -29,7 +29,7 @@ public class Logger {
     public void init() {
 
         try {
-            mLogWriter = new FileWriter("RobotLog_" + mLogDate);
+            mLogWriter = new FileWriter("RobotLog_" + mLogDate + "_log.csv");
 
             for (int logCount = 0; logCount < 1; logCount++) {
                 mLogWriter.write(mLogDate);
