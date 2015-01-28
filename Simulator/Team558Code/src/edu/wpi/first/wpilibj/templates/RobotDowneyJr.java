@@ -8,6 +8,7 @@
 package edu.wpi.first.wpilibj.templates;
 
 
+import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
@@ -53,7 +54,7 @@ public class RobotDowneyJr extends IterativeRobot {
         // Initialize all subsystems
         CommandBase.init();
         
-        mPositioning = new Positioning(CommandBase.drivetrain);
+        mPositioning = new Positioning(CommandBase.drivetrain, new Gyro(RobotMap.gyroPort));
     }
 
     public void autonomousInit() {

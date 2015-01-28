@@ -3,6 +3,7 @@ package com.snobot.simulator.joysticks;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.java.games.input.Component;
 import net.java.games.input.Controller;
 import net.java.games.input.Component.Identifier;
 
@@ -50,7 +51,11 @@ public class BaseJoystick implements IMockJoystick
 	
 			for(int i = 0; i < mAxis.size(); ++i)
 			{
-				mAxisValues[i] = (short)(mController.getComponent(mAxis.get(i)).getPollData() * 127);
+				Component c = mController.getComponent(mAxis.get(i));
+				if(c != null)
+				{
+					mAxisValues[i] = (short)(c.getPollData() * 127);
+				}
 			}
 		}
 		else

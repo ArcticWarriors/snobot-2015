@@ -51,4 +51,5 @@ public class RobotMap {
 
     //Digital Inputs
     //Analog Inputs
+    public static int gyroPort = 1;
 }

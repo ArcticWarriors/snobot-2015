@@ -4,6 +4,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import com.snobot.simulator.SensorActuatorRegistry;
+import com.snobot.simulator.gui.advanced_widgets.AnalogOutputDisplay;
 import com.snobot.simulator.gui.advanced_widgets.DigitalSourceGraphicDisplay;
 import com.snobot.simulator.gui.advanced_widgets.RelayGraphicDisplay;
 import com.snobot.simulator.gui.advanced_widgets.SolenoidGraphicDisplay;
@@ -21,6 +22,7 @@ public class GraphicalSensorDisplayPanel extends JPanel
 	private SolenoidGraphicDisplay mSolenoidPanel;
 	private DigitalSourceGraphicDisplay mDigitalSourcePanel;
 	private RelayGraphicDisplay mRelayPanel;
+	private AnalogOutputDisplay mAnalogPanel;
 	
 	public void create()
 	{
@@ -30,6 +32,7 @@ public class GraphicalSensorDisplayPanel extends JPanel
 		mSolenoidPanel = new SolenoidGraphicDisplay(reg.getSolenoids());
 		mDigitalSourcePanel = new DigitalSourceGraphicDisplay(reg.getDigitalSources());
 		mRelayPanel = new RelayGraphicDisplay(reg.getRelays());
+		mAnalogPanel = new AnalogOutputDisplay(reg.getAnalog());
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -37,17 +40,21 @@ public class GraphicalSensorDisplayPanel extends JPanel
 		{
 			add(mSpeedControllerPanel);
 		}
-		if(!mSpeedControllerPanel.isEmpty())
+		if(!mSolenoidPanel.isEmpty())
 		{
 			add(mSolenoidPanel);
 		}
-		if(!mSpeedControllerPanel.isEmpty())
+		if(!mDigitalSourcePanel.isEmpty())
 		{
 			add(mDigitalSourcePanel);
 		}
-		if(!mSpeedControllerPanel.isEmpty())
+		if(!mRelayPanel.isEmpty())
 		{
 			add(mRelayPanel);
+		}
+		if(!mAnalogPanel.isEmpty())
+		{
+			add(mAnalogPanel);
 		}
 	}
 
@@ -59,5 +66,6 @@ public class GraphicalSensorDisplayPanel extends JPanel
 		mSolenoidPanel.update(reg.getSolenoids());
 		mDigitalSourcePanel.update(reg.getDigitalSources());
 		mRelayPanel.update(reg.getRelays());
+		mAnalogPanel.update(reg.getAnalog());
 	}
 }

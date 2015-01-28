@@ -1,4 +1,4 @@
-package com.snobot.simulator.gui.widget_displays;
+package com.snobot.simulator.gui.advanced_widgets;
 
 import java.awt.Container;
 import java.util.HashMap;
