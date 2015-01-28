@@ -12,5 +12,5 @@ public class SmartDashboardNames
 	
 	public static final String sJoystickMode_Xbox = "Xbox mode";
 	public static final String sJoystickMode_flightstick = "Flightstick Mode";
-	public static final String sJoystickMode = "Joystick Mode";
+	public static final String sJoystickMode = "JoystickMode";
 }
