@@ -11,24 +11,24 @@ import com.snobot.ISubsystem;
  */
 public interface IClaw extends ISubsystem {
 
-	/**
-	 * Opens claw
-	 */
-	void openClaw();
-	
-	/**
-	 * Closes claw
-	 */
-	void closeClaw();
-	
-	/**
-	 * Moves claw up
-	 */
-	void moveClawUp();
-	
-	/**
-	 * Moves claw down
-	 */
-	void moveClawDown();
-    
+    /**
+     * Opens claw
+     */
+    void openClaw();
+
+    /**
+     * Closes claw
+     */
+    void closeClaw();
+
+    /**
+     * Moves claw up
+     */
+    void moveClawUp();
+
+    /**
+     * Moves claw down
+     */
+    void moveClawDown();
+
 }
