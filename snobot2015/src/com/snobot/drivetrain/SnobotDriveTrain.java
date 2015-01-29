@@ -36,14 +36,12 @@ public class SnobotDriveTrain implements IDriveTrain {
      * @param aDriverJoystick
      *            Argument Driver Joy stick
      */
-    public SnobotDriveTrain(SpeedController aSpeedControllerLeft,
-            SpeedController aSpeedControllerRight,
-            IDriverJoystick aDriverJoystick, DriveMode aDriveMode) {
+    public SnobotDriveTrain(SpeedController aSpeedControllerLeft, SpeedController aSpeedControllerRight, IDriverJoystick aDriverJoystick,
+            DriveMode aDriveMode) {
         mSpeedControllerLeft = aSpeedControllerLeft;
         mSpeedControllerRight = aSpeedControllerRight;
         mDriverJoystick = aDriverJoystick;
-        mRobotDrive = new RobotDrive(mSpeedControllerLeft,
-                mSpeedControllerRight);
+        mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
         mDriveMode = aDriveMode;
         mDefaultMeasure = UnitOfMeasure.Feet;
     }
@@ -83,7 +81,7 @@ public class SnobotDriveTrain implements IDriveTrain {
 
     @Override
     public void updateSmartDashboard() {
-        SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED,  mSpeedControllerLeft.get());
+        SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
     }
 

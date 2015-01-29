@@ -113,16 +113,13 @@ public class Snobot extends IterativeRobot {
 
         if (joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox)) {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
-            mDriverJoystick = new SnobotXBoxDriverJoystick(mTankModeButton,
-                    mArcadeModeButton, mRawDriverJoystickPrimary, mLogger,
-                    mTankModeButtonChooser, mArcadeModeButtonChooser,
-                    mDriveMode);
+            mDriverJoystick = new SnobotXBoxDriverJoystick(mTankModeButton, mArcadeModeButton, mRawDriverJoystickPrimary, mLogger,
+                    mTankModeButtonChooser, mArcadeModeButtonChooser, mDriveMode);
         }
         else {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
             mRawDriverJoystickSecondary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
-            mDriverJoystick = new SnobotFlightstickJoystick(
-                    mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
+            mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
         }
 
         mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode);
