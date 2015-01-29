@@ -93,4 +93,8 @@ public class BaseJoystick implements IMockJoystick
 	public short[] getPovValues() {
 		return mPovValues;
 	}
+
+	public String getName() {
+		return mName;
+	}
 }
