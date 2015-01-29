@@ -1,6 +1,10 @@
 package com.snobot.simulator.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import com.snobot.simulator.SensorActuatorRegistry;
@@ -9,6 +13,7 @@ import com.snobot.simulator.gui.advanced_widgets.DigitalSourceGraphicDisplay;
 import com.snobot.simulator.gui.advanced_widgets.RelayGraphicDisplay;
 import com.snobot.simulator.gui.advanced_widgets.SolenoidGraphicDisplay;
 import com.snobot.simulator.gui.advanced_widgets.SpeedControllerGraphicDisplay;
+import com.snobot.simulator.joysticks.ViewAllGamepadsDialog;
 
 public class GraphicalSensorDisplayPanel extends JPanel 
 {
@@ -33,6 +38,7 @@ public class GraphicalSensorDisplayPanel extends JPanel
 		mDigitalSourcePanel = new DigitalSourceGraphicDisplay(reg.getDigitalSources());
 		mRelayPanel = new RelayGraphicDisplay(reg.getRelays());
 		mAnalogPanel = new AnalogOutputDisplay(reg.getAnalog());
+		JButton viewJoysticksButton = new JButton("View Available Joysticks...");
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -56,6 +62,19 @@ public class GraphicalSensorDisplayPanel extends JPanel
 		{
 			add(mAnalogPanel);
 		}
+		
+		add(viewJoysticksButton);
+		viewJoysticksButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ViewAllGamepadsDialog dialog = new ViewAllGamepadsDialog();
+				dialog.setModal(true);
+//				dialog.setSize(new Dimension(100, 300));
+				dialog.pack();
+				dialog.setVisible(true);
+			}
+		});
 	}
 
 	public void update() 
