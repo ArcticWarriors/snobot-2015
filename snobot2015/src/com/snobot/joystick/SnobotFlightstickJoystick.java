@@ -25,8 +25,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick {
      * @param aRightFlightStick
      *            Argument for Right Flight Stick
      */
-    public SnobotFlightstickJoystick(Joystick aLeftFlightStick,
-            Joystick aRightFlightStick, Logger aLogger) {
+    public SnobotFlightstickJoystick(Joystick aLeftFlightStick, Joystick aRightFlightStick, Logger aLogger) {
         System.out.println("Creating flightstick joystick");
         mLeftFlightStick = aLeftFlightStick;
         mRightFlightStick = aRightFlightStick;
@@ -46,12 +45,10 @@ public class SnobotFlightstickJoystick implements IDriverJoystick {
     @Override
     public void update() {
         // TODO Auto-generated method stub
-        if (mRightFlightStick
-                .getRawButton(ConfigurationNames.sFlightsticks_Button_4)) {
+        if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_4)) {
             mDriveMode = DriveMode.Tank;
         }
-        else if (mRightFlightStick
-                .getRawButton(ConfigurationNames.sFlightsticks_Button_5)) {
+        else if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_5)) {
             mDriveMode = DriveMode.Arcade;
         }
     }
@@ -99,8 +96,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick {
     @Override
     public double getLeftY() {
         // TODO Auto-generated method stub
-        return mLeftFlightStick
-                .getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
     }
 
     @Override
