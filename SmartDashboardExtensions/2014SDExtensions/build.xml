@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Snobot SD Extensions" default="jar">
+  
+	<property file="build.properties"/>
+
+	  <target name="clean" description="Clean up all build and distribution artifacts.">
+	    <echo>Cleaning "${build.dir}" and "${dist.dir}"</echo>
+	    <delete dir="${build.dir}"/>
+	    <delete dir="${dist.dir}"/>
+	  </target>
+
+	  <!-- Targets -->
+
+	  <target name="compile" description="Compile the source code.">
+	    <mkdir dir="${build.dir}"/>
+	    <echo>Compiling ${src.dir} with classpath=${classpath} to ${build.dir}</echo>
+
+	    <javac srcdir="${src.dir}"
+	     destdir="${build.dir}"
+	     includeAntRuntime="no"
+	     includeJavaRuntime="no"
+	     classpath="${classpath}"
+	     target="${ant.java.version}"
+	     source="${ant.java.version}"
+	     compiler="javac${ant.java.version}"
+	     debug="true">
+	    </javac>
+	  </target>
+
+	  <target name="jar" depends="compile">
+	    <echo>Making jar ${dist.jar}.</echo>
+	    <mkdir dir="${dist.dir}" />
+	    <mkdir dir="${build.jars}" />
+
+	    <echo>Copying jars from ${classpath} to ${build.jars}.</echo>
+	    <copy todir="${build.jars}" flatten="true">
+	      <path>
+	      <pathelement path="${classpath}"/>
+	      </path>
+	    </copy>
+
+	    <jar destfile="${dist.jar}" update="false">
+	        <fileset dir="${build.dir}" includes="**/*.class"/>
+	        <fileset dir="${src.dir}" includes="**/*.png **/*.jpg"/>
+	      <zipgroupfileset dir="${build.jars}">
+	        <include name="**/*.jar" />
+	      </zipgroupfileset>
+	    </jar>
+	  </target>
+
+
+</project> 
