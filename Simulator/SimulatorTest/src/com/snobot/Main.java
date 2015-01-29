@@ -137,7 +137,7 @@ public class Main {
 
 		try
 		{
-			Main main = new Main();
+			final Main main = new Main();
 			main.loadConfigFile();
 			main.startSimulator();
 	    	
