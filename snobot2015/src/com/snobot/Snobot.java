@@ -3,6 +3,7 @@ package com.snobot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import com.snobot.claw.SnobotClaw;
 import com.snobot.drivetrain.SnobotDriveTrain;
 import com.snobot.joystick.IDriverJoystick;
@@ -15,7 +16,9 @@ import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
 import com.snobot.SmartDashboardNames;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -64,6 +67,10 @@ public class Snobot extends IterativeRobot {
 
     // Vector of iSubsystems for group actions
     private ArrayList<ISubsystem> mSubsystems;
+    
+    private AnalogInput mTransducer;
+    private Encoder mEncoderLeft;
+    private Encoder mEncoderRight;
 
     SimpleDateFormat sdf;
 
@@ -77,7 +84,8 @@ public class Snobot extends IterativeRobot {
         String headerDate = sdf.format(new Date());
         mLogger = new Logger(headerDate);
         mLogger.init();
-
+        mTransducer = new AnalogInput(1);
+        
         mDriveLeft1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
         mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
         mRawOperatorJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT, 1));
@@ -88,7 +96,7 @@ public class Snobot extends IterativeRobot {
         mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
         mStackerMotor = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR, 2));
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger);
-        mClaw = new SnobotClaw(mOperatorJoystick, mLogger);
+        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer);
 
         // Various Button Chooser for mode changes
         mTankModeButtonChooser = new SendableChooser();
@@ -122,9 +130,17 @@ public class Snobot extends IterativeRobot {
             mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
         }
 
-        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode);
+        mEncoderLeft = new Encoder(
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 7),
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_B, 4));
+        
+        mEncoderRight = new Encoder (
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_A, 5), 
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6));
+        
+        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight);
 
-        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt("Gyro_Sensor", 0));
+        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGyro_Sensor, 0));
 
         mPositioner = new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 
