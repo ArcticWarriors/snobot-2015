@@ -97,4 +97,10 @@ public class BaseJoystick implements IMockJoystick
 	public String getName() {
 		return mName;
 	}
+
+	@Override
+	public String toString()
+	{
+		return getName();
+	}
 }

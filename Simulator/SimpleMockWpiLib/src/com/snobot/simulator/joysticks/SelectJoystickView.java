@@ -5,6 +5,9 @@ import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DragSource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.activation.ActivationDataFlavor;
 import javax.activation.DataHandler;
@@ -113,8 +116,12 @@ public class SelectJoystickView extends JPanel
 		    if(toIndex < getRowCount())
 		    {
 			    getDataVector().add(toIndex, o);
-			    fireTableDataChanged();
 		    }
+		    else
+		    {
+		    	getDataVector().add(o);
+		    }
+		    fireTableDataChanged();
 		}
 		
 	}
@@ -137,14 +144,32 @@ public class SelectJoystickView extends JPanel
 		mJoystickTable.getModel().addTableModelListener(new TableModelListener()  {
 	        public void tableChanged(TableModelEvent e) {
 	            if(e.getType() == e.UPDATE){
-	                System.out.println(e.getColumn());
-	                System.out.println(e.getFirstRow());
-	                System.out.println(e.getLastRow());
+	            	notifyJoysticksReordered();
 	            }
 	        }
 	    });
 		
 		add(pane);
+		
+		Map<Integer, IMockJoystick> availableJoysticks = JoystickFactory.get().getJoysticks();
+		List<Integer> indexes = new ArrayList<Integer>(availableJoysticks.keySet());
+		
+		for(int i : indexes)
+		{
+			model.addRow(new Object[]{availableJoysticks.get(i)});
+		}
+	}
+	
+	private void notifyJoysticksReordered()
+	{
+		List<IMockJoystick> joysticks = new ArrayList<IMockJoystick>();
+		
+		for(int i = 0; i < model.getRowCount(); ++i)
+		{
+			joysticks.add((IMockJoystick) model.getValueAt(i, 0));
+		}
+		
+		JoystickFactory.get().setJoysticks(joysticks);
 	}
 	
 	public void clear()
@@ -157,7 +182,7 @@ public class SelectJoystickView extends JPanel
 	
 	public void addJoystick(BaseJoystick aJoystick)
 	{
-		model.addRow(new Object[]{aJoystick.getName()});
+		model.addRow(new Object[]{aJoystick});
 	}
 	
 	
@@ -168,9 +193,9 @@ public class SelectJoystickView extends JPanel
 		
 		SelectJoystickView panel = new SelectJoystickView();
 
-		panel.addJoystick(new BaseJoystick("joystick1"));
-		panel.addJoystick(new BaseJoystick("joystick2"));
-		panel.addJoystick(new BaseJoystick("joystick3"));
+//		panel.addJoystick(new BaseJoystick("joystick1"));
+//		panel.addJoystick(new BaseJoystick("joystick2"));
+//		panel.addJoystick(new BaseJoystick("joystick3"));
 		
 		frame.setContentPane(panel);
 		
