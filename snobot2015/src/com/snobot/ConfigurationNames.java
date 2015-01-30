@@ -39,6 +39,8 @@ public class ConfigurationNames {
     public static final String sRIGHT_DRIVE_ENC_B = "RightDriveEnc_B";
     public static final String sLEFT_DRIVE_ENC_A = "LeftDriveEnc_A";
     public static final String sLEFT_DRIVE_ENC_B = "LeftDriveEnc_B";
+    public static final String sSTACKER_ENCODER_A = "StackerEncoder_A";
+    public static final String sSTACKER_ENCODER_B = "StackerEncoder_B";
 
     // Analog Inputs
     public static final String sGYRO_SENSOR = "GyroSensor";
