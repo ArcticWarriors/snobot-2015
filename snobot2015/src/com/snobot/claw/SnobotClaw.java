@@ -1,5 +1,6 @@
 package com.snobot.claw;
 
+import com.snobot.ConfigurationNames;
 import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
@@ -21,6 +22,9 @@ public class SnobotClaw implements IClaw {
     private Logger mLogger;
     private AnalogInput mTransducer;
 
+    private boolean mRumbleOn;
+    
+    private double mAirPressureRangeMin, mAirPressureRangeMax;
     /**
      * Constructs a SnobotClaw object
      * 
@@ -65,6 +69,7 @@ public class SnobotClaw implements IClaw {
         // TODO Auto-generated method stub
     	mLogger.addHeader("Claw Up/Down Pressure");
     	mLogger.addHeader("Claw Open/Close Pressure");
+    	rereadPreferences();
     }
 
     @Override
@@ -72,18 +77,28 @@ public class SnobotClaw implements IClaw {
         // TODO Auto-generated method stub
         mClawPressureA = -1;
         mClawPressureB = -1;
+        
+        if (mClawPressureA < mAirPressureRangeMin)
+        {
+            mRumbleOn = true;
+        }
+        else
+        {
+            mRumbleOn = false;
+        }
     }
 
     @Override
     public void control() {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override
     public void rereadPreferences() {
         // TODO Auto-generated method stub
-
+        mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble( ConfigurationNames.sAir_Pressure_Range_Min, 50);
+        mAirPressureRangeMax = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAir_Pressure_Range_Max, 100);
     }
 
     @Override

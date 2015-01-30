@@ -74,6 +74,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick {
      */
     public void control() {
 
+        
     }
 
     /**
@@ -102,6 +103,12 @@ public class SnobotOperatorJoystick implements IOperatorJoystick {
      */
     public void stop() {
 
+    }
+
+    @Override
+    public boolean setRumble() {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }
