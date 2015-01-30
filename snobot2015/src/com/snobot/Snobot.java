@@ -70,6 +70,9 @@ public class Snobot extends IterativeRobot {
     private Encoder mEncoderLeft;
     private Encoder mEncoderRight;
 
+    private double mClawPressureA;
+    private double mClawPressureB;
+   
     SimpleDateFormat sdf;
 
     /**
@@ -93,7 +96,7 @@ public class Snobot extends IterativeRobot {
         mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
         mStackerMotor = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR, 2));
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger);
-        mClaw = new SnobotClaw(mOperatorJoystick, mLogger);
+        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mClawPressureA, mClawPressureB);
 
         // Various Button Chooser for mode changes
         mTankModeButtonChooser = new SendableChooser();
