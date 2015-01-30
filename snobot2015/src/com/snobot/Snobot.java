@@ -18,6 +18,7 @@ import com.snobot.SmartDashboardNames;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -68,7 +69,9 @@ public class Snobot extends IterativeRobot {
     private ArrayList<ISubsystem> mSubsystems;
     
     private AnalogInput mTransducer;
-   
+    private Encoder mEncoderLeft;
+    private Encoder mEncoderRight;
+
     SimpleDateFormat sdf;
 
     /**
@@ -126,9 +129,17 @@ public class Snobot extends IterativeRobot {
             mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
         }
 
-        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode);
+        mEncoderLeft = new Encoder(
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 7),
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_B, 4));
+        
+        mEncoderRight = new Encoder (
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_A, 5), 
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6));
+        
+        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight);
 
-        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt("Gyro_Sensor", 0));
+        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGyro_Sensor, 0));
 
         mPositioner = new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 
@@ -179,7 +190,6 @@ public class Snobot extends IterativeRobot {
             iSubsystem.updateLog();
 
             mLogger.endLogger();
-
         }
 
     }
