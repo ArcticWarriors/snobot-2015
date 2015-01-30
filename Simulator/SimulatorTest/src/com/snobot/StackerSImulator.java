@@ -15,12 +15,20 @@ public class StackerSImulator extends LinearEncoderCalculator {
 	public StackerSImulator( SpeedControllerWrapper aStackerMotor,
 			EncoderWrapper aStackerEncoder, 
 			DigitalSourceWrapper aUpperStackerLimit,
-			DigitalSourceWrapper mLowerStackerLimit) 
+			DigitalSourceWrapper aLowerStackerLimit) 
 			
 	{		
 		super( aStackerMotor, aStackerEncoder);
-			mStackerMotor = aStackerMotor;
-			mStackerEncoder = aStackerEncoder;
+		mLowerStackerLimit = aLowerStackerLimit;
+		mUpperStackerLimit = aUpperStackerLimit;
+			
+		mSetup = mSetup && mLowerStackerLimit != null && mUpperStackerLimit != null; 
+
+		if(!mSetup)
+		{
+			System.err.println("Can't simulate the stacker, null param given");
+			return;
+		}
 	}
 	
 	@Override
@@ -28,17 +36,22 @@ public class StackerSImulator extends LinearEncoderCalculator {
 	{
 		super.update();
 		
-//		System.out.println("Stacker enc " + mStackerEncoder.getDistance());
-
-		if (mStackerEncoder.getDistance() >= 0 && mStackerEncoder.getDistance() <= 2){
+		if (mStackerEncoder.getDistance() <= 0) 
+		{
 			mLowerStackerLimit.set(true);
 		}
-		else if (mStackerEncoder.getDistance() == 20){
+		else
+		{
+			mLowerStackerLimit.set(false);
+		}
+		
+		if (mStackerEncoder.getDistance() >= 20) 
+		{	
 			mUpperStackerLimit.set(true);
 		}
-		else {
+		else 
+		{
 			mUpperStackerLimit.set(false);
-			mLowerStackerLimit.set(false);
 		}
 	}
 
