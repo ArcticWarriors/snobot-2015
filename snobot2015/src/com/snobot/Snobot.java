@@ -84,7 +84,8 @@ public class Snobot extends IterativeRobot {
         String headerDate = sdf.format(new Date());
         mLogger = new Logger(headerDate);
         mLogger.init();
-
+        mTransducer = new AnalogInput(1);
+        
         mDriveLeft1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
         mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
         mRawOperatorJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT, 1));
