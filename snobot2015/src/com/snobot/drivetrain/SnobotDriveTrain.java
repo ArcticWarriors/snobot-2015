@@ -80,20 +80,23 @@ public class SnobotDriveTrain implements IDriveTrain {
     }
 
     @Override
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard() 
+    {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
     }
 
     @Override
-    public void updateLog() {
+    public void updateLog() 
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void stop() {
-        // TODO Auto-generated method stub
+    public void stop() 
+    {
+        this.setMotorSpeed(0, 0);
 
     }
 
