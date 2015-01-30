@@ -5,6 +5,7 @@ import com.snobot.joystick.IDriverJoystick;
 import com.snobot.joystick.IDriverJoystick.DriveMode;
 import com.snobot.logger.Logger;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,6 +23,10 @@ public class SnobotDriveTrain implements IDriveTrain {
     private IDriverJoystick mDriverJoystick;
     private RobotDrive mRobotDrive;
     private DriveMode mDriveMode;
+    
+    private Encoder mEncoderLeft;
+    private Encoder mEncoderRight;
+    
 
     private Logger mLogger;
     private UnitOfMeasure mDefaultMeasure;
@@ -37,13 +42,15 @@ public class SnobotDriveTrain implements IDriveTrain {
      *            Argument Driver Joy stick
      */
     public SnobotDriveTrain(SpeedController aSpeedControllerLeft, SpeedController aSpeedControllerRight, IDriverJoystick aDriverJoystick,
-            DriveMode aDriveMode) {
+            DriveMode aDriveMode, Encoder aEncoderLeft, Encoder aEncoderRight) {
         mSpeedControllerLeft = aSpeedControllerLeft;
         mSpeedControllerRight = aSpeedControllerRight;
         mDriverJoystick = aDriverJoystick;
         mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
         mDriveMode = aDriveMode;
         mDefaultMeasure = UnitOfMeasure.Feet;
+        mEncoderLeft = aEncoderLeft;
+        mEncoderRight = aEncoderRight;
     }
 
     @Override
@@ -84,6 +91,8 @@ public class SnobotDriveTrain implements IDriveTrain {
     {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
+        SmartDashboard.putNumber("Left Distance", this.calculateDistanceLeft());
+        SmartDashboard.putNumber("Right Distance", this.calculateDistanceRight());
     }
 
     @Override
@@ -108,16 +117,12 @@ public class SnobotDriveTrain implements IDriveTrain {
 
     @Override
     public double calculateDistanceRight() {
-        // TODO Code to calculate distance goes here; needs encoders
-        // Remember to refer to mDefaultMeasure
-        return 0;
+        return mEncoderRight.getDistance();
     }
 
     @Override
     public double calculateDistanceLeft() {
-        // TODO Code to calculate distance goes here; needs encoders
-        // Remember to refer to mDefaultMeasure
-        return 0;
+        return mEncoderLeft.getDistance();
     }
 
     @Override

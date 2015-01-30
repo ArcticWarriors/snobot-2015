@@ -4,6 +4,7 @@ import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -15,8 +16,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SnobotClaw implements IClaw {
 
     private IOperatorJoystick mJoystick;
-    private double mClawPressure;
+    private double mClawPressureA;
+    private double mClawPressureB;
     private Logger mLogger;
+    private AnalogInput mTransducer;
 
     /**
      * Constructs a SnobotClaw object
@@ -25,9 +28,12 @@ public class SnobotClaw implements IClaw {
      *            Argument for operator Joystick
      *
      */
-    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger) {
+    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer) 
+    {
         mJoystick = aJoystick;
         mLogger = alogger;
+        mTransducer = aTransducer;
+        
     }
 
     @Override
@@ -57,13 +63,15 @@ public class SnobotClaw implements IClaw {
     @Override
     public void init() {
         // TODO Auto-generated method stub
-
+    	mLogger.addHeader("Claw Up/Down Pressure");
+    	mLogger.addHeader("Claw Open/Close Pressure");
     }
 
     @Override
     public void update() {
         // TODO Auto-generated method stub
-        mClawPressure = -1;
+        mClawPressureA = -1;
+        mClawPressureB = -1;
     }
 
     @Override
@@ -82,17 +90,20 @@ public class SnobotClaw implements IClaw {
     public void updateSmartDashboard() {
         // TODO Auto-generated method stub
         SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE,
-                mClawPressure);
+                mClawPressureA);
+       
+        SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE,
+                mClawPressureB);
 
     }
 
     @Override
     public void updateLog() {
         // TODO Auto-generated method stub
-
-        String clawPressureString = String.valueOf(mClawPressure);
-
-        mLogger.updateLogger(clawPressureString);
+        
+        mLogger.updateLogger(mClawPressureA);
+        
+        mLogger.updateLogger(mClawPressureB);
 
     }
 
@@ -101,5 +112,17 @@ public class SnobotClaw implements IClaw {
         // TODO Auto-generated method stub
 
     }
+
+	@Override
+	public double getAirPressureA() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getAirPressureB() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

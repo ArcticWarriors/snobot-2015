@@ -24,9 +24,7 @@ public class ConfigurationNames {
 
     // Motors
     public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
-    public static final String sDRIVE_MOTOR_LEFT_2 = "LeftDriveMotor2";
     public static final String sDRIVE_MOTOR_RIGHT_1 = "RightDriveMotor1";
-    public static final String sDRIVE_MOTOR_RIGHT_2 = "RightDriveMotor2";
     public static final String sSTACKER_MOTOR = "StackerMotor";
 
     // Solenoid
@@ -35,11 +33,20 @@ public class ConfigurationNames {
     public static final String sSTACKER_UPPER_LIMIT_SWITCH_PORT_1 = "UpperStackerLimit";
     public static final String sSTACKER_LOWER_LIMIT_SWITCH_PORT_1 = "LowerStackerLimit";
 
+    public static final String sRIGHT_DRIVE_ENC_A = "RightDriveEnc_A";
+    public static final String sRIGHT_DRIVE_ENC_B = "RightDriveEnc_B";
+    public static final String sLEFT_DRIVE_ENC_A = "LeftDriveEnc_A";
+    public static final String sLEFT_DRIVE_ENC_B = "LeftDriveEnc_B";
+
     // Analog Inputs
     public static final String sGyro_Sensor = "GyroSensor";
 
     // Misc. Variables
     public static final String sSTACKER_DEFAULT_SPEED = "StackerDefaultSpeed";
+    
+    //Logger
+    public static final String sLOG_COUNT = "LogCount";
+    public static final String sLOG_FILE_PATH = "LogFilePath";
 
     // ////////////////////////////////
     // Preference Wrapper Functions //
