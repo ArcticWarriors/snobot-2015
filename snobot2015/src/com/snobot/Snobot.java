@@ -15,6 +15,7 @@ import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
 import com.snobot.SmartDashboardNames;
+import com.snobot.commands.*;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -23,8 +24,11 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -59,7 +63,8 @@ public class Snobot extends IterativeRobot {
     private SnobotDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
-
+    private ArrayList <Command> mAutonCommands;
+    
     // Motors
     private Talon mDriveLeft1;
     private Talon mDriveRight1;
@@ -78,8 +83,10 @@ public class Snobot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public void robotInit() {
-
+    public void robotInit() 
+    {
+    	mAutonCommands = new ArrayList();
+    	
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
         String headerDate = sdf.format(new Date());
         mLogger = new Logger(headerDate);
@@ -140,7 +147,7 @@ public class Snobot extends IterativeRobot {
         
         mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight);
 
-        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGyro_Sensor, 0));
+        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0));
 
         mPositioner = new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 
@@ -150,6 +157,8 @@ public class Snobot extends IterativeRobot {
         mSubsystems.add(mStacker);
         mSubsystems.add(mClaw);
         mSubsystems.add(mDriveTrain);
+        
+        mAutonCommands.add(new DriveForward(10, 1, mDriveTrain, mPositioner));
 
         for (ISubsystem iSubsystem : mSubsystems) {
             iSubsystem.init();
@@ -159,12 +168,20 @@ public class Snobot extends IterativeRobot {
 
         ConfigurationNames.saveIfUpdated();
     }
+    
+    public void autonomousInit()
+    {
+
+    	Command currentAuton = mAutonCommands.get(0);
+    	currentAuton.start();
+    }
 
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
-
+    public void autonomousPeriodic() 
+    {
+        Scheduler.getInstance().run();
     }
 
     /**
@@ -185,13 +202,19 @@ public class Snobot extends IterativeRobot {
             iSubsystem.updateSmartDashboard();
         }
 
-        mLogger.startLogEntry(logDate);
+        if(mLogger.logNow())
+        {
+            mLogger.startLogEntry(logDate);
 
-        for (ISubsystem iSubsystem : mSubsystems) {
-            iSubsystem.updateLog();
-
+            for (ISubsystem iSubsystem : mSubsystems) {
+                iSubsystem.updateLog();
+            }
+            
             mLogger.endLogger();
         }
+        
+
+        
 
     }
 

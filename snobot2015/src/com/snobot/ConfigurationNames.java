@@ -41,11 +41,17 @@ public class ConfigurationNames {
     public static final String sLEFT_DRIVE_ENC_B = "LeftDriveEnc_B";
 
     // Analog Inputs
-    public static final String sGyro_Sensor = "GyroSensor";
+    public static final String sGYRO_SENSOR = "GyroSensor";
 
     // Misc. Variables
     public static final String sSTACKER_DEFAULT_SPEED = "StackerDefaultSpeed";
-
+    
+    //Logger
+    public static final String sLOG_COUNT = "LogCount";
+    public static final String sLOG_FILE_PATH = "LogFilePath";
+    
+    //Autonomous Commands
+    public static final String sDRIVE_FORWARD_COMMAND = "DriveForwardCommand";
     // ////////////////////////////////
     // Preference Wrapper Functions //
     // ////////////////////////////////
