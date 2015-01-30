@@ -73,7 +73,7 @@ public class Snobot extends IterativeRobot {
      */
     public void robotInit() {
 
-        sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
+        sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
         mLogger = new Logger(headerDate);
         mLogger.init();
@@ -169,14 +169,19 @@ public class Snobot extends IterativeRobot {
             iSubsystem.updateSmartDashboard();
         }
 
-        mLogger.startLogEntry(logDate);
+        if(mLogger.logNow())
+        {
+            mLogger.startLogEntry(logDate);
 
-        for (ISubsystem iSubsystem : mSubsystems) {
-            iSubsystem.updateLog();
-
+            for (ISubsystem iSubsystem : mSubsystems) {
+                iSubsystem.updateLog();
+            }
+            
             mLogger.endLogger();
-
         }
+        
+
+        
 
     }
 

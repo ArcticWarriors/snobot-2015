@@ -40,6 +40,10 @@ public class ConfigurationNames {
 
     // Misc. Variables
     public static final String sSTACKER_DEFAULT_SPEED = "StackerDefaultSpeed";
+    
+    //Logger
+    public static final String sLOG_COUNT = "LogCount";
+    public static final String sLOG_FILE_PATH = "LogFilePath";
 
     // ////////////////////////////////
     // Preference Wrapper Functions //
