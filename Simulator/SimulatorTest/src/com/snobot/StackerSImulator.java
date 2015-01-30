@@ -27,6 +27,8 @@ public class StackerSImulator extends LinearEncoderCalculator {
 	public void update()
 	{
 		super.update();
+		
+//		System.out.println("Stacker enc " + mStackerEncoder.getDistance());
 
 		if (mStackerEncoder.getDistance() >= 0 && mStackerEncoder.getDistance() <= 2){
 			mLowerStackerLimit.set(true);

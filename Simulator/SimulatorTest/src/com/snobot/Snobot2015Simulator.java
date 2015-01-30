@@ -64,6 +64,7 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
         mRightDriveEnc.update();
         mLeftDriveEnc.update();
         mGyroSim.update();
+        mStackerSimulator.update();
 	}
 
 	@Override
