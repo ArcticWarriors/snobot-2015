@@ -147,7 +147,7 @@ public class Snobot extends IterativeRobot {
         
         mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight);
 
-        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGyro_Sensor, 0));
+        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0));
 
         mPositioner = new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 

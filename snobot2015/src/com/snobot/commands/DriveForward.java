@@ -1,17 +1,34 @@
 package com.snobot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
+import com.snobot.ConfigurationNames;
 import com.snobot.drivetrain.*;
 import com.snobot.position.*;
+
+/**
+ * Drives forward at specified speed for the specified distance
+ * 
+ * @author Andrew/Alec
+ *
+ */
 public class DriveForward extends Command
 {
-	//super ("DriveForwardCommand");
+	
 	double mDistance;
 	double mSpeed;
 	SnobotDriveTrain mDriveTrain;
 	SnobotPosition mPosition;
+	/**
+	 * Creates DriveForward Command object
+	 * @param aDistance -Distance desired to drive
+	 * @param aSpeed -Speed to set motors to
+	 * @param aDriveTrain -SnobotDriveTrain class
+	 * @param aPosition -SnobotPosition class
+	 */
 	public DriveForward (double aDistance, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
 	{
+		super (ConfigurationNames.sDRIVE_FORWARD_COMMAND);
 		mDistance = aDistance;
 		mSpeed = aSpeed;
 		mDriveTrain = aDriveTrain;
@@ -24,6 +41,9 @@ public class DriveForward extends Command
 	}
 
 	@Override
+	/**
+	 * Sets motors to desired speed until the distance specified has been traveled
+	 */
 	protected void execute() 
 	{
 		
