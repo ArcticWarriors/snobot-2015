@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -63,7 +64,7 @@ public class Snobot extends IterativeRobot {
     private SnobotDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
-    private ArrayList <Command> mAutonCommands;
+    private CommandGroup mAutonCommands;
     
     // Motors
     private Talon mDriveLeft1;
@@ -85,7 +86,7 @@ public class Snobot extends IterativeRobot {
      */
     public void robotInit() 
     {
-    	mAutonCommands = new ArrayList();
+    	mAutonCommands = new CommandGroup("Main executable CommandGroup");
     	
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
         String headerDate = sdf.format(new Date());
@@ -157,8 +158,6 @@ public class Snobot extends IterativeRobot {
         mSubsystems.add(mStacker);
         mSubsystems.add(mClaw);
         mSubsystems.add(mDriveTrain);
-        
-        mAutonCommands.add(new DriveForward(10, 1, mDriveTrain, mPositioner));
 
         for (ISubsystem iSubsystem : mSubsystems) {
             iSubsystem.init();
@@ -171,9 +170,7 @@ public class Snobot extends IterativeRobot {
     
     public void autonomousInit()
     {
-
-    	Command currentAuton = mAutonCommands.get(0);
-    	currentAuton.start();
+    	
     }
 
     /**
