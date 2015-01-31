@@ -74,7 +74,6 @@ public class SnobotOperatorJoystick implements IOperatorJoystick {
      */
     public void control() {
 
-        
     }
 
     /**

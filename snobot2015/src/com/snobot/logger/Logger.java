@@ -18,15 +18,14 @@ public class Logger {
 
     private String mLogDate;
     private FileWriter mLogWriter;
-    
+
     private int mCurrentLogCount;
     private int mConfigLogCount;
     private String mLogFilePath;
-    
-    
+
     public Logger(String aLogDate) {
         mLogDate = aLogDate;
-        
+
     }
 
     /**
@@ -38,14 +37,14 @@ public class Logger {
 
         mConfigLogCount = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLOG_COUNT, 25);
         mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "");
-        
+
         mCurrentLogCount = 0;
-        
+
         try {
             mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
 
-                mLogWriter.write(mLogDate);
-            
+            mLogWriter.write(mLogDate);
+
         }
         catch (IOException e) {
             // TODO Auto-generated catch block
@@ -61,15 +60,15 @@ public class Logger {
      */
     public void addHeader(String aHeader) {
 
-            try {
-                if (mLogWriter != null) {
-                    mLogWriter.write("," + aHeader);
-                }
+        try {
+            if (mLogWriter != null) {
+                mLogWriter.write("," + aHeader);
             }
-            catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -94,17 +93,15 @@ public class Logger {
      */
     public void startLogEntry(String mLogDate) {
 
-            try {
-                if (mLogWriter != null) {
-                    mLogWriter.write(mLogDate);
-                }
+        try {
+            if (mLogWriter != null) {
+                mLogWriter.write(mLogDate);
             }
-            catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-        
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
@@ -114,16 +111,16 @@ public class Logger {
      * @param aEntry
      */
     public void updateLogger(String aEntry) {
-            try {
-                if (mLogWriter != null) {
-                    mLogWriter.write("," + aEntry);
-                }
+        try {
+            if (mLogWriter != null) {
+                mLogWriter.write("," + aEntry);
+            }
 
-            }
-            catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -132,16 +129,16 @@ public class Logger {
      * @param aEntry
      */
     public void updateLogger(int aEntry) {
-            try {
-                if (mLogWriter != null) {
-                    mLogWriter.write("," + aEntry);
-                }
+        try {
+            if (mLogWriter != null) {
+                mLogWriter.write("," + aEntry);
+            }
 
-            }
-            catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -150,15 +147,15 @@ public class Logger {
      * @param aEntry
      */
     public void updateLogger(double aEntry) {
-            try {
-                if (mLogWriter != null) {
-                    mLogWriter.write("," + aEntry);
-                }
-
+        try {
+            if (mLogWriter != null) {
+                mLogWriter.write("," + aEntry);
             }
-            catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
@@ -169,18 +166,17 @@ public class Logger {
      */
     public void updateLogger(boolean aEntry) {
 
-            try {
-                if (mLogWriter != null) {
-                    mLogWriter.write("," + aEntry);
-                }
-
-            }
-            catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+        try {
+            if (mLogWriter != null) {
+                mLogWriter.write("," + aEntry);
             }
 
-       
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -214,19 +210,16 @@ public class Logger {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Lets robot check for when to log
      */
-    public boolean logNow()
-    {
-        if(mCurrentLogCount< mConfigLogCount)
-        {
+    public boolean logNow() {
+        if (mCurrentLogCount < mConfigLogCount) {
             mCurrentLogCount++;
             return false;
         }
-        else
-        {
+        else {
             mCurrentLogCount = 0;
             return true;
         }
