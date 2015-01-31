@@ -95,12 +95,10 @@ public class SnobotClaw implements IClaw {
     public void rereadPreferences() {
 
         mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAir_Pressure_Range_Min, 50);
-
     }
 
     @Override
     public void updateSmartDashboard() {
-
         SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressureA);
         SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressureB);
     }
