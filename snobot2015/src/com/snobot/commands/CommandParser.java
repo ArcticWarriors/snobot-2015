@@ -86,10 +86,17 @@ public class CommandParser
                         Double.parseDouble(args.get(1)),
                         Boolean.parseBoolean(args.get(2)),
                         mSnobot.getSnobotStacker());
+                break;
             case ConfigurationNames.sCLAW_GRAB_COMMAND:
                     newCommand = new ClawGrab(
                             Boolean.parseBoolean(args.get(1)), 
                             mSnobot.getSnobotClaw());
+                break;
+            case ConfigurationNames.sMOVE_CLAW_COMMAND:
+                newCommand = new MoveClaw(
+                        Boolean.parseBoolean(args.get(1)), 
+                        mSnobot.getSnobotClaw());
+                break;
                     
             }
         }

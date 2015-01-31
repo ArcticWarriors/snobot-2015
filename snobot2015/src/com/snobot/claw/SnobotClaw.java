@@ -25,6 +25,7 @@ public class SnobotClaw implements IClaw
     private AnalogInput mTransducer;
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
+    
 
     private boolean mRumbleOn;
 
@@ -51,7 +52,6 @@ public class SnobotClaw implements IClaw
     public void openClaw()
     {
         mClawHandSolenoid.set(true);
-
     }
 
     @Override
