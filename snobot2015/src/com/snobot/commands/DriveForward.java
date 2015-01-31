@@ -61,7 +61,6 @@ public class DriveForward extends Command
 
         if (mPosition.getSnobotDistance() <= mDistance)
         {
-            mPosition.updateAll();
             mTotalDistance = (mTotalDistance + mPosition.getSnobotDistance());
             System.out.println("Current distance: " + mTotalDistance + ", desired = " + mDistance);
         }
