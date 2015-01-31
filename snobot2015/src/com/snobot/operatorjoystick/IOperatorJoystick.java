@@ -77,6 +77,6 @@ public interface IOperatorJoystick extends ISubsystem {
      * 
      * @return True if the controller should rumble and false if it should not
      */
-    boolean setRumble();
+    void setRumble(Boolean aRumbleOn);
 
 }

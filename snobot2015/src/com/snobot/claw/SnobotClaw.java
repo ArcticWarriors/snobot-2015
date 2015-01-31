@@ -26,6 +26,7 @@ public class SnobotClaw implements IClaw {
 
     private double mAirPressureRangeMin, mAirPressureRangeMax;
 
+
     /**
      * Constructs a SnobotClaw object
      * 
@@ -70,6 +71,7 @@ public class SnobotClaw implements IClaw {
         mLogger.addHeader("Claw Up/Down Pressure");
         mLogger.addHeader("Claw Open/Close Pressure");
         rereadPreferences();
+
     }
 
     @Override
@@ -88,30 +90,22 @@ public class SnobotClaw implements IClaw {
 
     @Override
     public void control() {
-        // TODO Auto-generated method stub
-
+        mJoystick.setRumble(mRumbleOn);
     }
 
     @Override
     public void rereadPreferences() {
-        // TODO Auto-generated method stub
         mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAir_Pressure_Range_Min, 50);
-        mAirPressureRangeMax = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAir_Pressure_Range_Max, 100);
     }
 
     @Override
     public void updateSmartDashboard() {
-        // TODO Auto-generated method stub
         SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressureA);
-
         SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressureB);
-
     }
 
     @Override
     public void updateLog() {
-        // TODO Auto-generated method stub
-
         mLogger.updateLogger(mClawPressureA);
 
         mLogger.updateLogger(mClawPressureB);

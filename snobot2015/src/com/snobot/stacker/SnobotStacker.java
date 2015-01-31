@@ -73,6 +73,8 @@ public class SnobotStacker implements IStacker {
     @Override
     public void init() {
         stop();
+        mLogger.addHeader("UpperLimitSwitchState");
+        mLogger.addHeader("LowerLimitSwitchState");
     }
 
     @Override

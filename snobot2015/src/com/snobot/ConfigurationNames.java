@@ -29,7 +29,6 @@ public class ConfigurationNames {
 
     // Solenoid
     public static final String sAir_Pressure_Range_Min = "AirPressureRangeMin";
-    public static final String sAir_Pressure_Range_Max = "AirPressureRangeMax";
 
     // Digital Inputs
     public static final String sSTACKER_UPPER_LIMIT_SWITCH_PORT_1 = "UpperStackerLimit";
