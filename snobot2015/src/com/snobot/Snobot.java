@@ -220,4 +220,12 @@ public class Snobot extends IterativeRobot {
 
     }
 
+    public SnobotDriveTrain getDriveTrain() {
+        return this.mDriveTrain;
+    }
+
+    public SnobotPosition getPositioner() {
+        return this.mPositioner;
+    }
+
 }
