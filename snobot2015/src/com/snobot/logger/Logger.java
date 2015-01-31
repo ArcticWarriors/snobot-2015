@@ -50,7 +50,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -73,7 +72,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -94,7 +92,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -114,7 +111,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -137,7 +133,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -149,19 +144,7 @@ public class Logger
      */
     public void updateLogger(int aEntry)
     {
-        try
-        {
-            if (mLogWriter != null)
-            {
-                mLogWriter.write("," + aEntry);
-            }
-
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        updateLogger("," + aEntry);
     }
 
     /**
@@ -171,19 +154,7 @@ public class Logger
      */
     public void updateLogger(double aEntry)
     {
-        try
-        {
-            if (mLogWriter != null)
-            {
-                mLogWriter.write("," + aEntry);
-            }
-
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+       updateLogger("," + aEntry);
     }
 
     /**
@@ -193,20 +164,7 @@ public class Logger
      */
     public void updateLogger(boolean aEntry)
     {
-
-        try
-        {
-            if (mLogWriter != null)
-            {
-                mLogWriter.write("," + aEntry);
-            }
-
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        updateLogger("," + aEntry);
 
     }
 
@@ -226,7 +184,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -245,7 +202,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
