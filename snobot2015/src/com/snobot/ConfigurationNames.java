@@ -55,7 +55,12 @@ public class ConfigurationNames
     public static final String sLOG_FILE_PATH = "LogFilePath";
 
     // Autonomous Commands
-    public static final String sDRIVE_FORWARD_COMMAND = "drive_forward";
+    public static final String sDRIVE_FORWARD_COMMAND = "DriveForward";
+    public static final String sDRIVE_ROTATE_COMMAND = "DriveRotate";
+    public static final String sRAW_STACK_COMMAND = "RawStack";
+    public static final String sCLAW_GRAB_COMMAND = "ClawGrab";
+    public static final String sMOVE_CLAW_COMMAND = "MoveClaw";
+    
     // ////////////////////////////////
     // Preference Wrapper Functions //
     // ////////////////////////////////

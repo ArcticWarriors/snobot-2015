@@ -8,13 +8,20 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveRotate extends Command
 {
     /**
-     * TODO add javadoc
+     * Auton command for rotate/turn; Turns to a specified degree and speed
      */
     double mDegree;
     double mSpeed;
     SnobotDriveTrain mDriveTrain;
     SnobotPosition mPosition;
 
+    /**
+     * Creates DriveRotate command object
+     * @param aDegree -Degree specified to turn to
+     * @param aSpeed -Speed specified to turn at 
+     * @param aDriveTrain -SnobotDriveTrain class
+     * @param aPosition -SnobotPosition class
+     */
     public DriveRotate(double aDegree, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
         mDegree = aDegree;
@@ -30,18 +37,25 @@ public class DriveRotate extends Command
 
     }
 
+    /**
+     * Turns right or left based on proximity to mDegree
+     */
     @Override
     protected void execute()
     {
-        while (mPosition.getSnobotDegrees() < (mDegree - 2))
+        System.out.println("Current = " + mPosition.getSnobotDegrees() + ", desired = " + mDegree + ", speed = " + mSpeed);
+        if (mPosition.getSnobotDegrees() < (mDegree - 2))
         {
-            mDriveTrain.setMotorSpeed(mSpeed, (-mSpeed));
+            mDriveTrain.setMotorSpeed(mSpeed, -mSpeed);
         }
-        while (mPosition.getSnobotDegrees() > (mDegree + 2))
+        else if (mPosition.getSnobotDegrees() > (mDegree + 2))
         {
-            mDriveTrain.setMotorSpeed((mSpeed), mSpeed);
+            mDriveTrain.setMotorSpeed((-(mSpeed)), mSpeed);
         }
-        mDriveTrain.stop();
+        else
+        {
+            mDriveTrain.stop();
+        }
     }
 
     @Override

@@ -1,10 +1,20 @@
 package com.snobot.commands;
 
+import com.snobot.claw.SnobotClaw;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ClawGrab extends Command
 {
-
+    boolean mOpen;
+    SnobotClaw mClaw;
+    
+    public ClawGrab(boolean aOpen, SnobotClaw aClaw)
+    {
+        mOpen = aOpen;
+        mClaw = aClaw;
+    }
+    
     @Override
     protected void end()
     {
@@ -15,7 +25,19 @@ public class ClawGrab extends Command
     @Override
     protected void execute()
     {
-        // TODO Auto-generated method stub
+        
+        
+        //Actuates claw open/closed
+        if(mOpen == true)
+        {
+        mClaw.openClaw();
+        }
+        else if(mOpen == false)
+        {
+            mClaw.closeClaw();
+        }
+        
+        
 
     }
 

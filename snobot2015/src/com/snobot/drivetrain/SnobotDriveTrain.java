@@ -52,6 +52,8 @@ public class SnobotDriveTrain implements IDriveTrain
         mDefaultMeasure = UnitOfMeasure.Feet;
         mEncoderLeft = aEncoderLeft;
         mEncoderRight = aEncoderRight;
+        
+        mRobotDrive.setSafetyEnabled(false); //TODO - PJ - probably not the safest thing for compitiion....
     }
 
     @Override
@@ -117,14 +119,14 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void setMotorSpeed(double aLeft, double aRight)
     {
-        // TODO Auto-generated method stub
+        mRobotDrive.setLeftRightMotorOutputs(-aLeft, aRight);
 
     }
 
     @Override
     public double calculateDistanceRight()
     {
-        return mEncoderRight.getDistance();
+        return -mEncoderRight.getDistance();
     }
 
     @Override
@@ -138,5 +140,11 @@ public class SnobotDriveTrain implements IDriveTrain
     {
         mDefaultMeasure = aMeasure;
 
+    }
+    
+    public void resetEncoders()
+    {
+        this.mEncoderLeft.reset();
+        this.mEncoderRight.reset();
     }
 }

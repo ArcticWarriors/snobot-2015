@@ -18,13 +18,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SnobotClaw implements IClaw
 {
 
-    private IOperatorJoystick mJoystick;
+    private IOperatorJoystick mOperatorJoystick;
     private double mClawPressureA;
     private double mClawPressureB;
     private Logger mLogger;
     private AnalogInput mTransducer;
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
+    
 
     private boolean mRumbleOn;
 
@@ -39,7 +40,7 @@ public class SnobotClaw implements IClaw
      */
     public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer, Solenoid aClawHandSolenoid, Solenoid aClawArmSolenoid)
     {
-        mJoystick = aJoystick;
+        mOperatorJoystick = aJoystick;
         mLogger = alogger;
         mTransducer = aTransducer;
         mClawHandSolenoid = aClawHandSolenoid;
@@ -50,29 +51,27 @@ public class SnobotClaw implements IClaw
     @Override
     public void openClaw()
     {
-        // TODO Auto-generated method stub
-
+        mClawHandSolenoid.set(true);
     }
 
     @Override
     public void closeClaw()
     {
-        // TODO Auto-generated method stub
+        mClawHandSolenoid.set(false);
 
     }
 
     @Override
     public void moveClawUp()
     {
-        // TODO Auto-generated method stub
+        mClawArmSolenoid.set(true);
 
     }
 
     @Override
     public void moveClawDown()
     {
-        // TODO Auto-generated method stub
-
+        mClawArmSolenoid.set(false);
     }
 
     @Override
@@ -104,7 +103,33 @@ public class SnobotClaw implements IClaw
     @Override
     public void control()
     {
-        mJoystick.setRumble(mRumbleOn);
+        mOperatorJoystick.setRumble(mRumbleOn);
+        
+        if (mOperatorJoystick.getClawOpen())
+        {
+            openClaw();
+        }
+        else if (mOperatorJoystick.getClawClose())
+        {
+            closeClaw();
+        }
+        else
+        {
+            stop();
+        }
+        
+        if (mOperatorJoystick.getClawUp())
+        {
+            moveClawUp();
+        }
+        else if (mOperatorJoystick.getClawDown())
+        {
+            moveClawDown();
+        }
+        else
+        {
+            stop();
+        }
     }
 
     @Override

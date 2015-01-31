@@ -2,8 +2,6 @@ package com.snobot.logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
-
 import com.snobot.ConfigurationNames;
 
 /**
@@ -15,7 +13,6 @@ import com.snobot.ConfigurationNames;
 
 public class Logger
 {
-    private String mLogHeader;
 
     private String mLogDate;
     private FileWriter mLogWriter;
@@ -47,12 +44,11 @@ public class Logger
         {
             mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
 
-            mLogWriter.write(mLogDate);
+            mLogWriter.write("Date and Time");
 
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -75,7 +71,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -96,7 +91,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -116,7 +110,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -139,7 +132,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -151,19 +143,7 @@ public class Logger
      */
     public void updateLogger(int aEntry)
     {
-        try
-        {
-            if (mLogWriter != null)
-            {
-                mLogWriter.write("," + aEntry);
-            }
-
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        updateLogger("" + aEntry);
     }
 
     /**
@@ -173,19 +153,7 @@ public class Logger
      */
     public void updateLogger(double aEntry)
     {
-        try
-        {
-            if (mLogWriter != null)
-            {
-                mLogWriter.write("," + aEntry);
-            }
-
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+       updateLogger("" + aEntry);
     }
 
     /**
@@ -195,20 +163,7 @@ public class Logger
      */
     public void updateLogger(boolean aEntry)
     {
-
-        try
-        {
-            if (mLogWriter != null)
-            {
-                mLogWriter.write("," + aEntry);
-            }
-
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        updateLogger("" + aEntry);
 
     }
 
@@ -228,7 +183,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -247,7 +201,6 @@ public class Logger
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

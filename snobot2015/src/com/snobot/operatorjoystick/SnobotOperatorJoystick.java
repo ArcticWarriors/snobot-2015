@@ -56,20 +56,59 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public boolean getClawUp()
     {
-        // TODO Auto-generated method stub
-        return false;
+        if (mOperatorJoystick.getRawButton(1))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
+    
+    public boolean getClawDown()
+    {
+        if (mOperatorJoystick.getRawButton(2))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
 
     @Override
     public boolean getClawOpen()
     {
-        // TODO Auto-generated method stub
-        return false;
+        if (mOperatorJoystick.getRawButton(3))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean getClawClose()
+    {
+        if (mOperatorJoystick.getRawButton(4))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
      * Perform initialization.
      */
+    @Override
     public void init()
     {
     }
@@ -77,6 +116,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Gathering and storing current sensor information. Ex. Motor Speed.
      */
+    @Override
     public void update()
     {
 
@@ -85,6 +125,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Setting sensor and device states.
      */
+    @Override
     public void control()
     {
 
@@ -93,6 +134,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Rereads and applies current preferences.
      */
+    @Override
     public void rereadPreferences()
     {
 
@@ -101,6 +143,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Updates information that is sent to SmartDashboard Takes Enum argument
      */
+    @Override
     public void updateSmartDashboard()
     {
 
@@ -109,6 +152,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Updates the logger.
      */
+    @Override
     public void updateLog()
     {
 
@@ -117,6 +161,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Stops all sensors and motors
      */
+    @Override
     public void stop()
     {
 
