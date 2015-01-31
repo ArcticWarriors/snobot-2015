@@ -234,6 +234,7 @@ public class Snobot extends IterativeRobot
     
     private void updateSmartDashboard()
     {
+        mPositioner.updateSmartDashbaord();
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.updateSmartDashboard();
