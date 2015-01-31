@@ -43,6 +43,9 @@ public class SnobotStacker implements IStacker {
         mLowerLimitSwitch = aLowerLimitSwitch;
         mLogger = aLogger;
         mStackerEncoder = aStackerEncoder;
+        
+        //TODO - PJ make configurable
+        mStackerEncoder.setDistancePerPulse(.4);
     }
 
     @Override
@@ -113,6 +116,7 @@ public class SnobotStacker implements IStacker {
         SmartDashboard.putBoolean("Upper Limit Switch State", mUpperLimitSwitch.get());
         SmartDashboard.putBoolean("Lowerr Limit Switch State", mLowerLimitSwitch.get());
         SmartDashboard.putNumber("Encoder Height", mStackerEncoder.getDistance());
+        SmartDashboard.putNumber("Stacker Motor", mStackerMotor.get());
     }
 
     @Override

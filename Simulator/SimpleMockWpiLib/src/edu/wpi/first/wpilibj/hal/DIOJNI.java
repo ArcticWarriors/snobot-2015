@@ -5,9 +5,17 @@ import java.nio.ByteBuffer;
 
 import com.snobot.simulator.DigitalSourceWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
+import com.snobot.simulator.SpeedControllerWrapper;
 
 public class DIOJNI extends JNIWrapper {
 	
+
+    private static DigitalSourceWrapper getWrapperFromBuffer(ByteBuffer digital_port_pointer)
+    {
+        int port = digital_port_pointer.get(0);
+        return SensorActuatorRegistry.get().getDigitalSources().get(port);
+    }
+    
 	public static ByteBuffer initializeDigitalPort(ByteBuffer port_pointer, IntBuffer status)
     {
 		return port_pointer;
@@ -27,11 +35,11 @@ public class DIOJNI extends JNIWrapper {
     }
 	public static void setDIO(ByteBuffer digital_port_pointer, short value, IntBuffer status)
     {
-
+	    getWrapperFromBuffer(digital_port_pointer).set(value == 1);
     }
 	public static byte getDIO(ByteBuffer digital_port_pointer, IntBuffer status)
     {
-		return 0;
+		return (byte) (getWrapperFromBuffer(digital_port_pointer).get() ? 1 : 0);
 
     }
 	public static byte getDIODirection(ByteBuffer digital_port_pointer, IntBuffer status)
