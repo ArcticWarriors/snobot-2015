@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -55,7 +56,7 @@ public class Snobot extends IterativeRobot {
     private SendableChooser mTankModeButtonChooser;
     private SendableChooser mArcadeModeButtonChooser;
     private int mTankModeButton;
-    private int mArcadeModeButton;
+    private int mArcadeModeButton; 
 
     // Modules
     private SnobotStacker mStacker;
@@ -64,6 +65,10 @@ public class Snobot extends IterativeRobot {
     private Logger mLogger;
     private SnobotPosition mPositioner;
     public CommandGroup mAutonCommands;
+    
+    //Solenoids
+    private Solenoid mClawHandSolenoid;
+    private Solenoid mClawArmSolenoid;
 
     // Motors
     private Talon mDriveLeft1;
@@ -102,7 +107,7 @@ public class Snobot extends IterativeRobot {
 
         mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
         mStackerMotor = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR, 2));
-        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer);
+        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer, mClawHandSolenoid, mClawArmSolenoid);
 
         // Various Button Chooser for mode changes
         mTankModeButtonChooser = new SendableChooser();

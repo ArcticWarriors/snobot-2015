@@ -6,6 +6,7 @@ import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -21,6 +22,8 @@ public class SnobotClaw implements IClaw {
     private double mClawPressureB;
     private Logger mLogger;
     private AnalogInput mTransducer;
+    private Solenoid mClawHandSolenoid;
+    private Solenoid mClawArmSolenoid;
 
     private boolean mRumbleOn;
 
@@ -34,10 +37,13 @@ public class SnobotClaw implements IClaw {
      *            Argument for operator Joystick
      *
      */
-    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer) {
+    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer,
+            Solenoid aClawHandSolenoid, Solenoid aClawArmSolenoid) {
         mJoystick = aJoystick;
         mLogger = alogger;
         mTransducer = aTransducer;
+        mClawHandSolenoid = aClawHandSolenoid;
+        mClawArmSolenoid = aClawArmSolenoid;
 
     }
 
