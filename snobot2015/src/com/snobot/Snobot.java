@@ -53,11 +53,6 @@ public class Snobot extends IterativeRobot
 
     private DriveMode mDriveMode;
 
-    private SendableChooser mTankModeButtonChooser;
-    private SendableChooser mArcadeModeButtonChooser;
-    private int mTankModeButton;
-    private int mArcadeModeButton;
-
     // Modules
     private SnobotStacker mStacker;
     private SnobotClaw mClaw;
@@ -114,32 +109,12 @@ public class Snobot extends IterativeRobot
         mStackerMotor = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR, 2));
         mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer, mClawHandSolenoid, mClawArmSolenoid );
 
-        // Various Button Chooser for mode changes
-        mTankModeButtonChooser = new SendableChooser();
-        mTankModeButtonChooser.addDefault("xboxButtonA", XboxButtonMap.A_BUTTON);
-        mTankModeButtonChooser.addObject("xboxButtonB", XboxButtonMap.B_BUTTON);
-        mTankModeButtonChooser.addObject("xboxButtonX", XboxButtonMap.X_BUTTON);
-        mTankModeButtonChooser.addObject("xboxButtonY", XboxButtonMap.Y_BUTTON);
-        mTankModeButtonChooser.addObject("xboxButtonLeftBumper", XboxButtonMap.LB_BUTTON);
-        mTankModeButtonChooser.addObject("xboxButtonRightBumper", XboxButtonMap.RB_BUTTON);
-        SmartDashboard.putData("Tank Mode Button Chooser", mTankModeButtonChooser);
+        String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJOYSTICK_MODE_XBOX);
 
-        mArcadeModeButtonChooser = new SendableChooser();
-        mArcadeModeButtonChooser.addDefault("xboxButtonB", XboxButtonMap.B_BUTTON);
-        mArcadeModeButtonChooser.addObject("xboxButtonA", XboxButtonMap.A_BUTTON);
-        mArcadeModeButtonChooser.addObject("xboxButtonX", XboxButtonMap.X_BUTTON);
-        mArcadeModeButtonChooser.addObject("xboxButtonY", XboxButtonMap.Y_BUTTON);
-        mArcadeModeButtonChooser.addObject("xboxButtonLeftBumper", XboxButtonMap.LB_BUTTON);
-        mArcadeModeButtonChooser.addObject("xboxButtonRightBumper", XboxButtonMap.RB_BUTTON);
-        SmartDashboard.putData("Arcade Mode Button Choose", mArcadeModeButtonChooser);
-
-        String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
-
-        if (joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox))
+        if (joystickType.equals(SmartDashboardNames.sJOYSTICK_MODE_XBOX))
         {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
-            mDriverJoystick = new SnobotXBoxDriverJoystick(mTankModeButton, mArcadeModeButton, mRawDriverJoystickPrimary, mLogger,
-                    mTankModeButtonChooser, mArcadeModeButtonChooser, mDriveMode);
+            mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mLogger, mDriveMode);
         }
         else
         {
@@ -234,6 +209,7 @@ public class Snobot extends IterativeRobot
     
     private void updateSmartDashboard()
     {
+        mPositioner.updateSmartDashbaord();
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.updateSmartDashboard();

@@ -34,13 +34,7 @@ public interface IClaw extends ISubsystem
 
     /**
      * 
-     * @return Air pressure for claw up and claw down.
+     * @return Air Pressure for the robot
      */
-    double getAirPressureA();
-
-    /**
-     * 
-     * @return Air pressure for claw open and claw close.
-     */
-    double getAirPressureB();
+    double getRobotAirPressure();
 }

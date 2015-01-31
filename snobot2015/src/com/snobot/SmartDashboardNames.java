@@ -12,7 +12,7 @@ public class SmartDashboardNames
     public static final String sRIGHT_DRIVE_SPEED = "RightDriveSpeed";
     public static final String sCLAW_AIR_PRESSURE = "ClawAirPressure";
 
-    public static final String sJoystickMode_Xbox = "Xboxmode";
+    public static final String sJOYSTICK_MODE_XBOX = "Xboxmode";
     public static final String sJoystickMode_flightstick = "FlightstickMode";
     public static final String sJoystickMode = "JoystickMode";
 }

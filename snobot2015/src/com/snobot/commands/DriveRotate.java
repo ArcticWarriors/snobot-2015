@@ -46,7 +46,7 @@ public class DriveRotate extends Command
         System.out.println("Current = " + mPosition.getSnobotDegrees() + ", desired = " + mDegree + ", speed = " + mSpeed);
         if (mPosition.getSnobotDegrees() < (mDegree - 2))
         {
-            mDriveTrain.setMotorSpeed(mSpeed, (-(mSpeed)));
+            mDriveTrain.setMotorSpeed(mSpeed, -mSpeed);
         }
         else if (mPosition.getSnobotDegrees() > (mDegree + 2))
         {
