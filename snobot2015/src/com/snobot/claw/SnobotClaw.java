@@ -25,10 +25,7 @@ public class SnobotClaw implements IClaw
     private AnalogInput mTransducer;
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
-    private boolean mClawHandOpen;
-    private boolean mClawHandClose;
-    private boolean mClawArmUp;
-    private boolean mClawArmDown;
+    
 
     private boolean mRumbleOn;
 
@@ -41,9 +38,7 @@ public class SnobotClaw implements IClaw
      *            Argument for operator Joystick
      *
      */
-    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer, Solenoid aClawHandSolenoid, Solenoid aClawArmSolenoid,
-            boolean aClawHandOpen, boolean aClawHandClose, boolean aClawArmUp,
-            boolean aClawArmDown )
+    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer, Solenoid aClawHandSolenoid, Solenoid aClawArmSolenoid)
     {
         mOperatorJoystick = aJoystick;
         mLogger = alogger;
@@ -56,28 +51,28 @@ public class SnobotClaw implements IClaw
     @Override
     public void openClaw()
     {
-        mClawHandSolenoid.set(mClawHandOpen);
+        mClawHandSolenoid.set(ConfigurationNames.sCLAW_HAND_OPEN);
 
     }
 
     @Override
     public void closeClaw()
     {
-        mClawHandSolenoid.set(mClawHandClose);
+        mClawHandSolenoid.set(ConfigurationNames.sCLAW_HAND_CLOSE);
 
     }
 
     @Override
     public void moveClawUp()
     {
-        mClawArmSolenoid.set(mClawArmUp);
+        mClawArmSolenoid.set(ConfigurationNames.sCLAW_ARM_UP);
 
     }
 
     @Override
     public void moveClawDown()
     {
-        mClawArmSolenoid.set(mClawArmDown);
+        mClawArmSolenoid.set(ConfigurationNames.sCLAW_ARM_DOWN);
     }
 
     @Override

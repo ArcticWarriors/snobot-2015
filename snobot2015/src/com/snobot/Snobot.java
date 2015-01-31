@@ -70,10 +70,6 @@ public class Snobot extends IterativeRobot
     // Solenoids
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
-    private boolean mClawHandOpen;
-    private boolean mClawHandClose;
-    private boolean mClawArmUp;
-    private boolean mClawArmDown;
 
     // Motors
     private Talon mDriveLeft1;
@@ -111,12 +107,10 @@ public class Snobot extends IterativeRobot
 
         mUpperLimitSwitch = new DigitalInput(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH_PORT_1, 1));
         mLowerLimitSwitch = new DigitalInput(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH_PORT_1, 2));
-       
         
         mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
         mStackerMotor = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR, 2));
-        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer, mClawHandSolenoid, mClawArmSolenoid,
-                mClawHandOpen, mClawHandClose, mClawArmUp, mClawArmDown );
+        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer, mClawHandSolenoid, mClawArmSolenoid );
 
         // Various Button Chooser for mode changes
         mTankModeButtonChooser = new SendableChooser();
