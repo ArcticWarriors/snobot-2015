@@ -64,6 +64,7 @@ public class Snobot extends IterativeRobot {
     private SnobotDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
+
     public CommandGroup mAutonCommands;
     
     //Solenoids

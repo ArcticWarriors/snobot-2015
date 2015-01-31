@@ -29,7 +29,6 @@ public class SnobotClaw implements IClaw {
 
     private double mAirPressureRangeMin, mAirPressureRangeMax;
 
-
     /**
      * Constructs a SnobotClaw object
      * 
@@ -77,7 +76,6 @@ public class SnobotClaw implements IClaw {
         mLogger.addHeader("Claw Up/Down Pressure");
         mLogger.addHeader("Claw Open/Close Pressure");
         rereadPreferences();
-
     }
 
     @Override
@@ -101,6 +99,7 @@ public class SnobotClaw implements IClaw {
 
     @Override
     public void rereadPreferences() {
+
         mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAir_Pressure_Range_Min, 50);
     }
 
