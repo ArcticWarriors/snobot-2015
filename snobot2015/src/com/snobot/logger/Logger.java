@@ -13,7 +13,6 @@ import com.snobot.ConfigurationNames;
 
 public class Logger
 {
-    private String mLogHeader;
 
     private String mLogDate;
     private FileWriter mLogWriter;
