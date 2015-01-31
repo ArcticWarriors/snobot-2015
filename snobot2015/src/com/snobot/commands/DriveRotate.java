@@ -43,11 +43,11 @@ public class DriveRotate extends Command
     @Override
     protected void execute()
     {
-        while (mPosition.getSnobotDegrees() < (mDegree - 2))
+        if (mPosition.getSnobotDegrees() < (mDegree - 2))
         {
             mDriveTrain.setMotorSpeed(mSpeed, (-mSpeed));
         }
-        while (mPosition.getSnobotDegrees() > (mDegree + 2))
+        else if (mPosition.getSnobotDegrees() > (mDegree + 2))
         {
             mDriveTrain.setMotorSpeed((mSpeed), mSpeed);
         }
