@@ -9,10 +9,8 @@ import com.snobot.ISubsystem;
  * @author Alec/Jeffrey
  *
  */
-public interface IClaw extends ISubsystem
-{
+public interface IClaw extends ISubsystem {
 
-	
     /**
      * Opens claw
      */
@@ -32,13 +30,13 @@ public interface IClaw extends ISubsystem
      * Moves claw down
      */
     void moveClawDown();
-    
+
     /**
      * 
      * @return Air pressure for claw up and claw down.
      */
     double getAirPressureA();
-    
+
     /**
      * 
      * @return Air pressure for claw open and claw close.

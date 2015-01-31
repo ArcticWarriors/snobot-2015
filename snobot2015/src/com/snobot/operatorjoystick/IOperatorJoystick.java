@@ -72,7 +72,7 @@ public interface IOperatorJoystick extends ISubsystem {
      * Stops all sensors and motors
      */
     void stop();
-    
+
     /**
      * 
      * @return True if the controller should rumble and false if it should not
