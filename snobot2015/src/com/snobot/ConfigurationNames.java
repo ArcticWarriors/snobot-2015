@@ -29,6 +29,8 @@ public class ConfigurationNames {
 
     // Solenoid
     public static final String sAir_Pressure_Range_Min = "AirPressureRangeMin";
+    public static final String sCLAW_HAND_SOLENOID = "ClawHandSolenoid";
+    public static final String sCLAW_ARM_SOLENOID = "ClawArmSolenoid";
 
     // Digital Inputs
     public static final String sSTACKER_UPPER_LIMIT_SWITCH_PORT_1 = "UpperStackerLimit";
