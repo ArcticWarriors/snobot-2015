@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.snobot.claw.SnobotClaw;
+import com.snobot.commands.CommandParser;
 import com.snobot.drivetrain.SnobotDriveTrain;
 import com.snobot.joystick.IDriverJoystick;
 import com.snobot.joystick.IDriverJoystick.DriveMode;
@@ -15,6 +16,7 @@ import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
 import com.snobot.SmartDashboardNames;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -63,7 +65,7 @@ public class Snobot extends IterativeRobot
     private Logger mLogger;
     private SnobotPosition mPositioner;
 
-    public CommandGroup mAutonCommands;
+    private CommandParser mParser;
 
     // Solenoids
     private Solenoid mClawHandSolenoid;
@@ -91,7 +93,7 @@ public class Snobot extends IterativeRobot
     @Override
     public void robotInit()
     {
-        mAutonCommands = new CommandGroup("Main executable CommandGroup");
+        mParser = new CommandParser(this);
 
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
@@ -181,7 +183,8 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
-
+        mParser.fullParse();
+        mParser.getCommands().start();
     }
 
     /**
