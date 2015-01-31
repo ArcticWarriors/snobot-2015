@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Ayush/Ammar
  *
  */
-public class SnobotDriveTrain implements IDriveTrain {
+public class SnobotDriveTrain implements IDriveTrain
+{
 
     private SpeedController mSpeedControllerLeft;
     private SpeedController mSpeedControllerRight;
@@ -41,7 +42,8 @@ public class SnobotDriveTrain implements IDriveTrain {
      *            Argument Driver Joy stick
      */
     public SnobotDriveTrain(SpeedController aSpeedControllerLeft, SpeedController aSpeedControllerRight, IDriverJoystick aDriverJoystick,
-            DriveMode aDriveMode, Encoder aEncoderLeft, Encoder aEncoderRight) {
+            DriveMode aDriveMode, Encoder aEncoderLeft, Encoder aEncoderRight)
+    {
         mSpeedControllerLeft = aSpeedControllerLeft;
         mSpeedControllerRight = aSpeedControllerRight;
         mDriverJoystick = aDriverJoystick;
@@ -53,38 +55,45 @@ public class SnobotDriveTrain implements IDriveTrain {
     }
 
     @Override
-    public void init() {
+    public void init()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void control() {
+    public void control()
+    {
         // TODO Add switch between the two drives
 
-        if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode()) {
+        if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode())
+        {
             mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
         }
-        else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode()) {
+        else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
+        {
             mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
         }
 
     }
 
     @Override
-    public void rereadPreferences() {
+    public void rereadPreferences()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard()
+    {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
         SmartDashboard.putNumber("Left Distance", this.calculateDistanceLeft());
@@ -92,35 +101,41 @@ public class SnobotDriveTrain implements IDriveTrain {
     }
 
     @Override
-    public void updateLog() {
+    public void updateLog()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void stop() {
+    public void stop()
+    {
         this.setMotorSpeed(0, 0);
 
     }
 
     @Override
-    public void setMotorSpeed(double aLeft, double aRight) {
+    public void setMotorSpeed(double aLeft, double aRight)
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public double calculateDistanceRight() {
+    public double calculateDistanceRight()
+    {
         return mEncoderRight.getDistance();
     }
 
     @Override
-    public double calculateDistanceLeft() {
+    public double calculateDistanceLeft()
+    {
         return mEncoderLeft.getDistance();
     }
 
     @Override
-    public void setDefaultMeasure(UnitOfMeasure aMeasure) {
+    public void setDefaultMeasure(UnitOfMeasure aMeasure)
+    {
         mDefaultMeasure = aMeasure;
 
     }

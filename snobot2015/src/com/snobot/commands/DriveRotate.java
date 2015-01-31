@@ -5,7 +5,8 @@ import com.snobot.position.SnobotPosition;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveRotate extends Command {
+public class DriveRotate extends Command
+{
     /**
      * TODO add javadoc
      */
@@ -14,7 +15,8 @@ public class DriveRotate extends Command {
     SnobotDriveTrain mDriveTrain;
     SnobotPosition mPosition;
 
-    public DriveRotate(double aDegree, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition) {
+    public DriveRotate(double aDegree, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
+    {
         mDegree = aDegree;
         mSpeed = aSpeed;
         mDriveTrain = aDriveTrain;
@@ -22,36 +24,43 @@ public class DriveRotate extends Command {
     }
 
     @Override
-    protected void end() {
+    protected void end()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected void execute() {
-        while (mPosition.getSnobotDegrees() < (mDegree - 2)) {
+    protected void execute()
+    {
+        while (mPosition.getSnobotDegrees() < (mDegree - 2))
+        {
             mDriveTrain.setMotorSpeed(mSpeed, (-mSpeed));
         }
-        while (mPosition.getSnobotDegrees() > (mDegree + 2)) {
+        while (mPosition.getSnobotDegrees() > (mDegree + 2))
+        {
             mDriveTrain.setMotorSpeed((mSpeed), mSpeed);
         }
         mDriveTrain.stop();
     }
 
     @Override
-    protected void initialize() {
+    protected void initialize()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected void interrupted() {
+    protected void interrupted()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected boolean isFinished() {
+    protected boolean isFinished()
+    {
         // TODO Auto-generated method stub
         return false;
     }

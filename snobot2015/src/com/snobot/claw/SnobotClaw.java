@@ -15,7 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Alec/Jeffrey
  *
  */
-public class SnobotClaw implements IClaw {
+public class SnobotClaw implements IClaw
+{
 
     private IOperatorJoystick mJoystick;
     private double mClawPressureA;
@@ -36,7 +37,8 @@ public class SnobotClaw implements IClaw {
      *            Argument for operator Joystick
      *
      */
-    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer, Solenoid aClawHandSolenoid, Solenoid aClawArmSolenoid) {
+    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer, Solenoid aClawHandSolenoid, Solenoid aClawArmSolenoid)
+    {
         mJoystick = aJoystick;
         mLogger = alogger;
         mTransducer = aTransducer;
@@ -46,31 +48,36 @@ public class SnobotClaw implements IClaw {
     }
 
     @Override
-    public void openClaw() {
+    public void openClaw()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void closeClaw() {
+    public void closeClaw()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void moveClawUp() {
+    public void moveClawUp()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void moveClawDown() {
+    public void moveClawDown()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void init() {
+    public void init()
+    {
         // TODO Auto-generated method stub
         mLogger.addHeader("Claw Up/Down Pressure");
         mLogger.addHeader("Claw Open/Close Pressure");
@@ -78,38 +85,45 @@ public class SnobotClaw implements IClaw {
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         // TODO Auto-generated method stub
         mClawPressureA = -1;
         mClawPressureB = -1;
 
-        if (mClawPressureA < mAirPressureRangeMin) {
+        if (mClawPressureA < mAirPressureRangeMin)
+        {
             mRumbleOn = true;
         }
-        else {
+        else
+        {
             mRumbleOn = false;
         }
     }
 
     @Override
-    public void control() {
+    public void control()
+    {
         mJoystick.setRumble(mRumbleOn);
     }
 
     @Override
-    public void rereadPreferences() {
+    public void rereadPreferences()
+    {
 
         mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAir_Pressure_Range_Min, 50);
     }
 
     @Override
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard()
+    {
         SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressureA);
         SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mClawPressureB);
     }
 
     @Override
-    public void updateLog() {
+    public void updateLog()
+    {
         mLogger.updateLogger(mClawPressureA);
 
         mLogger.updateLogger(mClawPressureB);
@@ -117,19 +131,22 @@ public class SnobotClaw implements IClaw {
     }
 
     @Override
-    public void stop() {
+    public void stop()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public double getAirPressureA() {
+    public double getAirPressureA()
+    {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public double getAirPressureB() {
+    public double getAirPressureB()
+    {
         // TODO Auto-generated method stub
         return 0;
     }

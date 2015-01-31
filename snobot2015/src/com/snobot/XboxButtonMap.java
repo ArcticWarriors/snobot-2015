@@ -1,6 +1,7 @@
 package com.snobot;
 
-public class XboxButtonMap {
+public class XboxButtonMap
+{
 
     // Axis
     public static final int LEFT_X_AXIS = 0;

@@ -9,7 +9,8 @@ import com.snobot.ISubsystem;
  * @author Alec/Jeffrey
  *
  */
-public interface IClaw extends ISubsystem {
+public interface IClaw extends ISubsystem
+{
 
     /**
      * Opens claw

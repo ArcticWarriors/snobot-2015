@@ -12,7 +12,8 @@ import com.snobot.position.*;
  * @author Andrew/Alec
  *
  */
-public class DriveForward extends Command {
+public class DriveForward extends Command
+{
 
     double mDistance;
     double mSpeed;
@@ -31,7 +32,8 @@ public class DriveForward extends Command {
      * @param aPosition
      *            -SnobotPosition class
      */
-    public DriveForward(double aDistance, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition) {
+    public DriveForward(double aDistance, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
+    {
         super(ConfigurationNames.sDRIVE_FORWARD_COMMAND);
         mDistance = aDistance;
         mSpeed = aSpeed;
@@ -40,7 +42,8 @@ public class DriveForward extends Command {
     }
 
     @Override
-    protected void end() {
+    protected void end()
+    {
         // TODO Auto-generated method stub
 
     }
@@ -49,12 +52,14 @@ public class DriveForward extends Command {
     /**
      * Sets motors to desired speed until the distance specified has been traveled
      */
-    protected void execute() {
+    protected void execute()
+    {
 
         double totalDistance = 0;
         mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
 
-        while (totalDistance <= mDistance) {
+        while (totalDistance <= mDistance)
+        {
             mPosition.updateAll();
             totalDistance = (totalDistance + mPosition.getSnobotDistance());
         }
@@ -62,18 +67,21 @@ public class DriveForward extends Command {
     }
 
     @Override
-    protected void initialize() {
+    protected void initialize()
+    {
 
     }
 
     @Override
-    protected void interrupted() {
+    protected void interrupted()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected boolean isFinished() {
+    protected boolean isFinished()
+    {
         // TODO Auto-generated method stub
         return false;
     }

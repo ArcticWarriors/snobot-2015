@@ -8,7 +8,8 @@ import com.snobot.ISubsystem;
  * @author Ayush/Ammar
  *
  */
-public interface IDriveTrain extends ISubsystem {
+public interface IDriveTrain extends ISubsystem
+{
 
     /**
      * Will set speed of motors.
@@ -26,7 +27,8 @@ public interface IDriveTrain extends ISubsystem {
 
     public double calculateDistanceLeft();
 
-    public enum UnitOfMeasure {
+    public enum UnitOfMeasure
+    {
         Feet, Meters, Inches, Centimeters
     }
 }

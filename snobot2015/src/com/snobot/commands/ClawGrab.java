@@ -2,34 +2,40 @@ package com.snobot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ClawGrab extends Command {
+public class ClawGrab extends Command
+{
 
     @Override
-    protected void end() {
+    protected void end()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected void execute() {
+    protected void execute()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected void initialize() {
+    protected void initialize()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected void interrupted() {
+    protected void interrupted()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected boolean isFinished() {
+    protected boolean isFinished()
+    {
         // TODO Auto-generated method stub
         return false;
     }

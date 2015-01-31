@@ -16,7 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Alec/Jeffrey
  *
  */
-public class SnobotStacker implements IStacker {
+public class SnobotStacker implements IStacker
+{
 
     private SpeedController mStackerMotor;
     private IOperatorJoystick mOperatorJoystick;
@@ -35,7 +36,8 @@ public class SnobotStacker implements IStacker {
      *            Argument of operator joy stick
      */
     public SnobotStacker(IOperatorJoystick aOperatorJoystick, SpeedController aStackerMotor, DigitalInput aUpperLimitSwitch,
-            DigitalInput aLowerLimitSwitch, Logger aLogger, Encoder aStackerEncoder) {
+            DigitalInput aLowerLimitSwitch, Logger aLogger, Encoder aStackerEncoder)
+    {
         mOperatorJoystick = aOperatorJoystick;
         mStackerMotor = aStackerMotor;
         mStackerDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
@@ -49,12 +51,15 @@ public class SnobotStacker implements IStacker {
     }
 
     @Override
-    public void moveStackerUp() {
+    public void moveStackerUp()
+    {
 
-        if (mUpperLimitSwitchState == true) {
+        if (mUpperLimitSwitchState == true)
+        {
             stop();
         }
-        else {
+        else
+        {
             mStackerMotor.set(mStackerDefaultSpeed);
         }
         /**
@@ -64,12 +69,15 @@ public class SnobotStacker implements IStacker {
     }
 
     @Override
-    public void moveStackerDown() {
+    public void moveStackerDown()
+    {
 
-        if (mLowerLimitSwitchState == true) {
+        if (mLowerLimitSwitchState == true)
+        {
             stop();
         }
-        else {
+        else
+        {
             mStackerMotor.set(-mStackerDefaultSpeed);
         }
         /**
@@ -78,41 +86,49 @@ public class SnobotStacker implements IStacker {
     }
 
     @Override
-    public void init() {
+    public void init()
+    {
         stop();
         mLogger.addHeader("UpperLimitSwitchState");
         mLogger.addHeader("LowerLimitSwitchState");
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         mUpperLimitSwitchState = mUpperLimitSwitch.get();
         mLowerLimitSwitchState = mLowerLimitSwitch.get();
 
     }
 
     @Override
-    public void control() {
-        if (mOperatorJoystick.getStackerUp()) {
+    public void control()
+    {
+        if (mOperatorJoystick.getStackerUp())
+        {
             moveStackerUp();
         }
-        else if (mOperatorJoystick.getStackerDown()) {
+        else if (mOperatorJoystick.getStackerDown())
+        {
             moveStackerDown();
         }
-        else {
+        else
+        {
             stop();
         }
 
     }
 
     @Override
-    public void rereadPreferences() {
+    public void rereadPreferences()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard()
+    {
         SmartDashboard.putBoolean("Upper Limit Switch State", mUpperLimitSwitch.get());
         SmartDashboard.putBoolean("Lowerr Limit Switch State", mLowerLimitSwitch.get());
         SmartDashboard.putNumber("Encoder Height", mStackerEncoder.getDistance());
@@ -120,7 +136,8 @@ public class SnobotStacker implements IStacker {
     }
 
     @Override
-    public void updateLog() {
+    public void updateLog()
+    {
 
         mLogger.updateLogger(mUpperLimitSwitchState);
         mLogger.updateLogger(mLowerLimitSwitchState);
@@ -128,7 +145,8 @@ public class SnobotStacker implements IStacker {
     }
 
     @Override
-    public void stop() {
+    public void stop()
+    {
         mStackerMotor.set(0);
 
     }

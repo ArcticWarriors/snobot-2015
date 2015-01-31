@@ -38,7 +38,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Snobot extends IterativeRobot {
+public class Snobot extends IterativeRobot
+{
 
     // IO
     private Joystick mRawOperatorJoystick;
@@ -90,7 +91,8 @@ public class Snobot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public void robotInit() {
+    public void robotInit()
+    {
         mAutonCommands = new CommandGroup("Main executable CommandGroup");
 
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
@@ -131,12 +133,14 @@ public class Snobot extends IterativeRobot {
 
         String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
 
-        if (joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox)) {
+        if (joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox))
+        {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
             mDriverJoystick = new SnobotXBoxDriverJoystick(mTankModeButton, mArcadeModeButton, mRawDriverJoystickPrimary, mLogger,
                     mTankModeButtonChooser, mArcadeModeButtonChooser, mDriveMode);
         }
-        else {
+        else
+        {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
             mRawDriverJoystickSecondary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
             mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
@@ -166,7 +170,8 @@ public class Snobot extends IterativeRobot {
         mSubsystems.add(mClaw);
         mSubsystems.add(mDriveTrain);
 
-        for (ISubsystem iSubsystem : mSubsystems) {
+        for (ISubsystem iSubsystem : mSubsystems)
+        {
             iSubsystem.init();
         }
 
@@ -175,39 +180,47 @@ public class Snobot extends IterativeRobot {
         ConfigurationNames.saveIfUpdated();
     }
 
-    public void autonomousInit() {
+    public void autonomousInit()
+    {
 
     }
 
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
+    public void autonomousPeriodic()
+    {
         Scheduler.getInstance().run();
     }
 
     /**
      * This function is called periodically during operator control
      */
-    public void teleopPeriodic() {
+    public void teleopPeriodic()
+    {
 
         String logDate = sdf.format(new Date());
 
-        for (ISubsystem iSubsystem : mSubsystems) {
+        for (ISubsystem iSubsystem : mSubsystems)
+        {
             iSubsystem.update();
 
         }
-        for (ISubsystem iSubsystem : mSubsystems) {
+        for (ISubsystem iSubsystem : mSubsystems)
+        {
             iSubsystem.control();
         }
-        for (ISubsystem iSubsystem : mSubsystems) {
+        for (ISubsystem iSubsystem : mSubsystems)
+        {
             iSubsystem.updateSmartDashboard();
         }
 
-        if (mLogger.logNow()) {
+        if (mLogger.logNow())
+        {
             mLogger.startLogEntry(logDate);
 
-            for (ISubsystem iSubsystem : mSubsystems) {
+            for (ISubsystem iSubsystem : mSubsystems)
+            {
                 iSubsystem.updateLog();
             }
 
@@ -219,19 +232,23 @@ public class Snobot extends IterativeRobot {
     /**
      * This function is called periodically during test mode
      */
-    public void testPeriodic() {
+    public void testPeriodic()
+    {
 
     }
 
-    public void teleopInit() {
+    public void teleopInit()
+    {
 
     }
 
-    public SnobotDriveTrain getDriveTrain() {
+    public SnobotDriveTrain getDriveTrain()
+    {
         return this.mDriveTrain;
     }
 
-    public SnobotPosition getPositioner() {
+    public SnobotPosition getPositioner()
+    {
         return this.mPositioner;
     }
 

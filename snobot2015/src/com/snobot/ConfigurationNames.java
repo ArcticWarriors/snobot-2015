@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.Preferences;
  * @author jbnol_000
  *
  */
-public class ConfigurationNames {
+public class ConfigurationNames
+{
 
     // Joysticks
     public static final String sOPERATOR_JOYSTICK_PORT = "OperatorJoystickPort";
@@ -61,8 +62,10 @@ public class ConfigurationNames {
 
     private static boolean sPropertyAdded = false;
 
-    public static double getOrSetPropertyDouble(String aName, double aDefault) {
-        if (Preferences.getInstance().containsKey(aName)) {
+    public static double getOrSetPropertyDouble(String aName, double aDefault)
+    {
+        if (Preferences.getInstance().containsKey(aName))
+        {
             return Preferences.getInstance().getDouble(aName, aDefault);
         }
 
@@ -71,8 +74,10 @@ public class ConfigurationNames {
         return aDefault;
     }
 
-    public static int getOrSetPropertyInt(String aName, int aDefault) {
-        if (Preferences.getInstance().containsKey(aName)) {
+    public static int getOrSetPropertyInt(String aName, int aDefault)
+    {
+        if (Preferences.getInstance().containsKey(aName))
+        {
             return Preferences.getInstance().getInt(aName, aDefault);
         }
 
@@ -81,8 +86,10 @@ public class ConfigurationNames {
         return aDefault;
     }
 
-    public static String getOrSetPropertyString(String aName, String aDefault) {
-        if (Preferences.getInstance().containsKey(aName)) {
+    public static String getOrSetPropertyString(String aName, String aDefault)
+    {
+        if (Preferences.getInstance().containsKey(aName))
+        {
             return Preferences.getInstance().getString(aName, aDefault);
         }
 
@@ -91,8 +98,10 @@ public class ConfigurationNames {
         return aDefault;
     }
 
-    public static void saveIfUpdated() {
-        if (sPropertyAdded) {
+    public static void saveIfUpdated()
+    {
+        if (sPropertyAdded)
+        {
             Preferences.getInstance().save();
             System.out.println("-------------------------------------------");
             System.out.println("Config file updated, saving it");

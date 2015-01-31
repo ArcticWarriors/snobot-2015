@@ -8,7 +8,8 @@ import com.snobot.ISubsystem;
  * @author Alec/Jeffrey
  *
  */
-public interface IOperatorJoystick extends ISubsystem {
+public interface IOperatorJoystick extends ISubsystem
+{
 
     /**
      * Asks if stacker is up

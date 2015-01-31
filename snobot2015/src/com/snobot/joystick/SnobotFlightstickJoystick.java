@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.Joystick;
  * Ayush/Ammar
  *
  */
-public class SnobotFlightstickJoystick implements IDriverJoystick {
+public class SnobotFlightstickJoystick implements IDriverJoystick
+{
 
     private Joystick mLeftFlightStick;
     private Joystick mRightFlightStick;
@@ -25,7 +26,8 @@ public class SnobotFlightstickJoystick implements IDriverJoystick {
      * @param aRightFlightStick
      *            Argument for Right Flight Stick
      */
-    public SnobotFlightstickJoystick(Joystick aLeftFlightStick, Joystick aRightFlightStick, Logger aLogger) {
+    public SnobotFlightstickJoystick(Joystick aLeftFlightStick, Joystick aRightFlightStick, Logger aLogger)
+    {
         System.out.println("Creating flightstick joystick");
         mLeftFlightStick = aLeftFlightStick;
         mRightFlightStick = aRightFlightStick;
@@ -33,7 +35,8 @@ public class SnobotFlightstickJoystick implements IDriverJoystick {
     }
 
     @Override
-    public void init() {
+    public void init()
+    {
         // TODO Auto-generated method stub
         mLogger.addHeader("Left Y Axis");
         mLogger.addHeader("Right Y Axis");
@@ -43,36 +46,43 @@ public class SnobotFlightstickJoystick implements IDriverJoystick {
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         // TODO Auto-generated method stub
-        if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_4)) {
+        if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_4))
+        {
             mDriveMode = DriveMode.Tank;
         }
-        else if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_5)) {
+        else if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_5))
+        {
             mDriveMode = DriveMode.Arcade;
         }
     }
 
     @Override
-    public void control() {
+    public void control()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void rereadPreferences() {
+    public void rereadPreferences()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void updateLog() {
+    public void updateLog()
+    {
         // TODO Auto-generated method stub
         // Left Y Axis
         mLogger.updateLogger(getLeftY());
@@ -88,37 +98,43 @@ public class SnobotFlightstickJoystick implements IDriverJoystick {
     }
 
     @Override
-    public void stop() {
+    public void stop()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public double getLeftY() {
+    public double getLeftY()
+    {
         // TODO Auto-generated method stub
         return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
     }
 
     @Override
-    public double getRightY() {
+    public double getRightY()
+    {
         // TODO Auto-generated method stub
         return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
     }
 
     @Override
-    public double getSpeed() {
+    public double getSpeed()
+    {
         // TODO Auto-generated method stub
         return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
     }
 
     @Override
-    public double getRotate() {
+    public double getRotate()
+    {
         // TODO Auto-generated method stub
         return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
     }
 
     @Override
-    public DriveMode getDriveMode() {
+    public DriveMode getDriveMode()
+    {
         // TODO Auto-generated method stub
         return mDriveMode;
     }

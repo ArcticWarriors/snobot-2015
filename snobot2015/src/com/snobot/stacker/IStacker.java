@@ -8,7 +8,8 @@ import com.snobot.ISubsystem;
  * @author Alec/Jeffrey
  *
  */
-public interface IStacker extends ISubsystem {
+public interface IStacker extends ISubsystem
+{
 
     /**
      * Moves stacker up

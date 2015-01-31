@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.Joystick.RumbleType;
  * @author Alec/Jeffrey
  *
  */
-public class SnobotOperatorJoystick implements IOperatorJoystick {
+public class SnobotOperatorJoystick implements IOperatorJoystick
+{
 
     private Joystick mOperatorJoystick;
 
@@ -19,40 +20,49 @@ public class SnobotOperatorJoystick implements IOperatorJoystick {
      * @param aOperatorJoystick
      *            Argument for operator Joystick
      */
-    public SnobotOperatorJoystick(Joystick aOperatorJoystick) {
+    public SnobotOperatorJoystick(Joystick aOperatorJoystick)
+    {
         mOperatorJoystick = aOperatorJoystick;
     }
 
     @Override
-    public boolean getStackerUp() {
+    public boolean getStackerUp()
+    {
 
-        if (mOperatorJoystick.getRawAxis(1) >= .2) {
+        if (mOperatorJoystick.getRawAxis(1) >= .2)
+        {
             return true;
         }
-        else {
+        else
+        {
             return false;
         }
     }
 
     @Override
-    public boolean getStackerDown() {
+    public boolean getStackerDown()
+    {
 
-        if (mOperatorJoystick.getRawAxis(1) <= -.2) {
+        if (mOperatorJoystick.getRawAxis(1) <= -.2)
+        {
             return true;
         }
-        else {
+        else
+        {
             return false;
         }
     }
 
     @Override
-    public boolean getClawUp() {
+    public boolean getClawUp()
+    {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public boolean getClawOpen() {
+    public boolean getClawOpen()
+    {
         // TODO Auto-generated method stub
         return false;
     }
@@ -60,56 +70,65 @@ public class SnobotOperatorJoystick implements IOperatorJoystick {
     /**
      * Perform initialization.
      */
-    public void init() {
+    public void init()
+    {
     }
 
     /**
      * Gathering and storing current sensor information. Ex. Motor Speed.
      */
-    public void update() {
+    public void update()
+    {
 
     }
 
     /**
      * Setting sensor and device states.
      */
-    public void control() {
+    public void control()
+    {
 
     }
 
     /**
      * Rereads and applies current preferences.
      */
-    public void rereadPreferences() {
+    public void rereadPreferences()
+    {
 
     }
 
     /**
      * Updates information that is sent to SmartDashboard Takes Enum argument
      */
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard()
+    {
 
     }
 
     /**
      * Updates the logger.
      */
-    public void updateLog() {
+    public void updateLog()
+    {
 
     }
 
     /**
      * Stops all sensors and motors
      */
-    public void stop() {
+    public void stop()
+    {
 
     }
 
     @Override
-    public void setRumble(Boolean aRumbleOn) {
+    public void setRumble(Boolean aRumbleOn)
+    {
 
         float lRumbleMagnitude = 0;
-        if (aRumbleOn) {
+        if (aRumbleOn)
+        {
             lRumbleMagnitude = 1;
         }
 
