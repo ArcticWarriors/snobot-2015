@@ -59,6 +59,7 @@ public class ConfigurationNames
     public static final String sDRIVE_ROTATE_COMMAND = "DriveRotate";
     public static final String sRAW_STACK_COMMAND = "RawStack";
     public static final String sCLAW_GRAB_COMMAND = "ClawGrab";
+    public static final String sMOVE_CLAW_COMMAND = "MoveClaw";
     
     // ////////////////////////////////
     // Preference Wrapper Functions //
