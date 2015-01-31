@@ -45,7 +45,7 @@ public class Logger
         {
             mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
 
-            mLogWriter.write(mLogDate);
+            mLogWriter.write("Date and Time");
 
         }
         catch (IOException e)
@@ -144,7 +144,7 @@ public class Logger
      */
     public void updateLogger(int aEntry)
     {
-        updateLogger("," + aEntry);
+        updateLogger("" + aEntry);
     }
 
     /**
@@ -154,7 +154,7 @@ public class Logger
      */
     public void updateLogger(double aEntry)
     {
-       updateLogger("," + aEntry);
+       updateLogger("" + aEntry);
     }
 
     /**
@@ -164,7 +164,7 @@ public class Logger
      */
     public void updateLogger(boolean aEntry)
     {
-        updateLogger("," + aEntry);
+        updateLogger("" + aEntry);
 
     }
 
