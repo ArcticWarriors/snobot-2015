@@ -6,9 +6,9 @@ import com.snobot.simulator.SpeedControllerWrapper;
 public class LinearEncoderCalculator implements ISimulatorUpdater
 {
 
-	private SpeedControllerWrapper mSpeedController;
-	private EncoderWrapper mEncoder;
-	private double mKp;
+    protected SpeedControllerWrapper mSpeedController;
+	protected EncoderWrapper mEncoder;
+	protected double mKp;
 	
 	protected boolean mSetup;
 	
