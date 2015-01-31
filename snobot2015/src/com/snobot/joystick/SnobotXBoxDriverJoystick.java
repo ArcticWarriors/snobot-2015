@@ -43,11 +43,10 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public void init()
     {
-        // TODO add Header
-        mLogger.addHeader("Left Y Axis");
-        mLogger.addHeader("Right Y Axis");
-        mLogger.addHeader("Speed");
-        mLogger.addHeader("Right X Axis");
+        mLogger.addHeader("Tank Mode: Left Y Axis");
+        mLogger.addHeader("Tank Mode: Right Y Axis");
+        mLogger.addHeader("Arcade Mode: Speed");
+        mLogger.addHeader("Arcade Mode: Right X Axis");
         mTankModeButton = (int) (mTankModeChooser.getSelected());
         mArcadeModeButton = (int) (mArcadeModeChooser.getSelected());
         mDriveMode = DriveMode.Tank;
@@ -90,7 +89,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public void updateLog()
     {
-        // TODO Check if these work
+        // TODO Update Drive mode
         // Left Y Axis
         mLogger.updateLogger(getLeftY());
 
@@ -102,6 +101,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
 
         // Angle of the Joy stick (for arcade drive)
         mLogger.updateLogger(getRotate());
+        
     }
 
     @Override
@@ -114,35 +114,30 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public double getLeftY()
     {
-        // TODO Auto-generated method stub
         return mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
     }
 
     @Override
     public double getRightY()
     {
-        // TODO Auto-generated method stub
         return mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
     }
 
     @Override
     public double getSpeed()
     {
-        // TODO Auto-generated method stub
         return mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
     }
 
     @Override
     public double getRotate()
     {
-        // TODO Auto-generated method stub
         return mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
     }
 
     @Override
     public DriveMode getDriveMode()
     {
-        // TODO Auto-generated method stub
         return mDriveMode;
     }
 }

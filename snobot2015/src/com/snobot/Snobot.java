@@ -133,9 +133,9 @@ public class Snobot extends IterativeRobot
         mArcadeModeButtonChooser.addObject("xboxButtonRightBumper", XboxButtonMap.RB_BUTTON);
         SmartDashboard.putData("Arcade Mode Button Choose", mArcadeModeButtonChooser);
 
-        String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
+        String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJOYSTICK_MODE_XBOX);
 
-        if (joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox))
+        if (joystickType.equals(SmartDashboardNames.sJOYSTICK_MODE_XBOX))
         {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
             mDriverJoystick = new SnobotXBoxDriverJoystick(mTankModeButton, mArcadeModeButton, mRawDriverJoystickPrimary, mLogger,
