@@ -126,7 +126,7 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public double calculateDistanceRight()
     {
-        return mEncoderRight.getDistance();
+        return -mEncoderRight.getDistance();
     }
 
     @Override
@@ -140,5 +140,11 @@ public class SnobotDriveTrain implements IDriveTrain
     {
         mDefaultMeasure = aMeasure;
 
+    }
+    
+    public void resetEncoders()
+    {
+        this.mEncoderLeft.reset();
+        this.mEncoderRight.reset();
     }
 }

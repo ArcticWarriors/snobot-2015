@@ -20,8 +20,8 @@ public class CommandParser
     
     //TODO this is for testing only...
     private static final String AUTO_MODE = 
-            "drive_forward 1 1 1\n" + 
-            "drive_forward 2 3 5\n";
+            "DriveForward 1 1 \n" + 
+            "DriveForward 2 .5 \n";
 
     public CommandParser(Snobot aSnobot)
     {
@@ -101,6 +101,10 @@ public class CommandParser
         if (isParallel)
         {
             mCommands.addParallel(newCommand);
+        }
+        else if (newCommand==null)
+        {
+            System.out.println("Null command");
         }
         else
         {
