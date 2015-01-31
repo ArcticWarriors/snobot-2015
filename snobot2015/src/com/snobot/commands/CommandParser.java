@@ -1,5 +1,8 @@
 package com.snobot.commands;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -163,5 +166,23 @@ public class CommandParser
     {
         this.getAndSplitLines();
         this.feedLines();
+    }
+    
+    public void readFile(File aAutonFile)
+    {
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(aAutonFile));
+            
+            String line;
+            while((line = br.readLine()) != null)
+            {
+                this.commandParser(line);
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.snobot;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,6 +65,7 @@ public class Snobot extends IterativeRobot
     private SnobotDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
+    private File mAutonFile;
 
     private CommandParser mParser;
 
@@ -94,6 +96,7 @@ public class Snobot extends IterativeRobot
     public void robotInit()
     {
         mParser = new CommandParser(this);
+        mAutonFile=new File("AutonCommands");
 
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
@@ -185,7 +188,7 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
-        mParser.fullParse();
+        mParser.readFile(mAutonFile);
         mParser.getCommands().start();
     }
 
