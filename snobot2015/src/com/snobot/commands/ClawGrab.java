@@ -29,9 +29,9 @@ public class ClawGrab extends Command
         
         //Actuates claw open/closed
         if(mOpen == true)
-            {
-            mClaw.openClaw();
-            }
+        {
+        mClaw.openClaw();
+        }
         else if(mOpen == false)
         {
             mClaw.closeClaw();
