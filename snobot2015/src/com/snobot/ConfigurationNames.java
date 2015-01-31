@@ -52,7 +52,7 @@ public class ConfigurationNames {
     public static final String sLOG_FILE_PATH = "LogFilePath";
 
     // Autonomous Commands
-    public static final String sDRIVE_FORWARD_COMMAND = "DriveForwardCommand";
+    public static final String sDRIVE_FORWARD_COMMAND = "drive_forward";
     // ////////////////////////////////
     // Preference Wrapper Functions //
     // ////////////////////////////////

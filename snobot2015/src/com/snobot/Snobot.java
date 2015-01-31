@@ -63,7 +63,7 @@ public class Snobot extends IterativeRobot {
     private SnobotDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
-    public CommandGroup mAutonCommands;
+    private CommandGroup mAutonCommands;
 
     // Motors
     private Talon mDriveLeft1;
