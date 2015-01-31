@@ -17,7 +17,11 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     private Joystick mRightFlightStick;
     private DriveMode mDriveMode;
     private Logger mLogger;
-
+    
+    private double mTankLeftYAxis;
+    private double mTankRightYAxis;
+    private double mArcadeLeftSpeed;
+    private double mArcadeRightRotation;
     /**
      * Constructor for Flight Stick
      * 
@@ -37,10 +41,10 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void init()
     {
-        mLogger.addHeader("Left Y Axis");
-        mLogger.addHeader("Right Y Axis");
-        mLogger.addHeader("Speed (-1 to 1)");
-        mLogger.addHeader("Right X Axis");
+        mLogger.addHeader("Tank Mode: Left Y Axis");
+        mLogger.addHeader("Tank Mode: Right Y Axis");
+        mLogger.addHeader("Arcade Mode: Speed (1 to -1)");
+        mLogger.addHeader("Arcade Mode: Right X Axis");
         mDriveMode = DriveMode.Tank;
     }
 
@@ -55,6 +59,11 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         {
             mDriveMode = DriveMode.Arcade;
         }
+        
+        mTankLeftYAxis = mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        mTankRightYAxis = mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        mArcadeLeftSpeed = mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        mArcadeRightRotation = mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
     }
 
     @Override
@@ -104,25 +113,25 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public double getLeftY()
     {
-        return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        return mTankLeftYAxis;
     }
 
     @Override
     public double getRightY()
     {
-        return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        return mTankRightYAxis;
     }
 
     @Override
     public double getSpeed()
     {
-        return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        return mArcadeLeftSpeed;
     }
 
     @Override
     public double getRotate()
     {
-        return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
+        return mArcadeRightRotation;
     }
 
     @Override

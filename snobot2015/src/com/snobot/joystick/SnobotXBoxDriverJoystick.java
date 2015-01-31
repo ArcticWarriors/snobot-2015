@@ -17,6 +17,10 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     private DriveMode mDriveMode;
     private Logger mLogger;
 
+    private double mTankLeftYAxis;
+    private double mTankRightYAxis;
+    private double mArcadeLeftSpeed;
+    private double mArcadeRightRotation;
     /**
      * Constructor for xBox Joy stick
      * 
@@ -36,7 +40,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     {
         mLogger.addHeader("Tank Mode: Left Y Axis");
         mLogger.addHeader("Tank Mode: Right Y Axis");
-        mLogger.addHeader("Arcade Mode: Speed");
+        mLogger.addHeader("Arcade Mode: Speed (1 to -1)");
         mLogger.addHeader("Arcade Mode: Right X Axis");
         mDriveMode = DriveMode.Tank;
     }
@@ -52,6 +56,11 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         {
             mDriveMode = DriveMode.Arcade;
         }
+        
+        mTankLeftYAxis = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        mTankRightYAxis = mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
+        mArcadeLeftSpeed = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        mArcadeRightRotation = mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
     }
 
     @Override
@@ -80,16 +89,16 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     {
         // TODO Update Drive mode
         // Left Y Axis
-        mLogger.updateLogger(getLeftY());
+        mLogger.updateLogger(mTankLeftYAxis);
 
         // Right Y Axis
-        mLogger.updateLogger(getRightY());
+        mLogger.updateLogger(mTankRightYAxis);
 
         // Speed
-        mLogger.updateLogger(getSpeed());
+        mLogger.updateLogger(mArcadeLeftSpeed);
 
         // Angle of the Joy stick (for arcade drive)
-        mLogger.updateLogger(getRotate());
+        mLogger.updateLogger(mArcadeRightRotation);
         
     }
 
@@ -103,25 +112,25 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public double getLeftY()
     {
-        return mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        return mTankLeftYAxis;
     }
 
     @Override
     public double getRightY()
     {
-        return mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
+        return mTankRightYAxis;
     }
 
     @Override
     public double getSpeed()
     {
-        return mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        return mArcadeLeftSpeed;
     }
 
     @Override
     public double getRotate()
     {
-        return mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
+        return mArcadeRightRotation;
     }
 
     @Override
