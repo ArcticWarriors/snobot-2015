@@ -16,10 +16,6 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     private Joystick mXBoxStick;
     private DriveMode mDriveMode;
     private Logger mLogger;
-    private int mTankModeButton;
-    private int mArcadeModeButton;
-    private SendableChooser mArcadeModeChooser;
-    private SendableChooser mTankModeChooser;
 
     /**
      * Constructor for xBox Joy stick
@@ -27,17 +23,12 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
      * @param aXBoxStick
      *            Argument for xBox Stick
      */
-    public SnobotXBoxDriverJoystick(int aTankModeButton, int aArcadeModeButton, Joystick aXBoxStick, Logger aLogger,
-            SendableChooser aTankModeChooser, SendableChooser aArcadeModeChooser, DriveMode aDriveMode)
+    public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger, DriveMode aDriveMode)
     {
         System.out.println("Creating xbox joystick");
         mXBoxStick = aXBoxStick;
-        mTankModeChooser = aTankModeChooser;
         mDriveMode = aDriveMode;
-        mArcadeModeChooser = aArcadeModeChooser;
         mLogger = aLogger;
-        mTankModeButton = aTankModeButton;
-        mArcadeModeButton = aArcadeModeButton;
     }
 
     @Override
@@ -47,19 +38,17 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         mLogger.addHeader("Tank Mode: Right Y Axis");
         mLogger.addHeader("Arcade Mode: Speed");
         mLogger.addHeader("Arcade Mode: Right X Axis");
-        mTankModeButton = (int) (mTankModeChooser.getSelected());
-        mArcadeModeButton = (int) (mArcadeModeChooser.getSelected());
         mDriveMode = DriveMode.Tank;
     }
 
     @Override
     public void update()
     {
-        if (mXBoxStick.getRawButton(mTankModeButton))
+        if (mXBoxStick.getRawButton(XboxButtonMap.A_BUTTON))
         {
             mDriveMode = DriveMode.Tank;
         }
-        else if (mXBoxStick.getRawButton(mArcadeModeButton))
+        else if (mXBoxStick.getRawButton(XboxButtonMap.B_BUTTON))
         {
             mDriveMode = DriveMode.Arcade;
         }
