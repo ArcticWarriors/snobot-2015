@@ -31,8 +31,7 @@ public class SnobotStacker implements IStacker {
      * @param aOperatorJoystick
      *            Argument of operator joy stick
      */
-    public SnobotStacker(IOperatorJoystick aOperatorJoystick,
-            SpeedController aStackerMotor, DigitalInput aUpperLimitSwitch,
+    public SnobotStacker(IOperatorJoystick aOperatorJoystick, SpeedController aStackerMotor, DigitalInput aUpperLimitSwitch,
             DigitalInput aLowerLimitSwitch, Logger aLogger) {
         mOperatorJoystick = aOperatorJoystick;
         mStackerMotor = aStackerMotor;
@@ -74,6 +73,8 @@ public class SnobotStacker implements IStacker {
     @Override
     public void init() {
         stop();
+        mLogger.addHeader("UpperLimitSwitchState");
+        mLogger.addHeader("LowerLimitSwitchState");
     }
 
     @Override

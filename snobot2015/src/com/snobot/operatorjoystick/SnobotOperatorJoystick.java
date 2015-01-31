@@ -1,6 +1,7 @@
 package com.snobot.operatorjoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
 
 /**
  * Monitors state of operator joystick for other classes/objects to use
@@ -74,7 +75,6 @@ public class SnobotOperatorJoystick implements IOperatorJoystick {
      */
     public void control() {
 
-        
     }
 
     /**
@@ -106,9 +106,14 @@ public class SnobotOperatorJoystick implements IOperatorJoystick {
     }
 
     @Override
-    public boolean setRumble() {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public void setRumble(Boolean aRumbleOn) {
 
+        float lRumbleMagnitude = 0;
+        if (aRumbleOn) {
+            lRumbleMagnitude = 1;
+        }
+
+        mOperatorJoystick.setRumble(RumbleType.kLeftRumble, lRumbleMagnitude);
+        mOperatorJoystick.setRumble(RumbleType.kRightRumble, lRumbleMagnitude);
+    }
 }
