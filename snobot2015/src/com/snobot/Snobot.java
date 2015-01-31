@@ -87,7 +87,7 @@ public class Snobot extends IterativeRobot {
     public void robotInit() {
         mAutonCommands = new CommandGroup("Main executable CommandGroup");
 
-        sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
+        sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
         mLogger = new Logger(headerDate);
         mLogger.init();
@@ -219,6 +219,14 @@ public class Snobot extends IterativeRobot {
 
     public void teleopInit() {
 
+    }
+
+    public SnobotDriveTrain getDriveTrain() {
+        return this.mDriveTrain;
+    }
+
+    public SnobotPosition getPositioner() {
+        return this.mPositioner;
     }
 
 }
