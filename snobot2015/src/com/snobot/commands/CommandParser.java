@@ -82,7 +82,9 @@ public class CommandParser
                         mSnobot.getSnobotStacker());
             case ConfigurationNames.sCLAW_GRAB_COMMAND:
                     newCommand = new ClawGrab(
-                            
+                            Boolean.parseBoolean(args.get(1)), 
+                            mSnobot.getSnobotClaw());
+                    
             }
         }
         catch (Exception e)

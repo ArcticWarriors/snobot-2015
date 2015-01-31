@@ -7,13 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ClawGrab extends Command
 {
     boolean mOpen;
-    boolean mClawUp;
     SnobotClaw mClaw;
     
-    public ClawGrab(boolean aOpen, boolean aClawUp, SnobotClaw aClaw)
+    public ClawGrab(boolean aOpen, SnobotClaw aClaw)
     {
         mOpen = aOpen;
-        mClawUp = aClawUp;
         mClaw = aClaw;
     }
     
@@ -27,15 +25,9 @@ public class ClawGrab extends Command
     @Override
     protected void execute()
     {
-        if(mClawUp == true)
-        {
-            mClaw.moveClawUp();
-        }
-        else if(mClawUp == false)
-        {
-            mClaw.moveClawDown();
-        }
         
+        
+        //Actuates claw open/closed
         if(mOpen == true)
             {
             mClaw.openClaw();
