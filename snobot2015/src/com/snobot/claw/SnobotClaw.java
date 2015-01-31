@@ -51,28 +51,27 @@ public class SnobotClaw implements IClaw
     @Override
     public void openClaw()
     {
-        mClawHandSolenoid.set(ConfigurationNames.sCLAW_HAND_OPEN);
-
+        mClawHandSolenoid.set(true);
     }
 
     @Override
     public void closeClaw()
     {
-        mClawHandSolenoid.set(ConfigurationNames.sCLAW_HAND_CLOSE);
+        mClawHandSolenoid.set(false);
 
     }
 
     @Override
     public void moveClawUp()
     {
-        mClawArmSolenoid.set(ConfigurationNames.sCLAW_ARM_UP);
+        mClawArmSolenoid.set(true);
 
     }
 
     @Override
     public void moveClawDown()
     {
-        mClawArmSolenoid.set(ConfigurationNames.sCLAW_ARM_DOWN);
+        mClawArmSolenoid.set(false);
     }
 
     @Override

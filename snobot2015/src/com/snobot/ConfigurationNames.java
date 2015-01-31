@@ -32,10 +32,6 @@ public class ConfigurationNames
     public static final String sAir_Pressure_Range_Min = "AirPressureRangeMin";
     public static final String sCLAW_HAND_SOLENOID = "ClawHandSolenoid";
     public static final String sCLAW_ARM_SOLENOID = "ClawArmSolenoid";
-    public static final boolean sCLAW_HAND_OPEN = true;
-    public static final boolean sCLAW_HAND_CLOSE = false;
-    public static final boolean sCLAW_ARM_UP = true;
-    public static final boolean sCLAW_ARM_DOWN = false;
 
     // Digital Inputs
     public static final String sSTACKER_UPPER_LIMIT_SWITCH_PORT_1 = "UpperStackerLimit";
