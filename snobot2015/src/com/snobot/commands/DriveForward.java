@@ -60,7 +60,6 @@ public class DriveForward extends Command
 
         if (totalDistance <= mDistance)
         {
-            mPosition.updateAll();
             totalDistance = (totalDistance + mPosition.getSnobotDistance());
         }
         else if (totalDistance >= mDistance)

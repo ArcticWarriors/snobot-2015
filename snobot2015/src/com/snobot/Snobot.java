@@ -194,6 +194,10 @@ public class Snobot extends IterativeRobot
     public void autonomousPeriodic()
     {
         Scheduler.getInstance().run();
+
+        update();
+        updateSmartDashboard();
+        updateLog();
     }
 
     /**
@@ -202,23 +206,41 @@ public class Snobot extends IterativeRobot
     @Override
     public void teleopPeriodic()
     {
-
-        String logDate = sdf.format(new Date());
-
+        update();
+        control();
+        updateSmartDashboard();
+        updateLog();
+    }
+    
+    private void update()
+    {
+        mPositioner.updateAll();
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.update();
 
         }
+    }
+    
+    private void control()
+    {
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.control();
         }
+    }
+    
+    private void updateSmartDashboard()
+    {
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.updateSmartDashboard();
         }
-
+    }
+    
+    private void updateLog()
+    {
+        String logDate = sdf.format(new Date());
         if (mLogger.logNow())
         {
             mLogger.startLogEntry(logDate);
@@ -230,7 +252,6 @@ public class Snobot extends IterativeRobot
 
             mLogger.endLogger();
         }
-
     }
 
     /**

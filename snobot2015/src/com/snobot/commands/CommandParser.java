@@ -20,8 +20,7 @@ public class CommandParser
     
     //TODO this is for testing only...
     private static final String AUTO_MODE = 
-            "drive_forward 1 1 1\n" + 
-            "drive_forward 2 3 5\n";
+            "DriveRotate 180 .4 \n";
 
     public CommandParser(Snobot aSnobot)
     {
