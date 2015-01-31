@@ -4,6 +4,7 @@ package org.usfirst.frc.team174.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -36,6 +37,10 @@ public class Snobot extends IterativeRobot {
 	
 	private TestRumblePressure rumblePressure;
 	
+	private boolean autonUpdate;
+	private String previousString;
+	String testString;
+	
     public void robotInit() {
     	leftMotorsA = new Talon(0);
     	rightMotorsA = new Talon(1);
@@ -46,7 +51,11 @@ public class Snobot extends IterativeRobot {
     	driverJoystick = new DriverJoystick_Xbox(rightJoystick);
     	
     	tank = new DriveTrain (leftMotorsA, leftMotorsB, rightMotorsA, rightMotorsB, driverJoystick);
-    	rumblePressure = new TestRumblePressure(leftJoystick);
+//    	rumblePressure = new TestRumblePressure(leftJoystick);
+    	autonUpdate=false;
+    	previousString="Tee hee hee!";
+    	SmartDashboard.putString("jlkjlj", previousString);
+    	testString=previousString;
     	
     }
 
@@ -62,8 +71,19 @@ public class Snobot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     tank.control();
-    rumblePressure.control();
-    
+//    rumblePressure.control();
+
+while(!autonUpdate){
+	if(!testString.equals(previousString)){
+		autonUpdate=true;
+	}
+	else{
+		testString=SmartDashboard.getString("jlkjlj");
+	}
+}
+System.out.println(testString);
+previousString=testString;
+autonUpdate=false;
 //    if (leftJoystick.getRawButton(1))
 //	{
 //		leftJoystick.setRumble(RumbleType.kLeftRumble, 1);

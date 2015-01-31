@@ -3,6 +3,7 @@ package com.snobot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import com.snobot.claw.SnobotClaw;
 import com.snobot.drivetrain.SnobotDriveTrain;
 import com.snobot.joystick.IDriverJoystick;
@@ -14,12 +15,19 @@ import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
 import com.snobot.SmartDashboardNames;
+import com.snobot.commands.*;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -30,7 +38,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Snobot extends IterativeRobot {
+public class Snobot extends IterativeRobot
+{
 
     // IO
     private Joystick mRawOperatorJoystick;
@@ -57,6 +66,12 @@ public class Snobot extends IterativeRobot {
     private Logger mLogger;
     private SnobotPosition mPositioner;
 
+    public CommandGroup mAutonCommands;
+
+    // Solenoids
+    private Solenoid mClawHandSolenoid;
+    private Solenoid mClawArmSolenoid;
+
     // Motors
     private Talon mDriveLeft1;
     private Talon mDriveRight1;
@@ -65,18 +80,26 @@ public class Snobot extends IterativeRobot {
     // Vector of iSubsystems for group actions
     private ArrayList<ISubsystem> mSubsystems;
 
+    private AnalogInput mTransducer;
+    private Encoder mEncoderLeft;
+    private Encoder mEncoderRight;
+    private Encoder mStackerEncoder;
+
     SimpleDateFormat sdf;
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public void robotInit() {
+    public void robotInit()
+    {
+        mAutonCommands = new CommandGroup("Main executable CommandGroup");
 
-        sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
+        sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
         mLogger = new Logger(headerDate);
         mLogger.init();
+        mTransducer = new AnalogInput(1);
 
         mDriveLeft1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 0));
         mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
@@ -87,8 +110,7 @@ public class Snobot extends IterativeRobot {
 
         mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
         mStackerMotor = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR, 2));
-        mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger);
-        mClaw = new SnobotClaw(mOperatorJoystick, mLogger);
+        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer, mClawHandSolenoid, mClawArmSolenoid);
 
         // Various Button Chooser for mode changes
         mTankModeButtonChooser = new SendableChooser();
@@ -111,20 +133,33 @@ public class Snobot extends IterativeRobot {
 
         String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJoystickMode, SmartDashboardNames.sJoystickMode_Xbox);
 
-        if (joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox)) {
+        if (joystickType.equals(SmartDashboardNames.sJoystickMode_Xbox))
+        {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
             mDriverJoystick = new SnobotXBoxDriverJoystick(mTankModeButton, mArcadeModeButton, mRawDriverJoystickPrimary, mLogger,
                     mTankModeButtonChooser, mArcadeModeButtonChooser, mDriveMode);
         }
-        else {
+        else
+        {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
             mRawDriverJoystickSecondary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 0));
             mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
         }
 
-        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode);
+        mEncoderLeft = new Encoder(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 7),
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_B, 4));
 
-        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt("Gyro_Sensor", 0));
+        mEncoderRight = new Encoder(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_A, 5),
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6));
+
+        mStackerEncoder = new Encoder(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_A, 0),
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_B, 8));
+
+        mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerEncoder);
+
+        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight);
+
+        mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0));
 
         mPositioner = new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 
@@ -135,7 +170,8 @@ public class Snobot extends IterativeRobot {
         mSubsystems.add(mClaw);
         mSubsystems.add(mDriveTrain);
 
-        for (ISubsystem iSubsystem : mSubsystems) {
+        for (ISubsystem iSubsystem : mSubsystems)
+        {
             iSubsystem.init();
         }
 
@@ -144,38 +180,51 @@ public class Snobot extends IterativeRobot {
         ConfigurationNames.saveIfUpdated();
     }
 
+    public void autonomousInit()
+    {
+
+    }
+
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
-
+    public void autonomousPeriodic()
+    {
+        Scheduler.getInstance().run();
     }
 
     /**
      * This function is called periodically during operator control
      */
-    public void teleopPeriodic() {
+    public void teleopPeriodic()
+    {
 
         String logDate = sdf.format(new Date());
 
-        for (ISubsystem iSubsystem : mSubsystems) {
+        for (ISubsystem iSubsystem : mSubsystems)
+        {
             iSubsystem.update();
 
         }
-        for (ISubsystem iSubsystem : mSubsystems) {
+        for (ISubsystem iSubsystem : mSubsystems)
+        {
             iSubsystem.control();
         }
-        for (ISubsystem iSubsystem : mSubsystems) {
+        for (ISubsystem iSubsystem : mSubsystems)
+        {
             iSubsystem.updateSmartDashboard();
         }
 
-        mLogger.startLogEntry(logDate);
+        if (mLogger.logNow())
+        {
+            mLogger.startLogEntry(logDate);
 
-        for (ISubsystem iSubsystem : mSubsystems) {
-            iSubsystem.updateLog();
+            for (ISubsystem iSubsystem : mSubsystems)
+            {
+                iSubsystem.updateLog();
+            }
 
             mLogger.endLogger();
-
         }
 
     }
@@ -183,12 +232,24 @@ public class Snobot extends IterativeRobot {
     /**
      * This function is called periodically during test mode
      */
-    public void testPeriodic() {
+    public void testPeriodic()
+    {
 
     }
 
-    public void teleopInit() {
+    public void teleopInit()
+    {
 
+    }
+
+    public SnobotDriveTrain getDriveTrain()
+    {
+        return this.mDriveTrain;
+    }
+
+    public SnobotPosition getPositioner()
+    {
+        return this.mPositioner;
     }
 
 }

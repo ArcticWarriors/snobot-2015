@@ -6,7 +6,8 @@ package com.snobot;
  * @author jbnol_000
  *
  */
-public class SmartDashboardNames {
+public class SmartDashboardNames
+{
     public static final String sLEFT_DRIVE_SPEED = "LeftDriveSpeed";
     public static final String sRIGHT_DRIVE_SPEED = "RightDriveSpeed";
     public static final String sCLAW_AIR_PRESSURE = "ClawAirPressure";

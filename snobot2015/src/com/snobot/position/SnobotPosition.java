@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.Gyro;
  * @author Alec
  *
  */
-public class SnobotPosition {
+public class SnobotPosition
+{
 
     /**
      * Snobot's X-position
@@ -63,8 +64,8 @@ public class SnobotPosition {
      * @param aDefaultMeasure
      *            Measure that is to be used by default
      */
-    public SnobotPosition(Gyro aGyroSensor, SnobotDriveTrain aDriveTrain,
-            Logger aLogger) {
+    public SnobotPosition(Gyro aGyroSensor, SnobotDriveTrain aDriveTrain, Logger aLogger)
+    {
         this.mPositionX = 0;
         this.mPositionY = 0;
         this.mRadianRotation = 0;
@@ -79,9 +80,9 @@ public class SnobotPosition {
      * 
      * @return Snobot's X-position
      */
-    private double calculateX() {
-        return Math.sin(this.mRadianRotation) * this.mDistanceTraveled
-                + this.mPositionX;
+    private double calculateX()
+    {
+        return Math.sin(this.mRadianRotation) * this.mDistanceTraveled + this.mPositionX;
     }
 
     /**
@@ -90,10 +91,10 @@ public class SnobotPosition {
      * 
      * @return Snobot's Y-position
      */
-    private double calculateY() {
+    private double calculateY()
+    {
 
-        return Math.cos(this.mRadianRotation) * this.mDistanceTraveled
-                + this.mPositionY;
+        return Math.cos(this.mRadianRotation) * this.mDistanceTraveled + this.mPositionY;
     }
 
     /**
@@ -101,13 +102,16 @@ public class SnobotPosition {
      * 
      * @return The direction Snobot is facing in radians between 2PI and -2PI
      */
-    private double calculateDirection() {
+    private double calculateDirection()
+    {
         double gyroDegrees = mGyroSensor.getAngle();
-        if (gyroDegrees > 360) {
+        if (gyroDegrees > 360)
+        {
             gyroDegrees = gyroDegrees - 360;
         }
 
-        else if (gyroDegrees < -360) {
+        else if (gyroDegrees < -360)
+        {
             gyroDegrees = gyroDegrees + 360;
         }
         return Math.toRadians(gyroDegrees);
@@ -119,7 +123,8 @@ public class SnobotPosition {
      * 
      * @return The distance traveled by Snobot since last update
      */
-    private double calculateDistanceTraveled() {
+    private double calculateDistanceTraveled()
+    {
         double distanceRight = this.mDriveTrain.calculateDistanceRight();
         double distanceLeft = this.mDriveTrain.calculateDistanceLeft();
 
@@ -129,7 +134,8 @@ public class SnobotPosition {
     /**
      * Updates member variables with numbers calculated via object methods
      */
-    public void updateAll() {
+    public void updateAll()
+    {
         this.mRadianRotation = this.calculateDirection();
         this.mDistanceTraveled = this.calculateDistanceTraveled();
         this.mPositionX = this.calculateX();
@@ -141,7 +147,8 @@ public class SnobotPosition {
      * 
      * @return mRadianRotation in human-friendly degrees
      */
-    public double getSnobotDegrees() {
+    public double getSnobotDegrees()
+    {
         return Math.toDegrees(this.mRadianRotation);
     }
 
@@ -150,7 +157,8 @@ public class SnobotPosition {
      * 
      * @return Snobot's X-position
      */
-    public double getSnobotX() {
+    public double getSnobotX()
+    {
         return this.mPositionX;
     }
 
@@ -159,7 +167,8 @@ public class SnobotPosition {
      * 
      * @return Snobot's Y-position
      */
-    public double getSnobotY() {
+    public double getSnobotY()
+    {
         return this.mPositionY;
     }
 
@@ -168,7 +177,8 @@ public class SnobotPosition {
      * 
      * @return Snobot's rotation in radians
      */
-    public double getSnobotRadians() {
+    public double getSnobotRadians()
+    {
         return this.mRadianRotation;
     }
 
@@ -177,7 +187,8 @@ public class SnobotPosition {
      * 
      * @return The distance traveled by Snobot since last update
      */
-    public double getSnobotDistance() {
+    public double getSnobotDistance()
+    {
         return this.mDistanceTraveled;
     }
 
@@ -187,7 +198,8 @@ public class SnobotPosition {
      * @param aXPosition
      *            Snobot's new X-position
      */
-    public void setSnobotXPosition(double aXPosition) {
+    public void setSnobotXPosition(double aXPosition)
+    {
         this.mPositionX = aXPosition;
     }
 
@@ -197,7 +209,8 @@ public class SnobotPosition {
      * @param aYPosition
      *            Snobot's new Y-position
      */
-    public void setSnobotYPosition(double aYPosition) {
+    public void setSnobotYPosition(double aYPosition)
+    {
         this.mPositionY = aYPosition;
     }
 
@@ -207,7 +220,8 @@ public class SnobotPosition {
      * @param aDegrees
      *            Snobot's new orientation in degrees
      */
-    public void setSnobotDegreeRotation(double aDegrees) {
+    public void setSnobotDegreeRotation(double aDegrees)
+    {
         this.mRadianRotation = Math.toRadians(aDegrees);
     }
 
@@ -215,7 +229,8 @@ public class SnobotPosition {
      * Gives Logger headers for entries: X-position, Y-position, Degrees,
      * Distance
      */
-    public void giveHeaders() {
+    public void giveHeaders()
+    {
         this.mLogger.addHeader("Snobot X-position");
         this.mLogger.addHeader("Snobot's Y-position");
         this.mLogger.addHeader("Snobot's orientation in degrees");
@@ -226,7 +241,8 @@ public class SnobotPosition {
     /**
      * Gives Logger entries: X-position, Y-position, Degrees, Distance
      */
-    public void giveEntry() {
+    public void giveEntry()
+    {
         this.mLogger.updateLogger(mPositionX);
         this.mLogger.updateLogger(mPositionY);
         this.mLogger.updateLogger(this.getSnobotDegrees());

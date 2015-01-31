@@ -6,7 +6,8 @@ package com.snobot;
  * @author Ayush/Ammar
  *
  */
-public interface ISubsystem {
+public interface ISubsystem
+{
 
     /**
      * Perform initialization.

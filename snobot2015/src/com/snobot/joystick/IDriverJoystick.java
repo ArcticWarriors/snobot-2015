@@ -9,7 +9,8 @@ import com.snobot.ISubsystem;
  *
  */
 
-public interface IDriverJoystick extends ISubsystem {
+public interface IDriverJoystick extends ISubsystem
+{
 
     /**
      * enumeration to decide drive mode
@@ -17,7 +18,8 @@ public interface IDriverJoystick extends ISubsystem {
      * @author ayush_000
      *
      */
-    public enum DriveMode {
+    public enum DriveMode
+    {
         Arcade, Tank
     }
 

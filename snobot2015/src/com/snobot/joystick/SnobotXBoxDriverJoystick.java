@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * Implements Driver Joy stick Interface Sets up Snobot xBox Joy stick for
  * Driver Ayush/Ammar
  */
-public class SnobotXBoxDriverJoystick implements IDriverJoystick {
+public class SnobotXBoxDriverJoystick implements IDriverJoystick
+{
 
     private Joystick mXBoxStick;
     private DriveMode mDriveMode;
@@ -27,7 +28,8 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
      *            Argument for xBox Stick
      */
     public SnobotXBoxDriverJoystick(int aTankModeButton, int aArcadeModeButton, Joystick aXBoxStick, Logger aLogger,
-            SendableChooser aTankModeChooser, SendableChooser aArcadeModeChooser, DriveMode aDriveMode) {
+            SendableChooser aTankModeChooser, SendableChooser aArcadeModeChooser, DriveMode aDriveMode)
+    {
         System.out.println("Creating xbox joystick");
         mXBoxStick = aXBoxStick;
         mTankModeChooser = aTankModeChooser;
@@ -39,7 +41,8 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
     }
 
     @Override
-    public void init() {
+    public void init()
+    {
         // TODO add Header
         mLogger.addHeader("Left Y Axis");
         mLogger.addHeader("Right Y Axis");
@@ -51,35 +54,42 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
     }
 
     @Override
-    public void update() {
-        if (mXBoxStick.getRawButton(mTankModeButton)) {
+    public void update()
+    {
+        if (mXBoxStick.getRawButton(mTankModeButton))
+        {
             mDriveMode = DriveMode.Tank;
         }
-        else if (mXBoxStick.getRawButton(mArcadeModeButton)) {
+        else if (mXBoxStick.getRawButton(mArcadeModeButton))
+        {
             mDriveMode = DriveMode.Arcade;
         }
     }
 
     @Override
-    public void control() {
+    public void control()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void rereadPreferences() {
+    public void rereadPreferences()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void updateLog() {
+    public void updateLog()
+    {
         // TODO Check if these work
         // Left Y Axis
         mLogger.updateLogger(getLeftY());
@@ -95,37 +105,43 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick {
     }
 
     @Override
-    public void stop() {
+    public void stop()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public double getLeftY() {
+    public double getLeftY()
+    {
         // TODO Auto-generated method stub
         return mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
     }
 
     @Override
-    public double getRightY() {
+    public double getRightY()
+    {
         // TODO Auto-generated method stub
         return mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
     }
 
     @Override
-    public double getSpeed() {
+    public double getSpeed()
+    {
         // TODO Auto-generated method stub
         return mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
     }
 
     @Override
-    public double getRotate() {
+    public double getRotate()
+    {
         // TODO Auto-generated method stub
         return mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
     }
 
     @Override
-    public DriveMode getDriveMode() {
+    public DriveMode getDriveMode()
+    {
         // TODO Auto-generated method stub
         return mDriveMode;
     }

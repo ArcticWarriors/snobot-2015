@@ -8,7 +8,8 @@ import com.snobot.ISubsystem;
  * @author Alec/Jeffrey
  *
  */
-public interface IOperatorJoystick extends ISubsystem {
+public interface IOperatorJoystick extends ISubsystem
+{
 
     /**
      * Asks if stacker is up
@@ -72,5 +73,11 @@ public interface IOperatorJoystick extends ISubsystem {
      * Stops all sensors and motors
      */
     void stop();
+
+    /**
+     * 
+     * @return True if the controller should rumble and false if it should not
+     */
+    void setRumble(Boolean aRumbleOn);
 
 }

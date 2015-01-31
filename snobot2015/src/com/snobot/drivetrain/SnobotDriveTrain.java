@@ -5,6 +5,7 @@ import com.snobot.joystick.IDriverJoystick;
 import com.snobot.joystick.IDriverJoystick.DriveMode;
 import com.snobot.logger.Logger;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,13 +16,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Ayush/Ammar
  *
  */
-public class SnobotDriveTrain implements IDriveTrain {
+public class SnobotDriveTrain implements IDriveTrain
+{
 
     private SpeedController mSpeedControllerLeft;
     private SpeedController mSpeedControllerRight;
     private IDriverJoystick mDriverJoystick;
     private RobotDrive mRobotDrive;
     private DriveMode mDriveMode;
+
+    private Encoder mEncoderLeft;
+    private Encoder mEncoderRight;
 
     private Logger mLogger;
     private UnitOfMeasure mDefaultMeasure;
@@ -37,88 +42,100 @@ public class SnobotDriveTrain implements IDriveTrain {
      *            Argument Driver Joy stick
      */
     public SnobotDriveTrain(SpeedController aSpeedControllerLeft, SpeedController aSpeedControllerRight, IDriverJoystick aDriverJoystick,
-            DriveMode aDriveMode) {
+            DriveMode aDriveMode, Encoder aEncoderLeft, Encoder aEncoderRight)
+    {
         mSpeedControllerLeft = aSpeedControllerLeft;
         mSpeedControllerRight = aSpeedControllerRight;
         mDriverJoystick = aDriverJoystick;
         mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
         mDriveMode = aDriveMode;
         mDefaultMeasure = UnitOfMeasure.Feet;
+        mEncoderLeft = aEncoderLeft;
+        mEncoderRight = aEncoderRight;
     }
 
     @Override
-    public void init() {
+    public void init()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void control() {
+    public void control()
+    {
         // TODO Add switch between the two drives
 
-        if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode()) {
+        if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode())
+        {
             mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
-            System.out.println("Aracde Drive");
         }
-        else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode()) {
+        else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
+        {
             mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
-            System.out.println("Tank Drive");
         }
 
     }
 
     @Override
-    public void rereadPreferences() {
+    public void rereadPreferences()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard()
+    {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
+        SmartDashboard.putNumber("Left Distance", this.calculateDistanceLeft());
+        SmartDashboard.putNumber("Right Distance", this.calculateDistanceRight());
     }
 
     @Override
-    public void updateLog() {
+    public void updateLog()
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void stop() {
+    public void stop()
+    {
+        this.setMotorSpeed(0, 0);
+
+    }
+
+    @Override
+    public void setMotorSpeed(double aLeft, double aRight)
+    {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void setMotorSpeed(double aLeft, double aRight) {
-        // TODO Auto-generated method stub
-
+    public double calculateDistanceRight()
+    {
+        return mEncoderRight.getDistance();
     }
 
     @Override
-    public double calculateDistanceRight() {
-        // TODO Code to calculate distance goes here; needs encoders
-        // Remember to refer to mDefaultMeasure
-        return 0;
+    public double calculateDistanceLeft()
+    {
+        return mEncoderLeft.getDistance();
     }
 
     @Override
-    public double calculateDistanceLeft() {
-        // TODO Code to calculate distance goes here; needs encoders
-        // Remember to refer to mDefaultMeasure
-        return 0;
-    }
-
-    @Override
-    public void setDefaultMeasure(UnitOfMeasure aMeasure) {
+    public void setDefaultMeasure(UnitOfMeasure aMeasure)
+    {
         mDefaultMeasure = aMeasure;
 
     }

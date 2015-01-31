@@ -11,18 +11,26 @@ public class TankDriveGyroSimulator implements ISimulatorUpdater {
 	private AnalogWrapper mGyroPort;
 	
 	private double mAngle; //degrees
+	private boolean mIsSetup;
 	
 	public TankDriveGyroSimulator(EncoderWrapper aLeftEncoder, EncoderWrapper aRightEncoder, AnalogWrapper aGyroPort)
 	{
 		mLeftEncoder = aLeftEncoder;
 		mRightEncoder = aRightEncoder;
 		mGyroPort = aGyroPort;
+		
+		mIsSetup = mLeftEncoder != null && mRightEncoder != null && mGyroPort != null;
+
+		if(!mIsSetup)
+		{
+			System.err.println("Can't simulate gyro, some inputs are null");
+		}
 	}
 
 	@Override
 	public void update() {
 		
-		if(mRightEncoder != null && mLeftEncoder != null && mGyroPort != null)
+		if(mIsSetup)
 		{
 
 	        double rightDist = mRightEncoder.getDistance() / 4.0;
@@ -32,10 +40,6 @@ public class TankDriveGyroSimulator implements ISimulatorUpdater {
 	        
 	        mGyroPort.setAccumulator(mAngle); //multiply by volts per degree second
 //	        System.out.println("SIMULATOR : angle=" + mAngle + ", right=" + rightDist + ", left=" + leftDist);
-		}
-		else
-		{
-			System.err.println("Can't simulate gyro, some inputs are null");
 		}
 	}
 }
