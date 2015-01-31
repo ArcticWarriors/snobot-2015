@@ -24,7 +24,7 @@ public class LinearEncoderCalculator implements ISimulatorUpdater
 		mKp = aKp;
 
 		mSetup = mSpeedController != null && mEncoder != null;
-		if(mSetup)
+		if(!mSetup)
 		{
 			System.err.println("Warning, you have given a null paramter, simulation is not possible");
 		}

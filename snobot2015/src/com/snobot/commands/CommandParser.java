@@ -17,6 +17,11 @@ public class CommandParser
 
     private Snobot mSnobot;
     private CommandGroup mCommands;
+    
+    //TODO this is for testing only...
+    private static final String AUTO_MODE = 
+            "drive_forward 1 1 1\n" + 
+            "drive_forward 2 3 5\n";
 
     public CommandParser(Snobot aSnobot)
     {
@@ -61,9 +66,31 @@ public class CommandParser
             {
 
             case ConfigurationNames.sDRIVE_FORWARD_COMMAND:
-                newCommand = new DriveForward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getDriveTrain(),
+                newCommand = new DriveForward(
+                        Double.parseDouble(args.get(1)), 
+                        Double.parseDouble(args.get(2)), 
+                        mSnobot.getDriveTrain(),
+                        mSnobot.getPositioner());
+                System.out.println("Creating foward command");
+                break;
+                
+            case ConfigurationNames.sDRIVE_ROTATE_COMMAND:
+                newCommand = new DriveRotate(
+                        Double.parseDouble(args.get(1)), 
+                        Double.parseDouble(args.get(2)), 
+                        mSnobot.getDriveTrain(), 
                         mSnobot.getPositioner());
                 break;
+            case ConfigurationNames.sRAW_STACK_COMMAND:
+                newCommand = new RawStack(
+                        Double.parseDouble(args.get(1)),
+                        Boolean.parseBoolean(args.get(2)),
+                        mSnobot.getSnobotStacker());
+            case ConfigurationNames.sCLAW_GRAB_COMMAND:
+                    newCommand = new ClawGrab(
+                            Boolean.parseBoolean(args.get(1)), 
+                            mSnobot.getSnobotClaw());
+                    
             }
         }
         catch (Exception e)
@@ -87,7 +114,7 @@ public class CommandParser
     private void getAndSplitLines()
     {
         // TODO Need input to set rawCommandString
-        String rawCommandString = null;
+        String rawCommandString = AUTO_MODE;
 
         StringTokenizer tokenizer = new StringTokenizer(rawCommandString, "\n");
 
@@ -105,7 +132,7 @@ public class CommandParser
         }
     }
 
-    private CommandGroup getCommands()
+    public CommandGroup getCommands()
     {
         return this.mCommands;
     }
@@ -119,5 +146,11 @@ public class CommandParser
         {
             this.commandParser(line);
         }
+    }
+    
+    public void fullParse()
+    {
+        this.getAndSplitLines();
+        this.feedLines();
     }
 }
