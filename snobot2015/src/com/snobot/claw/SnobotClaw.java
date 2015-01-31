@@ -6,6 +6,7 @@ import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -21,11 +22,12 @@ public class SnobotClaw implements IClaw {
     private double mClawPressureB;
     private Logger mLogger;
     private AnalogInput mTransducer;
+    private Solenoid mClawHandSolenoid;
+    private Solenoid mClawArmSolenoid;
 
     private boolean mRumbleOn;
 
     private double mAirPressureRangeMin, mAirPressureRangeMax;
-
 
     /**
      * Constructs a SnobotClaw object
@@ -34,10 +36,13 @@ public class SnobotClaw implements IClaw {
      *            Argument for operator Joystick
      *
      */
-    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer) {
+    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer,
+            Solenoid aClawHandSolenoid, Solenoid aClawArmSolenoid) {
         mJoystick = aJoystick;
         mLogger = alogger;
         mTransducer = aTransducer;
+        mClawHandSolenoid = aClawHandSolenoid;
+        mClawArmSolenoid = aClawArmSolenoid;
 
     }
 
@@ -71,7 +76,6 @@ public class SnobotClaw implements IClaw {
         mLogger.addHeader("Claw Up/Down Pressure");
         mLogger.addHeader("Claw Open/Close Pressure");
         rereadPreferences();
-
     }
 
     @Override
@@ -95,6 +99,7 @@ public class SnobotClaw implements IClaw {
 
     @Override
     public void rereadPreferences() {
+
         mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAir_Pressure_Range_Min, 50);
     }
 

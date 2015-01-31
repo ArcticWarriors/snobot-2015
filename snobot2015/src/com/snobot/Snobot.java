@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -55,7 +56,7 @@ public class Snobot extends IterativeRobot {
     private SendableChooser mTankModeButtonChooser;
     private SendableChooser mArcadeModeButtonChooser;
     private int mTankModeButton;
-    private int mArcadeModeButton;
+    private int mArcadeModeButton; 
 
     // Modules
     private SnobotStacker mStacker;
@@ -63,7 +64,12 @@ public class Snobot extends IterativeRobot {
     private SnobotDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
-    private CommandGroup mAutonCommands;
+
+    public CommandGroup mAutonCommands;
+    
+    //Solenoids
+    private Solenoid mClawHandSolenoid;
+    private Solenoid mClawArmSolenoid;
 
     // Motors
     private Talon mDriveLeft1;
@@ -102,8 +108,7 @@ public class Snobot extends IterativeRobot {
 
         mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
         mStackerMotor = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR, 2));
-        mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger);
-        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer);
+        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer, mClawHandSolenoid, mClawArmSolenoid);
 
         // Various Button Chooser for mode changes
         mTankModeButtonChooser = new SendableChooser();
@@ -146,6 +151,8 @@ public class Snobot extends IterativeRobot {
         mStackerEncoder = new Encoder(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_A, 0),
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_B, 8));
 
+        mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerEncoder);
+        
         mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight);
 
         mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0));
