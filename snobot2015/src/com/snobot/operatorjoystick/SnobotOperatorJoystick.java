@@ -56,15 +56,53 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public boolean getClawUp()
     {
-        // TODO Auto-generated method stub
-        return false;
+        if (mOperatorJoystick.getRawButton(1))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
+    
+    public boolean getClawDown()
+    {
+        if (mOperatorJoystick.getRawButton(2))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
 
     @Override
     public boolean getClawOpen()
     {
-        // TODO Auto-generated method stub
-        return false;
+        if (mOperatorJoystick.getRawButton(3))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean getClawClose()
+    {
+        if (mOperatorJoystick.getRawButton(4))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**

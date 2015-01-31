@@ -37,11 +37,27 @@ public interface IOperatorJoystick extends ISubsystem
      * 
      * @return True if claw is open else false
      */
+    
+    boolean getClawDown();
+
+    /**
+     * Asks if claw is down
+     * 
+     * @return True if claw is open else false
+     */
     boolean getClawOpen();
 
     /**
      * Perform initialization.
      */
+    
+    public boolean getClawClose();
+    
+    /**
+     * Perform initialization 
+     * 
+     */
+    
     @Override
     void init();
 
