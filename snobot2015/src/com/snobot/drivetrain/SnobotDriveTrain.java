@@ -23,10 +23,9 @@ public class SnobotDriveTrain implements IDriveTrain {
     private IDriverJoystick mDriverJoystick;
     private RobotDrive mRobotDrive;
     private DriveMode mDriveMode;
-    
+
     private Encoder mEncoderLeft;
     private Encoder mEncoderRight;
-    
 
     private Logger mLogger;
     private UnitOfMeasure mDefaultMeasure;
@@ -87,8 +86,7 @@ public class SnobotDriveTrain implements IDriveTrain {
     }
 
     @Override
-    public void updateSmartDashboard() 
-    {
+    public void updateSmartDashboard() {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
         SmartDashboard.putNumber("Left Distance", this.calculateDistanceLeft());
@@ -96,15 +94,13 @@ public class SnobotDriveTrain implements IDriveTrain {
     }
 
     @Override
-    public void updateLog() 
-    {
+    public void updateLog() {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void stop() 
-    {
+    public void stop() {
         this.setMotorSpeed(0, 0);
 
     }

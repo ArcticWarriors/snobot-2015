@@ -63,8 +63,7 @@ public class SnobotPosition {
      * @param aDefaultMeasure
      *            Measure that is to be used by default
      */
-    public SnobotPosition(Gyro aGyroSensor, SnobotDriveTrain aDriveTrain,
-            Logger aLogger) {
+    public SnobotPosition(Gyro aGyroSensor, SnobotDriveTrain aDriveTrain, Logger aLogger) {
         this.mPositionX = 0;
         this.mPositionY = 0;
         this.mRadianRotation = 0;
@@ -80,8 +79,7 @@ public class SnobotPosition {
      * @return Snobot's X-position
      */
     private double calculateX() {
-        return Math.sin(this.mRadianRotation) * this.mDistanceTraveled
-                + this.mPositionX;
+        return Math.sin(this.mRadianRotation) * this.mDistanceTraveled + this.mPositionX;
     }
 
     /**
@@ -92,8 +90,7 @@ public class SnobotPosition {
      */
     private double calculateY() {
 
-        return Math.cos(this.mRadianRotation) * this.mDistanceTraveled
-                + this.mPositionY;
+        return Math.cos(this.mRadianRotation) * this.mDistanceTraveled + this.mPositionY;
     }
 
     /**
