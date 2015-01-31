@@ -21,7 +21,6 @@ public class CommandParser
     //TODO this is for testing only...
     private static final String AUTO_MODE = 
             "DriveRotate 180 .4 \n";
-
     public CommandParser(Snobot aSnobot)
     {
         mSnobot = aSnobot;
@@ -107,6 +106,10 @@ public class CommandParser
         if (isParallel)
         {
             mCommands.addParallel(newCommand);
+        }
+        else if (newCommand==null)
+        {
+            System.out.println("Null command");
         }
         else
         {

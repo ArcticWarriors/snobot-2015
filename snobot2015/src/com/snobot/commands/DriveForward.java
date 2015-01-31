@@ -20,6 +20,7 @@ public class DriveForward extends Command
     SnobotDriveTrain mDriveTrain;
     SnobotPosition mPosition;
     boolean mFinished;
+    double mTotalDistance;
 
     /**
      * Creates DriveForward Command object
@@ -41,6 +42,7 @@ public class DriveForward extends Command
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
         mFinished=false;
+        mTotalDistance=0;
     }
 
     @Override
@@ -55,14 +57,14 @@ public class DriveForward extends Command
      */
     protected void execute()
     {
-        double totalDistance = 0;
         mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
 
-        if (totalDistance <= mDistance)
+        if (mPosition.getSnobotDistance() <= mDistance)
         {
-            totalDistance = (totalDistance + mPosition.getSnobotDistance());
+            mTotalDistance = (mTotalDistance + mPosition.getSnobotDistance());
+            System.out.println("Current distance: " + mTotalDistance + ", desired = " + mDistance);
         }
-        else if (totalDistance >= mDistance)
+        else if (mTotalDistance >= mDistance)
         {
             mFinished=true;
             mDriveTrain.stop();
@@ -72,7 +74,7 @@ public class DriveForward extends Command
     @Override
     protected void initialize()
     {
-
+System.out.println("Initializing command");
     }
 
     @Override
@@ -88,6 +90,8 @@ public class DriveForward extends Command
         if (mFinished)
         {
             mFinished = false;
+            // TODO Debugger; remove later
+            System.out.println("Command finished succesfully");
             return true;
         }
         else

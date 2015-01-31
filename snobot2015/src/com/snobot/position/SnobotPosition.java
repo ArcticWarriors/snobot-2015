@@ -127,6 +127,12 @@ public class SnobotPosition
     {
         double distanceRight = this.mDriveTrain.calculateDistanceRight();
         double distanceLeft = this.mDriveTrain.calculateDistanceLeft();
+        
+        this.mDriveTrain.resetEncoders();
+        
+        // TODO Debuggers; remove later
+        System.out.println(distanceRight);
+        System.out.println(distanceLeft);
 
         return (distanceRight + distanceLeft) / 2;
     }
