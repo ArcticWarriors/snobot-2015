@@ -15,8 +15,6 @@ import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
 import com.snobot.SmartDashboardNames;
-import com.snobot.commands.*;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -25,7 +23,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -91,6 +88,7 @@ public class Snobot extends IterativeRobot
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+    @Override
     public void robotInit()
     {
         mAutonCommands = new CommandGroup("Main executable CommandGroup");
@@ -180,6 +178,7 @@ public class Snobot extends IterativeRobot
         ConfigurationNames.saveIfUpdated();
     }
 
+    @Override
     public void autonomousInit()
     {
 
@@ -188,6 +187,7 @@ public class Snobot extends IterativeRobot
     /**
      * This function is called periodically during autonomous
      */
+    @Override
     public void autonomousPeriodic()
     {
         Scheduler.getInstance().run();
@@ -196,6 +196,7 @@ public class Snobot extends IterativeRobot
     /**
      * This function is called periodically during operator control
      */
+    @Override
     public void teleopPeriodic()
     {
 
@@ -232,11 +233,13 @@ public class Snobot extends IterativeRobot
     /**
      * This function is called periodically during test mode
      */
+    @Override
     public void testPeriodic()
     {
 
     }
 
+    @Override
     public void teleopInit()
     {
 

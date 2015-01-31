@@ -2,8 +2,6 @@ package com.snobot.logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Date;
-
 import com.snobot.ConfigurationNames;
 
 /**

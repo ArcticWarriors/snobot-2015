@@ -42,36 +42,43 @@ public interface IOperatorJoystick extends ISubsystem
     /**
      * Perform initialization.
      */
+    @Override
     void init();
 
     /**
      * Gathering and storing current sensor information. Ex. Motor Speed.
      */
+    @Override
     void update();
 
     /**
      * Setting sensor and device states.
      */
+    @Override
     void control();
 
     /**
      * Rereads and applies current preferences.
      */
+    @Override
     void rereadPreferences();
 
     /**
      * Updates information that is sent to SmartDashboard Takes Enum argument
      */
+    @Override
     void updateSmartDashboard();
 
     /**
      * Updates the logger.
      */
+    @Override
     void updateLog();
 
     /**
      * Stops all sensors and motors
      */
+    @Override
     void stop();
 
     /**

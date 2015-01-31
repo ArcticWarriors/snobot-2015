@@ -22,7 +22,7 @@ public class CommandParser
     {
         mSnobot = aSnobot;
         mCommands = new CommandGroup("Autonomous Group");
-        mLines = new ArrayList();
+        mLines = new ArrayList<String>();
     }
 
     /**
