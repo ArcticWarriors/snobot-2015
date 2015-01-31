@@ -255,4 +255,8 @@ public class Snobot extends IterativeRobot
         return this.mPositioner;
     }
 
+    public SnobotStacker getSnobotStacker() {
+        return this.mStacker;
+    }
+
 }
