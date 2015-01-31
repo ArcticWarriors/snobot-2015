@@ -56,7 +56,7 @@ public class Snobot extends IterativeRobot {
     private SendableChooser mTankModeButtonChooser;
     private SendableChooser mArcadeModeButtonChooser;
     private int mTankModeButton;
-    private int mArcadeModeButton; 
+    private int mArcadeModeButton;
 
     // Modules
     private SnobotStacker mStacker;
@@ -66,8 +66,8 @@ public class Snobot extends IterativeRobot {
     private SnobotPosition mPositioner;
 
     public CommandGroup mAutonCommands;
-    
-    //Solenoids
+
+    // Solenoids
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
 
@@ -152,7 +152,7 @@ public class Snobot extends IterativeRobot {
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_B, 8));
 
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerEncoder);
-        
+
         mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight);
 
         mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0));

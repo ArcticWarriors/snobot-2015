@@ -19,14 +19,15 @@ public class CommandParser {
 
     public CommandParser(Snobot aSnobot) {
         mSnobot = aSnobot;
-        mCommands=new CommandGroup("Autonomous Group");
-        mLines=new ArrayList();
+        mCommands = new CommandGroup("Autonomous Group");
+        mLines = new ArrayList();
     }
 
     /**
-     * Interprets a line as a Command and adds
-     * it to mCommands
-     * @param aLine Line of text
+     * Interprets a line as a Command and adds it to mCommands
+     * 
+     * @param aLine
+     *            Line of text
      */
     private void commandParser(String aLine) {
         StringTokenizer tokenizer = new StringTokenizer(aLine, sDELIMITER);
@@ -48,39 +49,34 @@ public class CommandParser {
             isParallel = false;
         }
 
-        try{
+        try {
             switch (args.get(0)) {
-    
+
             case ConfigurationNames.sDRIVE_FORWARD_COMMAND:
-                newCommand = new DriveForward(Double.parseDouble(args.get(1)), 
-                        Double.parseDouble(args.get(2)), mSnobot.getDriveTrain(),
+                newCommand = new DriveForward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getDriveTrain(),
                         mSnobot.getPositioner());
                 break;
             }
         }
-        catch(Exception e){
+        catch (Exception e) {
             e.getStackTrace();
         }
-        
-        if(isParallel)
-        {
+
+        if (isParallel) {
             mCommands.addParallel(newCommand);
         }
-        else
-        {
+        else {
             mCommands.addSequential(newCommand);
         }
     }
-    
+
     /**
-     * Takes text from an outside source and
-     * splits different lines
+     * Takes text from an outside source and splits different lines
      */
-    private void getAndSplitLines()
-    {
+    private void getAndSplitLines() {
         // TODO Need input to set rawCommandString
-        String rawCommandString=null;
-        
+        String rawCommandString = null;
+
         StringTokenizer tokenizer = new StringTokenizer(rawCommandString, "\n");
 
         List<String> args = new ArrayList<>();
@@ -88,25 +84,22 @@ public class CommandParser {
         while (tokenizer.hasMoreElements()) {
             args.add(tokenizer.nextToken());
         }
-        
+
         mLines.clear();
-        for(String line:args)
-        {
+        for (String line : args) {
             mLines.add(line);
         }
     }
-    
-    private CommandGroup getCommands(){
+
+    private CommandGroup getCommands() {
         return this.mCommands;
     }
-    
+
     /**
      * Iterates through mLines and gives it to commandParser()
      */
-    private void feedLines()
-    {
-        for(String line:mLines)
-        {
+    private void feedLines() {
+        for (String line : mLines) {
             this.commandParser(line);
         }
     }

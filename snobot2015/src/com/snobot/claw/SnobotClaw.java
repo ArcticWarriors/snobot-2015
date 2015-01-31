@@ -36,8 +36,7 @@ public class SnobotClaw implements IClaw {
      *            Argument for operator Joystick
      *
      */
-    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer,
-            Solenoid aClawHandSolenoid, Solenoid aClawArmSolenoid) {
+    public SnobotClaw(IOperatorJoystick aJoystick, Logger alogger, AnalogInput aTransducer, Solenoid aClawHandSolenoid, Solenoid aClawArmSolenoid) {
         mJoystick = aJoystick;
         mLogger = alogger;
         mTransducer = aTransducer;

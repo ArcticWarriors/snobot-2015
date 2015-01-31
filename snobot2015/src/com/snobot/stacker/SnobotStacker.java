@@ -43,8 +43,8 @@ public class SnobotStacker implements IStacker {
         mLowerLimitSwitch = aLowerLimitSwitch;
         mLogger = aLogger;
         mStackerEncoder = aStackerEncoder;
-        
-        //TODO - PJ make configurable
+
+        // TODO - PJ make configurable
         mStackerEncoder.setDistancePerPulse(.4);
     }
 
