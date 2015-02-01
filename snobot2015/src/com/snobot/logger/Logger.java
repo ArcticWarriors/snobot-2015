@@ -163,7 +163,8 @@ public class Logger
      */
     public void updateLogger(boolean aEntry)
     {
-        updateLogger("" + aEntry);
+        //Convert boolean to a number, then log
+        updateLogger(aEntry ? 1 : 0);
 
     }
 
