@@ -90,17 +90,18 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void updateLog()
     {
+        //TODO Update Drive Mode
         // Left Y Axis
-        mLogger.updateLogger(getLeftY());
+        mLogger.updateLogger(mTankLeftYAxis);
 
         // Right Y Axis
-        mLogger.updateLogger(getRightY());
+        mLogger.updateLogger(mTankRightYAxis);
 
         // Speed
-        mLogger.updateLogger(getSpeed());
+        mLogger.updateLogger(mArcadeLeftSpeed);
 
         // Angle of the Joy stick (for arcade drive)
-        mLogger.updateLogger(getRotate());
+        mLogger.updateLogger(mArcadeRightRotation);
     }
 
     @Override
