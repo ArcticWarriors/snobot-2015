@@ -51,19 +51,19 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void update()
     {
-        if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_4))
+        if (mRightFlightStick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Button_Switch_To_Tank, 4)))
         {
             mDriveMode = DriveMode.Tank;
         }
-        else if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_5))
+        else if (mRightFlightStick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Button_Switch_To_Arcade, 5)))
         {
             mDriveMode = DriveMode.Arcade;
         }
         
-        mTankLeftYAxis = mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
-        mTankRightYAxis = mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
-        mArcadeLeftSpeed = mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
-        mArcadeRightRotation = mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
+        mTankLeftYAxis = mLeftFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Y_Axis, 1));
+        mTankRightYAxis = mRightFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Y_Axis, 1));
+        mArcadeLeftSpeed = mLeftFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Y_Axis, 1));
+        mArcadeRightRotation = mRightFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_X_Axis, 0));
     }
 
     @Override
