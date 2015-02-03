@@ -137,7 +137,7 @@ public class Snobot extends IterativeRobot
 
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerEncoder);
 
-        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight);
+        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight, mLogger);
 
         mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0));
 
@@ -149,6 +149,7 @@ public class Snobot extends IterativeRobot
         mSubsystems.add(mStacker);
         mSubsystems.add(mClaw);
         mSubsystems.add(mDriveTrain);
+        mSubsystems.add(mPositioner);
 
         for (ISubsystem iSubsystem : mSubsystems)
         {
@@ -194,7 +195,6 @@ public class Snobot extends IterativeRobot
     
     private void update()
     {
-        mPositioner.updateAll();
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.update();
