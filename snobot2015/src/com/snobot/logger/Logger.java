@@ -13,12 +13,19 @@ import com.snobot.ConfigurationNames;
 
 public class Logger
 {
-
+    //Current Date and Time
     private String mLogDate;
+    
+    //File Writer
     private FileWriter mLogWriter;
-
+    
+    //A count that increases every teleop cycle
     private int mCurrentLogCount;
+    
+    //A count that is used to indicate when to log (set by preferences)
     private int mConfigLogCount;
+    
+    //File Path set by preferences
     private String mLogFilePath;
 
     public Logger(String aLogDate)
@@ -37,7 +44,6 @@ public class Logger
 
         mConfigLogCount = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLOG_COUNT, 25);
         mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "");
-
         mCurrentLogCount = 0;
 
         try
