@@ -23,6 +23,8 @@ public class ConfigurationNames
     public static final String sFlightsticks_Button_Switch_To_Tank = "FlighstickButtonSwitchToTank";
     public static final String sFlightsticks_Button_Switch_To_Arcade = "FlightstickButtonSwitchToArcade";
 
+    public static final String sXBOX_BUTTON_TANK_MODE = "XboxTankModeButton";
+    public static final String sXBOX_BUTTON_ARCADE_MODE = "XboxArcadeModeButton";
     // Motors
     public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
     public static final String sDRIVE_MOTOR_RIGHT_1 = "RightDriveMotor1";
