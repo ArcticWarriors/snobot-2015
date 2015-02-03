@@ -17,7 +17,11 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     private Joystick mRightFlightStick;
     private DriveMode mDriveMode;
     private Logger mLogger;
-
+    
+    private double mTankLeftYAxis;
+    private double mTankRightYAxis;
+    private double mArcadeLeftSpeed;
+    private double mArcadeRightRotation;
     /**
      * Constructor for Flight Stick
      * 
@@ -37,18 +41,16 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void init()
     {
-        // TODO Auto-generated method stub
-        mLogger.addHeader("Left Y Axis");
-        mLogger.addHeader("Right Y Axis");
-        mLogger.addHeader("Speed (-1 to 1)");
-        mLogger.addHeader("Right X Axis");
+        mLogger.addHeader("Tank Mode: Left Y Axis");
+        mLogger.addHeader("Tank Mode: Right Y Axis");
+        mLogger.addHeader("Arcade Mode: Speed (1 to -1)");
+        mLogger.addHeader("Arcade Mode: Right X Axis");
         mDriveMode = DriveMode.Tank;
     }
 
     @Override
     public void update()
     {
-        // TODO Auto-generated method stub
         if (mRightFlightStick.getRawButton(ConfigurationNames.sFlightsticks_Button_4))
         {
             mDriveMode = DriveMode.Tank;
@@ -57,6 +59,11 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         {
             mDriveMode = DriveMode.Arcade;
         }
+        
+        mTankLeftYAxis = mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        mTankRightYAxis = mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        mArcadeLeftSpeed = mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        mArcadeRightRotation = mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
     }
 
     @Override
@@ -83,18 +90,18 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void updateLog()
     {
-        // TODO Auto-generated method stub
+        //TODO Update Drive Mode
         // Left Y Axis
-        mLogger.updateLogger(getLeftY());
+        mLogger.updateLogger(mTankLeftYAxis);
 
         // Right Y Axis
-        mLogger.updateLogger(getRightY());
+        mLogger.updateLogger(mTankRightYAxis);
 
         // Speed
-        mLogger.updateLogger(getSpeed());
+        mLogger.updateLogger(mArcadeLeftSpeed);
 
         // Angle of the Joy stick (for arcade drive)
-        mLogger.updateLogger(getRotate());
+        mLogger.updateLogger(mArcadeRightRotation);
     }
 
     @Override
@@ -107,35 +114,30 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public double getLeftY()
     {
-        // TODO Auto-generated method stub
-        return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        return mTankLeftYAxis;
     }
 
     @Override
     public double getRightY()
     {
-        // TODO Auto-generated method stub
-        return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        return mTankRightYAxis;
     }
 
     @Override
     public double getSpeed()
     {
-        // TODO Auto-generated method stub
-        return mLeftFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_Y_Axis);
+        return mArcadeLeftSpeed;
     }
 
     @Override
     public double getRotate()
     {
-        // TODO Auto-generated method stub
-        return mRightFlightStick.getRawAxis(ConfigurationNames.sFlightsticks_X_Axis);
+        return mArcadeRightRotation;
     }
 
     @Override
     public DriveMode getDriveMode()
     {
-        // TODO Auto-generated method stub
         return mDriveMode;
     }
 

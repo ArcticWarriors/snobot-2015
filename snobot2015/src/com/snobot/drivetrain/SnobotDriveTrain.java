@@ -73,8 +73,7 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void control()
     {
-        // TODO Add switch between the two drives
-
+        
         if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode())
         {
             mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
@@ -119,7 +118,7 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void setMotorSpeed(double aLeft, double aRight)
     {
-        mRobotDrive.setLeftRightMotorOutputs(aLeft, aRight);
+        mRobotDrive.setLeftRightMotorOutputs(-aLeft, aRight);
 
     }
 

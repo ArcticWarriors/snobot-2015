@@ -1,5 +1,10 @@
 package com.snobot;
-
+/**
+ * Button Map for Xbox controller.
+ * When calling buttons or axis on an Xbox, use this class.
+ * @author ayush_000
+ *
+ */
 public class XboxButtonMap
 {
 

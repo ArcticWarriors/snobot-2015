@@ -2,24 +2,30 @@ package com.snobot.simulator.joysticks;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
 public class JoystickFactory {
 	
+	private static final JoystickFactory sInstance = new JoystickFactory();
 	private static final String sJOYSTICK_CONFIG_FILE = "joystick_config.properties";
 	private static final int sNUMBER_OF_STICKS = 6;
 	private static final String sKEY = "Joystick_";
 	
 	private Map<Integer, IMockJoystick> mJoystickMap;
 	
-	public JoystickFactory() {
+	public static JoystickFactory get()
+	{
+		return sInstance;
+	}
+	
+	private JoystickFactory() {
 		
 		mJoystickMap = new HashMap<Integer, IMockJoystick>();
 		
@@ -108,6 +114,21 @@ public class JoystickFactory {
 
 	public IMockJoystick get(int aJoystickIndex) {
 		return mJoystickMap.get(aJoystickIndex);
+	}
+
+	public void setJoysticks(List<IMockJoystick> joysticks) {
+
+		mJoystickMap.clear();
+		for(int i = 0; i < joysticks.size(); ++i)
+		{
+			mJoystickMap.put(i, joysticks.get(i));
+		}
+		updateToDefaultMap();
+		writeJoystickFile();
+	}
+
+	public Map<Integer, IMockJoystick> getJoysticks() {
+		return mJoystickMap;
 	}
 
 }

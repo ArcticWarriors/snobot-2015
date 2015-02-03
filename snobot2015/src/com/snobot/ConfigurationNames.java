@@ -29,7 +29,7 @@ public class ConfigurationNames
     public static final String sSTACKER_MOTOR = "StackerMotor";
 
     // Solenoid
-    public static final String sAir_Pressure_Range_Min = "AirPressureRangeMin";
+    public static final String sAIR_PRESSURE_RANGE_MIN = "AirPressureRangeMin";
     public static final String sCLAW_HAND_SOLENOID = "ClawHandSolenoid";
     public static final String sCLAW_ARM_SOLENOID = "ClawArmSolenoid";
 

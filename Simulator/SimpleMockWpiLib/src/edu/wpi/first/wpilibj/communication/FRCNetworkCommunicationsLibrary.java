@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.hal.JNIWrapper;
  */
 public class FRCNetworkCommunicationsLibrary extends JNIWrapper {
 
-	private static final JoystickFactory factory = new JoystickFactory();
+	private static final JoystickFactory factory = JoystickFactory.get();
 	
 	//public static final String JNA_LIBRARY_NAME = LibraryExtractor.getLibraryPath("FRC_NetworkCommunications", true, FRC_NetworkCommunicationsLibrary.class);
 	//public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(FRC_NetworkCommunicationsLibrary.JNA_LIBRARY_NAME, MangledFunctionMapper.DEFAULT_OPTIONS);

@@ -4,6 +4,7 @@ import com.snobot.drivetrain.SnobotDriveTrain;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Calculates Snobot's current position and orientation with the side of the
@@ -255,4 +256,10 @@ public class SnobotPosition
         this.mLogger.updateLogger(this.mDistanceTraveled);
     }
 
+    public void updateSmartDashbaord()
+    {
+        SmartDashboard.putNumber("Gyro Angle", getSnobotDegrees());
+        SmartDashboard.putNumber("Snobot X", mPositionX);
+        SmartDashboard.putNumber("Snobot Y", mPositionY);
+    }
 }

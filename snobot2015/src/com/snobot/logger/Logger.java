@@ -13,7 +13,6 @@ import com.snobot.ConfigurationNames;
 
 public class Logger
 {
-    private String mLogHeader;
 
     private String mLogDate;
     private FileWriter mLogWriter;
@@ -164,7 +163,8 @@ public class Logger
      */
     public void updateLogger(boolean aEntry)
     {
-        updateLogger("" + aEntry);
+        //Convert boolean to a number, then log
+        updateLogger(aEntry ? 1 : 0);
 
     }
 
