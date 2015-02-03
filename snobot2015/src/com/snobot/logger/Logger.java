@@ -78,6 +78,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 
@@ -98,6 +100,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 
@@ -117,6 +121,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
 
     }
@@ -139,6 +145,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 
@@ -191,6 +199,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 
@@ -209,6 +219,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 
