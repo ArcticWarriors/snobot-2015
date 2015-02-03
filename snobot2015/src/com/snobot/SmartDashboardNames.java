@@ -19,5 +19,7 @@ public class SmartDashboardNames
     public static final String sSNOBOT_HEADING = "Heading";
     public static final String sSNOBOT_X_POSITION = "X-position";
     public static final String sSNOBOT_Y_POSITION = "Y-position";
+    public static final String sSNOBOT_DISTANCE_LEFT = "Left Distance";
+    public static final String sSNOBOT_DISTANCE_RIGHT ="Right Distance";
     
 }
