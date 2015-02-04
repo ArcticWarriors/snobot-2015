@@ -1,7 +1,9 @@
 package com.snobot.logger;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import com.snobot.ConfigurationNames;
 
 /**
@@ -43,11 +45,16 @@ public class Logger
     {
 
         mConfigLogCount = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLOG_COUNT, 25);
-        mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "");
+        mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "logs/");
         mCurrentLogCount = 0;
 
         try
         {
+            File dir = new File(mLogFilePath);
+            if(!dir.exists())
+            {
+                dir.mkdirs();
+            }
             mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
 
             mLogWriter.write("Date and Time,Voltage,TotalCurrent");
