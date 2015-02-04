@@ -19,6 +19,9 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     int mXBOXButtonClawDown; 
     int mXBOXButtonClawOpen;
     int mXBOXButtonClawClose;
+    double mXBOXStackerJoystickUp;
+    double mXBOXStackerJoystickDown;
+    
 
     private Joystick mOperatorJoystick;
 
@@ -36,17 +39,13 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public boolean getStackerUp()
     {
-
-       return mStackerJoystickDirection >= .2;
-
-        
+       return mStackerJoystickDirection >= mXBOXStackerJoystickUp;
     }
 
     @Override
     public boolean getStackerDown()
     {
-
-       return mStackerJoystickDirection <= -.2;
+       return mStackerJoystickDirection <= mXBOXStackerJoystickDown;
     }
 
     @Override
@@ -115,6 +114,8 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public void update()
     {
+        mXBOXStackerJoystickUp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sXBOX_JOYSTICK_STACKER_UP, .2);
+        mXBOXStackerJoystickDown = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sXBOX_JOYSTICK_STACKER_DOWN, -.2);
         mXBOXButtonClawOpen = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_OPEN, 3);
         mXBOXButtonClawClose = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_CLOSE, 4);
         mXBOXButtonClawUp = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_UP, 1);
