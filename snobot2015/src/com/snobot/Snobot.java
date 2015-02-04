@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -53,6 +54,7 @@ public class Snobot extends IterativeRobot
     private IDriverJoystick mDriverJoystick;
 
     private DriveMode mDriveMode;
+    private PowerDistributionPanel mPowerDistributionPanel;
 
     // Modules
     private SnobotStacker mStacker;
@@ -90,6 +92,7 @@ public class Snobot extends IterativeRobot
     @Override
     public void robotInit()
     {
+        mPowerDistributionPanel = new PowerDistributionPanel();
         mParser = new CommandParser(this);
         mAutonFile=new File("AutonCommands");
 
@@ -225,7 +228,10 @@ public class Snobot extends IterativeRobot
         if (mLogger.logNow())
         {
             mLogger.startLogEntry(logDate);
-
+            
+            mLogger.updateLogger(mPowerDistributionPanel.getVoltage());
+            mLogger.updateLogger(mPowerDistributionPanel.getTotalCurrent());
+             
             for (ISubsystem iSubsystem : mSubsystems)
             {
                 iSubsystem.updateLog();
