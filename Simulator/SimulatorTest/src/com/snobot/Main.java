@@ -34,7 +34,7 @@ public class Main {
 			"robot_class=com.snobot.Snobot\n" + 
 			"simulator_class=com.snobot.Snobot2015Simulator\n" + 
 			"simulator_config=\n" + 
-			"\n" + 
+			"\n" +  
 			"TEAM 558\n" +
 			"robot_class=edu.wpi.first.wpilibj.templates.RobotDowneyJr\n" + 
 			"simulator_class=com.snobot.Team558Simulator\n" + 
