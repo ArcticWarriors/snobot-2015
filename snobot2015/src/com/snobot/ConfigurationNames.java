@@ -22,7 +22,11 @@ public class ConfigurationNames
     public static final String sFlightsticks_X_Axis = "FlighsticksXAxis";
     public static final String sFlightsticks_Button_Switch_To_Tank = "FlighstickButtonSwitchToTank";
     public static final String sFlightsticks_Button_Switch_To_Arcade = "FlightstickButtonSwitchToArcade";
-
+    
+    public static final String sXBOX_BUTTON_CLAW_UP = "XboxClawUpButton";
+    public static final String sXBOX_BUTTON_CLAW_DOWN = "XboxClawDownButton";
+    public static final String sXBOX_BUTTON_CLAW_OPEN = "XboxClawOpenButton";
+    public static final String sXBOX_BUTTON_CLAW_CLOSE = "XboxClawCloseButton";
     public static final String sXBOX_BUTTON_TANK_MODE = "XboxTankModeButton";
     public static final String sXBOX_BUTTON_ARCADE_MODE = "XboxArcadeModeButton";
     // Motors

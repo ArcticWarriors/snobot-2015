@@ -53,7 +53,7 @@ public class SnobotStacker implements IStacker
     public void moveStackerUp()
     {
 
-        if (mUpperLimitSwitchState == true)
+        if (mUpperLimitSwitchState)
         {
             stop();
         }
@@ -71,7 +71,7 @@ public class SnobotStacker implements IStacker
     public void moveStackerDown()
     {
 
-        if (mLowerLimitSwitchState == true)
+        if (mLowerLimitSwitchState)
         {
             stop();
         }
@@ -129,7 +129,7 @@ public class SnobotStacker implements IStacker
     public void updateSmartDashboard()
     {
         SmartDashboard.putBoolean("Upper Limit Switch State", mUpperLimitSwitch.get());
-        SmartDashboard.putBoolean("Lowerr Limit Switch State", mLowerLimitSwitch.get());
+        SmartDashboard.putBoolean("Lower Limit Switch State", mLowerLimitSwitch.get());
         SmartDashboard.putNumber("Encoder Height", mStackerEncoder.getDistance());
         SmartDashboard.putNumber("Stacker Motor", mStackerMotor.get());
     }
