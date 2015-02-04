@@ -1,2 +1,2 @@
-DriveForward 50 1
+&DriveForward 5 1
 &MoveClaw true

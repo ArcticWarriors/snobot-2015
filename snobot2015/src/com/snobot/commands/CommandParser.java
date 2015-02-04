@@ -72,7 +72,6 @@ public class CommandParser
                         Double.parseDouble(args.get(2)), 
                         mSnobot.getDriveTrain(),
                         mSnobot.getPositioner());
-                System.out.println("Creating foward command");
                 break;
                 
             case ConfigurationNames.sDRIVE_ROTATE_COMMAND:
@@ -94,6 +93,7 @@ public class CommandParser
                             mSnobot.getSnobotClaw());
                 break;
             case ConfigurationNames.sMOVE_CLAW_COMMAND:
+                System.out.println("Moving claw");
                 newCommand = new MoveClaw(
                         Boolean.parseBoolean(args.get(1)), 
                         mSnobot.getSnobotClaw());

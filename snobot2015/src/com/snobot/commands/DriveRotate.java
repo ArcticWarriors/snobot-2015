@@ -12,6 +12,7 @@ public class DriveRotate extends Command
      */
     double mDegree;
     double mSpeed;
+    boolean mFinished;
     SnobotDriveTrain mDriveTrain;
     SnobotPosition mPosition;
 
@@ -28,6 +29,8 @@ public class DriveRotate extends Command
         mSpeed = aSpeed;
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
+        
+        mFinished = false;
     }
 
     @Override
@@ -54,6 +57,7 @@ public class DriveRotate extends Command
         }
         else
         {
+            mFinished = true;
             mDriveTrain.stop();
         }
     }
@@ -75,7 +79,11 @@ public class DriveRotate extends Command
     @Override
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
+        if(mFinished)
+        {
+            mFinished = false;
+            return true;
+        }
         return false;
     }
 
