@@ -22,4 +22,9 @@ public class SmartDashboardNames
     public static final String sSNOBOT_DISTANCE_LEFT = "Left Distance";
     public static final String sSNOBOT_DISTANCE_RIGHT ="Right Distance";
     
+    public static final String sUPPER_LIMIT_SWITCH_STATE = "Upper Limit Switch State";
+    public static final String sLOWER_LIMIT_SWITCH_STATE = "Lower Limit Switch State";
+    public static final String sENCODER_HEIGHT = "Encoder Height";
+    public static final String sSTACKER_MOTOR_VALUE = "Stacker Motor";
+    
 }
