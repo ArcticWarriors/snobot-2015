@@ -183,6 +183,7 @@ public class Snobot extends IterativeRobot
         update();
         updateSmartDashboard();
         updateLog();
+        
     }
 
     /**

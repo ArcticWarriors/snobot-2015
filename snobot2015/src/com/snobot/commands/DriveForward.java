@@ -15,12 +15,12 @@ import com.snobot.position.*;
 public class DriveForward extends Command
 {
 
-    double mDistance;
-    double mSpeed;
-    SnobotDriveTrain mDriveTrain;
-    SnobotPosition mPosition;
+    private final double mDistance;
+    private final double mSpeed;
+    private final SnobotDriveTrain mDriveTrain;
+    private final SnobotPosition mPosition;
     boolean mFinished;
-    double mTotalDistance;
+    private double mTotalDistance;
 
     /**
      * Creates DriveForward Command object
