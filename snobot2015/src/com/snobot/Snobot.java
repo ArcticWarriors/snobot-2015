@@ -95,7 +95,7 @@ public class Snobot extends IterativeRobot
         mPowerDistributionPanel = new PowerDistributionPanel();
         mParser = new CommandParser(this);
         //TODO testing purposes only
-        mAutonFilePath = new String("C:/Users/Andrew/Desktop/snobot2015/snobot2015/resources/autonoumous/TestAutonCommand.txt");
+        mAutonFilePath = new String("../../snobot2015/resources/autonoumous/TestAutonCommand.txt");
 
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());

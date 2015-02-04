@@ -16,19 +16,14 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CommandParser
 {
     private static final String sDELIMITER = " ";
-    private ArrayList<String> mLines;
 
     private Snobot mSnobot;
     private CommandGroup mCommands;
     
-    //TODO this is for testing only...
-    private static final String AUTO_MODE = 
-            "DriveRotate 180 .01 \n";
     public CommandParser(Snobot aSnobot)
     {
         mSnobot = aSnobot;
         mCommands = new CommandGroup("Autonomous Group");
-        mLines = new ArrayList<String>();
     }
 
     /**
@@ -122,67 +117,42 @@ public class CommandParser
         }
     }
 
-    /**
-     * Takes text from an outside source and splits different lines
-     */
-    private void getAndSplitLines()
-    {
-        // TODO Need input to set rawCommandString
-        String rawCommandString = AUTO_MODE;
-
-        StringTokenizer tokenizer = new StringTokenizer(rawCommandString, "\n");
-
-        List<String> args = new ArrayList<>();
-
-        while (tokenizer.hasMoreElements())
-        {
-            args.add(tokenizer.nextToken());
-        }
-
-        mLines.clear();
-        for (String line : args)
-        {
-            mLines.add(line);
-        }
-    }
 
     public CommandGroup getCommands()
     {
         return this.mCommands;
     }
-
-    /**
-     * Iterates through mLines and gives it to commandParser()
-     */
-    private void feedLines()
-    {
-        for (String line : mLines)
-        {
-            this.commandParser(line);
-        }
-    }
     
-    public void fullParse()
+    public void parseAutonString(String aAutonString)
     {
-        this.getAndSplitLines();
-        this.feedLines();
+        StringTokenizer tokenizer = new StringTokenizer(aAutonString, "\n");
+
+        while (tokenizer.hasMoreElements())
+        {
+            this.commandParser(tokenizer.nextToken());
+        }
     }
     
     public void readFile(String aFilePath)
     {
+        File autonFile = new File(aFilePath);
+        
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader(aFilePath));
+            BufferedReader br = new BufferedReader(new FileReader(autonFile));
             
             String line;
             while((line = br.readLine()) != null)
             {
                 this.commandParser(line);
             }
+            
+            br.close();
         }
         catch(Exception e)
         {
             e.printStackTrace();
+            System.err.println(autonFile.getAbsolutePath());
         }
     }
 }
