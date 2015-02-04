@@ -37,7 +37,12 @@ public class SnobotPosition implements ISubsystem
     /**
      * Distance traveled by Snobot since last update
      */
-    private double mDistanceTraveled;
+    private double mDeltaDistance;
+    
+    /**
+     * The total distance saved from the previous update
+     */
+    private double mLastDistance;
 
     /**
      * Gyro-sensor that SnobotPosition uses to calculate direction
@@ -99,30 +104,7 @@ public class SnobotPosition implements ISubsystem
         this.mLogger.updateLogger(mPositionX);
         this.mLogger.updateLogger(mPositionY);
         this.mLogger.updateLogger(this.getSnobotDegrees());
-        this.mLogger.updateLogger(this.mDistanceTraveled);
-    }
-    
-    /**
-     * Calculates Snobot's X-position with the opposite side of the field being
-     * north
-     * 
-     * @return Snobot's X-position
-     */
-    private double calculateX()
-    {
-        return Math.sin(this.mRadianRotation) * this.mDistanceTraveled + this.mPositionX;
-    }
-
-    /**
-     * Calculates Snobot's Y-position with the opposite side of the field being
-     * north
-     * 
-     * @return Snobot's Y-position
-     */
-    private double calculateY()
-    {
-
-        return Math.cos(this.mRadianRotation) * this.mDistanceTraveled + this.mPositionY;
+        this.mLogger.updateLogger(this.mDeltaDistance);
     }
 
     /**
@@ -155,8 +137,6 @@ public class SnobotPosition implements ISubsystem
     {
         double distanceRight = this.mDriveTrain.calculateDistanceRight();
         double distanceLeft = this.mDriveTrain.calculateDistanceLeft();
-        
-        this.mDriveTrain.resetEncoders();
 
         return (distanceRight + distanceLeft) / 2;
     }
@@ -166,10 +146,14 @@ public class SnobotPosition implements ISubsystem
      */
     public void update()
     {
+    	double total_distance = this.calculateDistanceTraveled();
+    	this.mDeltaDistance = total_distance - mLastDistance;
+    	
         this.mRadianRotation = this.calculateDirection();
-        this.mDistanceTraveled = this.calculateDistanceTraveled();
-        this.mPositionX = this.calculateX();
-        this.mPositionY = this.calculateY();
+        this.mPositionX += Math.sin(this.mRadianRotation) * this.mDeltaDistance;
+        this.mPositionY += Math.cos(this.mRadianRotation) * this.mDeltaDistance;
+        
+        mLastDistance = total_distance;
     }
 
     /**
@@ -217,9 +201,19 @@ public class SnobotPosition implements ISubsystem
      * 
      * @return The distance traveled by Snobot since last update
      */
-    public double getSnobotDistance()
+    public double getDeltaDistance()
     {
-        return this.mDistanceTraveled;
+        return this.mDeltaDistance;
+    }
+
+    /**
+     * Gets the total distance traveled
+     * 
+     * @return The total distance traveled by Snobot
+     */
+    public double getTotalDistance()
+    {
+        return this.mLastDistance;
     }
 
     /**

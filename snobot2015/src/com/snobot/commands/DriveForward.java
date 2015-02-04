@@ -15,12 +15,12 @@ import com.snobot.position.*;
 public class DriveForward extends Command
 {
 
-    private final double mDistance;
+    private final double mDesiredDistance;
     private final double mSpeed;
     private final SnobotDriveTrain mDriveTrain;
     private final SnobotPosition mPosition;
+    private double mStartingDistance;
     boolean mFinished;
-    private double mTotalDistance;
 
     /**
      * Creates DriveForward Command object
@@ -37,64 +37,53 @@ public class DriveForward extends Command
     public DriveForward(double aDistance, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
         super(ConfigurationNames.sDRIVE_FORWARD_COMMAND);
-        mDistance = aDistance;
+        mDesiredDistance = aDistance;
         mSpeed = aSpeed;
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
         mFinished=false;
-        mTotalDistance=0;
     }
 
     @Override
-    protected void end()
+    protected void initialize()
     {
-        // TODO Auto-generated method stub
+    	mStartingDistance  = mPosition.getTotalDistance();
     }
-
+    
     @Override
     /**
      * Sets motors to desired speed until the distance specified has been traveled
      */
     protected void execute()
     {
-        mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
+        double distance_travelled = mPosition.getTotalDistance() - mStartingDistance;
 
-        if (mTotalDistance < mDistance)
+        if (distance_travelled < mDesiredDistance)
         {
-            mTotalDistance = (mTotalDistance + mPosition.getSnobotDistance());
+            mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
         }
-        else if (mTotalDistance >= mDistance)
+        else
         {
             mFinished=true;
-            mDriveTrain.stop();
         }
     }
 
     @Override
-    protected void initialize()
+    protected void end()
     {
-        
+        mDriveTrain.stop();
     }
 
     @Override
     protected void interrupted()
     {
-        // TODO Auto-generated method stub
-
+    	//nothing to do
     }
 
     @Override
     protected boolean isFinished()
     {
-        if (mFinished)
-        {
-            mFinished = false;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+    	return mFinished;
     }
 
 }
