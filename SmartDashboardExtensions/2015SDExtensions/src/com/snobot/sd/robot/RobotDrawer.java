@@ -33,12 +33,21 @@ public class RobotDrawer extends JPanel
         setPreferredSize(new Dimension(200, 200));
     }
     
-    public void paint(Graphics g)
+    public void paint(Graphics upperLimitSwitch)
     {
-        
-        g.setColor(Color.red);
-        g.fillRect(0, 0, 10, 10);
+        if (mUpperLimitSwitch)
+        {
+        upperLimitSwitch.setColor(Color.green);
+        upperLimitSwitch.fillRect(0, 0, 10, 10);
+        }
+        else
+        {
+            upperLimitSwitch.setColor(Color.red);
+            upperLimitSwitch.fillRect(0, 0, 10, 10);
+        }
     }
+    
+    
     
     /**
      * True if claw is open else false
