@@ -105,14 +105,16 @@ public class CommandParser
         {
             e.getStackTrace();
         }
-
-        if (isParallel)
+        
+        
+        if (newCommand==null)
+        {
+            System.out.println("Can't add null command");
+        }
+        
+        else if (isParallel)
         {
             mCommands.addParallel(newCommand);
-        }
-        else if (newCommand==null)
-        {
-            System.out.println("Null command");
         }
         else
         {
@@ -166,11 +168,11 @@ public class CommandParser
         this.feedLines();
     }
     
-    public void readFile(File aAutonFile)
+    public void readFile(String aFilePath)
     {
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader(aAutonFile));
+            BufferedReader br = new BufferedReader(new FileReader(aFilePath));
             
             String line;
             while((line = br.readLine()) != null)

@@ -22,11 +22,11 @@ public class MoveClaw extends Command{
     @Override
     protected void execute() {
       //Actuates claw up/down
-        if(mClawUp == true)
+        if(mClawUp)
         {
             mClaw.moveClawUp();
         }
-        else if(mClawUp == false)
+        else if(!mClawUp)
         {
             mClaw.moveClawDown();
         }

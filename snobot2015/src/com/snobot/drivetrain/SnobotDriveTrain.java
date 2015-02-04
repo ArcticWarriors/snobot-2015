@@ -30,7 +30,11 @@ public class SnobotDriveTrain implements IDriveTrain
 
     private Logger mLogger;
     private UnitOfMeasure mDefaultMeasure;
+    private double mDistanceLeftTrack;
+    private double mDistanceRightTrack;
 
+    
+    
     /**
      * Takes 2 speed controllers and joy stick arguments
      * 
@@ -54,7 +58,7 @@ public class SnobotDriveTrain implements IDriveTrain
         mEncoderRight = aEncoderRight;
         mLogger=aLogger;
         
-        mRobotDrive.setSafetyEnabled(false); //TODO - PJ - probably not the safest thing for compitiion....
+        mRobotDrive.setSafetyEnabled(false); //TODO - PJ - probably not the safest thing for competition....
     }
 
     @Override
@@ -70,6 +74,11 @@ public class SnobotDriveTrain implements IDriveTrain
     {
         // TODO Auto-generated method stub
 
+        mDistanceLeftTrack = mEncoderLeft.getDistance();
+        mDistanceRightTrack = mEncoderRight.getDistance(); 
+        mSpeedControllerLeft.get();
+        mSpeedControllerRight.get();
+        
     }
 
     @Override
@@ -99,8 +108,8 @@ public class SnobotDriveTrain implements IDriveTrain
     {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
-        SmartDashboard.putNumber("Left Distance", this.calculateDistanceLeft());
-        SmartDashboard.putNumber("Right Distance", this.calculateDistanceRight());
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_LEFT, mDistanceLeftTrack);
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_RIGHT, mDistanceRightTrack);
     }
 
     @Override

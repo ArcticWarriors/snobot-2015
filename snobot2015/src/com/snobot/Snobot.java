@@ -62,7 +62,7 @@ public class Snobot extends IterativeRobot
     private SnobotDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
-    private File mAutonFile;
+    private String mAutonFilePath;
 
     private CommandParser mParser;
 
@@ -94,7 +94,8 @@ public class Snobot extends IterativeRobot
     {
         mPowerDistributionPanel = new PowerDistributionPanel();
         mParser = new CommandParser(this);
-        mAutonFile=new File("AutonCommands");
+        //TODO testing purposes only
+        mAutonFilePath = new String("C:/Users/Andrew/Desktop/snobot2015/snobot2015/resources/autonoumous/TestAutonCommand.txt");
 
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
@@ -167,7 +168,7 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
-        mParser.readFile(mAutonFile);
+        mParser.readFile(mAutonFilePath);
         mParser.getCommands().start();
     }
 
