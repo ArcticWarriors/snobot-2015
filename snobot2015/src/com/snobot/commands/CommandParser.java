@@ -19,7 +19,6 @@ public class CommandParser
     private ArrayList<String> mLines;
 
     private Snobot mSnobot;
-    private CommandGroup mCommands;
     
     //TODO this is for testing only...
     private static final String AUTO_MODE = 
@@ -27,7 +26,6 @@ public class CommandParser
     public CommandParser(Snobot aSnobot)
     {
         mSnobot = aSnobot;
-        mCommands = new CommandGroup("Autonomous Group");
         mLines = new ArrayList<String>();
     }
 
@@ -37,8 +35,14 @@ public class CommandParser
      * @param aLine
      *            Line of text
      */
-    private void commandParser(String aLine)
+    private void commandParser(CommandGroup aGroup, String aLine)
     {
+    	aLine = aLine.trim();
+    	if(aLine.isEmpty() || aLine.startsWith("#"))
+    	{
+    		return;
+    	}
+    	
         StringTokenizer tokenizer = new StringTokenizer(aLine, sDELIMITER);
 
         List<String> args = new ArrayList<>();
@@ -114,62 +118,18 @@ public class CommandParser
         
         else if (isParallel)
         {
-            mCommands.addParallel(newCommand);
+        	aGroup.addParallel(newCommand);
         }
         else
         {
-            mCommands.addSequential(newCommand);
-        }
-    }
-
-    /**
-     * Takes text from an outside source and splits different lines
-     */
-    private void getAndSplitLines()
-    {
-        // TODO Need input to set rawCommandString
-        String rawCommandString = AUTO_MODE;
-
-        StringTokenizer tokenizer = new StringTokenizer(rawCommandString, "\n");
-
-        List<String> args = new ArrayList<>();
-
-        while (tokenizer.hasMoreElements())
-        {
-            args.add(tokenizer.nextToken());
-        }
-
-        mLines.clear();
-        for (String line : args)
-        {
-            mLines.add(line);
-        }
-    }
-
-    public CommandGroup getCommands()
-    {
-        return this.mCommands;
-    }
-
-    /**
-     * Iterates through mLines and gives it to commandParser()
-     */
-    private void feedLines()
-    {
-        for (String line : mLines)
-        {
-            this.commandParser(line);
+        	aGroup.addSequential(newCommand);
         }
     }
     
-    public void fullParse()
+    public CommandGroup readFile(String aFilePath)
     {
-        this.getAndSplitLines();
-        this.feedLines();
-    }
-    
-    public void readFile(String aFilePath)
-    {
+    	System.out.println("Reading auton file : " + aFilePath);
+    	CommandGroup output = new CommandGroup(aFilePath);
         try
         {
             BufferedReader br = new BufferedReader(new FileReader(aFilePath));
@@ -177,12 +137,16 @@ public class CommandParser
             String line;
             while((line = br.readLine()) != null)
             {
-                this.commandParser(line);
+                this.commandParser(output, line);
             }
+            
+            br.close();
         }
         catch(Exception e)
         {
             e.printStackTrace();
         }
+        
+        return output;
     }
 }

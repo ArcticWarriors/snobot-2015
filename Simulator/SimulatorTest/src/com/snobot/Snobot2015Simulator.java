@@ -55,10 +55,12 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
         mStackerSimulator = new StackerSImulator (stackerMotor, stackerEncoder,
         		upperStackerLimit, lowerStackerLimit);
 
-        mLeftDriveEnc.setSimulatorParams(.001);
-        mRightDriveEnc.setSimulatorParams(-.001);
         
-//        mStackerSimulator.setSimulatorParams(.04);
+        stackerEncoder.setDistancePerTick(.04);
+        
+        mLeftDriveEnc.setSimulatorParams(.01);
+        mRightDriveEnc.setSimulatorParams(-.01);        
+        mStackerSimulator.setSimulatorParams(1);
         
         
         mGyroSim = new TankDriveGyroSimulator(leftEncoder, rightEncoder, gyroChannel);

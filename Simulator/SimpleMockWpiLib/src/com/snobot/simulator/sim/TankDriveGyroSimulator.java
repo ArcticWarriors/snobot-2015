@@ -33,8 +33,8 @@ public class TankDriveGyroSimulator implements ISimulatorUpdater {
 		if(mIsSetup)
 		{
 
-	        double rightDist = mRightEncoder.getDistance() / 4.0;
-	        double leftDist  = mLeftEncoder.getDistance() / 4.0;
+	        double rightDist = mRightEncoder.getDecodedDistance();
+	        double leftDist  = mLeftEncoder.getDecodedDistance();
 	        
 	        mAngle = (double)(leftDist - rightDist)/(double)(3.14159*22.0/12.0)*(180.0);
 	        
