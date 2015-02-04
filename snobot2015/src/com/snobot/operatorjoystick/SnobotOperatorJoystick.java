@@ -1,5 +1,7 @@
 package com.snobot.operatorjoystick;
 
+import com.snobot.ConfigurationNames;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.RumbleType;
 
@@ -11,6 +13,15 @@ import edu.wpi.first.wpilibj.Joystick.RumbleType;
  */
 public class SnobotOperatorJoystick implements IOperatorJoystick
 {
+    double mStackerJoystickDirection;
+    int mStackerJoystickAxis1;
+    int mXBOXButtonClawUp;
+    int mXBOXButtonClawDown; 
+    int mXBOXButtonClawOpen;
+    int mXBOXButtonClawClose;
+    double mXBOXStackerJoystickUp;
+    double mXBOXStackerJoystickDown;
+    
 
     private Joystick mOperatorJoystick;
 
@@ -28,35 +39,19 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public boolean getStackerUp()
     {
-
-        if (mOperatorJoystick.getRawAxis(1) >= .2)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+       return mStackerJoystickDirection >= mXBOXStackerJoystickUp;
     }
 
     @Override
     public boolean getStackerDown()
     {
-
-        if (mOperatorJoystick.getRawAxis(1) <= -.2)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+       return mStackerJoystickDirection <= mXBOXStackerJoystickDown;
     }
 
     @Override
     public boolean getClawUp()
     {
-        if (mOperatorJoystick.getRawButton(1))
+        if (mOperatorJoystick.getRawButton(mXBOXButtonClawUp))
         {
             return true;
         }
@@ -68,7 +63,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     
     public boolean getClawDown()
     {
-        if (mOperatorJoystick.getRawButton(2))
+        if (mOperatorJoystick.getRawButton(mXBOXButtonClawDown))
         {
             return true;
         }
@@ -82,7 +77,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public boolean getClawOpen()
     {
-        if (mOperatorJoystick.getRawButton(3))
+        if (mOperatorJoystick.getRawButton(mXBOXButtonClawOpen))
         {
             return true;
         }
@@ -95,7 +90,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public boolean getClawClose()
     {
-        if (mOperatorJoystick.getRawButton(4))
+        if (mOperatorJoystick.getRawButton(mXBOXButtonClawClose))
         {
             return true;
         }
@@ -119,7 +114,14 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public void update()
     {
-
+        mXBOXStackerJoystickUp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sXBOX_JOYSTICK_STACKER_UP, .2);
+        mXBOXStackerJoystickDown = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sXBOX_JOYSTICK_STACKER_DOWN, -.2);
+        mXBOXButtonClawOpen = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_OPEN, 3);
+        mXBOXButtonClawClose = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_CLOSE, 4);
+        mXBOXButtonClawUp = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_UP, 1);
+        mXBOXButtonClawDown = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_DOWN, 2);
+        mStackerJoystickAxis1 = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Y_Axis, 1);
+        mStackerJoystickDirection =mOperatorJoystick.getRawAxis(mStackerJoystickAxis1);
     }
 
     /**

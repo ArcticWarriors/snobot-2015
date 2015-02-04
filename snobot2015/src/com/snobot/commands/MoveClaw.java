@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveClaw extends Command{
     
-    boolean mClawUp;
-    SnobotClaw mClaw;
+    private final boolean mClawUp;
+    private final SnobotClaw mClaw;
     
     public MoveClaw(boolean aClawUp, SnobotClaw aClaw)
     {
@@ -22,11 +22,11 @@ public class MoveClaw extends Command{
     @Override
     protected void execute() {
       //Actuates claw up/down
-        if(mClawUp == true)
+        if(mClawUp)
         {
             mClaw.moveClawUp();
         }
-        else if(mClawUp == false)
+        else if(!mClawUp)
         {
             mClaw.moveClawDown();
         }

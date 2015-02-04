@@ -1,5 +1,8 @@
 package com.snobot.commands;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -69,7 +72,6 @@ public class CommandParser
                         Double.parseDouble(args.get(2)), 
                         mSnobot.getDriveTrain(),
                         mSnobot.getPositioner());
-                System.out.println("Creating foward command");
                 break;
                 
             case ConfigurationNames.sDRIVE_ROTATE_COMMAND:
@@ -91,6 +93,7 @@ public class CommandParser
                             mSnobot.getSnobotClaw());
                 break;
             case ConfigurationNames.sMOVE_CLAW_COMMAND:
+                System.out.println("Moving claw");
                 newCommand = new MoveClaw(
                         Boolean.parseBoolean(args.get(1)), 
                         mSnobot.getSnobotClaw());
@@ -102,14 +105,16 @@ public class CommandParser
         {
             e.getStackTrace();
         }
-
-        if (isParallel)
+        
+        
+        if (newCommand==null)
+        {
+            System.out.println("Can't add null command");
+        }
+        
+        else if (isParallel)
         {
             mCommands.addParallel(newCommand);
-        }
-        else if (newCommand==null)
-        {
-            System.out.println("Null command");
         }
         else
         {
@@ -161,5 +166,23 @@ public class CommandParser
     {
         this.getAndSplitLines();
         this.feedLines();
+    }
+    
+    public void readFile(String aFilePath)
+    {
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(aFilePath));
+            
+            String line;
+            while((line = br.readLine()) != null)
+            {
+                this.commandParser(line);
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

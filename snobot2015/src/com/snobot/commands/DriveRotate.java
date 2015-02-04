@@ -10,10 +10,11 @@ public class DriveRotate extends Command
     /**
      * Auton command for rotate/turn; Turns to a specified degree and speed
      */
-    double mDegree;
-    double mSpeed;
-    SnobotDriveTrain mDriveTrain;
-    SnobotPosition mPosition;
+    private final double mDegree;
+    private final double mSpeed;
+    private boolean mFinished;
+    private final SnobotDriveTrain mDriveTrain;
+    private final SnobotPosition mPosition;
 
     /**
      * Creates DriveRotate command object
@@ -28,6 +29,8 @@ public class DriveRotate extends Command
         mSpeed = aSpeed;
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
+        
+        mFinished = false;
     }
 
     @Override
@@ -54,6 +57,7 @@ public class DriveRotate extends Command
         }
         else
         {
+            mFinished = true;
             mDriveTrain.stop();
         }
     }
@@ -75,7 +79,11 @@ public class DriveRotate extends Command
     @Override
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
+        if(mFinished)
+        {
+            mFinished = false;
+            return true;
+        }
         return false;
     }
 

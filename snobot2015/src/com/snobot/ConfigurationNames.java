@@ -18,11 +18,19 @@ public class ConfigurationNames
 
     // Flightsticks Control
     // TODO PJ doesn't much care for this
-    public static final int sFlightsticks_Y_Axis = 1;
-    public static final int sFlightsticks_X_Axis = 0;
-    public static final int sFlightsticks_Button_4 = 4;
-    public static final int sFlightsticks_Button_5 = 5;
-
+    public static final String sFlightsticks_Y_Axis = "FlightsticksYAxis";
+    public static final String sFlightsticks_X_Axis = "FlighsticksXAxis";
+    public static final String sFlightsticks_Button_Switch_To_Tank = "FlighstickButtonSwitchToTank";
+    public static final String sFlightsticks_Button_Switch_To_Arcade = "FlightstickButtonSwitchToArcade";
+    
+    public static final String sXBOX_JOYSTICK_STACKER_UP = "XboxJoystickStackerUp";
+    public static final String sXBOX_JOYSTICK_STACKER_DOWN = "XboxJoystickStackerDown";
+    public static final String sXBOX_BUTTON_CLAW_UP = "XboxClawUpButton";
+    public static final String sXBOX_BUTTON_CLAW_DOWN = "XboxClawDownButton";
+    public static final String sXBOX_BUTTON_CLAW_OPEN = "XboxClawOpenButton";
+    public static final String sXBOX_BUTTON_CLAW_CLOSE = "XboxClawCloseButton";
+    public static final String sXBOX_BUTTON_TANK_MODE = "XboxTankModeButton";
+    public static final String sXBOX_BUTTON_ARCADE_MODE = "XboxArcadeModeButton";
     // Motors
     public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
     public static final String sDRIVE_MOTOR_RIGHT_1 = "RightDriveMotor1";

@@ -1,5 +1,8 @@
 package com.snobot.position;
 
+import com.snobot.ConfigurationNames;
+import com.snobot.ISubsystem;
+import com.snobot.SmartDashboardNames;
 import com.snobot.drivetrain.SnobotDriveTrain;
 import com.snobot.logger.Logger;
 
@@ -13,7 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Alec
  *
  */
-public class SnobotPosition
+public class SnobotPosition implements ISubsystem
 {
 
     /**
@@ -76,6 +79,30 @@ public class SnobotPosition
     }
 
     /**
+     * Gives Logger headers for entries: X-position, Y-position, Degrees,
+     * Distance
+     */
+    public void init()
+    {
+        this.mLogger.addHeader("Snobot X-position");
+        this.mLogger.addHeader("Snobot's Y-position");
+        this.mLogger.addHeader("Snobot's orientation in degrees");
+        this.mLogger.addHeader("Distance traveled since last update");
+
+    }
+    
+    /**
+     * Gives Logger entries: X-position, Y-position, Degrees, Distance
+     */
+    public void updateLog()
+    {
+        this.mLogger.updateLogger(mPositionX);
+        this.mLogger.updateLogger(mPositionY);
+        this.mLogger.updateLogger(this.getSnobotDegrees());
+        this.mLogger.updateLogger(this.mDistanceTraveled);
+    }
+    
+    /**
      * Calculates Snobot's X-position with the opposite side of the field being
      * north
      * 
@@ -106,12 +133,12 @@ public class SnobotPosition
     private double calculateDirection()
     {
         double gyroDegrees = mGyroSensor.getAngle();
-        if (gyroDegrees > 360)
+        while (gyroDegrees > 360)
         {
             gyroDegrees = gyroDegrees - 360;
         }
 
-        else if (gyroDegrees < -360)
+        while (gyroDegrees < -360)
         {
             gyroDegrees = gyroDegrees + 360;
         }
@@ -130,10 +157,6 @@ public class SnobotPosition
         double distanceLeft = this.mDriveTrain.calculateDistanceLeft();
         
         this.mDriveTrain.resetEncoders();
-        
-        // TODO Debuggers; remove later
-        System.out.println(distanceRight);
-        System.out.println(distanceLeft);
 
         return (distanceRight + distanceLeft) / 2;
     }
@@ -141,7 +164,7 @@ public class SnobotPosition
     /**
      * Updates member variables with numbers calculated via object methods
      */
-    public void updateAll()
+    public void update()
     {
         this.mRadianRotation = this.calculateDirection();
         this.mDistanceTraveled = this.calculateDistanceTraveled();
@@ -232,34 +255,37 @@ public class SnobotPosition
         this.mRadianRotation = Math.toRadians(aDegrees);
     }
 
-    /**
-     * Gives Logger headers for entries: X-position, Y-position, Degrees,
-     * Distance
-     */
-    public void giveHeaders()
-    {
-        this.mLogger.addHeader("Snobot X-position");
-        this.mLogger.addHeader("Snobot's Y-position");
-        this.mLogger.addHeader("Snobot's orientation in degrees");
-        this.mLogger.addHeader("Distance traveled since last update");
-
-    }
-
-    /**
-     * Gives Logger entries: X-position, Y-position, Degrees, Distance
-     */
-    public void giveEntry()
-    {
-        this.mLogger.updateLogger(mPositionX);
-        this.mLogger.updateLogger(mPositionY);
-        this.mLogger.updateLogger(this.getSnobotDegrees());
-        this.mLogger.updateLogger(this.mDistanceTraveled);
-    }
-
     public void updateSmartDashbaord()
     {
         SmartDashboard.putNumber("Gyro Angle", getSnobotDegrees());
         SmartDashboard.putNumber("Snobot X", mPositionX);
         SmartDashboard.putNumber("Snobot Y", mPositionY);
+    }
+
+    @Override
+    public void control() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void rereadPreferences() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void updateSmartDashboard() {
+        // TODO Perhaps these could be changed to graphical representations
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_HEADING, this.getSnobotDegrees());
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_X_POSITION, this.mPositionX);
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_Y_POSITION, this.mPositionY);
+        
+    }
+
+    @Override
+    public void stop() {
+        // TODO Auto-generated method stub
+        
     }
 }

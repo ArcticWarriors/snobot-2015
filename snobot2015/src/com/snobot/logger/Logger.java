@@ -1,7 +1,9 @@
 package com.snobot.logger;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import com.snobot.ConfigurationNames;
 
 /**
@@ -13,12 +15,19 @@ import com.snobot.ConfigurationNames;
 
 public class Logger
 {
-
+    //Current Date and Time
     private String mLogDate;
+    
+    //File Writer
     private FileWriter mLogWriter;
-
+    
+    //A count that increases every teleop cycle
     private int mCurrentLogCount;
+    
+    //A count that is used to indicate when to log (set by preferences)
     private int mConfigLogCount;
+    
+    //File Path set by preferences
     private String mLogFilePath;
 
     public Logger(String aLogDate)
@@ -36,15 +45,19 @@ public class Logger
     {
 
         mConfigLogCount = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLOG_COUNT, 25);
-        mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "");
-
+        mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "logs/");
         mCurrentLogCount = 0;
 
         try
         {
+            File dir = new File(mLogFilePath);
+            if(!dir.exists())
+            {
+                dir.mkdirs();
+            }
             mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
 
-            mLogWriter.write("Date and Time");
+            mLogWriter.write("Date and Time,Voltage,TotalCurrent");
 
         }
         catch (IOException e)
@@ -72,6 +85,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 
@@ -92,6 +107,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 
@@ -111,6 +128,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
 
     }
@@ -133,6 +152,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 
@@ -185,6 +206,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 
@@ -203,6 +226,8 @@ public class Logger
         catch (IOException e)
         {
             e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
         }
     }
 

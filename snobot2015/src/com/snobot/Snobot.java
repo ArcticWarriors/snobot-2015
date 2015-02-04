@@ -1,5 +1,6 @@
 package com.snobot;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -52,6 +54,7 @@ public class Snobot extends IterativeRobot
     private IDriverJoystick mDriverJoystick;
 
     private DriveMode mDriveMode;
+    private PowerDistributionPanel mPowerDistributionPanel;
 
     // Modules
     private SnobotStacker mStacker;
@@ -59,6 +62,7 @@ public class Snobot extends IterativeRobot
     private SnobotDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
+    private String mAutonFilePath;
 
     private CommandParser mParser;
 
@@ -88,7 +92,10 @@ public class Snobot extends IterativeRobot
     @Override
     public void robotInit()
     {
+        mPowerDistributionPanel = new PowerDistributionPanel();
         mParser = new CommandParser(this);
+        //TODO testing purposes only
+        mAutonFilePath = new String("C:/Users/Andrew/Desktop/snobot2015/snobot2015/resources/autonoumous/TestAutonCommand.txt");
 
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
@@ -134,7 +141,7 @@ public class Snobot extends IterativeRobot
 
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerEncoder);
 
-        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight);
+        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight, mLogger);
 
         mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0));
 
@@ -146,6 +153,7 @@ public class Snobot extends IterativeRobot
         mSubsystems.add(mStacker);
         mSubsystems.add(mClaw);
         mSubsystems.add(mDriveTrain);
+        mSubsystems.add(mPositioner);
 
         for (ISubsystem iSubsystem : mSubsystems)
         {
@@ -160,7 +168,7 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
-        mParser.fullParse();
+        mParser.readFile(mAutonFilePath);
         mParser.getCommands().start();
     }
 
@@ -175,6 +183,7 @@ public class Snobot extends IterativeRobot
         update();
         updateSmartDashboard();
         updateLog();
+        
     }
 
     /**
@@ -191,7 +200,6 @@ public class Snobot extends IterativeRobot
     
     private void update()
     {
-        mPositioner.updateAll();
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.update();
@@ -222,7 +230,10 @@ public class Snobot extends IterativeRobot
         if (mLogger.logNow())
         {
             mLogger.startLogEntry(logDate);
-
+            
+            mLogger.updateLogger(mPowerDistributionPanel.getVoltage());
+            mLogger.updateLogger(mPowerDistributionPanel.getTotalCurrent());
+             
             for (ISubsystem iSubsystem : mSubsystems)
             {
                 iSubsystem.updateLog();

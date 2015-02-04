@@ -7,14 +7,13 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class RawStack extends Command
 {
-    Timer mTimer;
-    double mSpeed;
-    boolean moveUp;
-    SnobotStacker mSnobotStacker;
+    private final Timer mTimer;
+    private final double mSpeed;
+    private final boolean moveUp;
+    private final SnobotStacker mSnobotStacker;
 
     public RawStack(double aSpeed, boolean aMoveUp, SnobotStacker aSnobotStacker)
     {
-
         mSpeed = aSpeed;
         moveUp = aMoveUp;
         mTimer = new Timer();

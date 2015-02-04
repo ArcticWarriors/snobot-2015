@@ -1,4 +1,4 @@
-package com.snobot.commands;
+        package com.snobot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -15,12 +15,12 @@ import com.snobot.position.*;
 public class DriveForward extends Command
 {
 
-    double mDistance;
-    double mSpeed;
-    SnobotDriveTrain mDriveTrain;
-    SnobotPosition mPosition;
+    private final double mDistance;
+    private final double mSpeed;
+    private final SnobotDriveTrain mDriveTrain;
+    private final SnobotPosition mPosition;
     boolean mFinished;
-    double mTotalDistance;
+    private double mTotalDistance;
 
     /**
      * Creates DriveForward Command object
@@ -59,10 +59,9 @@ public class DriveForward extends Command
     {
         mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
 
-        if (mPosition.getSnobotDistance() <= mDistance)
+        if (mTotalDistance < mDistance)
         {
             mTotalDistance = (mTotalDistance + mPosition.getSnobotDistance());
-            System.out.println("Current distance: " + mTotalDistance + ", desired = " + mDistance);
         }
         else if (mTotalDistance >= mDistance)
         {
@@ -74,7 +73,7 @@ public class DriveForward extends Command
     @Override
     protected void initialize()
     {
-System.out.println("Initializing command");
+        
     }
 
     @Override
@@ -90,8 +89,6 @@ System.out.println("Initializing command");
         if (mFinished)
         {
             mFinished = false;
-            // TODO Debugger; remove later
-            System.out.println("Command finished succesfully");
             return true;
         }
         else
