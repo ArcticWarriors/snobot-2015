@@ -13,6 +13,18 @@ public interface IDriverJoystick extends ISubsystem
 {
 
     /**
+     * enumeration to decide drive mode
+     * 
+     * @author ayush_000
+     *
+     */
+    public class DriveMode
+    {
+      public static final DriveMode Tank = new DriveMode();
+      public static final DriveMode Arcade = new DriveMode();
+    }
+
+    /**
      * Gets input from Left Stick in tank mode
      * 
      * @return double for Left Joy stick (-1 to 1)
@@ -40,12 +52,10 @@ public interface IDriverJoystick extends ISubsystem
      */
     double getRotate();
 
-   public static class DriveMode
-   {
-
-      public DriveMode()
-      {
-      }
-   }
+    /**
+     * 
+     * @return drive mode (Tank/Arcade)
+     */
+    DriveMode getDriveMode();
 
 }

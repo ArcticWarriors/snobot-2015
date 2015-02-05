@@ -15,6 +15,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
 {
 
     private Joystick mXBoxStick;
+    private DriveMode mDriveMode;
     private Logger mLogger;
 
     private double mTankLeftYAxis;
@@ -30,10 +31,11 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
      * @param aXBoxStick
      *            Argument for xBox Stick
      */
-    public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger)
+    public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger, DriveMode aDriveMode)
     {
         System.out.println("Creating xbox joystick");
         mXBoxStick = aXBoxStick;
+        mDriveMode = aDriveMode;
         mLogger = aLogger;
     }
 
@@ -45,6 +47,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         mLogger.addHeader("Arcade Mode: Speed (1 to -1)");
         mLogger.addHeader("Arcade Mode: Right X Axis");
         mLogger.addHeader("Drive Mode");
+        mDriveMode = DriveMode.Tank;
         
         rereadPreferences();
     }
@@ -52,6 +55,14 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     
     public void update()
     {
+        if (mXBoxStick.getRawButton(mTankMode))
+        {
+            mDriveMode = DriveMode.Tank;
+        }
+        else if (mXBoxStick.getRawButton(mArcadeMode))
+        {
+            mDriveMode = DriveMode.Arcade;
+        }
         
         mTankLeftYAxis = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         mTankRightYAxis = mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
@@ -98,6 +109,8 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         // Angle of the Joy stick (for arcade drive)
         mLogger.updateLogger(mArcadeRightRotation);
         
+        
+        mLogger.updateLogger(getDriveMode().toString());
     }
 
     
@@ -129,5 +142,11 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     public double getRotate()
     {
         return mArcadeRightRotation;
+    }
+
+    
+    public DriveMode getDriveMode()
+    {
+        return mDriveMode;
     }
 }

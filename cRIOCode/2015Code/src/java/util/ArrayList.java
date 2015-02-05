@@ -25,10 +25,10 @@ package java.util;
 import com.snobot.ISubsystem;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 
-public class ArrayList 
+public class ArrayList implements List
 {
 
-   public void add(ISubsystem o)
+   public void add(Object o)
    {
    }
 
@@ -37,7 +37,7 @@ public class ArrayList
       return 0;
    }
 
-   public ISubsystem get()
+   public Object get(int i)
    {
       return null;
    }

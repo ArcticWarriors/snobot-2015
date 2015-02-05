@@ -2,6 +2,7 @@ package com.snobot.drivetrain;
 
 import com.snobot.SmartDashboardNames;
 import com.snobot.joystick.IDriverJoystick;
+import com.snobot.joystick.IDriverJoystick.DriveMode;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -22,11 +23,13 @@ public class SnobotDriveTrain implements IDriveTrain
     private SpeedController mSpeedControllerRight;
     private IDriverJoystick mDriverJoystick;
     private RobotDrive mRobotDrive;
+    private DriveMode mDriveMode;
 
     private Encoder mEncoderLeft;
     private Encoder mEncoderRight;
 
     private Logger mLogger;
+    private UnitOfMeasure mDefaultMeasure;
     private double mDistanceLeftTrack;
     private double mDistanceRightTrack;
 
@@ -43,12 +46,14 @@ public class SnobotDriveTrain implements IDriveTrain
      *            Argument Driver Joy stick
      */
     public SnobotDriveTrain(SpeedController aSpeedControllerLeft, SpeedController aSpeedControllerRight, IDriverJoystick aDriverJoystick,
-            Encoder aEncoderLeft, Encoder aEncoderRight, Logger aLogger)
+            DriveMode aDriveMode, Encoder aEncoderLeft, Encoder aEncoderRight, Logger aLogger)
     {
         mSpeedControllerLeft = aSpeedControllerLeft;
         mSpeedControllerRight = aSpeedControllerRight;
         mDriverJoystick = aDriverJoystick;
         mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
+        mDriveMode = aDriveMode;
+        mDefaultMeasure = UnitOfMeasure.Feet;
         mEncoderLeft = aEncoderLeft;
         mEncoderRight = aEncoderRight;
         mLogger=aLogger;
@@ -79,8 +84,15 @@ public class SnobotDriveTrain implements IDriveTrain
     
     public void control()
     {
-         mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
         
+        if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode())
+        {
+            mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
+        }
+        else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
+        {
+            mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
+        }
 
     }
 
@@ -102,8 +114,18 @@ public class SnobotDriveTrain implements IDriveTrain
 
     
     public void updateLog()
-    {        
-        mLogger.updateLogger("");
+    {
+        String modeString=null;
+        if (mDriveMode==DriveMode.Tank)
+        {
+            modeString="TANK";
+        }
+        else if (mDriveMode==DriveMode.Arcade)
+        {
+            modeString="ARCADE";
+        }
+        
+        mLogger.updateLogger(modeString);
         mLogger.updateLogger(mSpeedControllerLeft.get());
         mLogger.updateLogger(mSpeedControllerRight.get());
     }
@@ -131,6 +153,13 @@ public class SnobotDriveTrain implements IDriveTrain
     public double calculateDistanceLeft()
     {
         return mDistanceLeftTrack;
+    }
+
+    
+    public void setDefaultMeasure(UnitOfMeasure aMeasure)
+    {
+        mDefaultMeasure = aMeasure;
+
     }
     
     public void resetEncoders()

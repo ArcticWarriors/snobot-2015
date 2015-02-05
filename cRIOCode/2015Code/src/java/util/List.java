@@ -10,7 +10,7 @@
 //  Copyright 2013, SRC Inc.
 //  as an unpublished work. All rights reserved.
 //
-//  NAME: File.java
+//  NAME: List.java
 //
 //  PURPOSE: //TODO purpose
 //
@@ -20,22 +20,13 @@
 //  TRACE: //TODO trace
 //****************************************************************************
 
-package java.io;
+package java.util;
 
-public class File 
+public interface List 
 {
 
-   public File(String mLogFilePath)
-   {
-   }
+   public abstract void add(Object nextToken);
 
-   public boolean exists()
-   {
-      return true;
-   }
-
-   public void mkdirs()
-   {
-   }
+   public abstract Object get(int i);
 
 }

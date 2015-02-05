@@ -10,7 +10,7 @@
 //  Copyright 2013, SRC Inc.
 //  as an unpublished work. All rights reserved.
 //
-//  NAME: File.java
+//  NAME: BufferedReader.java
 //
 //  PURPOSE: //TODO purpose
 //
@@ -22,19 +22,19 @@
 
 package java.io;
 
-public class File 
+public class BufferedReader 
 {
 
-   public File(String mLogFilePath)
+   public BufferedReader(FileReader fileReader)
    {
    }
 
-   public boolean exists()
+   public String readLine()
    {
-      return true;
+      return "";
    }
 
-   public void mkdirs()
+   public void close()
    {
    }
 

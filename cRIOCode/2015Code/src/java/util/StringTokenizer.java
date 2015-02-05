@@ -10,7 +10,7 @@
 //  Copyright 2013, SRC Inc.
 //  as an unpublished work. All rights reserved.
 //
-//  NAME: File.java
+//  NAME: StringTokenizer.java
 //
 //  PURPOSE: //TODO purpose
 //
@@ -20,22 +20,23 @@
 //  TRACE: //TODO trace
 //****************************************************************************
 
-package java.io;
+package java.util;
 
-public class File 
+public class StringTokenizer 
 {
 
-   public File(String mLogFilePath)
+   public StringTokenizer(String aLine, String sDELIMITER)
    {
    }
 
-   public boolean exists()
+   public boolean hasMoreElements()
    {
-      return true;
+      return false;
    }
-
-   public void mkdirs()
+   
+   public String nextToken()
    {
+      return "";
    }
 
 }

@@ -123,7 +123,7 @@ public class Snobot extends IterativeRobot
         if (joystickType.equals(SmartDashboardNames.sJOYSTICK_MODE_XBOX))
         {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
-            mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mLogger);
+            mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mLogger, mDriveMode);
         }
         else
         {
@@ -143,7 +143,7 @@ public class Snobot extends IterativeRobot
 
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerEncoder);
 
-        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mEncoderLeft, mEncoderRight, mLogger);
+        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight, mLogger);
 
         mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0));
 
@@ -159,7 +159,7 @@ public class Snobot extends IterativeRobot
 
         for (int i = 0; i < mSubsystems.size(); ++i)
         {
-           ISubsystem iSubsystem = mSubsystems.get();
+           ISubsystem iSubsystem = (ISubsystem) mSubsystems.get(i);
             iSubsystem.init();
         }
 
@@ -205,7 +205,7 @@ public class Snobot extends IterativeRobot
     {
         for (int i = 0; i < mSubsystems.size(); ++i)
         {
-           ISubsystem iSubsystem = mSubsystems.get();
+           ISubsystem iSubsystem = (ISubsystem) mSubsystems.get(i);
             iSubsystem.update();
 
         }
@@ -215,7 +215,7 @@ public class Snobot extends IterativeRobot
     {
         for (int i = 0; i < mSubsystems.size(); ++i)
         {
-           ISubsystem iSubsystem = mSubsystems.get();
+           ISubsystem iSubsystem = (ISubsystem) mSubsystems.get(i);
             iSubsystem.control();
         }
     }
@@ -225,7 +225,7 @@ public class Snobot extends IterativeRobot
         mPositioner.updateSmartDashbaord();
         for (int i = 0; i < mSubsystems.size(); ++i)
         {
-           ISubsystem iSubsystem = mSubsystems.get();
+           ISubsystem iSubsystem = (ISubsystem) mSubsystems.get(i);
             iSubsystem.updateSmartDashboard();
         }
     }
@@ -240,9 +240,9 @@ public class Snobot extends IterativeRobot
             mLogger.updateLogger(mPowerDistributionPanel.getVoltage());
             mLogger.updateLogger(mPowerDistributionPanel.getTotalCurrent());
              
-            for (int i = 0; i < mSubsystems.size(); ++i)
-            {
-               ISubsystem iSubsystem = mSubsystems.get();
+        for (int i = 0; i < mSubsystems.size(); ++i)
+        {
+           ISubsystem iSubsystem = (ISubsystem) mSubsystems.get(i);
                 iSubsystem.updateLog();
             }
 

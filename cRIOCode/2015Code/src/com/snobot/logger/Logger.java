@@ -1,5 +1,7 @@
 package com.snobot.logger;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import com.snobot.ConfigurationNames;
@@ -13,8 +15,25 @@ import com.snobot.ConfigurationNames;
 
 public class Logger
 {
+    //Current Date and Time
+    private String mLogDate;
+    
+    //File Writer
+    private FileWriter mLogWriter;
+    
+    //A count that increases every teleop cycle
+    private int mCurrentLogCount;
+    
+    //A count that is used to indicate when to log (set by preferences)
+    private int mConfigLogCount;
+    
+    //File Path set by preferences
+    private String mLogFilePath;
+
     public Logger(String aLogDate)
     {
+        mLogDate = aLogDate;
+
     }
 
     /**
@@ -24,6 +43,27 @@ public class Logger
      */
     public void init()
     {
+
+        mConfigLogCount = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLOG_COUNT, 25);
+        mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "logs/");
+        mCurrentLogCount = 0;
+
+        try
+        {
+            File dir = new File(mLogFilePath);
+            if(!dir.exists())
+            {
+                dir.mkdirs();
+            }
+            mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
+
+            mLogWriter.write("Date and Time,Voltage,TotalCurrent");
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -35,6 +75,41 @@ public class Logger
     public void addHeader(String aHeader)
     {
 
+        try
+        {
+            if (mLogWriter != null)
+            {
+                mLogWriter.write("," + aHeader);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
+        }
+    }
+
+    /**
+     * Stops accepting new headers
+     */
+    public void endHeader()
+    {
+        try
+        {
+            if (mLogWriter != null)
+            {
+                mLogWriter.write("\n");
+                mLogWriter.flush();
+            }
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
+        }
     }
 
     /**
@@ -42,6 +117,20 @@ public class Logger
      */
     public void startLogEntry(String mLogDate)
     {
+
+        try
+        {
+            if (mLogWriter != null)
+            {
+                mLogWriter.write(mLogDate);
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
+        }
 
     }
 
@@ -52,7 +141,20 @@ public class Logger
      */
     public void updateLogger(String aEntry)
     {
-       
+        try
+        {
+            if (mLogWriter != null)
+            {
+                mLogWriter.write("," + aEntry);
+            }
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
+        }
     }
 
     /**
@@ -92,7 +194,21 @@ public class Logger
      */
     public void endLogger()
     {
-        
+        try
+        {
+            if (mLogWriter != null)
+            {
+                mLogWriter.write("\n");
+                mLogWriter.flush();
+            }
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
+        }
     }
 
     /**
@@ -100,7 +216,19 @@ public class Logger
      */
     public void stop()
     {
-        
+        try
+        {
+            if (mLogWriter != null)
+            {
+                mLogWriter.close();
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            this.stop();
+            mLogWriter = null;
+        }
     }
 
     /**
@@ -108,10 +236,15 @@ public class Logger
      */
     public boolean logNow()
     {
-        return false;
+        if (mCurrentLogCount < mConfigLogCount)
+        {
+            mCurrentLogCount++;
+            return false;
+        }
+        else
+        {
+            mCurrentLogCount = 0;
+            return true;
+        }
     }
-
-   public void endHeader()
-   {
-   }
 }

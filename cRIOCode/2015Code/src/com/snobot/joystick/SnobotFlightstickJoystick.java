@@ -15,6 +15,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
 
     private Joystick mLeftFlightStick;
     private Joystick mRightFlightStick;
+    private DriveMode mDriveMode;
     private Logger mLogger;
     
     private double mTankLeftYAxis;
@@ -44,11 +45,21 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         mLogger.addHeader("Tank Mode: Right Y Axis");
         mLogger.addHeader("Arcade Mode: Speed (1 to -1)");
         mLogger.addHeader("Arcade Mode: Right X Axis");
+        mDriveMode = DriveMode.Tank;
     }
 
     
     public void update()
-    {        
+    {
+        if (mRightFlightStick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Button_Switch_To_Tank, 4)))
+        {
+            mDriveMode = DriveMode.Tank;
+        }
+        else if (mRightFlightStick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Button_Switch_To_Arcade, 5)))
+        {
+            mDriveMode = DriveMode.Arcade;
+        }
+        
         mTankLeftYAxis = mLeftFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Y_Axis, 1));
         mTankRightYAxis = mRightFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Y_Axis, 1));
         mArcadeLeftSpeed = mLeftFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFlightsticks_Y_Axis, 1));
@@ -122,6 +133,12 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     public double getRotate()
     {
         return mArcadeRightRotation;
+    }
+
+    
+    public DriveMode getDriveMode()
+    {
+        return mDriveMode;
     }
 
 }

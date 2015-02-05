@@ -21,7 +21,14 @@ public interface IDriveTrain extends ISubsystem
      */
     public void setMotorSpeed(double aLeft, double aRight);
 
+    public void setDefaultMeasure(UnitOfMeasure aMeasure);
+
     public double calculateDistanceRight();
 
     public double calculateDistanceLeft();
+
+    public class UnitOfMeasure
+    {
+      static UnitOfMeasure Feet = new UnitOfMeasure();
+    }
 }

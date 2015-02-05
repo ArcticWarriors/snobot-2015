@@ -4,8 +4,8 @@ import com.snobot.ConfigurationNames;
 import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
-import edu.wpi.first.wpilibj.AnalogInput;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,6 +21,7 @@ public class SnobotClaw implements IClaw
     private IOperatorJoystick mOperatorJoystick;
     private double mRobotAirPressure;
     private Logger mLogger;
+    private AnalogInput mTransducer;
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
     
@@ -40,6 +41,7 @@ public class SnobotClaw implements IClaw
     {
         mOperatorJoystick = aJoystick;
         mLogger = alogger;
+        mTransducer = aTransducer;
         mClawHandSolenoid = aClawHandSolenoid;
         mClawArmSolenoid = aClawArmSolenoid;
 

@@ -10,7 +10,7 @@
 //  Copyright 2013, SRC Inc.
 //  as an unpublished work. All rights reserved.
 //
-//  NAME: File.java
+//  NAME: FileReader.java
 //
 //  PURPOSE: //TODO purpose
 //
@@ -22,19 +22,10 @@
 
 package java.io;
 
-public class File 
+public class FileReader 
 {
 
-   public File(String mLogFilePath)
-   {
-   }
-
-   public boolean exists()
-   {
-      return true;
-   }
-
-   public void mkdirs()
+   public FileReader(String aFilePath)
    {
    }
 

@@ -10,7 +10,7 @@
 //  Copyright 2013, SRC Inc.
 //  as an unpublished work. All rights reserved.
 //
-//  NAME: File.java
+//  NAME: FileWriter.java
 //
 //  PURPOSE: //TODO purpose
 //
@@ -22,19 +22,22 @@
 
 package java.io;
 
-public class File 
+public class FileWriter 
 {
 
-   public File(String mLogFilePath)
+   public FileWriter(String string)
    {
    }
 
-   public boolean exists()
+   public void write(String date_and_TimeVoltageTotalCurrent) throws IOException
    {
-      return true;
    }
 
-   public void mkdirs()
+   public void flush()
+   {
+   }
+
+   public void close() throws IOException
    {
    }
 
