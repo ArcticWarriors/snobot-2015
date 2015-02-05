@@ -4,10 +4,12 @@ import com.snobot.ConfigurationNames;
 import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
+import edu.wpi.first.wpilibj.AnalogChannel;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -29,7 +31,7 @@ public class SnobotStacker implements IStacker
     private Logger mLogger;
     DigitalInput mUpperLimitSwitch;
     DigitalInput mLowerLimitSwitch;
-    Encoder mStackerEncoder;
+    AnalogChannel mStackerEncoder;
 
     /**
      * Constructs a SnobotStacker object
@@ -38,7 +40,7 @@ public class SnobotStacker implements IStacker
      *            Argument of operator joy stick
      */
     public SnobotStacker(IOperatorJoystick aOperatorJoystick, SpeedController aStackerMotor, DigitalInput aUpperLimitSwitch,
-            DigitalInput aLowerLimitSwitch, Logger aLogger, Encoder aStackerEncoder)
+            DigitalInput aLowerLimitSwitch, Logger aLogger, AnalogChannel aStackerEncoder)
     {
         mOperatorJoystick = aOperatorJoystick;
         mStackerMotor = aStackerMotor;
@@ -49,7 +51,7 @@ public class SnobotStacker implements IStacker
         mStackerEncoder = aStackerEncoder;
 
         // TODO - PJ make configurable
-        mStackerEncoder.setDistancePerPulse(.4);
+//        mStackerEncoder.setDistancePerPulse(.4);
     }
 
     
@@ -102,7 +104,7 @@ public class SnobotStacker implements IStacker
     {
         mUpperLimitSwitchState = mUpperLimitSwitch.get();
         mLowerLimitSwitchState = mLowerLimitSwitch.get();
-        mStackerEncoderDistance = mStackerEncoder.getDistance();
+        mStackerEncoderDistance = mStackerEncoder.getValue();
         mStackerMotorValue = mStackerMotor.get();
 
     }

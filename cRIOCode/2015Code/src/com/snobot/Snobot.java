@@ -17,6 +17,7 @@ import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
 import com.snobot.SmartDashboardNames;
+import edu.wpi.first.wpilibj.AnalogChannel;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -82,7 +83,7 @@ public class Snobot extends IterativeRobot
     private AnalogInput mTransducer;
     private Encoder mEncoderLeft;
     private Encoder mEncoderRight;
-    private Encoder mStackerEncoder;
+    private AnalogChannel mStackerEncoder;
 
     private SimpleDateFormat sdf;
     private Command mAutonCommand;
@@ -138,8 +139,7 @@ public class Snobot extends IterativeRobot
         mEncoderRight = new Encoder(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_A, 5),
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6));
 
-        mStackerEncoder = new Encoder(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_A, 0),
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_B, 8));
+        mStackerEncoder = new AnalogChannel(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_A, 0));
 
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerEncoder);
 
