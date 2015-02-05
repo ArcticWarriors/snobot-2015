@@ -10,11 +10,11 @@ public class DriveRotate extends Command
     /**
      * Auton command for rotate/turn; Turns to a specified degree and speed
      */
-    double mDegree;
-    double mSpeed;
-    boolean mFinished;
-    SnobotDriveTrain mDriveTrain;
-    SnobotPosition mPosition;
+    private final double mDegree;
+    private final double mSpeed;
+    private boolean mFinished;
+    private final SnobotDriveTrain mDriveTrain;
+    private final SnobotPosition mPosition;
 
     /**
      * Creates DriveRotate command object

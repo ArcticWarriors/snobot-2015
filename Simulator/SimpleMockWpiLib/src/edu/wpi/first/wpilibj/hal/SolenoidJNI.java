@@ -1,8 +1,11 @@
 package edu.wpi.first.wpilibj.hal;
 import java.nio.IntBuffer;
 import java.nio.ByteBuffer;
+
 import com.snobot.simulator.SensorActuatorRegistry;
 import com.snobot.simulator.SolenoidWrapper;
+
+import edu.wpi.first.wpilibj.SensorBase;
 
 public class SolenoidJNI extends JNIWrapper {
 
@@ -12,6 +15,8 @@ public class SolenoidJNI extends JNIWrapper {
 		
 		SolenoidWrapper wrapper = new SolenoidWrapper();
 		SensorActuatorRegistry.get().register(wrapper, pin);
+		
+		CompressorJNI.initializeCompressor((byte) SensorBase.getDefaultSolenoidModule());
 		
 		return portPointer;
     }

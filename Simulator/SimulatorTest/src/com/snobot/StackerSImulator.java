@@ -34,7 +34,9 @@ public class StackerSImulator extends LinearEncoderCalculator {
 	{
 		super.update();
 		
-		if (mEncoder.getDistance() <= 0) 
+		double distance = mEncoder.getDecodedDistance();
+		
+		if (distance <= 0) 
 		{
 			mLowerStackerLimit.set(true);
 		}
@@ -43,7 +45,7 @@ public class StackerSImulator extends LinearEncoderCalculator {
 			mLowerStackerLimit.set(false);
 		}
 		
-		if (mEncoder.getDistance() >= 20) 
+		if (distance >= 20) 
 		{	
 			mUpperStackerLimit.set(true);
 		}
@@ -51,6 +53,8 @@ public class StackerSImulator extends LinearEncoderCalculator {
 		{
 			mUpperStackerLimit.set(false);
 		}
+		
+		System.out.println("Encoder Dist: " + distance);
 	}
 
 }

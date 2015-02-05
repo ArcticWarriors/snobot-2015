@@ -1,6 +1,7 @@
 package com.snobot.stacker;
 
 import com.snobot.ConfigurationNames;
+import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 
@@ -23,6 +24,8 @@ public class SnobotStacker implements IStacker
     private double mStackerDefaultSpeed;
     private boolean mUpperLimitSwitchState;
     private boolean mLowerLimitSwitchState;
+    private double mStackerEncoderDistance;
+    private double mStackerMotorValue;
     private Logger mLogger;
     DigitalInput mUpperLimitSwitch;
     DigitalInput mLowerLimitSwitch;
@@ -90,6 +93,8 @@ public class SnobotStacker implements IStacker
         stop();
         mLogger.addHeader("UpperLimitSwitchState");
         mLogger.addHeader("LowerLimitSwitchState");
+        mLogger.addHeader("StackerEncoderDistance");
+        mLogger.addHeader("StackerMotorValue");
     }
 
     @Override
@@ -97,6 +102,8 @@ public class SnobotStacker implements IStacker
     {
         mUpperLimitSwitchState = mUpperLimitSwitch.get();
         mLowerLimitSwitchState = mLowerLimitSwitch.get();
+        mStackerEncoderDistance = mStackerEncoder.getDistance();
+        mStackerMotorValue = mStackerMotor.get();
 
     }
 
@@ -128,10 +135,10 @@ public class SnobotStacker implements IStacker
     @Override
     public void updateSmartDashboard()
     {
-        SmartDashboard.putBoolean("Upper Limit Switch State", mUpperLimitSwitch.get());
-        SmartDashboard.putBoolean("Lower Limit Switch State", mLowerLimitSwitch.get());
-        SmartDashboard.putNumber("Encoder Height", mStackerEncoder.getDistance());
-        SmartDashboard.putNumber("Stacker Motor", mStackerMotor.get());
+        SmartDashboard.putBoolean(SmartDashboardNames.sUPPER_LIMIT_SWITCH_STATE, mUpperLimitSwitchState);
+        SmartDashboard.putBoolean(SmartDashboardNames.sLOWER_LIMIT_SWITCH_STATE, mLowerLimitSwitchState);
+        SmartDashboard.putNumber(SmartDashboardNames.sENCODER_HEIGHT, mStackerEncoderDistance);
+        SmartDashboard.putNumber(SmartDashboardNames.sSTACKER_MOTOR_VALUE, mStackerMotorValue);
     }
 
     @Override
@@ -140,6 +147,8 @@ public class SnobotStacker implements IStacker
 
         mLogger.updateLogger(mUpperLimitSwitchState);
         mLogger.updateLogger(mLowerLimitSwitchState);
+        mLogger.updateLogger(mStackerEncoderDistance);
+        mLogger.updateLogger(mStackerMotorValue);
 
     }
 

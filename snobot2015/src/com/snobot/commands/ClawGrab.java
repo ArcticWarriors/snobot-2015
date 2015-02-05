@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ClawGrab extends Command
 {
-    boolean mOpen;
-    SnobotClaw mClaw;
+    private final boolean mOpen;
+    private final SnobotClaw mClaw;
     
     public ClawGrab(boolean aOpen, SnobotClaw aClaw)
     {
@@ -32,7 +32,7 @@ public class ClawGrab extends Command
         {
         mClaw.openClaw();
         }
-        else if(!mOpen)
+        else
         {
             mClaw.closeClaw();
         }
