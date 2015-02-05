@@ -16,17 +16,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CommandParser
 {
     private static final String sDELIMITER = " ";
-    private ArrayList<String> mLines;
-
     private Snobot mSnobot;
     
-    //TODO this is for testing only...
-    private static final String AUTO_MODE = 
-            "DriveRotate 180 .01 \n";
     public CommandParser(Snobot aSnobot)
     {
         mSnobot = aSnobot;
-        mLines = new ArrayList<String>();
     }
 
     /**
@@ -145,6 +139,19 @@ public class CommandParser
         catch(Exception e)
         {
             e.printStackTrace();
+        }
+        
+        return output;
+    }
+
+    public CommandGroup parseAutonString(String aAutonString)
+    {
+    	CommandGroup output = new CommandGroup("From String...");
+        StringTokenizer tokenizer = new StringTokenizer(aAutonString, "\n");
+
+        while (tokenizer.hasMoreElements())
+        {
+            this.commandParser(output, tokenizer.nextToken());
         }
         
         return output;
