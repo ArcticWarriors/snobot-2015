@@ -48,8 +48,7 @@ public class RawStack extends Command
     @Override
     protected void initialize()
     {
-        // TODO Auto-generated method stub
-
+    	mTimer.start();
     }
 
     @Override

@@ -16,14 +16,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CommandParser
 {
     private static final String sDELIMITER = " ";
-
     private Snobot mSnobot;
-    private CommandGroup mCommands;
     
     public CommandParser(Snobot aSnobot)
     {
         mSnobot = aSnobot;
-        mCommands = new CommandGroup("Autonomous Group");
     }
 
     /**
@@ -32,8 +29,14 @@ public class CommandParser
      * @param aLine
      *            Line of text
      */
-    private void commandParser(String aLine)
+    private void commandParser(CommandGroup aGroup, String aLine)
     {
+    	aLine = aLine.trim();
+    	if(aLine.isEmpty() || aLine.startsWith("#"))
+    	{
+    		return;
+    	}
+    	
         StringTokenizer tokenizer = new StringTokenizer(aLine, sDELIMITER);
 
         List<String> args = new ArrayList<>();
@@ -109,42 +112,26 @@ public class CommandParser
         
         else if (isParallel)
         {
-            mCommands.addParallel(newCommand);
+        	aGroup.addParallel(newCommand);
         }
         else
         {
-            mCommands.addSequential(newCommand);
-        }
-    }
-
-
-    public CommandGroup getCommands()
-    {
-        return this.mCommands;
-    }
-    
-    public void parseAutonString(String aAutonString)
-    {
-        StringTokenizer tokenizer = new StringTokenizer(aAutonString, "\n");
-
-        while (tokenizer.hasMoreElements())
-        {
-            this.commandParser(tokenizer.nextToken());
+        	aGroup.addSequential(newCommand);
         }
     }
     
-    public void readFile(String aFilePath)
+    public CommandGroup readFile(String aFilePath)
     {
-        File autonFile = new File(aFilePath);
-        
+    	System.out.println("Reading auton file : " + aFilePath);
+    	CommandGroup output = new CommandGroup(aFilePath);
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader(autonFile));
+            BufferedReader br = new BufferedReader(new FileReader(aFilePath));
             
             String line;
             while((line = br.readLine()) != null)
             {
-                this.commandParser(line);
+                this.commandParser(output, line);
             }
             
             br.close();
@@ -152,7 +139,21 @@ public class CommandParser
         catch(Exception e)
         {
             e.printStackTrace();
-            System.err.println(autonFile.getAbsolutePath());
         }
+        
+        return output;
+    }
+
+    public CommandGroup parseAutonString(String aAutonString)
+    {
+    	CommandGroup output = new CommandGroup("From String...");
+        StringTokenizer tokenizer = new StringTokenizer(aAutonString, "\n");
+
+        while (tokenizer.hasMoreElements())
+        {
+            this.commandParser(output, tokenizer.nextToken());
+        }
+        
+        return output;
     }
 }

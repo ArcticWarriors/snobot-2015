@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -83,7 +84,8 @@ public class Snobot extends IterativeRobot
     private Encoder mEncoderRight;
     private Encoder mStackerEncoder;
 
-    SimpleDateFormat sdf;
+    private SimpleDateFormat sdf;
+    private Command mAutonCommand;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -168,8 +170,8 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
-        mParser.readFile(mAutonFilePath);
-        mParser.getCommands().start();
+    	mAutonCommand = mParser.readFile(mAutonFilePath);
+        mAutonCommand.start();
     }
 
     /**

@@ -48,14 +48,19 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
         
         DigitalSourceWrapper upperStackerLimit = SensorActuatorRegistry.get().getDigitalSources().get(
         		ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH_PORT_1, 2));
-	    
+	   
 
         mRightDriveEnc = new LinearEncoderCalculator(rightDriveMotor, rightEncoder);
         mLeftDriveEnc = new LinearEncoderCalculator(leftDriveMotor, leftEncoder);
         mStackerSimulator = new StackerSImulator (stackerMotor, stackerEncoder,
         		upperStackerLimit, lowerStackerLimit);
+
         
-//        mStackerSimulator.setSimulatorParams(.04);
+        stackerEncoder.setDistancePerTick(.04);
+        
+        mLeftDriveEnc.setSimulatorParams(.01);
+        mRightDriveEnc.setSimulatorParams(-.01);        
+        mStackerSimulator.setSimulatorParams(1);
         
         
         mGyroSim = new TankDriveGyroSimulator(leftEncoder, rightEncoder, gyroChannel);

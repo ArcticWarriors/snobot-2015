@@ -140,19 +140,19 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void setMotorSpeed(double aLeft, double aRight)
     {
-        mRobotDrive.setLeftRightMotorOutputs(aLeft, -aRight);
+        mRobotDrive.setLeftRightMotorOutputs(aLeft, aRight);
     }
 
     @Override
     public double calculateDistanceRight()
     {
-        return -mEncoderRight.getDistance();
+        return mDistanceRightTrack;
     }
 
     @Override
     public double calculateDistanceLeft()
     {
-        return mEncoderLeft.getDistance();
+        return mDistanceLeftTrack;
     }
 
     @Override
