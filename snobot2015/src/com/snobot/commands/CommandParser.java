@@ -123,7 +123,16 @@ public class CommandParser
     public CommandGroup readFile(String aFilePath)
     {
     	System.out.println("Reading auton file : " + aFilePath);
-    	CommandGroup output = new CommandGroup(aFilePath);
+    	CommandGroup output = new CommandGroup(aFilePath)
+    	{
+    	    @Override
+    	    protected void end()
+    	    {
+    	        System.out.println("Command group finished!");
+    	    }
+    	};
+    	
+    	
         try
         {
             BufferedReader br = new BufferedReader(new FileReader(aFilePath));
