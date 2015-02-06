@@ -26,7 +26,7 @@ public class Gyro extends SensorBase implements PIDSource, ISensor, LiveWindowSe
     static final int kOversampleBits = 10;
     static final int kAverageBits = 0;
     static final double kSamplesPerSecond = 50.0;
-    static final double kCalibrationSampleTime = 5.0;
+    static final double kCalibrationSampleTime = .01;
     static final double kDefaultVoltsPerDegreePerSecond = 0.007;
     AnalogChannel m_analog;
     double m_voltsPerDegreePerSecond;
@@ -55,7 +55,7 @@ public class Gyro extends SensorBase implements PIDSource, ISensor, LiveWindowSe
         double sampleRate = kSamplesPerSecond * (1 << (kAverageBits + kOversampleBits));
         m_analog.getModule().setSampleRate(sampleRate);
 
-        Timer.delay(1.0);
+        Timer.delay(.01);
         m_analog.initAccumulator();
 
         Timer.delay(kCalibrationSampleTime);
