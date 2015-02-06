@@ -5,12 +5,12 @@ import javax.swing.JTextArea;
 
 import com.snobot.sd.config.WidgetConfiguration;
 
-public class TextArea {
+public class SDTextArea {
 
     private JTextArea mTextArea;
     private JScrollPane mScrollPane;
     
-    public TextArea()
+    public SDTextArea()
     {
         mTextArea=new JTextArea(WidgetConfiguration.TEXT_AREA_ROWS, WidgetConfiguration.TEXT_AREA_COLUMNS);
         mScrollPane=new JScrollPane(mTextArea);

@@ -1,4 +1,4 @@
-package com.snobot.sd.text_area;
+package com.snobot.sd.button;
 
 import java.awt.Dimension;
 
@@ -6,27 +6,24 @@ import com.snobot.sd.config.WidgetConfiguration;
 
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.Property;
-import edu.wpi.first.smartdashboard.robot.Robot;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
 
-public class TextAreaWidget extends StaticWidget{
-    
-    private static final String sAUTON_SD_NAME = "Y-position";
+public class ButtonWidget extends StaticWidget{
     
     /**
      * 
      */
-    private static final long serialVersionUID = 4327540744618999872L;
-    SDTextArea mTextArea;
+    private static final long serialVersionUID = 2204833389346005703L;
+    private SDButton mButton;
     
-    public TextAreaWidget()
+    public ButtonWidget()
     {
-        this.setPreferredSize(new Dimension(WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_X, 
-                WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_Y));
+        this.setPreferredSize(new Dimension(WidgetConfiguration.BUTTON_SIZE_X, 
+                WidgetConfiguration.BUTTON_SIZE_Y+20));
         
-        mTextArea = new SDTextArea();
-        super.add(mTextArea.getScrollPane());
+        mButton = new SDButton();
+        super.add(mButton.getButtonPanel());
         
         ITableListener listener = new ITableListener() {
             
@@ -35,8 +32,6 @@ public class TextAreaWidget extends StaticWidget{
                 System.out.println("Value changed... " + arg1 + ", " + arg2 + ", "  + arg3);
             }
         };
-        
-        Robot.getTable().addTableListener(sAUTON_SD_NAME, listener, true);
     }
 
     @Override
@@ -47,7 +42,9 @@ public class TextAreaWidget extends StaticWidget{
 
     @Override
     public void init() {
-        mTextArea.getScrollPane().setVisible(true);
+        // TODO Auto-generated method stub
+        
     }
 
+    
 }
