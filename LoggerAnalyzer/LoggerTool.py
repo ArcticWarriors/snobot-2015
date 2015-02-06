@@ -8,6 +8,7 @@ import csv
 import matplotlib.pyplot as plt
 import numpy
 import time
+import os
 
 
 def parse_datetime(time_string):
@@ -108,17 +109,21 @@ def main():
     file_name = "test_log.csv"
     converted_dict = load_csv_file(file_name)
 
+    image_dir = "images/"
+    if not os.path.exists(image_dir):
+        os.mkdir(image_dir)
+
     plt.figure(1)
     plot_driver_joysticks(converted_dict)
-    plt.savefig("DriverSticks.png")
+    plt.savefig(image_dir + "DriverSticks.png")
 
     plt.figure(2)
     plot_stacker(converted_dict)
-    plt.savefig("Stacker.png")
+    plt.savefig(image_dir + "Stacker.png")
 
     plt.figure(3)
     plot_dt(converted_dict)
-    plt.savefig("LoopLatency.png")
+    plt.savefig(image_dir + "LoopLatency.png")
 
     plt.show()
 
