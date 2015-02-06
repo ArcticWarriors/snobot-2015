@@ -10,11 +10,16 @@ import edu.wpi.first.wpilibj.communication.UsageReporting;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Hashtable;
 import java.util.Vector;
+
+import javax.microedition.io.Connector;
+
+import com.sun.squawk.microedition.io.FileConnection;
 
 /**
  * The preferences class provides a relatively simple way to save important
@@ -48,7 +53,7 @@ public class Preferences {
     /**
      * The file to save to
      */
-    private static final String FILE_NAME = "file:///wpilib-preferences.ini";
+    private static String FILE_NAME = "file:///wpilib-preferences.ini";
     /**
      * The characters to put between a field and value
      */
@@ -487,45 +492,45 @@ public class Preferences {
                 fileLock.notifyAll();
             }
 
-//            FileConnection file = null;
-//            try {
-//                file = (FileConnection) Connector.open(FILE_NAME, Connector.WRITE);
-//
-//                file.create();
-//
-//                OutputStream output = file.openOutputStream();
-//
-//                for (int i = 0; i < keys.size(); i++) {
-//                    String key = (String) keys.elementAt(i);
-//                    String value = (String) values.get(key);
-//
-//                    if (comments != null) {
-//                        Comment comment = (Comment) comments.get(key);
-//                        if (comment != null) {
-//                            comment.write(output);
-//                        }
-//                    }
-//
-//                    output.write(key.getBytes());
-//                    output.write(VALUE_PREFIX);
-//                    output.write(value.getBytes());
-//                    output.write(VALUE_SUFFIX);
-//                }
-//
-//                if (endComment != null) {
-//                    endComment.write(output);
-//                }
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            } finally {
-//                if (file != null) {
-//                    try {
-//                        file.close();
-//                    } catch (IOException ex) {
-//                    }
-//                }
-//                NetworkTable.getTable(TABLE_NAME).putBoolean(SAVE_FIELD, false);
-//            }
+            FileConnection file = null;
+            try {
+                file = (FileConnection) Connector.open(FILE_NAME, Connector.WRITE);
+
+                file.create();
+
+                OutputStream output = file.openOutputStream();
+
+                for (int i = 0; i < keys.size(); i++) {
+                    String key = (String) keys.elementAt(i);
+                    String value = (String) values.get(key);
+
+                    if (comments != null) {
+                        Comment comment = (Comment) comments.get(key);
+                        if (comment != null) {
+                            comment.write(output);
+                        }
+                    }
+
+                    output.write(key.getBytes());
+                    output.write(VALUE_PREFIX);
+                    output.write(value.getBytes());
+                    output.write(VALUE_SUFFIX);
+                }
+
+                if (endComment != null) {
+                    endComment.write(output);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                if (file != null) {
+                    try {
+                        file.close();
+                    } catch (IOException ex) {
+                    }
+                }
+                NetworkTable.getTable(TABLE_NAME).putBoolean(SAVE_FIELD, false);
+            }
         }
     }
 
@@ -576,98 +581,99 @@ public class Preferences {
 
             Comment comment = null;
 
-//            FileConnection file = null;
-//            try {
-//                file = (FileConnection) Connector.open(FILE_NAME, Connector.READ);
-//
-//                if (file.exists()) {
-//                    Reader reader = new Reader(file.openInputStream());
-//
-//                    StringBuffer buffer;
-//
-//                    while (true) {
-//                        char value = reader.readWithoutWhitespace();
-//
-//                        if (value == '\n' || value == ';') {
-//                            if (comment == null) {
-//                                comment = new Comment();
-//                            }
-//
-//                            if (value == '\n') {
-//                                comment.addBytes(NEW_LINE);
-//                            } else {
-//                                buffer = new StringBuffer(30);
-//                                for (; value != '\n'; value = reader.read()) {
-//                                    buffer.append(value);
-//                                }
-//                                buffer.append('\n');
-//                                comment.addBytes(buffer.toString().getBytes());
-//                            }
-//                        } else {
-//                            buffer = new StringBuffer(30);
-//                            for (; value != '='; value = reader.readWithoutWhitespace()) {
-//                                buffer.append(value);
-//                            }
-//                            String name = buffer.toString();
-//                            buffer = new StringBuffer(30);
-//
-//                            boolean shouldBreak = false;
-//
-//                            value = reader.readWithoutWhitespace();
-//                            if (value == '"') {
-//                                for (value = reader.read(); value != '"'; value = reader.read()) {
-//                                    buffer.append(value);
-//                                }
-//                                // Clear the line
-//                                while (reader.read() != '\n');
-//                            } else {
-//                                try {
-//                                    for (; value != '\n'; value = reader.readWithoutWhitespace()) {
-//                                        buffer.append(value);
-//                                    }
-//                                } catch (EndOfStreamException e) {
-//                                    shouldBreak = true;
-//                                }
-//                            }
-//
-//                            String result = buffer.toString();
-//
-//                            keys.addElement(name);
-//                            values.put(name, result);
-//                            NetworkTable.getTable(TABLE_NAME).putString(name, result);
-//
-//                            if (comment != null) {
-//                                if (comments == null) {
-//                                    comments = new Hashtable();
-//                                }
-//                                comments.put(name, comment);
-//                                comment = null;
-//                            }
-//
-//                            System.out.println(name + "=" + values.get(name));
-//
-//                            if (shouldBreak) {
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//            } catch (IOException ex) {
-//                ex.printStackTrace();
-//            } catch (EndOfStreamException ex) {
-//                System.out.println("Done Reading");
-//            }
-//
-//            if (file != null) {
-//                try {
-//                    file.close();
-//                } catch (IOException ex) {
-//                }
-//            }
-//
-//            if (comment != null) {
-//                endComment = comment;
-//            }
+            FileConnection file = null;
+            try {
+                file = (FileConnection) Connector.open(FILE_NAME, Connector.READ);
+
+                if (file.exists()) {
+                    Reader reader = new Reader(file.openInputStream());
+
+                    StringBuffer buffer;
+
+                    while (true) {
+                        char value = reader.readWithoutWhitespace();
+
+                        if (value == '\n' || value == ';') {
+                            if (comment == null) {
+                                comment = new Comment();
+                            }
+
+                            if (value == '\n') {
+                                comment.addBytes(NEW_LINE);
+                            } else {
+                                buffer = new StringBuffer(30);
+                                for (; value != '\n'; value = reader.read()) {
+                                    buffer.append(value);
+                                }
+                                buffer.append('\n');
+                                comment.addBytes(buffer.toString().getBytes());
+                            }
+                        } else {
+                            buffer = new StringBuffer(30);
+                            for (; value != '='; value = reader.readWithoutWhitespace()) {
+                                buffer.append(value);
+                            }
+                            String name = buffer.toString();
+                            buffer = new StringBuffer(30);
+
+                            boolean shouldBreak = false;
+
+                            value = reader.readWithoutWhitespace();
+                            if (value == '"') {
+                                for (value = reader.read(); value != '"'; value = reader.read()) {
+                                    buffer.append(value);
+                                }
+                                // Clear the line
+                                while (reader.read() != '\n');
+                            } else {
+                                try {
+                                    for (; value != '\n'; value = reader.readWithoutWhitespace()) {
+                                        buffer.append(value);
+                                    }
+                                } catch (EndOfStreamException e) {
+                                    shouldBreak = true;
+                                }
+                            }
+
+                            String result = buffer.toString();
+
+//                            System.out.println("ADDING KV PAIR!!!!!!!!!!!!!!!11: " + name + ", " + result);
+                            keys.addElement(name);
+                            values.put(name, result);
+                            NetworkTable.getTable(TABLE_NAME).putString(name, result);
+
+                            if (comment != null) {
+                                if (comments == null) {
+                                    comments = new Hashtable();
+                                }
+                                comments.put(name, comment);
+                                comment = null;
+                            }
+
+                            System.out.println("....." + name + "=" + values.get(name));
+
+                            if (shouldBreak) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (EndOfStreamException ex) {
+                System.out.println("Done Reading");
+            }
+
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (IOException ex) {
+                }
+            }
+
+            if (comment != null) {
+                endComment = comment;
+            }
         }
 
         NetworkTable.getTable(TABLE_NAME).putBoolean(SAVE_FIELD, false);
@@ -811,5 +817,10 @@ public class Preferences {
             }
             return true;
         }
+    }
+
+    public static void __SetFileName(String string) {
+        FILE_NAME = string;
+        
     }
 }
