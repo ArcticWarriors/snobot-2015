@@ -10,7 +10,7 @@ public class StandaloneMain
     static double height = 0;
     public static void main(String[] args)
     {
-        final RobotDrawer mDrawerPanel = new RobotDrawer();
+        final RobotDrawer2015 mDrawerPanel = new RobotDrawer2015();
         
         JFrame frame = new JFrame();
         
@@ -44,9 +44,14 @@ public class StandaloneMain
                 {
                     mDrawerPanel.setLowerLimitSwitch(!mDrawerPanel.isLowerLimitSwitch());
                 }
-                else if (arg0.getKeyChar() == 'q')
+                else if (arg0.getKeyChar() == 't')
                 {
                     height += 0.05;
+                    mDrawerPanel.setStackerHeight(height);
+                }
+                else if (arg0.getKeyChar() == 'g')
+                {
+                    height -= 0.05;
                     mDrawerPanel.setStackerHeight(height);
                 }
                 
@@ -54,7 +59,7 @@ public class StandaloneMain
                 System.out.println("State: " + 
                         "Claw Open: " + mDrawerPanel.isClawOpen() + ", " + 
                         "Claw up: " + mDrawerPanel.isClawUp() + ", " + 
-                        "Stacker Hiehgt: " + mDrawerPanel.getStackerHeight() + ", " + 
+                        "Stacker Height: " + mDrawerPanel.getStackerHeight() + ", " + 
                         "Upper LS: " + mDrawerPanel.isUpperLimitSwitch() + ", " + 
                         "Lower LS: " + mDrawerPanel.isLowerLimitSwitch());
                 
