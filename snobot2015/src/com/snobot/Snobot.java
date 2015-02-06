@@ -171,7 +171,11 @@ public class Snobot extends IterativeRobot
     public void autonomousInit()
     {
     	mAutonCommand = mParser.readFile(mAutonFilePath);
-        mAutonCommand.start();
+    	
+    	if(mAutonCommand != null)
+    	{
+    	    mAutonCommand.start();
+    	}
     }
 
     /**
@@ -257,7 +261,10 @@ public class Snobot extends IterativeRobot
     @Override
     public void teleopInit()
     {
-
+        if(mAutonCommand != null)
+        {
+            mAutonCommand.cancel();
+        }
     }
 
     public SnobotDriveTrain getDriveTrain()
