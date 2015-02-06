@@ -89,7 +89,29 @@ public class Snobot extends IterativeRobot
     private Command mAutonCommand;
     
     private SendableChooser mAutonChooser;
+    private String mAutonDirectory; 
 
+    private void ReadAutoFiles()
+    {
+           File AutonDr = new File(mAutonDirectory);
+          
+           if (AutonDr.isDirectory())
+           {
+               File[] autonFiles = AutonDr.listFiles();
+               
+               for(int i = 0; i < autonFiles.length;i ++)
+               {
+                   
+                   if (autonFiles[i].isFile())
+                   {
+                        mAutonChooser.addObject(autonFiles[i].getName(), autonFiles[i].getAbsolutePath());
+                   }
+                  
+               }
+           }
+        
+    }
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -100,14 +122,10 @@ public class Snobot extends IterativeRobot
         mPowerDistributionPanel = new PowerDistributionPanel();
         mParser = new CommandParser(this);
         
+        mAutonDirectory = "../../snobot2015/resources/autonoumous/";
+        
         mAutonChooser = new SendableChooser();
-        mAutonChooser.addObject("TestAutonCommand.txt", "../../snobot2015/resources/autonoumous/TestAutonCommand.txt");
-        mAutonChooser.addObject("FullTestCommand.txt", "../../snobot2015/resources/autonoumous/FullTestCommand.txt");
-        mAutonChooser.addObject("TestClawGrabCommand.txt", "../../snobot2015/resources/autonoumous/TestClawGrabCommand.txt");
-        mAutonChooser.addObject("TestMoveClawCommand.txt", "../../snobot2015/resources/autonoumous/TestMoveClawCommand.txt");
-        mAutonChooser.addObject("TestRawStackCommand.txt", "../../snobot2015/resources/autonoumous/TestRawStackCommand.txt");
-        mAutonChooser.addObject("TestDriveForwardCommand.txt", "../../snobot2015/resources/autonoumous/TestDriveForwardCommand.txt");
-        mAutonChooser.addObject("TestDriveRotateCommand.txt", "../../snobot2015/resources/autonoumous/TestDriveRotateCommand.txt");
+        ReadAutoFiles();
         SmartDashboard.putData("mAutonChooser", mAutonChooser );
         
         mAutonChooser.getTable().addTableListener(new ITableListener() {
