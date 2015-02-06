@@ -53,8 +53,6 @@ public class StackerSImulator extends LinearEncoderCalculator {
 		{
 			mUpperStackerLimit.set(false);
 		}
-		
-		System.out.println("Encoder Dist: " + distance);
 	}
 
 }
