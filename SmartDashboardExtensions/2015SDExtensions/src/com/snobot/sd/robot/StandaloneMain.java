@@ -44,12 +44,12 @@ public class StandaloneMain
                 {
                     mDrawerPanel.setLowerLimitSwitch(!mDrawerPanel.isLowerLimitSwitch());
                 }
-                else if (arg0.getKeyChar() == 't')
+                else if (arg0.getKeyCode() == KeyEvent.VK_UP)
                 {
                     height += 0.05;
                     mDrawerPanel.setStackerHeight(height);
                 }
-                else if (arg0.getKeyChar() == 'g')
+                else if (arg0.getKeyCode() == KeyEvent.VK_DOWN)
                 {
                     height -= 0.05;
                     mDrawerPanel.setStackerHeight(height);
