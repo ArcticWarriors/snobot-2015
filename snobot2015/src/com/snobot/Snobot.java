@@ -32,6 +32,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
+import edu.wpi.first.wpilibj.tables.ITableListener;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -63,7 +65,6 @@ public class Snobot extends IterativeRobot
     private SnobotDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
-    private String mAutonFilePath;
 
     private CommandParser mParser;
 
@@ -86,6 +87,8 @@ public class Snobot extends IterativeRobot
 
     private SimpleDateFormat sdf;
     private Command mAutonCommand;
+    
+    private SendableChooser mAutonChooser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -96,9 +99,28 @@ public class Snobot extends IterativeRobot
     {
         mPowerDistributionPanel = new PowerDistributionPanel();
         mParser = new CommandParser(this);
-        //TODO testing purposes only
-        mAutonFilePath = new String("../../snobot2015/resources/autonoumous/TestAutonCommand.txt");
-
+        
+        mAutonChooser = new SendableChooser();
+        mAutonChooser.addObject("TestAutonCommand.txt", "../../snobot2015/resources/autonoumous/TestAutonCommand.txt");
+        mAutonChooser.addObject("FullTestCommand.txt", "../../snobot2015/resources/autonoumous/FullTestCommand.txt");
+        mAutonChooser.addObject("TestClawGrabCommand.txt", "../../snobot2015/resources/autonoumous/TestClawGrabCommand.txt");
+        mAutonChooser.addObject("TestMoveClawCommand.txt", "../../snobot2015/resources/autonoumous/TestMoveClawCommand.txt");
+        mAutonChooser.addObject("TestRawStackCommand.txt", "../../snobot2015/resources/autonoumous/TestRawStackCommand.txt");
+        mAutonChooser.addObject("TestDriveForwardCommand.txt", "../../snobot2015/resources/autonoumous/TestDriveForwardCommand.txt");
+        mAutonChooser.addObject("TestDriveRotateCommand.txt", "../../snobot2015/resources/autonoumous/TestDriveRotateCommand.txt");
+        SmartDashboard.putData("mAutonChooser", mAutonChooser );
+        
+        mAutonChooser.getTable().addTableListener(new ITableListener() {
+            
+            @Override
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
+              
+                mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+                
+            }
+        });
+        
+        
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
         mLogger = new Logger(headerDate);
@@ -170,8 +192,10 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
-    	mAutonCommand = mParser.readFile(mAutonFilePath);
-        mAutonCommand.start();
+    	if(mAutonCommand != null)
+    	{
+    	    mAutonCommand.start();
+    	}
     }
 
     /**
@@ -257,7 +281,10 @@ public class Snobot extends IterativeRobot
     @Override
     public void teleopInit()
     {
-
+        if(mAutonCommand != null)
+        {
+            mAutonCommand.cancel();
+        }
     }
 
     public SnobotDriveTrain getDriveTrain()
