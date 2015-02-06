@@ -1,19 +1,26 @@
 package com.snobot.sd.text_area;
 
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import java.awt.Dimension;
+
+import com.snobot.sd.config.WidgetConfiguration;
 
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.Property;
 
 public class TextAreaWidget extends StaticWidget{
-    JTextArea mTextArea;
-    JPanel mFrame;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4327540744618999872L;
+    TextArea mTextArea;
     
     public TextAreaWidget()
     {
-        mTextArea = new JTextArea(5, 20);
-        mFrame = new JPanel();
+        this.setPreferredSize(new Dimension(WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_X, 
+                WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_Y));
+        
+        mTextArea = new TextArea();
+        super.add(mTextArea.getScrollPane());
     }
 
     @Override
@@ -24,8 +31,7 @@ public class TextAreaWidget extends StaticWidget{
 
     @Override
     public void init() {
-        mFrame.add(this);
-        mFrame.setVisible(true);
+        mTextArea.getScrollPane().setVisible(true);
     }
 
 }

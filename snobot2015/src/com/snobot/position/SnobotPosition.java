@@ -89,10 +89,10 @@ public class SnobotPosition implements ISubsystem
      */
     public void init()
     {
-        this.mLogger.addHeader("Snobot X-position");
-        this.mLogger.addHeader("Snobot's Y-position");
-        this.mLogger.addHeader("Snobot's orientation in degrees");
-        this.mLogger.addHeader("Distance traveled since last update");
+        this.mLogger.addHeader("X-position");
+        this.mLogger.addHeader("Y-position");
+        this.mLogger.addHeader("Heading");
+        this.mLogger.addHeader("Traveled");
 
     }
     
@@ -251,7 +251,7 @@ public class SnobotPosition implements ISubsystem
 
     public void updateSmartDashbaord()
     {
-        SmartDashboard.putNumber("Gyro Angle", getSnobotDegrees());
+        SmartDashboard.putNumber("Heading", getSnobotDegrees());
         SmartDashboard.putNumber("Snobot X", mPositionX);
         SmartDashboard.putNumber("Snobot Y", mPositionY);
     }
