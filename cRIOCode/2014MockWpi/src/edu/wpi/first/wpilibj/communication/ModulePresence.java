@@ -45,6 +45,6 @@ public class ModulePresence {
      * @return Whether the given module is present.
      */
     public static boolean getModulePresence(ModuleType moduleType, int moduleNumber) {
-        return false;
+        return true;
     }
 }

@@ -60,6 +60,10 @@ public class IterativeRobot extends RobotBase {
         m_autonomousInitialized = false;
         m_teleopInitialized = false;
         m_testInitialized = false;
+        
+        UsageReporting.report(UsageReporting.kResourceType_Framework, UsageReporting.kFramework_Iterative);
+        robotInit();
+
     }
 
     /**
@@ -67,10 +71,6 @@ public class IterativeRobot extends RobotBase {
      *
      */
     public void startCompetition() {
-        UsageReporting.report(UsageReporting.kResourceType_Framework, UsageReporting.kFramework_Iterative);
-
-        robotInit();
-
         // tracing support:
         final int TRACE_LOOP_MAX = 100;
         int loopCount = TRACE_LOOP_MAX;

@@ -3,13 +3,31 @@
 
 package edu.wpi.first.wpilibj.fpga;
 
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+
+import com.snobot.simulator.SensorActuatorRegistry;
+import com.snobot.simulator.SolenoidWrapper;
+
+import edu.wpi.first.wpilibj.SensorBase;
+
 public class tSolenoid extends tSystem
 {
+
+    public static void initializeSolenoidPort(int pin)
+    {        
+        SolenoidWrapper wrapper = new SolenoidWrapper();
+        SensorActuatorRegistry.get().register(wrapper, pin);
+    }
 
    public tSolenoid()
    {
       super();
 
+      for(int i = 1; i <= 8; ++i)
+      {
+          initializeSolenoidPort(i);
+      }
    }
 
    protected void finalize()

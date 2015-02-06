@@ -3,6 +3,9 @@
 
 package edu.wpi.first.wpilibj.fpga;
 
+import com.snobot.simulator.DigitalSourceWrapper;
+import com.snobot.simulator.SensorActuatorRegistry;
+
 
 public class tDIO extends tSystem
 {
@@ -519,7 +522,7 @@ public class tDIO extends tSystem
 
    public static int readLoopTiming()
    {
-       return 0;
+       return 1;
    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -604,6 +607,11 @@ public class tDIO extends tSystem
 
    public void writePWMValue(final int reg_index, final int value)
    {
+       if(!SensorActuatorRegistry.get().getDigitalSources().containsKey(reg_index))
+       {
+           System.out.println("SET");
+           SensorActuatorRegistry.get().register(new DigitalSourceWrapper(), reg_index);
+       }
    }
    public short readPWMValue(final int reg_index)
    {
