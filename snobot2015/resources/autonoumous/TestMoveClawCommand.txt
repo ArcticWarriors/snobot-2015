@@ -1,1 +1,1 @@
-MoveClaw true
+MoveClaw true 3
