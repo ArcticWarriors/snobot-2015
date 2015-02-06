@@ -8,13 +8,17 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ClawGrab extends Command
 {
     private final boolean mOpen;
+    private final double mLiftSeconds;
     private final SnobotClaw mClaw;
     private Timer mTimer;
     
-    public ClawGrab(boolean aOpen, SnobotClaw aClaw)
+    
+    public ClawGrab(boolean aOpen, double aLiftSeconds, SnobotClaw aClaw)
     {
         mOpen = aOpen;
         mClaw = aClaw;
+        mLiftSeconds = aLiftSeconds;
+        mTimer = new Timer();
     }
     
     @Override
@@ -30,14 +34,14 @@ public class ClawGrab extends Command
         //Actuates claw open/closed
         if(mOpen)
         {
-            if(mTimer.get() < 2)
+            if(mTimer.get() < mLiftSeconds)
             {
                 mClaw.openClaw();
             }
         }
         else
         {
-            if(mTimer.get() < 2)
+            if(mTimer.get() < mLiftSeconds)
             {
                 mClaw.closeClaw();
             }
@@ -64,7 +68,7 @@ public class ClawGrab extends Command
     protected boolean isFinished()
     {
         // TODO Auto-generated method stub
-        return false;
+        return(mTimer.get() > mLiftSeconds);
     }
 
 }

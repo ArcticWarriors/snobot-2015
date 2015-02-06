@@ -88,6 +88,7 @@ public class CommandParser
             case ConfigurationNames.sCLAW_GRAB_COMMAND:
                     newCommand = new ClawGrab(
                             Boolean.parseBoolean(args.get(1)), 
+                            Double.parseDouble(args.get(2)), 
                             mSnobot.getSnobotClaw());
                 break;
             case ConfigurationNames.sMOVE_CLAW_COMMAND:

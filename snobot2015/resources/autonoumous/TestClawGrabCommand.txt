@@ -1,1 +1,1 @@
-ClawGrab true
+ClawGrab true 3
