@@ -38,7 +38,8 @@ public class EnablePanel extends JPanel
 	public void setTime(double aTime)
 	{
 		DecimalFormat df = new DecimalFormat("000.00");
-		mTimeLabel.setText("Time: " + df.format(aTime));
+        mTimeLabel.setText("Time: " + df.format(aTime));
+//        mTimeLabel.setText("Time: fsdfs");
 	}
 
 	public void setRobotEnabled(boolean state) {

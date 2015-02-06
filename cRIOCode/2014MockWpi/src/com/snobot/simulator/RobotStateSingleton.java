@@ -2,6 +2,8 @@ package com.snobot.simulator;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.communication.FRCCommonControlData;
+
 public class RobotStateSingleton {
 
     public interface LoopListener
@@ -59,11 +61,22 @@ public class RobotStateSingleton {
 		test = aTest;
 	}
 
-//	public void reset()
-//	{
-//		enabled = true;
-//		autonomous = false;
-//		test = false;
-//	}
-
+    public void updateControlWord() {
+        short output = 0;
+        
+        if(enabled)
+        {
+            output |= FRCCommonControlData.ENABLED_BIT;
+        }
+        if(autonomous)
+        {
+            output |= FRCCommonControlData.AUTONOMOUS_BIT;
+        }
+        if(test)
+        {
+            output |= FRCCommonControlData.TEST_MODE_BIT;
+        }
+        
+        FRCCommonControlData.control = output;
+    }
 }

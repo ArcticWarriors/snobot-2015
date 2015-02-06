@@ -10,6 +10,7 @@ import com.snobot.simulator.RobotStateSingleton;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Utility;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 
@@ -56,9 +57,10 @@ public class SimulatorFrame extends JFrame
 			
 			@Override
 			public void looped() {
+			    RobotStateSingleton.get().updateControlWord();
 				scheduler.run();
 				mBasicPanel.update();
-//				mEnablePanel.setTime(Timer.getMatchTime());
+				mEnablePanel.setTime(Utility.getFPGATime());
 			}
 		});
 		

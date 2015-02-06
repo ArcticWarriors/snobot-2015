@@ -30,7 +30,7 @@ public final class FRCCommonControlData extends Structure {
     /**
      * The control mode e.g. Autonomous, E-stop, enabled ...
      */
-    public /*UINT8*/ short control;
+    public static short control;
     // { reset, notEStop, enabled, autonomous, fmsAttached, resync, cRIOChkSum, fpgaChkSum }
 
     /**

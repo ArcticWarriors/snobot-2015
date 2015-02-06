@@ -6,6 +6,8 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
+import com.snobot.simulator.RobotStateSingleton;
+
 import edu.wpi.first.wpilibj.communication.*;
 import edu.wpi.first.wpilibj.parsing.IInputOutput;
 
@@ -168,6 +170,9 @@ public class DriverStation implements IInputOutput {
                     MotorSafetyHelper.checkMotors();
                     safetyCounter = 0;
                 }
+
+                RobotStateSingleton.get().updateControlWord();
+                
                 if (m_userInDisabled) {
                     FRCControl.observeUserProgramDisabled();
                 }

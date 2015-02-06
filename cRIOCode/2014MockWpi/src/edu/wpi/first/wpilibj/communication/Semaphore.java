@@ -7,6 +7,10 @@
 
 package edu.wpi.first.wpilibj.communication;
 
+import com.snobot.simulator.RobotStateSingleton;
+
+import edu.wpi.first.wpilibj.Timer;
+
 /**
  * Class exposing VxWorks semaphores.
  * @author dtjones
@@ -114,6 +118,8 @@ public class Semaphore {
      * @throws SemaphoreException if the lock can't be take in timeout seconds, or some other semaphore error condition occurs.
      */
     public void takeMillis(int timeout) throws SemaphoreException{
+        Timer.delay(.020);
+        RobotStateSingleton.get().updateLoopListeners();
     }
 
     /**

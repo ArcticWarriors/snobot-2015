@@ -43,7 +43,7 @@ public class tGlobal extends tSystem
 
    public static long readLocalTime()
    {
-       return 0;
+       return (long) (System.currentTimeMillis() / 1000.0);
    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
