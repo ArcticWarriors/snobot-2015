@@ -26,6 +26,13 @@ public class SnobotStacker implements IStacker
     private boolean mLowerLimitSwitchState;
     private double mStackerEncoderDistance;
     private double mStackerMotorValue;
+    private double mStackerHeight;
+    private double mStackerGroundHeight;
+    private double mStackerScoringPlatformHeight;
+    private double mStackerOneStackHeight;
+    private double mStackerTwoStackHeight;
+    private double mStackerThreeStackHeight;
+    private double mStackerStackingMargin;
     private Logger mLogger;
     DigitalInput mUpperLimitSwitch;
     DigitalInput mLowerLimitSwitch;
@@ -42,7 +49,6 @@ public class SnobotStacker implements IStacker
     {
         mOperatorJoystick = aOperatorJoystick;
         mStackerMotor = aStackerMotor;
-        mStackerDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
         mUpperLimitSwitch = aUpperLimitSwitch;
         mLowerLimitSwitch = aLowerLimitSwitch;
         mLogger = aLogger;
@@ -86,6 +92,48 @@ public class SnobotStacker implements IStacker
          * Assuming Physical Limit Switch will stop stacker at limit
          */
     }
+    
+    public void moveStackerToGround()
+    {
+        moveStackerToHeight(mStackerGroundHeight);
+    }
+    
+    public void moveStackerToScoringPlatform()
+    {
+        moveStackerToHeight(mStackerScoringPlatformHeight);
+    }
+
+    public void moveStackerToOneStack()
+    {
+        moveStackerToHeight(mStackerOneStackHeight);
+    }
+    
+    public void moveStackerToTwoStack()
+    {
+        moveStackerToHeight(mStackerTwoStackHeight);
+    }
+    
+    public void moveStackerToThreeStack()
+    {
+        moveStackerToHeight(mStackerThreeStackHeight);
+    }
+
+    private void moveStackerToHeight(double aHeight)
+    {
+        if (mStackerHeight <= aHeight + mStackerStackingMargin
+                && mStackerHeight >= aHeight - mStackerStackingMargin)
+        {
+            stop();
+        }
+        else if (mStackerHeight > aHeight)
+        {
+            moveStackerDown();
+        }
+        else
+        {
+            moveStackerUp();
+        }
+    }
 
     @Override
     public void init()
@@ -100,6 +148,7 @@ public class SnobotStacker implements IStacker
     @Override
     public void update()
     {
+        mStackerHeight = mStackerEncoder.getDistance();
         mUpperLimitSwitchState = mUpperLimitSwitch.get();
         mLowerLimitSwitchState = mLowerLimitSwitch.get();
         mStackerEncoderDistance = mStackerEncoder.getDistance();
@@ -128,7 +177,9 @@ public class SnobotStacker implements IStacker
     @Override
     public void rereadPreferences()
     {
-        // TODO Auto-generated method stub
+        mStackerDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
+        mStackerOneStackHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ONESTACK_HEIGHT, 13.1);
+        mStackerStackingMargin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_STACKING_MARGIN, .5);
 
     }
 

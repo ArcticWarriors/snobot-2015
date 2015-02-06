@@ -57,6 +57,8 @@ public class ConfigurationNames
 
     // Misc. Variables
     public static final String sSTACKER_DEFAULT_SPEED = "StackerDefaultSpeed";
+    public static final String sSTACKER_ONESTACK_HEIGHT = "StackerOneStackHeight";
+    public static final String sSTACKER_STACKING_MARGIN = "StackerStackingMargin";
 
     // Logger
     public static final String sLOG_COUNT = "LogCount";
