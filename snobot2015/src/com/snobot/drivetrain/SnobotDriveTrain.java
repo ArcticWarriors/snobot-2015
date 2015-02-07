@@ -23,7 +23,6 @@ public class SnobotDriveTrain implements IDriveTrain
     private SpeedController mSpeedControllerRight;
     private IDriverJoystick mDriverJoystick;
     private RobotDrive mRobotDrive;
-    private DriveMode mDriveMode;
 
     private Encoder mEncoderLeft;
     private Encoder mEncoderRight;
@@ -46,13 +45,12 @@ public class SnobotDriveTrain implements IDriveTrain
      *            Argument Driver Joy stick
      */
     public SnobotDriveTrain(SpeedController aSpeedControllerLeft, SpeedController aSpeedControllerRight, IDriverJoystick aDriverJoystick,
-            DriveMode aDriveMode, Encoder aEncoderLeft, Encoder aEncoderRight, Logger aLogger)
+             Encoder aEncoderLeft, Encoder aEncoderRight, Logger aLogger)
     {
         mSpeedControllerLeft = aSpeedControllerLeft;
         mSpeedControllerRight = aSpeedControllerRight;
         mDriverJoystick = aDriverJoystick;
         mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
-        mDriveMode = aDriveMode;
         mDefaultMeasure = UnitOfMeasure.Feet;
         mEncoderLeft = aEncoderLeft;
         mEncoderRight = aEncoderRight;
@@ -64,7 +62,6 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void init()
     {
-        mLogger.addHeader("Drive Mode");
         mLogger.addHeader("Left Drive Speed");
         mLogger.addHeader("Right Drive Speed");
     }
@@ -115,17 +112,6 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void updateLog()
     {
-        String modeString=null;
-        if (mDriveMode==DriveMode.Tank)
-        {
-            modeString="TANK";
-        }
-        else if (mDriveMode==DriveMode.Arcade)
-        {
-            modeString="ARCADE";
-        }
-        
-        mLogger.updateLogger(modeString);
         mLogger.updateLogger(mSpeedControllerLeft.get());
         mLogger.updateLogger(mSpeedControllerRight.get());
     }

@@ -45,6 +45,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         mLogger.addHeader("Tank Mode: Right Y Axis");
         mLogger.addHeader("Arcade Mode: Speed (1 to -1)");
         mLogger.addHeader("Arcade Mode: Right X Axis");
+        mLogger.addHeader("Drive Mode");
         mDriveMode = DriveMode.Tank;
     }
 
@@ -102,6 +103,8 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
 
         // Angle of the Joy stick (for arcade drive)
         mLogger.updateLogger(mArcadeRightRotation);
+        
+        mLogger.updateLogger(getDriveMode().toString());
     }
 
     @Override

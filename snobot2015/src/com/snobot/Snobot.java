@@ -56,7 +56,6 @@ public class Snobot extends IterativeRobot
     private SnobotOperatorJoystick mOperatorJoystick;
     private IDriverJoystick mDriverJoystick;
 
-    private DriveMode mDriveMode;
     private PowerDistributionPanel mPowerDistributionPanel;
 
     // Modules
@@ -163,7 +162,7 @@ public class Snobot extends IterativeRobot
         if (joystickType.equals(SmartDashboardNames.sJOYSTICK_MODE_XBOX))
         {
             mRawDriverJoystickPrimary = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0));
-            mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mLogger, mDriveMode);
+            mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mLogger);
         }
         else
         {
@@ -183,7 +182,7 @@ public class Snobot extends IterativeRobot
 
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerEncoder);
 
-        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mDriveMode, mEncoderLeft, mEncoderRight, mLogger);
+        mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mEncoderLeft, mEncoderRight, mLogger);
 
         mGyroSensor = new Gyro(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0));
 
