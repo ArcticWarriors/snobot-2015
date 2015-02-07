@@ -99,6 +99,10 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
             return false;
         }
     }
+    
+    public double getJoystickValue (){
+        return mOperatorJoystick.getY();
+    }
 
     /**
      * Perform initialization.

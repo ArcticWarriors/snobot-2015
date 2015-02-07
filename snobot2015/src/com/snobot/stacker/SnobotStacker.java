@@ -31,6 +31,7 @@ public class SnobotStacker implements IStacker
     private double mStackerScoringPlatformHeight;
     private double mStackerOneStackHeight;
     private double mStackerStackingMargin;
+    private double mAdjustedStackerSpeed;
     private Logger mLogger;
     DigitalInput mUpperLimitSwitch;
     DigitalInput mLowerLimitSwitch;
@@ -69,7 +70,7 @@ public class SnobotStacker implements IStacker
         else
         {
 //            System.out.println("Move Stacker Up Moving :)");
-            mStackerMotor.set(mStackerDefaultSpeed);
+            mStackerMotor.set(mAdjustedStackerSpeed);
             return true;
         }
         /**
@@ -91,7 +92,7 @@ public class SnobotStacker implements IStacker
         else
         {
 //            System.out.println("Move Stacker Down Moving :)");
-            mStackerMotor.set(-mStackerDefaultSpeed);
+            mStackerMotor.set(mAdjustedStackerSpeed);
             return true;
         }
         /**
@@ -147,6 +148,7 @@ public class SnobotStacker implements IStacker
     @Override
     public void update()
     {
+        mAdjustedStackerSpeed = mOperatorJoystick.getJoystickValue();
         mStackerHeight = mStackerEncoder.getDistance();
         mUpperLimitSwitchState = !mUpperLimitSwitch.get();
         mLowerLimitSwitchState = !mLowerLimitSwitch.get();

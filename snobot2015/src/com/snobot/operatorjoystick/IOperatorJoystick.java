@@ -58,6 +58,11 @@ public interface IOperatorJoystick extends ISubsystem
      * 
      */
     
+    public double getJoystickValue ();
+    /**
+     * Gets value of Joystick to set as stacker speed
+     */
+    
     @Override
     void init();
 
