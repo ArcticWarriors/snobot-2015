@@ -35,32 +35,27 @@ public class SmartStack extends Command
         {
         case 0:
         {
-            mSnobotStacker.moveStackerToGround();
-            mFinished = true;
+            mFinished = mSnobotStacker.moveStackerToGround();;
             break;
         }
         case 1:
         {
-            mSnobotStacker.moveStackerToScoringPlatform();
-            mFinished = true;
+            mFinished = mSnobotStacker.moveStackerToScoringPlatform();
             break;
         }
         case 2:
         {
-            mSnobotStacker.moveStackerToOneStack();
-            mFinished = true;
+            mFinished = mSnobotStacker.moveStackerToOneStack();
             break;
         }
         case 3:
         {
-            mSnobotStacker.moveStackerToTwoStack();
-            mFinished = true;
+            mFinished = mSnobotStacker.moveStackerToTwoStack();
             break;
         }
         case 4:
         {
-            mSnobotStacker.moveStackerToThreeStack();
-            mFinished = true;
+            mFinished = mSnobotStacker.moveStackerToThreeStack();
             break;
         }
         default:

@@ -93,45 +93,48 @@ public class SnobotStacker implements IStacker
          */
     }
     
-    public void moveStackerToGround()
+    public boolean moveStackerToGround()
     {
-        moveStackerToHeight(mStackerGroundHeight);
+       return moveStackerToHeight(mStackerGroundHeight);
     }
     
-    public void moveStackerToScoringPlatform()
+    public boolean moveStackerToScoringPlatform()
     {
-        moveStackerToHeight(mStackerScoringPlatformHeight);
+        return moveStackerToHeight(mStackerScoringPlatformHeight);
     }
 
-    public void moveStackerToOneStack()
+    public boolean moveStackerToOneStack()
     {
-        moveStackerToHeight(mStackerOneStackHeight);
+        return moveStackerToHeight(mStackerOneStackHeight);
     }
     
-    public void moveStackerToTwoStack()
+    public boolean moveStackerToTwoStack()
     {
-        moveStackerToHeight(mStackerTwoStackHeight);
+        return moveStackerToHeight(mStackerTwoStackHeight);
     }
     
-    public void moveStackerToThreeStack()
+    public boolean moveStackerToThreeStack()
     {
-        moveStackerToHeight(mStackerThreeStackHeight);
+        return moveStackerToHeight(mStackerThreeStackHeight);
     }
 
-    public void moveStackerToHeight(double aHeight)
+    public boolean moveStackerToHeight(double aHeight)
     {
         if (mStackerHeight <= aHeight + mStackerStackingMargin
                 && mStackerHeight >= aHeight - mStackerStackingMargin)
         {
             stop();
+            return true;
         }
         else if (mStackerHeight > aHeight)
         {
             moveStackerDown();
+            return false;
         }
         else
         {
             moveStackerUp();
+            return false;
         }
     }
 
