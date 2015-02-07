@@ -119,24 +119,6 @@ public class Snobot extends IterativeRobot
     public void robotInit()
     {
         mPowerDistributionPanel = new PowerDistributionPanel();
-        mParser = new CommandParser(this);
-        
-        mAutonDirectory = "../../snobot2015/resources/autonoumous/";
-        
-        mAutonChooser = new SendableChooser();
-        ReadAutoFiles();
-        SmartDashboard.putData("mAutonChooser", mAutonChooser );
-        
-        mAutonChooser.getTable().addTableListener(new ITableListener() {
-            
-            @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
-              
-                mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
-                
-            }
-        });
-        
         
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
@@ -204,6 +186,25 @@ public class Snobot extends IterativeRobot
         mLogger.endHeader();
 
         ConfigurationNames.saveIfUpdated();
+        
+
+        mParser = new CommandParser(this);
+        
+        mAutonDirectory = "../../snobot2015/resources/autonoumous/";
+        
+        mAutonChooser = new SendableChooser();
+        ReadAutoFiles();
+        SmartDashboard.putData("mAutonChooser", mAutonChooser );
+        
+        mAutonChooser.getTable().addTableListener(new ITableListener() {
+            
+            @Override
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
+              
+                mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+                
+            }
+        });
     }
 
     @Override
@@ -240,6 +241,12 @@ public class Snobot extends IterativeRobot
         updateSmartDashboard();
         updateLog();
     }
+
+    @Override
+    public void disabledInit()
+    {
+        ConfigurationNames.saveIfUpdated();
+    }
     
     private void update()
     {
@@ -260,7 +267,6 @@ public class Snobot extends IterativeRobot
     
     private void updateSmartDashboard()
     {
-        mPositioner.updateSmartDashbaord();
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.updateSmartDashboard();

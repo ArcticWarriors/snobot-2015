@@ -249,13 +249,6 @@ public class SnobotPosition implements ISubsystem
         this.mRadianRotation = Math.toRadians(aDegrees);
     }
 
-    public void updateSmartDashbaord()
-    {
-        SmartDashboard.putNumber("Heading", getSnobotDegrees());
-        SmartDashboard.putNumber("Snobot X", mPositionX);
-        SmartDashboard.putNumber("Snobot Y", mPositionY);
-    }
-
     @Override
     public void control() {
     }
