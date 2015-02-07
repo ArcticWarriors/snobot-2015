@@ -8,10 +8,15 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import com.snobot.ConfigurationNames;
+import com.snobot.SmartDashboardNames;
 import com.snobot.Snobot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
+import edu.wpi.first.wpilibj.tables.ITableListener;
 
 public class CommandParser
 {
@@ -70,6 +75,8 @@ public class CommandParser
                         Double.parseDouble(args.get(2)), 
                         mSnobot.getDriveTrain(),
                         mSnobot.getPositioner());
+                // TODO Debugger; remove later
+                System.out.println("Command parsed!");
                 break;
                 
             case ConfigurationNames.sDRIVE_ROTATE_COMMAND:
@@ -92,6 +99,7 @@ public class CommandParser
                             mSnobot.getSnobotClaw());
                 break;
             case ConfigurationNames.sMOVE_CLAW_COMMAND:
+                System.out.println("Moving claw");
                 newCommand = new MoveClaw(
                         Boolean.parseBoolean(args.get(1)),
                         Double.parseDouble(args.get(2)),
@@ -105,19 +113,15 @@ public class CommandParser
                     
             }
         }
-        catch (IndexOutOfBoundsException e)
-        {
-            System.err.println("!!!!!! Index out of bounds... " + e.getMessage());
-        }
         catch (Exception e)
         {
-            e.printStackTrace();
+            e.getStackTrace();
         }
         
         
         if (newCommand==null)
         {
-            System.out.println("Can't add null command for name : " + args.get(0));
+            System.out.println("Can't add null command");
         }
         
         else if (isParallel)
@@ -145,13 +149,17 @@ public class CommandParser
     	
         try
         {
+            String fileContents = "";
             BufferedReader br = new BufferedReader(new FileReader(aFilePath));
             
             String line;
             while((line = br.readLine()) != null)
             {
                 this.commandParser(output, line);
+                fileContents += line + "\n";
             }
+            
+            SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, fileContents);
             
             br.close();
         }

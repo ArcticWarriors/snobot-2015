@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
@@ -119,6 +120,37 @@ public class Snobot extends IterativeRobot
     public void robotInit()
     {
         mPowerDistributionPanel = new PowerDistributionPanel();
+        mParser = new CommandParser(this);
+        
+        mAutonDirectory = "../../snobot2015/resources/autonoumous/";
+        
+        mAutonChooser = new SendableChooser();
+        ReadAutoFiles();
+        SmartDashboard.putData("mAutonChooser", mAutonChooser );
+        
+        mAutonChooser.getTable().addTableListener(new ITableListener() {
+            
+            @Override
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
+              
+                mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+            }
+        });
+
+        
+        ITableListener saveModeListener = new ITableListener() {
+            
+            @Override
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
+//                if (SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "").equals("New"))
+                {
+                    mAutonCommand = mParser.parseAutonString(SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT));
+                }
+            }
+        };
+        NetworkTable.getTable("SmartDashboard").addTableListener(SmartDashboardNames.sSD_COMMAND_TEXT, 
+                saveModeListener, true);
+        
         
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
@@ -130,8 +162,8 @@ public class Snobot extends IterativeRobot
         mDriveRight1 = new Talon(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
         mRawOperatorJoystick = new Joystick(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT, 1));
 
-        mUpperLimitSwitch = new DigitalInput(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 1));
-        mLowerLimitSwitch = new DigitalInput(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 2));
+        mUpperLimitSwitch = new DigitalInput(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH_PORT_1, 1));
+        mLowerLimitSwitch = new DigitalInput(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH_PORT_1, 2));
         mClawHandSolenoid = new Solenoid (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sCLAW_HAND_SOLENOID, 1));
         mClawArmSolenoid = new Solenoid (ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sCLAW_ARM_SOLENOID, 2));
         
@@ -186,25 +218,6 @@ public class Snobot extends IterativeRobot
         mLogger.endHeader();
 
         ConfigurationNames.saveIfUpdated();
-        
-
-        mParser = new CommandParser(this);
-        
-        mAutonDirectory = "../../snobot2015/resources/autonoumous/";
-        
-        mAutonChooser = new SendableChooser();
-        ReadAutoFiles();
-        SmartDashboard.putData("mAutonChooser", mAutonChooser );
-        
-        mAutonChooser.getTable().addTableListener(new ITableListener() {
-            
-            @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
-              
-                mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
-                
-            }
-        });
     }
 
     @Override
@@ -241,12 +254,6 @@ public class Snobot extends IterativeRobot
         updateSmartDashboard();
         updateLog();
     }
-
-    @Override
-    public void disabledInit()
-    {
-        ConfigurationNames.saveIfUpdated();
-    }
     
     private void update()
     {
@@ -267,6 +274,7 @@ public class Snobot extends IterativeRobot
     
     private void updateSmartDashboard()
     {
+        mPositioner.updateSmartDashbaord();
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.updateSmartDashboard();
