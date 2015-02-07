@@ -1,0 +1,6 @@
+Run libs/matplotlib-1.4.2.win32-py2.7.exe
+
+Then, one at a time, run
+easy_install six
+easy_install python-dateutil
+easy_install pyparsing
