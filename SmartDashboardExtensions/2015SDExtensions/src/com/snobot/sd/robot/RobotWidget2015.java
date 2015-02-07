@@ -25,6 +25,24 @@ public class RobotWidget2015 extends StaticWidget
         add(mRobotDrawer2015, BorderLayout.CENTER);
         setPreferredSize(new Dimension(400, 400));
         
+        addStackerHeightListener();
+        addUpperLimitSwitchListener();
+        addLowerLimitSwitchListener();
+        addArmListener();
+    }
+
+    public void init()
+    {        
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent arg0) {
+                mRobotDrawer2015.updateSize();
+            }
+        });
+    }
+    
+    private void addStackerHeightListener()
+    {
         ITableListener stackerHeightListener = new ITableListener()
         {
             
@@ -39,7 +57,10 @@ public class RobotWidget2015 extends StaticWidget
         
         Robot.getTable().addTableListener(SmartDashboardNames.sENCODER_HEIGHT, stackerHeightListener, true);
         
-        
+    }
+    
+    private void addUpperLimitSwitchListener()
+    {
         ITableListener upperLimitSwitchListener = new ITableListener()
         {
             
@@ -53,7 +74,10 @@ public class RobotWidget2015 extends StaticWidget
         };
         
         Robot.getTable().addTableListener(SmartDashboardNames.sUPPER_LIMIT_SWITCH_STATE, upperLimitSwitchListener, true);
+    }
     
+    private void addLowerLimitSwitchListener()
+    {
         ITableListener lowerLimitSwitchListener = new ITableListener()
         {
             
@@ -67,7 +91,10 @@ public class RobotWidget2015 extends StaticWidget
         };
         
         Robot.getTable().addTableListener(SmartDashboardNames.sLOWER_LIMIT_SWITCH_STATE, lowerLimitSwitchListener, true);
-       
+    }
+    
+    private void addArmListener()
+    {
         ITableListener clawArmStateListener = new ITableListener()
         
         {
@@ -81,19 +108,6 @@ public class RobotWidget2015 extends StaticWidget
             }
         };
         Robot.getTable().addTableListener(SmartDashboardNames.sCLAW_ARM_SOLENOID, clawArmStateListener, true);
-    }
-    public void init()
-    {
-        revalidate();
-        repaint();
-        
-               addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent arg0) {
-                mRobotDrawer2015.updateSize();
-                System.out.println("Widget size " + getSize());
-            }
-        });
     }
 
     @Override
