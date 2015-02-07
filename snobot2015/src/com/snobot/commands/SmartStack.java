@@ -46,16 +46,6 @@ public class SmartStack extends Command
             mFinished = mSnobotStacker.moveStackerToOneStack();
             break;
         }
-        case 3:
-        {
-            mFinished = mSnobotStacker.moveStackerToTwoStack();
-            break;
-        }
-        case 4:
-        {
-            mFinished = mSnobotStacker.moveStackerToThreeStack();
-            break;
-        }
         default:
         {
             mSnobotStacker.stop();

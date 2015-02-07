@@ -60,9 +60,6 @@ public class ConfigurationNames
     public static final String sSTACKER_GROUND_HEIGHT = "StackerGroundHeight";
     public static final String sSTACKER_SCORING_PLATFORM_HEIGHT = "StackerScoringPlatformHeight"; 
     public static final String sSTACKER_ONE_STACK_HEIGHT = "StackerOneStackeHeight";
-    public static final String sSTACKER_TWO_STACK_HEIGHT = "StackerTwoStackHeight";
-    public static final String sSTACKER_THREE_STACK_HEIGHT ="StackerThreeStackHeight";
-    public static final String sSTACKER_ONESTACK_HEIGHT = "StackerOneStackHeight";
     public static final String sSTACKER_STACKING_MARGIN = "StackerStackingMargin";
     
     public static final String sSTACKER_ENCODER_DPT = "StackerEncoderDPT";
