@@ -59,16 +59,18 @@ public class SnobotStacker implements IStacker
     }
 
     @Override
-    public void moveStackerUp()
+    public boolean moveStackerUp()
     {
 
         if (mUpperLimitSwitchState)
         {
             stop();
+            return false;
         }
         else
         {
             mStackerMotor.set(mStackerDefaultSpeed);
+            return true;
         }
         /**
          * Assuming Physical Limit Switch will stop stacker at limit
@@ -77,16 +79,18 @@ public class SnobotStacker implements IStacker
     }
 
     @Override
-    public void moveStackerDown()
+    public boolean moveStackerDown()
     {
 
         if (mLowerLimitSwitchState)
         {
             stop();
+            return false;
         }
         else
         {
             mStackerMotor.set(-mStackerDefaultSpeed);
+            return true;
         }
         /**
          * Assuming Physical Limit Switch will stop stacker at limit
@@ -128,13 +132,11 @@ public class SnobotStacker implements IStacker
         }
         else if (mStackerHeight > aHeight)
         {
-            moveStackerDown();
-            return false;
+            return !moveStackerDown();
         }
         else
         {
-            moveStackerUp();
-            return false;
+            return !moveStackerUp();
         }
     }
 
