@@ -57,6 +57,11 @@ public class ConfigurationNames
 
     // Misc. Variables
     public static final String sSTACKER_DEFAULT_SPEED = "StackerDefaultSpeed";
+    public static final String sSTACKER_GROUND_HEIGHT = "StackerGroundHeight";
+    public static final String sSTACKER_SCORING_PLATFORM_HEIGHT = "StackerScoringPlatformHeight"; 
+    public static final String sSTACKER_ONE_STACK_HEIGHT = "StackerOneStackeHeight";
+    public static final String sSTACKER_TWO_STACK_HEIGHT = "StackerTwoStackHeight";
+    public static final String sSTACKER_THREE_STACK_HEIGHT ="StackerThreeStackHeight";
     public static final String sSTACKER_ONESTACK_HEIGHT = "StackerOneStackHeight";
     public static final String sSTACKER_STACKING_MARGIN = "StackerStackingMargin";
 
@@ -70,6 +75,7 @@ public class ConfigurationNames
     public static final String sRAW_STACK_COMMAND = "RawStack";
     public static final String sCLAW_GRAB_COMMAND = "ClawGrab";
     public static final String sMOVE_CLAW_COMMAND = "MoveClaw";
+    public static final String sSMART_STACK_COMMAND = "SmartStack";
     
     // ////////////////////////////////
     // Preference Wrapper Functions //
