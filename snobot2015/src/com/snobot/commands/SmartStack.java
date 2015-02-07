@@ -63,6 +63,8 @@ public class SmartStack extends Command
             mSnobotStacker.stop();
             mFinished = true;
         }
+        
+        System.out.println(mStackCommandIndex);
         }
     }
 

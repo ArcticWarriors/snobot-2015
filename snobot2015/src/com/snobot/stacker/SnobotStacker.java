@@ -64,11 +64,13 @@ public class SnobotStacker implements IStacker
 
         if (mUpperLimitSwitchState)
         {
+            System.out.println("Move Stacker Up Stopped :)");
             stop();
             return false;
         }
         else
         {
+            System.out.println("Move Stacker Up Moving :)");
             mStackerMotor.set(mStackerDefaultSpeed);
             return true;
         }
@@ -84,11 +86,13 @@ public class SnobotStacker implements IStacker
 
         if (mLowerLimitSwitchState)
         {
+            System.out.println("Move Stacker Down Moving :)");
             stop();
             return false;
         }
         else
         {
+            System.out.println("Move Stacker Down Moving :)");
             mStackerMotor.set(-mStackerDefaultSpeed);
             return true;
         }
