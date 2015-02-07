@@ -20,8 +20,8 @@ public class RobotWidget2015 extends StaticWidget
     
     public RobotWidget2015()
     {
+        setLayout(new BorderLayout());
         mRobotDrawer2015 = new RobotDrawer2015();
-        add(mRobotDrawer2015);
         add(mRobotDrawer2015, BorderLayout.CENTER);
         setPreferredSize(new Dimension(400, 400));
         
@@ -33,6 +33,7 @@ public class RobotWidget2015 extends StaticWidget
             {
                 double height = Double.parseDouble(arg2.toString());
                 mRobotDrawer2015.setStackerHeight(height);
+                repaint();
             }
         };
         
@@ -47,6 +48,7 @@ public class RobotWidget2015 extends StaticWidget
             {
                 boolean aUpperLimitSwitch = Boolean.parseBoolean(arg2.toString());
                 mRobotDrawer2015.setUpperLimitSwtich(aUpperLimitSwitch);
+                repaint();
             }
         };
         
@@ -60,10 +62,25 @@ public class RobotWidget2015 extends StaticWidget
             {
                 boolean aLowerLimitSwitch = Boolean.parseBoolean(arg2.toString());
                 mRobotDrawer2015.setLowerLimitSwitch(aLowerLimitSwitch);
+                repaint();
             }
         };
         
         Robot.getTable().addTableListener(SmartDashboardNames.sLOWER_LIMIT_SWITCH_STATE, lowerLimitSwitchListener, true);
+       
+        ITableListener clawArmStateListener = new ITableListener()
+        
+        {
+
+            @Override
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) 
+            {
+               boolean aClawArmState = Boolean.parseBoolean(arg2.toString());
+               mRobotDrawer2015.setClawUp(aClawArmState);
+               repaint();
+            }
+        };
+        Robot.getTable().addTableListener(SmartDashboardNames.sCLAW_ARM_SOLENOID, clawArmStateListener, true);
     }
     public void init()
     {
