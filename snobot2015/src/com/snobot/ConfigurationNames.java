@@ -42,8 +42,8 @@ public class ConfigurationNames
     public static final String sCLAW_ARM_SOLENOID = "ClawArmSolenoid";
 
     // Digital Inputs
-    public static final String sSTACKER_UPPER_LIMIT_SWITCH_PORT_1 = "UpperStackerLimit";
-    public static final String sSTACKER_LOWER_LIMIT_SWITCH_PORT_1 = "LowerStackerLimit";
+    public static final String sSTACKER_UPPER_LIMIT_SWITCH = "UpperStackerLimit";
+    public static final String sSTACKER_LOWER_LIMIT_SWITCH = "LowerStackerLimit";
 
     public static final String sRIGHT_DRIVE_ENC_A = "RightDriveEnc_A";
     public static final String sRIGHT_DRIVE_ENC_B = "RightDriveEnc_B";
