@@ -210,7 +210,6 @@ public class Snobot extends IterativeRobot
             
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
-//                if (SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "").equals("New"))
                 {
                     mAutonCommand = mParser.parseAutonString(SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT));
                 }
