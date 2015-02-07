@@ -4,46 +4,60 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
 
 public class RobotDrawer2015 extends JPanel
 {    
-    private static final double sCHASIS_WIDTH = 40;
-    private static final double sCHASIS_HEIGHT = 6;
-    private static final double sCHASIS_X_START = 50.75;
-    private static final double sCHASIS_Y_START = 40;
+    //Chassis dimensions
+    private static final double sCHASSIS_WIDTH = 32;
+    private static final double sCHASSIS_HEIGHT = 3.25;
+    private static final double sCHASSIS_X_START = 25;
+    private static final double sCHASSIS_Y_START = 80;
     
-    private static final double sCLAW_HEIGHT_START = 44;
-    private static final double sCLAW_HEIGHT_END = 46;
-    private static final double sCLAW_LENGTH = 13;
-//    private static final double sCLAW_X_START;
-//    private static final double sCLAW_Y_START;
+    //Claw Tower dimensions
+    private static final double sCLAW_TO_CHASSIS = 21;
+    private static final double sCLAW_TOWER_HEIGHT = 47.25;
+    private static final double sCLAW_TOWER_WIDTH = 1;
+    private static final double sCLAW_TOWER_X_START = (sCHASSIS_X_START + sCLAW_TO_CHASSIS);
+    private static final double sCLAW_TOWER_Y_START = (sCHASSIS_Y_START - sCLAW_TOWER_HEIGHT);  
     
-    private static final double sSTACKER_HEIGHT = 34.375;
-    private static final double sSTACKER_WIDTH = 1;
-    private static final double sSTACKER_X_START = 50.75;
-    private static final double sSTACKER_Y_START = sCHASIS_Y_START-sSTACKER_HEIGHT;
+    //Claw Arm dimensions
+    private static final double sCLAW_ARM_X = sCLAW_TOWER_X_START;
+    private static final double sCLAW_ARM_Y = sCLAW_TOWER_Y_START;
+    private static final double sCLAW_ARM_LENGTH = 45.5;
+    private static final double sCLAW_ARM_WIDTH = 1;
     
+    //Stacker Tower dimensions
+    private static final double sCHASSIS_TO_STACKER = 0;
+    private static final double sSTACKER_TOWER_HEIGHT = 34.375;
+    private static final double sSTACKER_TOWER_WIDTH = 4;
+    private static final double sSTACKER_TOWER_X_START = (sCHASSIS_X_START + sCHASSIS_TO_STACKER);
+    private static final double sSTACKER_TOWER_Y_START = (sCHASSIS_Y_START - sSTACKER_TOWER_HEIGHT);
+    
+    //Stacker Fork dimensions
     private static final double sSTACKER_FORK_LENGTH = 20.75;
     private static final double sSTACKER_FORK_HEIGHT = 1;
-    private static final double sSTACKER_FORK_X_START = 30;
-    private static final double sSTACKER_FORK_Y_START = sCHASIS_Y_START-1;
+    private static final double sSTACKER_FORK_X_START = (sSTACKER_TOWER_X_START - sSTACKER_FORK_LENGTH);
+    private static final double sSTACKER_FORK_Y_START = (sSTACKER_TOWER_Y_START + sSTACKER_TOWER_HEIGHT);
     
-    private static final double sROBOT_WIDTH = sSTACKER_X_START + sCHASIS_WIDTH+sSTACKER_FORK_LENGTH;
-    private static final double sROBOT_HEIGHT = sCHASIS_HEIGHT+sSTACKER_HEIGHT;
+    private static final double sROBOT_WIDTH = sSTACKER_TOWER_X_START + sCHASSIS_WIDTH+sSTACKER_FORK_LENGTH + sCLAW_ARM_LENGTH;
+    private static final double sROBOT_HEIGHT = sCHASSIS_HEIGHT+sSTACKER_TOWER_HEIGHT + sCLAW_TOWER_HEIGHT;
     
+    //Limit Switch dimensions
     private static final double sLIMIT_SWITCH_HEIGHT = 1;
-    private static final double sLIMIT_SWITCH_WIDTH =1;
-    private static final double sLOWER_LIMIT_X_START = sCHASIS_X_START-1;
-    private static final double sLOWER_LIMIT_Y_START = sCHASIS_Y_START-1;
-    private static final double sUPPER_LIMIT_X_START = sCHASIS_X_START-1;
-    private static final double sUPPER_LIMIT_Y_START = (sCHASIS_Y_START-sSTACKER_HEIGHT);
+    private static final double sLIMIT_SWITCH_WIDTH = 1;
+    private static final double sLOWER_LIMIT_X_START = (sSTACKER_TOWER_X_START - 1);
+    private static final double sLOWER_LIMIT_Y_START = (sSTACKER_TOWER_Y_START);
+    private static final double sUPPER_LIMIT_X_START = (sSTACKER_TOWER_X_START - 1);
+    private static final double sUPPER_LIMIT_Y_START = (sSTACKER_TOWER_Y_START + (sSTACKER_TOWER_HEIGHT));
     
-    private Dimension mDimension = new Dimension(400,400);
+    private Dimension mDimension = new Dimension(1000,1000);
     private double mScaleFactor;
     
     private boolean mClawOpen;
@@ -56,6 +70,9 @@ public class RobotDrawer2015 extends JPanel
     private static final Color sROBOT_BASE_COLOR = Color.black;
     private static final Color sROBOT_FORK_COLOR = Color.blue;
     private static final Color sROBOT_STACKER_COLOR = Color.gray;
+    private static final Color sROBOT_CLAW_COLOR = Color.gray;
+    private static final Color sROBOT_ARM_COLOR = Color.magenta;
+    
     public RobotDrawer2015()
     {
         updateSize();
@@ -94,8 +111,9 @@ public class RobotDrawer2015 extends JPanel
 
         drawRobotBase(g2d);
         drawForklift(g2d);
-        drawClaw(g2d);
         drawStacker(g2d);
+        drawClawTower(g2d);
+        drawClawArm(g2d);
         drawUpperLimitSwitch(g2d);
         drawLowerLimitSwitch(g2d);
     }
@@ -106,8 +124,8 @@ public class RobotDrawer2015 extends JPanel
         Rectangle2D lowerLimitSwitch= new Rectangle2D.Double(
                 sLOWER_LIMIT_X_START* mScaleFactor, 
                 sLOWER_LIMIT_Y_START * mScaleFactor, 
-                sLIMIT_SWITCH_HEIGHT*mScaleFactor, 
-                sLIMIT_SWITCH_WIDTH*mScaleFactor);
+                sLIMIT_SWITCH_HEIGHT * mScaleFactor, 
+                sLIMIT_SWITCH_WIDTH * mScaleFactor);
         
         if (mLowerLimitSwitch)
         {
@@ -124,10 +142,10 @@ public class RobotDrawer2015 extends JPanel
     private void drawUpperLimitSwitch (Graphics2D g2d)
     {
         Rectangle2D upperLimitSwitch = new Rectangle2D.Double(
-                sUPPER_LIMIT_X_START* mScaleFactor,  
-                sUPPER_LIMIT_Y_START* mScaleFactor, 
-                sLIMIT_SWITCH_HEIGHT*mScaleFactor, 
-                sLIMIT_SWITCH_WIDTH*mScaleFactor);
+                sUPPER_LIMIT_X_START * mScaleFactor,  
+                sUPPER_LIMIT_Y_START * mScaleFactor, 
+                sLIMIT_SWITCH_HEIGHT * mScaleFactor, 
+                sLIMIT_SWITCH_WIDTH * mScaleFactor);
         
         if (mUpperLimitSwitch)
         {
@@ -144,10 +162,11 @@ public class RobotDrawer2015 extends JPanel
     private void drawRobotBase(Graphics2D g2d)
     {
         Rectangle2D robotBase = new Rectangle2D.Double(
-                sCHASIS_X_START * mScaleFactor, 
-                sCHASIS_Y_START * mScaleFactor, 
-                sCHASIS_WIDTH * mScaleFactor, 
-                sCHASIS_HEIGHT * mScaleFactor);
+                sCHASSIS_X_START * mScaleFactor, 
+                sCHASSIS_Y_START * mScaleFactor, 
+                sCHASSIS_WIDTH * mScaleFactor, 
+                sCHASSIS_HEIGHT * mScaleFactor);
+        
         g2d.setColor(sROBOT_BASE_COLOR);
         g2d.fill(robotBase);
     }
@@ -157,8 +176,9 @@ public class RobotDrawer2015 extends JPanel
         Rectangle2D forklift = new Rectangle2D.Double(
                 sSTACKER_FORK_X_START * mScaleFactor, 
                 (sSTACKER_FORK_Y_START-mStackerHeight) * mScaleFactor, 
-                sSTACKER_FORK_LENGTH*mScaleFactor, 
-                sSTACKER_FORK_HEIGHT*mScaleFactor);
+                sSTACKER_FORK_LENGTH * mScaleFactor, 
+                sSTACKER_FORK_HEIGHT * mScaleFactor);
+        
         g2d.setColor(sROBOT_FORK_COLOR);
         g2d.fill(forklift);
     }
@@ -166,17 +186,65 @@ public class RobotDrawer2015 extends JPanel
     private void drawStacker (Graphics2D g2d)
     {
         Rectangle2D stacker = new Rectangle2D.Double(
-                sSTACKER_X_START * mScaleFactor, 
-                sSTACKER_Y_START * mScaleFactor,
-                sSTACKER_WIDTH * mScaleFactor, 
-                sSTACKER_HEIGHT * mScaleFactor);
+                sSTACKER_TOWER_X_START * mScaleFactor, 
+                sSTACKER_TOWER_Y_START * mScaleFactor,
+                sSTACKER_TOWER_WIDTH * mScaleFactor, 
+                sSTACKER_TOWER_HEIGHT * mScaleFactor);
+        
         g2d.setColor(sROBOT_STACKER_COLOR);
         g2d.fill(stacker);
     }
     
-    private void drawClaw (Graphics2D g2d)
+    private void drawClawTower (Graphics2D g2d)
     {
+        Rectangle2D claw = new Rectangle2D.Double(
+            sCLAW_TOWER_X_START * mScaleFactor,
+            sCLAW_TOWER_Y_START * mScaleFactor, 
+            sCLAW_TOWER_WIDTH * mScaleFactor,
+            sCLAW_TOWER_HEIGHT * mScaleFactor);
         
+        g2d.setColor(sROBOT_CLAW_COLOR);
+        g2d.fill(claw);
+    }
+    
+    private void drawClawArm (Graphics2D g2d)
+    {
+//        Rectangle2D arm = new Rectangle2D.Double(
+//                sCLAW_ARM_X * mScaleFactor, 
+//                sCLAW_ARM_Y * mScaleFactor, 
+//                sCLAW_ARM_LENGTH * mScaleFactor, 
+//                sCLAW_ARM_WIDTH * mScaleFactor);
+        
+        double rotation;
+        
+        if(mClawUp)
+        {
+            rotation = -100;
+        }
+        else {
+            rotation = -20;
+        }
+        
+
+        Rectangle2D claw = new Rectangle2D.Double(
+                sCLAW_TOWER_X_START ,
+                sCLAW_TOWER_Y_START, 
+                sCLAW_TOWER_WIDTH,
+                sCLAW_TOWER_HEIGHT);
+        
+        AffineTransform transform = new AffineTransform();
+//        transform.translate(mTranslateX, mTranslateY);
+        transform.scale(mScaleFactor, mScaleFactor);
+//        transform.rotate(Math.toRadians(180));  
+        transform.rotate(Math.toRadians(rotation), sCLAW_TOWER_X_START,sCLAW_TOWER_Y_START);  
+        
+        Shape shape = transform.createTransformedShape(claw);
+        g2d.setColor(sROBOT_ARM_COLOR);
+        g2d.fill(shape);
+        
+        
+//        g2d.setColor(sROBOdT_ARM_COLOR);
+//        g2d.fill(arm);
     }
 
     /**
