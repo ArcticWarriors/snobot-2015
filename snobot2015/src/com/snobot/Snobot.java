@@ -91,26 +91,7 @@ public class Snobot extends IterativeRobot
     private SendableChooser mAutonChooser;
     private String mAutonDirectory; 
 
-    private void ReadAutoFiles()
-    {
-           File AutonDr = new File(mAutonDirectory);
-          
-           if (AutonDr.isDirectory())
-           {
-               File[] autonFiles = AutonDr.listFiles();
-               
-               for(int i = 0; i < autonFiles.length;i ++)
-               {
-                   
-                   if (autonFiles[i].isFile())
-                   {
-                        mAutonChooser.addObject(autonFiles[i].getName(), autonFiles[i].getAbsolutePath());
-                   }
-                  
-               }
-           }
-        
-    }
+   
     
     /**
      * This function is run when the robot is first started up and should be
@@ -193,7 +174,7 @@ public class Snobot extends IterativeRobot
         mAutonDirectory = "../../snobot2015/resources/autonoumous/";
         
         mAutonChooser = new SendableChooser();
-        ReadAutoFiles();
+        readAutoFiles();
         SmartDashboard.putData("mAutonChooser", mAutonChooser );
         
         mAutonChooser.getTable().addTableListener(new ITableListener() {
@@ -341,5 +322,25 @@ public class Snobot extends IterativeRobot
     {
         return this.mClaw;
     }
-
+   
+    private void readAutoFiles()
+    {
+           File autonDr = new File(mAutonDirectory);
+          
+           if (autonDr.isDirectory())
+           {
+               File[] autonFiles = autonDr.listFiles();
+               
+               for(int i = 0; i < autonFiles.length;i ++)
+               {
+                   
+                   if (autonFiles[i].isFile())
+                   {
+                        mAutonChooser.addObject(autonFiles[i].getName(), autonFiles[i].getAbsolutePath());
+                   }
+                  
+               }
+           }
+        
+    }
 }
