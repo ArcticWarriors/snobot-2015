@@ -11,11 +11,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
 
 public class RobotDrawer2015 extends JPanel
-{
-    private static final double sROBOT_LENGTH = 28;
-    private static final double sROBOT_HEIGHT = 12;
-    private static final double sLONGEST_DIM= 2.1*(Math.sqrt(sROBOT_HEIGHT*sROBOT_HEIGHT + sROBOT_LENGTH*sROBOT_LENGTH));
-    
+{    
     private static final double sCHASIS_WIDTH = 40;
     private static final double sCHASIS_HEIGHT = 6;
     
@@ -29,6 +25,11 @@ public class RobotDrawer2015 extends JPanel
     private static final double sSTACKER_FORK_LENGTH = 20.75;
     private static final double sSTACKER_FORK_HEIGHT = 1;
     
+    private static final double sROBOT_LENGTH = sCHASIS_WIDTH+sSTACKER_FORK_LENGTH;
+    private static final double sROBOT_HEIGHT = sCHASIS_HEIGHT+sSTACKER_HEIGHT;
+    
+    private static final double sLONGEST_DIM= 2.1*(Math.sqrt(sROBOT_HEIGHT*sROBOT_HEIGHT + sROBOT_LENGTH*sROBOT_LENGTH));
+    
     private Dimension mDimension = new Dimension(400,400);
     private double mScaleFactor;
     
@@ -41,7 +42,7 @@ public class RobotDrawer2015 extends JPanel
     
     private static final Color sROBOT_BASE_COLOR = Color.black;
     private static final Color sROBOT_FORK_COLOR = Color.blue;
-    private static final Color sROBOT_STACKER_COLOR = Color.cyan;
+    private static final Color sROBOT_STACKER_COLOR = Color.gray;
     public RobotDrawer2015()
     {
         updateSize();
@@ -65,7 +66,7 @@ public class RobotDrawer2015 extends JPanel
         
         mDimension = new Dimension(size, size);
         
-        System.out.println("Scale Factor: " + mScaleFactor + "\tLongest Diension" + sLONGEST_DIM);
+        System.out.println("Scale Factor: " + mScaleFactor + "\tLongest Dimension " + sLONGEST_DIM);
         
         repaint();
     }
@@ -75,28 +76,45 @@ public class RobotDrawer2015 extends JPanel
         Graphics2D g2d = (Graphics2D) g;
         
         g.clearRect(0, 0, (int) getSize().getWidth(), (int) getSize().getHeight());
-        
-        drawUpperLimitSwitch(g2d);
+
         drawRobotBase(g2d);
         drawForklift(g2d);
         drawClaw(g2d);
         drawStacker(g2d);
+        drawUpperLimitSwitch(g2d);
+        drawLowerLimitSwitch(g2d);
     }
 
   
-    private void drawUpperLimitSwitch(Graphics2D g2d)
+    private void drawLowerLimitSwitch(Graphics2D g2d)
     {
+        Rectangle2D lowerLimitSwitch= new Rectangle2D.Double(49.75* mScaleFactor, 39 * mScaleFactor, 1*mScaleFactor, 1*mScaleFactor);
         
-        if (mUpperLimitSwitch)
+        if (mLowerLimitSwitch)
         {
-        g2d.setColor(Color.green);
-        g2d.fillRect(0, 0, 10, 10);
+            g2d.setColor(Color.green);
         }
         else
         {
             g2d.setColor(Color.red);
-            g2d.fillRect(0, 0, 10, 10);
-        }   
+        }
+        
+        g2d.fill(lowerLimitSwitch);
+    }
+    
+    private void drawUpperLimitSwitch (Graphics2D g2d)
+    {
+        Rectangle2D upperLimitSwitch = new Rectangle2D.Double(49.75 * mScaleFactor, (40-sSTACKER_HEIGHT) * mScaleFactor, 1*mScaleFactor, 1*mScaleFactor);
+        if (mUpperLimitSwitch)
+        {
+            g2d.setColor(Color.green);
+        }
+        else
+        {
+            g2d.setColor(Color.red);
+        }
+        
+        g2d.fill(upperLimitSwitch);
     }
     
     private void drawRobotBase(Graphics2D g2d)
