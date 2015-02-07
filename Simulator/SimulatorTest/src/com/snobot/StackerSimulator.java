@@ -5,12 +5,12 @@ import com.snobot.simulator.EncoderWrapper;
 import com.snobot.simulator.SpeedControllerWrapper;
 import com.snobot.simulator.sim.LinearEncoderCalculator;
 
-public class StackerSImulator extends LinearEncoderCalculator {
+public class StackerSimulator extends LinearEncoderCalculator {
 
 	DigitalSourceWrapper mUpperStackerLimit;
 	DigitalSourceWrapper mLowerStackerLimit;
 	
-	public StackerSImulator( SpeedControllerWrapper aStackerMotor,
+	public StackerSimulator( SpeedControllerWrapper aStackerMotor,
 			EncoderWrapper aStackerEncoder, 
 			DigitalSourceWrapper aUpperStackerLimit,
 			DigitalSourceWrapper aLowerStackerLimit) 

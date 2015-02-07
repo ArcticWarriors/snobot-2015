@@ -13,7 +13,7 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
 
     private LinearEncoderCalculator mRightDriveEnc;
     private LinearEncoderCalculator mLeftDriveEnc;
-    private StackerSImulator mStackerSimulator;
+    private StackerSimulator mStackerSimulator;
     
     private TankDriveGyroSimulator mGyroSim;
     
@@ -52,11 +52,11 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
 
         mRightDriveEnc = new LinearEncoderCalculator(rightDriveMotor, rightEncoder);
         mLeftDriveEnc = new LinearEncoderCalculator(leftDriveMotor, leftEncoder);
-        mStackerSimulator = new StackerSImulator (stackerMotor, stackerEncoder,
+        mStackerSimulator = new StackerSimulator (stackerMotor, stackerEncoder,
         		upperStackerLimit, lowerStackerLimit);
 
         
-        stackerEncoder.setDistancePerTick(.04);
+        stackerEncoder.setDistancePerTick(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ENCODER_DPT, .4));
         
         mLeftDriveEnc.setSimulatorParams(.01);
         mRightDriveEnc.setSimulatorParams(-.01);        
