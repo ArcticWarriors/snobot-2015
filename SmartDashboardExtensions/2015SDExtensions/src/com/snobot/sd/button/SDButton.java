@@ -30,7 +30,7 @@ public class SDButton {
     
     public SDButton()
     {
-        mButton = new JButton(WidgetConfiguration.BUTTON_TEXT);
+//        mButton = new JButton(WidgetConfiguration.BUTTON_TEXT);
         mButton.setPreferredSize(new Dimension(WidgetConfiguration.BUTTON_SIZE_X, 
                 WidgetConfiguration.BUTTON_SIZE_Y));
         
