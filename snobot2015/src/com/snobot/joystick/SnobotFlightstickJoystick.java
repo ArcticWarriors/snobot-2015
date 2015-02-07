@@ -70,28 +70,21 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void control()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void rereadPreferences()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void updateSmartDashboard()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void updateLog()
     {
-        //TODO Update Drive Mode
         // Left Y Axis
         mLogger.updateLogger(mTankLeftYAxis);
 
@@ -110,8 +103,6 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void stop()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

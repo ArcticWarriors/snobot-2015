@@ -55,7 +55,7 @@ public class SnobotStacker implements IStacker
         mStackerEncoder = aStackerEncoder;
 
         // TODO - PJ make configurable
-        mStackerEncoder.setDistancePerPulse(.4);
+        mStackerEncoder.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ENCODER_DPT, .4));
     }
 
     @Override
@@ -64,13 +64,13 @@ public class SnobotStacker implements IStacker
 
         if (mUpperLimitSwitchState)
         {
-            System.out.println("Move Stacker Up Stopped :)");
+//            System.out.println("Move Stacker Up Stopped :)");
             stop();
             return false;
         }
         else
         {
-            System.out.println("Move Stacker Up Moving :)");
+//            System.out.println("Move Stacker Up Moving :)");
             mStackerMotor.set(mStackerDefaultSpeed);
             return true;
         }
@@ -86,13 +86,13 @@ public class SnobotStacker implements IStacker
 
         if (mLowerLimitSwitchState)
         {
-            System.out.println("Move Stacker Down Moving :)");
+//            System.out.println("Move Stacker Down Stopped :)");
             stop();
             return false;
         }
         else
         {
-            System.out.println("Move Stacker Down Moving :)");
+//            System.out.println("Move Stacker Down Moving :)");
             mStackerMotor.set(-mStackerDefaultSpeed);
             return true;
         }

@@ -130,28 +130,25 @@ public class SnobotClaw implements IClaw
     @Override
     public void updateSmartDashboard()
     {
-        SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mRobotAirPressure);
+        SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, getRobotAirPressure());
     }
 
     @Override
     public void updateLog()
     {
-        mLogger.updateLogger(mRobotAirPressure);
+        mLogger.updateLogger(getRobotAirPressure());
 
     }
 
     @Override
     public void stop()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public double getRobotAirPressure()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return mRobotAirPressure;
     }
 
 }

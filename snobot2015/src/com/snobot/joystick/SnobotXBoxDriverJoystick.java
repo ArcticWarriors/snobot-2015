@@ -72,15 +72,11 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public void control()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void rereadPreferences()
     {
-        // TODO Auto-generated method stub
-
         mTankMode = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_TANK_MODE, XboxButtonMap.A_BUTTON);
         mArcadeMode = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_ARCADE_MODE, XboxButtonMap.B_BUTTON);
     }
@@ -88,14 +84,11 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public void updateSmartDashboard()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void updateLog()
     {
-        // TODO Update Drive mode
         // Left Y Axis
         mLogger.updateLogger(mTankLeftYAxis);
 
@@ -115,8 +108,6 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public void stop()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

@@ -69,8 +69,6 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void update()
     {
-        // TODO Auto-generated method stub
-
         mDistanceLeftTrack = mEncoderLeft.getDistance();
         mDistanceRightTrack = mEncoderRight.getDistance(); 
         mSpeedControllerLeft.get();
@@ -96,8 +94,6 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void rereadPreferences()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

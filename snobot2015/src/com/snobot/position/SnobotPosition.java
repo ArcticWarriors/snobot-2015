@@ -258,14 +258,10 @@ public class SnobotPosition implements ISubsystem
 
     @Override
     public void control() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void rereadPreferences() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
@@ -279,7 +275,5 @@ public class SnobotPosition implements ISubsystem
 
     @Override
     public void stop() {
-        // TODO Auto-generated method stub
-        
     }
 }

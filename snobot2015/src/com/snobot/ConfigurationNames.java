@@ -64,6 +64,8 @@ public class ConfigurationNames
     public static final String sSTACKER_THREE_STACK_HEIGHT ="StackerThreeStackHeight";
     public static final String sSTACKER_ONESTACK_HEIGHT = "StackerOneStackHeight";
     public static final String sSTACKER_STACKING_MARGIN = "StackerStackingMargin";
+    
+    public static final String sSTACKER_ENCODER_DPT = "StackerEncoderDPT";
 
     // Logger
     public static final String sLOG_COUNT = "LogCount";

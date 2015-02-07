@@ -23,8 +23,6 @@ public class SmartStack extends Command
     @Override
     protected void end()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

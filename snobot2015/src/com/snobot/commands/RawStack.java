@@ -7,31 +7,29 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class RawStack extends Command
 {
-    private final Timer mTimer;
-    private final double mSpeed;
-    private final boolean moveUp;
     private final SnobotStacker mSnobotStacker;
+    private final Timer mTimer;
+    private final boolean moveUp;
+    private final double mTimeout;
 
-    public RawStack(double aSpeed, boolean aMoveUp, SnobotStacker aSnobotStacker)
+    public RawStack(double aTimeout, boolean aMoveUp, SnobotStacker aSnobotStacker)
     {
-        mSpeed = aSpeed;
-        moveUp = aMoveUp;
-        mTimer = new Timer();
         mSnobotStacker = aSnobotStacker;
+        mTimer = new Timer();
+        mTimeout = aTimeout;
+        moveUp = aMoveUp;
     }
 
     @Override
     protected void end()
     {
-        // TODO Auto-generated method stub
-
+        mSnobotStacker.stop();
     }
 
     @Override
     protected void execute()
     {
-        // TODO Auto-generated method stub
-        if (mTimer.get() < 5)
+        if (mTimer.get() < mTimeout)
         {
             if (moveUp)
             {
@@ -54,15 +52,12 @@ public class RawStack extends Command
     @Override
     protected void interrupted()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
-        if (mTimer.get() >= 5)
+        if (mTimer.get() >= mTimeout)
         {
             return true;
         }
