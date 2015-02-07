@@ -8,18 +8,15 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SmartStack extends Command
 {
-    private final Timer mTimer;
-    private double mStackerHeight;
-    private final double mSpeed;
-    private final boolean moveUp;
+    private boolean mFinished;
+    private int mStackCommandIndex;
     private final SnobotStacker mSnobotStacker;
+   
 
-    public SmartStack(double aSpeed,double aStackerHeight, boolean aMoveUp, SnobotStacker aSnobotStacker)
+    public SmartStack( int aStackCommandIndex, SnobotStacker aSnobotStacker)
     {
-        mSpeed = aSpeed;
-        mStackerHeight = aStackerHeight;
-        moveUp = aMoveUp;
-        mTimer = new Timer();
+        mFinished = false;
+        mStackCommandIndex = aStackCommandIndex;
         mSnobotStacker = aSnobotStacker;
     }
 
@@ -33,48 +30,64 @@ public class SmartStack extends Command
     @Override
     protected void execute()
     {
-        // TODO Auto-generated method stub
-        if (mTimer.get() < 5)
+        
+        switch (mStackCommandIndex)
         {
-            if (moveUp)
-            {
-                mSnobotStacker.moveStackerUp();
-            }
-            else
-            {
-                mSnobotStacker.moveStackerDown();
-            }
+        case 0:
+        {
+            mSnobotStacker.moveStackerToGround();
+            mFinished = true;
+            break;
         }
-
+        case 1:
+        {
+            mSnobotStacker.moveStackerToScoringPlatform();
+            mFinished = true;
+            break;
+        }
+        case 2:
+        {
+            mSnobotStacker.moveStackerToOneStack();
+            mFinished = true;
+            break;
+        }
+        case 3:
+        {
+            mSnobotStacker.moveStackerToTwoStack();
+            mFinished = true;
+            break;
+        }
+        case 4:
+        {
+            mSnobotStacker.moveStackerToThreeStack();
+            mFinished = true;
+            break;
+        }
+        default:
+        {
+            mSnobotStacker.stop();
+            mFinished = true;
+        }
+        }
     }
 
     @Override
     protected void initialize()
     {
-        mTimer.start();
-        mStackerHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ONESTACK_HEIGHT, 13);
+
     }
 
     @Override
     protected void interrupted()
     {
-        // TODO Auto-generated method stub
-
+        mSnobotStacker.stop();
     }
 
     @Override
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
-        if (mTimer.get() >= 5)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
+        return mFinished;
+      
     }
 
 }

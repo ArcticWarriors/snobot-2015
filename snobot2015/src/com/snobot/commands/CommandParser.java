@@ -98,6 +98,11 @@ public class CommandParser
                         Double.parseDouble(args.get(2)),
                         mSnobot.getSnobotClaw());
                 break;
+            case ConfigurationNames.sSMART_STACK_COMMAND:
+                newCommand = new SmartStack(
+                        Integer.parseInt(args.get(1)),
+                        mSnobot.getSnobotStacker());
+                break;
                     
             }
         }

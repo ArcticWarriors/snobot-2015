@@ -180,7 +180,11 @@ public class SnobotStacker implements IStacker
     public void rereadPreferences()
     {
         mStackerDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
+        mStackerGroundHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_GROUND_HEIGHT, 0);
+        mStackerScoringPlatformHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_SCORING_PLATFORM_HEIGHT, 2);
         mStackerOneStackHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ONESTACK_HEIGHT, 13.1);
+        mStackerTwoStackHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_TWO_STACK_HEIGHT, 26.2);
+        mStackerThreeStackHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_THREE_STACK_HEIGHT, 39.3);
         mStackerStackingMargin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_STACKING_MARGIN, .5);
 
     }
