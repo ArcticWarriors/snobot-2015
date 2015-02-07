@@ -14,21 +14,34 @@ public class RobotDrawer2015 extends JPanel
 {    
     private static final double sCHASIS_WIDTH = 40;
     private static final double sCHASIS_HEIGHT = 6;
+    private static final double sCHASIS_X_START = 50.75;
+    private static final double sCHASIS_Y_START = 40;
     
     private static final double sCLAW_HEIGHT_START = 44;
     private static final double sCLAW_HEIGHT_END = 46;
     private static final double sCLAW_LENGTH = 13;
+//    private static final double sCLAW_X_START;
+//    private static final double sCLAW_Y_START;
     
     private static final double sSTACKER_HEIGHT = 34.375;
     private static final double sSTACKER_WIDTH = 1;
+    private static final double sSTACKER_X_START = 50.75;
+    private static final double sSTACKER_Y_START = sCHASIS_Y_START-sSTACKER_HEIGHT;
     
     private static final double sSTACKER_FORK_LENGTH = 20.75;
     private static final double sSTACKER_FORK_HEIGHT = 1;
+    private static final double sSTACKER_FORK_X_START = 30;
+    private static final double sSTACKER_FORK_Y_START = sCHASIS_Y_START-1;
     
-    private static final double sROBOT_LENGTH = sCHASIS_WIDTH+sSTACKER_FORK_LENGTH;
+    private static final double sROBOT_WIDTH = sSTACKER_X_START + sCHASIS_WIDTH+sSTACKER_FORK_LENGTH;
     private static final double sROBOT_HEIGHT = sCHASIS_HEIGHT+sSTACKER_HEIGHT;
     
-    private static final double sLONGEST_DIM= 2.1*(Math.sqrt(sROBOT_HEIGHT*sROBOT_HEIGHT + sROBOT_LENGTH*sROBOT_LENGTH));
+    private static final double sLIMIT_SWITCH_HEIGHT = 1;
+    private static final double sLIMIT_SWITCH_WIDTH =1;
+    private static final double sLOWER_LIMIT_X_START = sCHASIS_X_START-1;
+    private static final double sLOWER_LIMIT_Y_START = sCHASIS_Y_START-1;
+    private static final double sUPPER_LIMIT_X_START = sCHASIS_X_START-1;
+    private static final double sUPPER_LIMIT_Y_START = (sCHASIS_Y_START-sSTACKER_HEIGHT);
     
     private Dimension mDimension = new Dimension(400,400);
     private double mScaleFactor;
@@ -59,14 +72,16 @@ public class RobotDrawer2015 extends JPanel
     
       public void updateSize()
     {
-        double minDimensionSize = Math.min(getSize().getWidth(), getSize().getHeight());
+        double horizontalScaleFactor= (getWidth()/sROBOT_WIDTH);
+        double verticalScaleFactor= (getHeight()/sROBOT_HEIGHT);
+          
+        double minScaleFactor = Math.min(horizontalScaleFactor, verticalScaleFactor);
         
-        mScaleFactor = (minDimensionSize / sLONGEST_DIM);
-        int size = (int) (sLONGEST_DIM*mScaleFactor);
+        mScaleFactor = minScaleFactor;
         
-        mDimension = new Dimension(size, size);
-        
-        System.out.println("Scale Factor: " + mScaleFactor + "\tLongest Dimension " + sLONGEST_DIM);
+        System.out.println("Scale Factor: " + mScaleFactor);
+        System.out.println("  Horizontal factor : " + horizontalScaleFactor + ", width : " + getWidth() + ", " + sROBOT_WIDTH);
+        System.out.println("  Vertical factor : " + verticalScaleFactor + ", width : " + getHeight() + ", " + sROBOT_HEIGHT);
         
         repaint();
     }
@@ -88,7 +103,11 @@ public class RobotDrawer2015 extends JPanel
   
     private void drawLowerLimitSwitch(Graphics2D g2d)
     {
-        Rectangle2D lowerLimitSwitch= new Rectangle2D.Double(49.75* mScaleFactor, 39 * mScaleFactor, 1*mScaleFactor, 1*mScaleFactor);
+        Rectangle2D lowerLimitSwitch= new Rectangle2D.Double(
+                sLOWER_LIMIT_X_START* mScaleFactor, 
+                sLOWER_LIMIT_Y_START * mScaleFactor, 
+                sLIMIT_SWITCH_HEIGHT*mScaleFactor, 
+                sLIMIT_SWITCH_WIDTH*mScaleFactor);
         
         if (mLowerLimitSwitch)
         {
@@ -104,7 +123,12 @@ public class RobotDrawer2015 extends JPanel
     
     private void drawUpperLimitSwitch (Graphics2D g2d)
     {
-        Rectangle2D upperLimitSwitch = new Rectangle2D.Double(49.75 * mScaleFactor, (40-sSTACKER_HEIGHT) * mScaleFactor, 1*mScaleFactor, 1*mScaleFactor);
+        Rectangle2D upperLimitSwitch = new Rectangle2D.Double(
+                sUPPER_LIMIT_X_START* mScaleFactor,  
+                sUPPER_LIMIT_Y_START* mScaleFactor, 
+                sLIMIT_SWITCH_HEIGHT*mScaleFactor, 
+                sLIMIT_SWITCH_WIDTH*mScaleFactor);
+        
         if (mUpperLimitSwitch)
         {
             g2d.setColor(Color.green);
@@ -119,14 +143,22 @@ public class RobotDrawer2015 extends JPanel
     
     private void drawRobotBase(Graphics2D g2d)
     {
-        Rectangle2D robotBase = new Rectangle2D.Double(50.75 * mScaleFactor, 40 * mScaleFactor, sCHASIS_WIDTH * mScaleFactor, sCHASIS_HEIGHT * mScaleFactor);
+        Rectangle2D robotBase = new Rectangle2D.Double(
+                sCHASIS_X_START * mScaleFactor, 
+                sCHASIS_Y_START * mScaleFactor, 
+                sCHASIS_WIDTH * mScaleFactor, 
+                sCHASIS_HEIGHT * mScaleFactor);
         g2d.setColor(sROBOT_BASE_COLOR);
         g2d.fill(robotBase);
     }
     
     private void drawForklift (Graphics2D g2d)
     {
-        Rectangle2D forklift = new Rectangle2D.Double(30 * mScaleFactor, (39-mStackerHeight) * mScaleFactor, sSTACKER_FORK_LENGTH*mScaleFactor, sSTACKER_FORK_HEIGHT*mScaleFactor);
+        Rectangle2D forklift = new Rectangle2D.Double(
+                sSTACKER_FORK_X_START * mScaleFactor, 
+                (sSTACKER_FORK_Y_START-mStackerHeight) * mScaleFactor, 
+                sSTACKER_FORK_LENGTH*mScaleFactor, 
+                sSTACKER_FORK_HEIGHT*mScaleFactor);
         g2d.setColor(sROBOT_FORK_COLOR);
         g2d.fill(forklift);
     }
@@ -134,11 +166,10 @@ public class RobotDrawer2015 extends JPanel
     private void drawStacker (Graphics2D g2d)
     {
         Rectangle2D stacker = new Rectangle2D.Double(
-                50.75 * mScaleFactor, 
-                (40-sSTACKER_HEIGHT) * mScaleFactor,
+                sSTACKER_X_START * mScaleFactor, 
+                sSTACKER_Y_START * mScaleFactor,
                 sSTACKER_WIDTH * mScaleFactor, 
                 sSTACKER_HEIGHT * mScaleFactor);
-        
         g2d.setColor(sROBOT_STACKER_COLOR);
         g2d.fill(stacker);
     }

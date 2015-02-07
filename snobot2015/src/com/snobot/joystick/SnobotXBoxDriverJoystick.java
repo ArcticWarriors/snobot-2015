@@ -31,11 +31,10 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
      * @param aXBoxStick
      *            Argument for xBox Stick
      */
-    public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger, DriveMode aDriveMode)
+    public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger)
     {
         System.out.println("Creating xbox joystick");
         mXBoxStick = aXBoxStick;
-        mDriveMode = aDriveMode;
         mLogger = aLogger;
     }
 

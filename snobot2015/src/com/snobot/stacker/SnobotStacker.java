@@ -59,16 +59,18 @@ public class SnobotStacker implements IStacker
     }
 
     @Override
-    public void moveStackerUp()
+    public boolean moveStackerUp()
     {
 
         if (mUpperLimitSwitchState)
         {
             stop();
+            return false;
         }
         else
         {
             mStackerMotor.set(mStackerDefaultSpeed);
+            return true;
         }
         /**
          * Assuming Physical Limit Switch will stop stacker at limit
@@ -77,61 +79,64 @@ public class SnobotStacker implements IStacker
     }
 
     @Override
-    public void moveStackerDown()
+    public boolean moveStackerDown()
     {
 
         if (mLowerLimitSwitchState)
         {
             stop();
+            return false;
         }
         else
         {
             mStackerMotor.set(-mStackerDefaultSpeed);
+            return true;
         }
         /**
          * Assuming Physical Limit Switch will stop stacker at limit
          */
     }
     
-    public void moveStackerToGround()
+    public boolean moveStackerToGround()
     {
-        moveStackerToHeight(mStackerGroundHeight);
+       return moveStackerToHeight(mStackerGroundHeight);
     }
     
-    public void moveStackerToScoringPlatform()
+    public boolean moveStackerToScoringPlatform()
     {
-        moveStackerToHeight(mStackerScoringPlatformHeight);
+        return moveStackerToHeight(mStackerScoringPlatformHeight);
     }
 
-    public void moveStackerToOneStack()
+    public boolean moveStackerToOneStack()
     {
-        moveStackerToHeight(mStackerOneStackHeight);
+        return moveStackerToHeight(mStackerOneStackHeight);
     }
     
-    public void moveStackerToTwoStack()
+    public boolean moveStackerToTwoStack()
     {
-        moveStackerToHeight(mStackerTwoStackHeight);
+        return moveStackerToHeight(mStackerTwoStackHeight);
     }
     
-    public void moveStackerToThreeStack()
+    public boolean moveStackerToThreeStack()
     {
-        moveStackerToHeight(mStackerThreeStackHeight);
+        return moveStackerToHeight(mStackerThreeStackHeight);
     }
 
-    public void moveStackerToHeight(double aHeight)
+    public boolean moveStackerToHeight(double aHeight)
     {
         if (mStackerHeight <= aHeight + mStackerStackingMargin
                 && mStackerHeight >= aHeight - mStackerStackingMargin)
         {
             stop();
+            return true;
         }
         else if (mStackerHeight > aHeight)
         {
-            moveStackerDown();
+            return !moveStackerDown();
         }
         else
         {
-            moveStackerUp();
+            return !moveStackerUp();
         }
     }
 
