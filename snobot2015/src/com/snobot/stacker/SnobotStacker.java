@@ -118,7 +118,7 @@ public class SnobotStacker implements IStacker
         moveStackerToHeight(mStackerThreeStackHeight);
     }
 
-    private void moveStackerToHeight(double aHeight)
+    public void moveStackerToHeight(double aHeight)
     {
         if (mStackerHeight <= aHeight + mStackerStackingMargin
                 && mStackerHeight >= aHeight - mStackerStackingMargin)
@@ -143,6 +143,8 @@ public class SnobotStacker implements IStacker
         mLogger.addHeader("LowerLimitSwitchState");
         mLogger.addHeader("StackerEncoderDistance");
         mLogger.addHeader("StackerMotorValue");
+        
+        rereadPreferences ();
     }
 
     @Override
