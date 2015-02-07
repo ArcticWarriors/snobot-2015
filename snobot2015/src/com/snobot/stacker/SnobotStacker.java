@@ -160,8 +160,8 @@ public class SnobotStacker implements IStacker
     public void update()
     {
         mStackerHeight = mStackerEncoder.getDistance();
-        mUpperLimitSwitchState = mUpperLimitSwitch.get();
-        mLowerLimitSwitchState = mLowerLimitSwitch.get();
+        mUpperLimitSwitchState = !mUpperLimitSwitch.get();
+        mLowerLimitSwitchState = !mLowerLimitSwitch.get();
         mStackerEncoderDistance = mStackerEncoder.getDistance();
         mStackerMotorValue = mStackerMotor.get();
 
