@@ -8,10 +8,15 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import com.snobot.ConfigurationNames;
+import com.snobot.SmartDashboardNames;
 import com.snobot.Snobot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
+import edu.wpi.first.wpilibj.tables.ITableListener;
 
 public class CommandParser
 {
@@ -145,13 +150,17 @@ public class CommandParser
     	
         try
         {
+            String fileContents = "";
             BufferedReader br = new BufferedReader(new FileReader(aFilePath));
             
             String line;
             while((line = br.readLine()) != null)
             {
                 this.commandParser(output, line);
+                fileContents += line + "\n";
             }
+            
+            SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, fileContents);
             
             br.close();
         }
