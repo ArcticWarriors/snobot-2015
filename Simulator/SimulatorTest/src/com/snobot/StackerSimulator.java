@@ -38,20 +38,20 @@ public class StackerSimulator extends LinearEncoderCalculator {
 		
 		if (distance <= 0) 
 		{
-			mLowerStackerLimit.set(true);
+			mLowerStackerLimit.set(false);
 		}
 		else
 		{
-			mLowerStackerLimit.set(false);
+			mLowerStackerLimit.set(true);
 		}
 		
 		if (distance >= 20) 
 		{	
-			mUpperStackerLimit.set(true);
+			mUpperStackerLimit.set(false);
 		}
 		else 
 		{
-			mUpperStackerLimit.set(false);
+			mUpperStackerLimit.set(true);
 		}
 	}
 
