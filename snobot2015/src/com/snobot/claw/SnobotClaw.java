@@ -76,8 +76,7 @@ public class SnobotClaw implements IClaw
     @Override
     public void init()
     {
-        mLogger.addHeader("Claw Up/Down Pressure");
-        mLogger.addHeader("Claw Open/Close Pressure");
+        mLogger.addHeader("Claw Pressure");
         rereadPreferences();
     }
 
