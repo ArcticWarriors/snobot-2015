@@ -189,12 +189,12 @@ public class Snobot extends IterativeRobot
         mPositioner = new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 
         mSubsystems = new ArrayList<ISubsystem>();
-//        mSubsystems.add(mOperatorJoystick);
+        mSubsystems.add(mOperatorJoystick);
         mSubsystems.add(mDriverJoystick);
-//        mSubsystems.add(mStacker);
-//        mSubsystems.add(mClaw);
-//        mSubsystems.add(mDriveTrain);
-//        mSubsystems.add(mPositioner);
+        mSubsystems.add(mStacker);
+        mSubsystems.add(mClaw);
+        mSubsystems.add(mDriveTrain);
+        mSubsystems.add(mPositioner);
 
         for (ISubsystem iSubsystem : mSubsystems)
         {
