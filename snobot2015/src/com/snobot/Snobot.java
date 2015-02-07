@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
@@ -187,7 +188,6 @@ public class Snobot extends IterativeRobot
 
         ConfigurationNames.saveIfUpdated();
         
-
         mParser = new CommandParser(this);
         
         mAutonDirectory = "../../snobot2015/resources/autonoumous/";
@@ -202,9 +202,22 @@ public class Snobot extends IterativeRobot
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
               
                 mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
-                
             }
         });
+
+        
+        ITableListener saveModeListener = new ITableListener() {
+            
+            @Override
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
+//                if (SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "").equals("New"))
+                {
+                    mAutonCommand = mParser.parseAutonString(SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT));
+                }
+            }
+        };
+        NetworkTable.getTable("SmartDashboard").addTableListener(SmartDashboardNames.sSD_COMMAND_TEXT, 
+                saveModeListener, true);
     }
 
     @Override
@@ -241,7 +254,7 @@ public class Snobot extends IterativeRobot
         updateSmartDashboard();
         updateLog();
     }
-
+    
     @Override
     public void disabledInit()
     {
