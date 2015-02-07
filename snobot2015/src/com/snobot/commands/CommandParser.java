@@ -92,7 +92,6 @@ public class CommandParser
                             mSnobot.getSnobotClaw());
                 break;
             case ConfigurationNames.sMOVE_CLAW_COMMAND:
-                System.out.println("Moving claw");
                 newCommand = new MoveClaw(
                         Boolean.parseBoolean(args.get(1)),
                         Double.parseDouble(args.get(2)),
@@ -101,15 +100,19 @@ public class CommandParser
                     
             }
         }
+        catch (IndexOutOfBoundsException e)
+        {
+            System.err.println("!!!!!! Index out of bounds... " + e.getMessage());
+        }
         catch (Exception e)
         {
-            e.getStackTrace();
+            e.printStackTrace();
         }
         
         
         if (newCommand==null)
         {
-            System.out.println("Can't add null command");
+            System.out.println("Can't add null command for name : " + args.get(0));
         }
         
         else if (isParallel)

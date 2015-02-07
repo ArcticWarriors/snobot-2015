@@ -4,8 +4,8 @@ RawStack .5 false
 ClawGrab true
 ClawGrab false
 
-MoveClaw true
-MoveClaw false
+MoveClaw true 2
+MoveClaw false 2
 
 DriveForward 5 1
 DriveForward -5 1

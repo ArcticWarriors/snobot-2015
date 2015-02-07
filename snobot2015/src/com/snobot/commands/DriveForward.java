@@ -56,16 +56,22 @@ public class DriveForward extends Command
      */
     protected void execute()
     {
-        double distance_travelled = mPosition.getTotalDistance() - mStartingDistance;
+        double distanceTravelled = mPosition.getTotalDistance() - mStartingDistance;
 
-        if (distance_travelled < mDesiredDistance)
+        if (distanceTravelled < (mDesiredDistance - .5))
         {
             mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
         }
+        else if(distanceTravelled > (mDesiredDistance + .5))
+        {
+            mDriveTrain.setMotorSpeed(-mSpeed, -mSpeed);
+        }
         else
         {
-            mFinished=true;
+            mFinished = true;
         }
+        
+        System.out.println(mPosition.getTotalDistance());
     }
 
     @Override

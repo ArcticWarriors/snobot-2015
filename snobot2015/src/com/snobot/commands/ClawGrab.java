@@ -13,11 +13,11 @@ public class ClawGrab extends Command
     private Timer mTimer;
     
     
-    public ClawGrab(boolean aOpen, double aLiftSeconds, SnobotClaw aClaw)
+    public ClawGrab(boolean aOpen, double aOpenSeconds, SnobotClaw aClaw)
     {
         mOpen = aOpen;
         mClaw = aClaw;
-        mLiftSeconds = aLiftSeconds;
+        mLiftSeconds = aOpenSeconds;
         mTimer = new Timer();
     }
     
