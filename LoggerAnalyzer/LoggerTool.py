@@ -57,10 +57,12 @@ def plot_driver_joysticks(converted_dict):
     arcade_speed = converted_dict["Arcade Mode: Speed (1 to -1)"]
     arcade_rotate = converted_dict["Arcade Mode: Right X Axis"]
 
+    x_axis = numpy.arange(len(tank_right))
+
     plt.subplot(4, 1, 1)
     plt.title('Driver Joysticks')
     plt.ylabel('Tank Right')
-    plt.plot(tank_right, c='b', marker="o")
+    plt.scatter(x_axis, tank_right, c=tank_right, marker="o", cmap=plt.get_cmap("gist_rainbow_r"), edgecolors='None')
 
     plt.subplot(4, 1, 2)
     plt.ylabel('Tank Left')
