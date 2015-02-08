@@ -18,10 +18,10 @@ public class ConfigurationNames
 
     // Flightsticks Control
     // TODO PJ doesn't much care for this
-    public static final String sFlightsticks_Y_Axis = "FlightsticksYAxis";
-    public static final String sFlightsticks_X_Axis = "FlighsticksXAxis";
-    public static final String sFlightsticks_Button_Switch_To_Tank = "FlighstickButtonSwitchToTank";
-    public static final String sFlightsticks_Button_Switch_To_Arcade = "FlightstickButtonSwitchToArcade";
+    public static final String sFLIGHTSTICKS_Y_AXIS = "FlightsticksYAxis";
+    public static final String sFLIGHTSTICKS_X_AXIS = "FlighsticksXAxis";
+    public static final String sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK = "FlighstickButtonSwitchToTank";
+    public static final String sFLIGHTSTICKS_BUTTON_SWITCH_TO_ARCADE = "FlightstickButtonSwitchToArcade";
     
     public static final String sXBOX_JOYSTICK_STACKER_UP = "XboxJoystickStackerUp";
     public static final String sXBOX_JOYSTICK_STACKER_DOWN = "XboxJoystickStackerDown";
