@@ -29,7 +29,9 @@ public class SmartDashboardNames
     public static final String sENCODER_HEIGHT = "Encoder Height";
     public static final String sSTACKER_MOTOR_VALUE = "Stacker Motor";
     
-//    public static final String sSEND_BUTTON_PRESSED = "Send-button pressed";
     public static final String sROBOT_COMMAND_TEXT = "Robot Command text";
     public static final String sSD_COMMAND_TEXT = "SD Command text";
+    public static final String sCOMMAND_ERROR_TEXT = "Command error text";
+    public static final String sCOMMAND_ERROR_BOOL = "Command error boolean";
+    public static final String sSAVE_REQUEST = "Should save?";
 }
