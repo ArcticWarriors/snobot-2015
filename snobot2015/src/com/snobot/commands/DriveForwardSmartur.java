@@ -35,11 +35,13 @@ public class DriveForwardSmartur extends Command
     @Override
     protected void execute()
     {
-        mError = mStartingDistance - mDesiredDistance;
+        mError = mDesiredDistance - (mPosition.getTotalDistance() - mStartingDistance);
         mSpeed = mError * ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_FORWARD_KP_VALUE, 0.01);
         mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
         
-        mFinished = (Math.abs(mError) >= ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_FORWARD_MIN_ERROR, 2));
+        // System.out.println("Error = " + mError + ", speed = " + mSpeed);
+        
+        mFinished = (Math.abs(mError) < ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_FORWARD_MIN_ERROR, 2));
     }
 
     @Override

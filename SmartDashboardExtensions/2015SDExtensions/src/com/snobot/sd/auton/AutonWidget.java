@@ -40,7 +40,6 @@ public class AutonWidget extends StaticWidget
             public void actionPerformed(ActionEvent e) {
                 Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_REQUEST, true);
                 Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
-                Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
             }
         });
         

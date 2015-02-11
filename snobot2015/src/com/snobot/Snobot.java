@@ -253,6 +253,7 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
+        mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
     	if(mAutonCommand != null)
     	{
     	    mAutonCommand.start();
