@@ -85,7 +85,7 @@ public class SnobotClaw implements IClaw
     public void update()
     {
      
-        mRobotAirPressure = -1;
+        mRobotAirPressure = 100;
         
         mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
     }

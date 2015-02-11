@@ -1,7 +1,6 @@
 package com.snobot.commands;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +12,7 @@ import com.snobot.Snobot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
 
 public class CommandParser
 {
@@ -52,12 +48,13 @@ public class CommandParser
         }
 
         Command newCommand = null;
+        String commandName = args.get(0);
 
         boolean isParallel;
-        if (args.get(0).startsWith("&"))
+        if (commandName.startsWith("&"))
         {
             isParallel = true;
-            args.set(0, args.get(0).substring(1));
+            args.set(0, commandName.substring(1));
         }
         else
         {
@@ -66,13 +63,14 @@ public class CommandParser
 
         try
         {
-            switch (args.get(0))
+            switch (commandName)
             {
 
             case ConfigurationNames.sDRIVE_FORWARD_COMMAND:
                 newCommand = new DriveForward(
                         Double.parseDouble(args.get(1)), 
                         Double.parseDouble(args.get(2)), 
+                        Double.parseDouble(args.get(3)),
                         mSnobot.getDriveTrain(),
                         mSnobot.getPositioner());
                 break;
@@ -81,9 +79,11 @@ public class CommandParser
                 newCommand = new DriveRotate(
                         Double.parseDouble(args.get(1)), 
                         Double.parseDouble(args.get(2)), 
+                        Double.parseDouble(args.get(3)),
                         mSnobot.getDriveTrain(), 
                         mSnobot.getPositioner());
                 break;
+                
             case ConfigurationNames.sRAW_STACK_COMMAND:
                 newCommand = new RawStack(
                         Double.parseDouble(args.get(1)),
@@ -102,17 +102,23 @@ public class CommandParser
                         Double.parseDouble(args.get(2)),
                         mSnobot.getSnobotClaw());
                 break;
+                
             case ConfigurationNames.sSMART_STACK_COMMAND:
                 newCommand = new SmartStack(
                         Integer.parseInt(args.get(1)),
                         mSnobot.getSnobotStacker());
                 break;
-                    
             }
         }
         catch (IndexOutOfBoundsException e)
         {
+            SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, false);
+            SmartDashboard.putString(SmartDashboardNames.sCOMMAND_ERROR_TEXT, 
+                    "You have not specied enough arguments for the command: " + args.get(0));
             System.err.println("!!!!!! Index out of bounds... " + e.getMessage());
+            SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, false);
+            SmartDashboard.putString(SmartDashboardNames.sCOMMAND_ERROR_TEXT, 
+                    "Not enough arguments for the command: " + commandName);
         }
         catch (Exception e)
         {
@@ -122,16 +128,21 @@ public class CommandParser
         
         if (newCommand==null)
         {
-            System.out.println("Can't add null command for name : " + args.get(0));
+            System.out.println("Can't add null command for name : " + commandName);
+            SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, false);
+            SmartDashboard.putString(SmartDashboardNames.sCOMMAND_ERROR_TEXT, 
+                    "'" + commandName + "' is not a valid command");
         }
         
         else if (isParallel)
         {
         	aGroup.addParallel(newCommand);
+        	SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, true);
         }
         else
         {
         	aGroup.addSequential(newCommand);
+        	SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, true);
         }
     }
     

@@ -29,18 +29,15 @@ public class RawStack extends Command
     @Override
     protected void execute()
     {
-        if (mTimer.get() < mTimeout)
-        {
-            if (moveUp)
-            {
-                mSnobotStacker.moveStackerUp();
-            }
-            else
-            {
-                mSnobotStacker.moveStackerDown();
-            }
-        }
 
+        if (moveUp)
+        {
+            mSnobotStacker.moveStackerUp();
+        }
+        else
+        {
+            mSnobotStacker.moveStackerDown();
+        }
     }
 
     @Override
@@ -57,15 +54,7 @@ public class RawStack extends Command
     @Override
     protected boolean isFinished()
     {
-        if (mTimer.get() >= mTimeout)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
+        return (mTimer.get() >= mTimeout);
     }
 
 }

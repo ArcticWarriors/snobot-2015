@@ -30,6 +30,8 @@ public class AutonWidget extends StaticWidget
         this.setPreferredSize(new Dimension(WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_X, 
                 WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_Y));
         
+        Robot.getTable().putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, true);
+        
         mPanel.addSendListener(new ActionListener() {
             
             @Override
@@ -73,7 +75,11 @@ public class AutonWidget extends StaticWidget
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) 
             {
-                mPanel.getTextArea().append("\n" + SmartDashboardNames.sCOMMAND_ERROR_TEXT);   
+                if (Robot.getTable().getBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL))
+                {
+                    mPanel.getTextArea().append("\n" + Robot.getTable().getString
+                            (SmartDashboardNames.sCOMMAND_ERROR_TEXT, ""));
+                }
             }
             
         };
