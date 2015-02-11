@@ -64,6 +64,8 @@ public class ConfigurationNames
     
     public static final String sSTACKER_ENCODER_DPT = "StackerEncoderDPT";
 
+    public static final String sDRIVE_ROTATE_KP_VALUE = "DriveRotateKPValue";
+    public static final String sDRIVE_ROTATE_MIN_ERROR = "MinRotateError";
     // Logger
     public static final String sLOG_COUNT = "LogCount";
     public static final String sLOG_FILE_PATH = "LogFilePath";
