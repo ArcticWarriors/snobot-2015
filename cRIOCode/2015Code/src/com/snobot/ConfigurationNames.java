@@ -72,7 +72,7 @@ public class ConfigurationNames
     public static final String sDRIVE_FORWARD_MIN_ERROR = "MinForwardError";
 
     public static final String sAUTON_DIR = "AutonDir";
-    public static final String sDEFAULT_AUTON_DIR = "../../snobot2015/resources/autonoumous/";
+    public static final String sDEFAULT_AUTON_DIR = "resources/autonoumous/";
 
     // Logger
     public static final String sLOG_COUNT = "LogCount";

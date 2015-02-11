@@ -23,7 +23,7 @@ public class FileConnection {
         {
             mInStream = new FileInputStream(mFile);
         }
-        else
+        else if (connector.equals(Connector.WRITE))
         {
             mOutStream = new FileOutputStream(mFile);
         }
@@ -55,6 +55,11 @@ public class FileConnection {
 
     public OutputStream openOutputStream() throws FileNotFoundException {
         return new FileOutputStream(mFile);
+    }
+
+    public boolean isDirectory()
+    {
+        return mFile.isDirectory();
     }
 
 }

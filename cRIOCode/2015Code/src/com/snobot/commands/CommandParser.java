@@ -32,7 +32,7 @@ public class CommandParser
      */
     private void commandParser(CommandGroup aGroup, String aLine)
     {
-    	
+        addError("Command parsing is not implemented...");
     }
     
     private CommandGroup createNewCommandGroup(String aName)
@@ -56,7 +56,7 @@ public class CommandParser
 
     private void publishParsingResults(String aCommandString)
     {
-        if (!mErrorText.isEmpty())
+        if (mErrorText.length() != 0)
         {
             aCommandString += "\n\n# There was an error parsing the commands...\n#\n";
             aCommandString += mErrorText;
@@ -84,6 +84,7 @@ public class CommandParser
             String line;
             while((line = br.readLine()) != null)
             {
+                System.out.println("Read line !!!");
                 this.commandParser(output, line);
                 fileContents += line + "\n";
             }
@@ -94,6 +95,7 @@ public class CommandParser
         catch(Exception e)
         {
             e.printStackTrace();
+            addError("Error reading file '" + aFilePath + "'");
         }
         
         publishParsingResults(fileContents);

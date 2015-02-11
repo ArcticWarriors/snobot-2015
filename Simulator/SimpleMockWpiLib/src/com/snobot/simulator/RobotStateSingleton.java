@@ -17,12 +17,13 @@ public class RobotStateSingleton {
 	private boolean enabled = false;
 	private boolean autonomous = false;
 	private boolean test = false;
+    private long enabled_time;
 
 	private ArrayList<LoopListener> mListeners = new ArrayList<>();
 	
 	private RobotStateSingleton()
 	{
-		
+        enabled_time = 0;
 	}
 	public static RobotStateSingleton get()
 	{
@@ -46,7 +47,7 @@ public class RobotStateSingleton {
     {
 		if(enabled)
 		{
-			return HALUtil.getFPGATime(null) * 1e-6f;
+            return (HALUtil.getFPGATime(null) - enabled_time) * 1e-6f;
 		}
 		return 0;
 
@@ -54,8 +55,17 @@ public class RobotStateSingleton {
 
 	public void setDisabled(boolean aDisabled) {
 		enabled = !aDisabled;
+        if (enabled)
+        {
+            enabled_time = HALUtil.getFPGATime(null);
+        }
 	}
 	public void setAutonomous(boolean aAutonomous) {
+
+        if (autonomous != aAutonomous)
+        {
+            enabled_time = HALUtil.getFPGATime(null);
+        }
 		autonomous = aAutonomous;
 	}
 	public void setTest(boolean aTest) {

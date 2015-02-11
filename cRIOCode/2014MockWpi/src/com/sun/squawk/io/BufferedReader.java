@@ -1,21 +1,24 @@
 package com.sun.squawk.io;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class BufferedReader {
 
+    private java.io.BufferedReader br;
+
     public BufferedReader(InputStreamReader reader) {
-        // TODO Auto-generated constructor stub
+        br = new java.io.BufferedReader(reader);
     }
 
-    public String readLine() {
-        // TODO Auto-generated method stub
-        return null;
+    public String readLine() throws IOException
+    {
+        return br.readLine();
     }
 
-    public void close() {
-        // TODO Auto-generated method stub
-        
+    public void close() throws IOException
+    {
+        br.close();
     }
 
 }
