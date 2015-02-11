@@ -1,19 +1,11 @@
 package ____local_main;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.Properties;
-
 import javax.swing.SwingUtilities;
 
 import com.snobot.simulator.gui.SimulatorFrame;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class Main {
@@ -41,6 +33,7 @@ public class Main {
 		}
 		catch(RuntimeException e)
 		{
+            System.out.println("LSDKJFLKSDJF");
 			if(e.getMessage() != null && e.getMessage().equals(sNETWORK_ERROR_MSG))
 			{
 				throw new Exception("Could not start the NetworkTables, check if you have two simulator instances open");
@@ -55,6 +48,10 @@ public class Main {
 		{
 			throw new Exception("Linking error, this is probably PJ's fault.  Come find me and yell at me. Error message:\n    " + e.getMessage());
 		}
+        catch (Exception e)
+        {
+            System.out.println("DDDD");
+        }
 	}
 
     public static void main(String[] args) throws Exception

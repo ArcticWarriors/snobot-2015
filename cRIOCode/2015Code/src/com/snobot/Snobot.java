@@ -1,6 +1,5 @@
 package com.snobot;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,9 +15,8 @@ import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
-import com.snobot.SmartDashboardNames;
-import edu.wpi.first.wpilibj.AnalogChannel;
 
+import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -29,10 +27,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -195,6 +190,8 @@ public class Snobot extends IterativeRobot
     
     public void teleopPeriodic()
     {
+        // System.out.println("Telop Period..." +
+        // mRawDriverJoystickPrimary.getRawAxis(2));
         update();
         control();
         updateSmartDashboard();
