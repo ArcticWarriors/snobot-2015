@@ -65,4 +65,9 @@ public class StackerSimulator implements ISimulatorUpdater
 		}
 	}
 
+    public void setSimulatorParams(double aKp)
+    {
+        mPotCalculator.setSimulatorParams(aKp);
+    }
+
 }
