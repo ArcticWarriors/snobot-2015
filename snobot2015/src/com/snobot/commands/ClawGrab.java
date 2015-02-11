@@ -32,21 +32,12 @@ public class ClawGrab extends Command
         //Actuates claw open/closed
         if(mOpen)
         {
-            if(mTimer.get() < mLiftSeconds)
-            {
-                mClaw.openClaw();
-            }
+            mClaw.openClaw();
         }
         else
         {
-            if(mTimer.get() < mLiftSeconds)
-            {
-                mClaw.closeClaw();
-            }
+            mClaw.closeClaw();
         }
-        
-        
-
     }
 
     @Override
