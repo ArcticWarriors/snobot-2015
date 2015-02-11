@@ -46,7 +46,7 @@ public class NewGamepadJoystick extends BaseJoystick {
             }
 		}
 
-		mAxisValues = new short[mAxis.size()];
-		mPovValues = new short[0];
+        mAxisValues = new byte[mAxis.size()];
+        mPovValues = new byte[0];
 	}
 }

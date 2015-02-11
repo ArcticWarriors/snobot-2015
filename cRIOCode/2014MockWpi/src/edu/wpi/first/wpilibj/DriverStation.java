@@ -8,7 +8,10 @@ package edu.wpi.first.wpilibj;
 
 import com.snobot.simulator.RobotStateSingleton;
 
-import edu.wpi.first.wpilibj.communication.*;
+import edu.wpi.first.wpilibj.communication.FRCCommonControlData;
+import edu.wpi.first.wpilibj.communication.FRCControl;
+import edu.wpi.first.wpilibj.communication.Semaphore;
+import edu.wpi.first.wpilibj.communication.SemaphoreException;
 import edu.wpi.first.wpilibj.parsing.IInputOutput;
 
 /**

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.java.games.input.Component;
-import net.java.games.input.Controller;
 import net.java.games.input.Component.Identifier;
+import net.java.games.input.Controller;
 
 public class BaseJoystick implements IMockJoystick 
 {
@@ -13,8 +13,8 @@ public class BaseJoystick implements IMockJoystick
 	protected final String mName;
 	protected final List<Identifier> mAxis;
 	protected final List<Identifier> mButtons;
-	protected short[] mAxisValues;
-	protected short[] mPovValues;
+    protected byte[] mAxisValues;
+    protected byte[] mPovValues;
 	protected Controller mController;
 
 	public BaseJoystick(String aName) 
@@ -23,8 +23,8 @@ public class BaseJoystick implements IMockJoystick
 		mButtons = new ArrayList<>();
 		mName = aName;
 
-		mAxisValues = new short[mAxis.size()];
-		mPovValues = new short[0];
+        mAxisValues = new byte[mAxis.size()];
+        mPovValues = new byte[0];
 	}
 
 	@Override
@@ -43,7 +43,8 @@ public class BaseJoystick implements IMockJoystick
 	}
 
 	@Override
-	public short[] getAxisValues() {
+    public byte[] getAxisValues()
+    {
 		
 		if(mController != null)
 		{
@@ -54,7 +55,7 @@ public class BaseJoystick implements IMockJoystick
 				Component c = mController.getComponent(mAxis.get(i));
 				if(c != null)
 				{
-					mAxisValues[i] = (short)(c.getPollData() * 127);
+                    mAxisValues[i] = (byte) (c.getPollData() * 127);
 				}
 			}
 		}
@@ -90,7 +91,8 @@ public class BaseJoystick implements IMockJoystick
 	}
 
 	@Override
-	public short[] getPovValues() {
+    public byte[] getPovValues()
+    {
 		return mPovValues;
 	}
 

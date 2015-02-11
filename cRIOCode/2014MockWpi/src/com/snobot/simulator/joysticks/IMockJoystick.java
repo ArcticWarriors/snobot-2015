@@ -8,9 +8,9 @@ public interface IMockJoystick {
 
 	void setRumble(short s);
 	
-	short[] getAxisValues();
+    byte[] getAxisValues();
 
-	short[] getPovValues();
+    byte[] getPovValues();
 
 	int getButtonMask();
 

@@ -3,8 +3,8 @@
 
 package edu.wpi.first.wpilibj.fpga;
 
-import com.snobot.simulator.DigitalSourceWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
+import com.snobot.simulator.SpeedControllerWrapper;
 
 
 public class tDIO extends tSystem
@@ -605,19 +605,29 @@ public class tDIO extends tSystem
       kDIO1_PWMValue9_Address,
    };
 
+    private static SpeedControllerWrapper __getWrapper(int reg_index)
+    {
+        // System.out.println("Writ PWM");
+        if (!SensorActuatorRegistry.get().getSpeedControllers().containsKey(reg_index))
+        {
+            System.out.println("SET");
+            SensorActuatorRegistry.get().register(new SpeedControllerWrapper(), reg_index);
+        }
+
+        return SensorActuatorRegistry.get().getSpeedControllers().get(reg_index);
+    }
+
    public void writePWMValue(final int reg_index, final int value)
    {
-       if(!SensorActuatorRegistry.get().getDigitalSources().containsKey(reg_index))
-       {
-           System.out.println("SET");
-           SensorActuatorRegistry.get().register(new DigitalSourceWrapper(), reg_index);
-       }
    }
    public short readPWMValue(final int reg_index)
    {
        return 0;
    }
 
-
+    public static void __setPWM(int m_channel, double speed)
+    {
+        __getWrapper(m_channel).set(speed);
+    }
 
 }

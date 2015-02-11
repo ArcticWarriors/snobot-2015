@@ -289,20 +289,7 @@ public class PWM extends SensorBase implements LiveWindowSendable {
             speed = 1.0;
         }
 
-        // calculate the desired output pwm value by scaling the speed appropriately
-        int rawValue;
-        if (speed == 0.0) {
-            rawValue = getCenterPwm();
-        } else if (speed > 0.0) {
-            rawValue = (int) (speed * ((double)getPositiveScaleFactor()) +
-                              ((double)getMinPositivePwm()) + 0.5);
-        } else {
-            rawValue = (int) (speed * ((double)getNegativeScaleFactor()) +
-                              ((double)getMaxNegativePwm()) + 0.5);
-        }
-
-        // send the computed pwm value to the FPGA
-        setRaw(rawValue);
+        tDIO.__setPWM(m_channel, speed);
     }
 
     /**

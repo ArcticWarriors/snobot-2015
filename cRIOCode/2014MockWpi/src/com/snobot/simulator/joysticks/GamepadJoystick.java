@@ -2,9 +2,9 @@ package com.snobot.simulator.joysticks;
 
 import java.util.List;
 
+import net.java.games.input.Component.Identifier;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
-import net.java.games.input.Component.Identifier;
 
 public class GamepadJoystick extends BaseJoystick {
 
@@ -28,7 +28,7 @@ public class GamepadJoystick extends BaseJoystick {
 		mAxis.addAll(aAxisList);
 		mButtons.addAll(aButtonList);
 
-		mAxisValues = new short[aAxisList.size()];
-		mPovValues = new short[0];
+        mAxisValues = new byte[aAxisList.size()];
+        mPovValues = new byte[0];
 	}
 }

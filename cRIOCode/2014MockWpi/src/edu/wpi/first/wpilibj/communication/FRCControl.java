@@ -65,6 +65,7 @@ public final class FRCControl {
      * @return 0 if new data, 1 if no new data, 2 if access timed out.
      */
     public static int getCommonControlData(FRCCommonControlData data, int wait_ms) {
+        data.read();
         return 0;
     }
 

@@ -7,6 +7,10 @@
 
 package edu.wpi.first.wpilibj.communication;
 
+import java.util.Arrays;
+
+import com.snobot.simulator.RobotStateSingleton;
+import com.snobot.simulator.joysticks.JoystickFactory;
 import com.sun.cldc.jna.Structure;
 
 /**
@@ -116,6 +120,8 @@ public final class FRCCommonControlData extends Structure {
 
     // Other fields are used by the lower-level comm system and not needed by robot code:
 
+    private final JoystickFactory factory = JoystickFactory.get();
+
     /**
      * Create a new FRCControlData structure
      */
@@ -132,6 +138,20 @@ public final class FRCCommonControlData extends Structure {
      * Read new data in the structure
      */
     public void read() {
+
+        RobotStateSingleton.get().updateControlWord();
+
+        stick0Axes = factory.get(0).getAxisValues();
+        stick0Buttons = (short) factory.get(0).getButtonMask();
+
+        stick1Axes = factory.get(1).getAxisValues();
+        stick1Buttons = (short) factory.get(1).getButtonMask();
+
+        stick2Axes = factory.get(2).getAxisValues();
+        stick2Buttons = (short) factory.get(2).getButtonMask();
+
+        stick3Axes = factory.get(3).getAxisValues();
+        stick3Buttons = (short) factory.get(3).getButtonMask();
     }
 
     /**
@@ -147,6 +167,17 @@ public final class FRCCommonControlData extends Structure {
      */
     public int size() {
         return 80;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "FRCCommonControlData [packetIndex=" + packetIndex + ", dsDigitalIn=" + dsDigitalIn + ", teamID=" + teamID + ", dsID_Alliance="
+                + dsID_Alliance + ", dsID_Position=" + dsID_Position + ", stick0Axes=" + Arrays.toString(stick0Axes) + ", stick0Buttons="
+                + stick0Buttons + ", stick1Axes=" + Arrays.toString(stick1Axes) + ", stick1Buttons=" + stick1Buttons + ", stick2Axes="
+                + Arrays.toString(stick2Axes) + ", stick2Buttons=" + stick2Buttons + ", stick3Axes=" + Arrays.toString(stick3Axes)
+                + ", stick3Buttons=" + stick3Buttons + ", analog1=" + analog1 + ", analog2=" + analog2 + ", analog3=" + analog3 + ", analog4="
+                + analog4 + "]";
     }
 
 }

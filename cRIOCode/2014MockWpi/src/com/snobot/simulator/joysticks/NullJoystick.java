@@ -5,13 +5,13 @@ public class NullJoystick implements IMockJoystick
 	private static final int sNUM_BUTTONS = 10;
 	private static final int sNUM_AXIS = 6;
 
-	private short[] mAxis;
-	private short[] mPov;
+    private byte[] mAxis;
+    private byte[] mPov;
 	
 	public NullJoystick()
 	{
-		mAxis = new short[sNUM_BUTTONS];
-		mPov = new short[0];
+        mAxis = new byte[sNUM_BUTTONS];
+        mPov = new byte[0];
 	}
 
 //	@Override
@@ -49,12 +49,14 @@ public class NullJoystick implements IMockJoystick
 	}
 
 	@Override
-	public short[] getAxisValues() {
+    public byte[] getAxisValues()
+    {
 		return mAxis;
 	}
 
 	@Override
-	public short[] getPovValues() {
+    public byte[] getPovValues()
+    {
 		return mPov;
 	}
 
