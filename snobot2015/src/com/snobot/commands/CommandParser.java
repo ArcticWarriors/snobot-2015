@@ -1,7 +1,10 @@
 package com.snobot.commands;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -59,7 +62,7 @@ public class CommandParser
         if (commandName.startsWith("&"))
         {
             isParallel = true;
-            args.set(0, commandName.substring(1));
+            commandName = commandName.substring(1);
         }
         else
         {
@@ -130,22 +133,26 @@ public class CommandParser
                         Integer.parseInt(args.get(1)),
                         mSnobot.getSnobotStacker());
                 break;
+            default:
+                addError("Unknown command name: " + commandName);
+                mSuccess = false;
+                break;
             }
         }
         catch (IndexOutOfBoundsException e)
         {
-            addError("You have not specied enough arguments for the command: " + args.get(0) + ".  " + e.getMessage());
+            addError("You have not specified enough arguments for the command: " + commandName + ".  " + e.getMessage());
             mSuccess = false;
         }
         catch (Exception e)
         {
             e.printStackTrace();
+            mSuccess = false;
         }
         
         
         if (newCommand==null)
         {
-            addError("Could not create command for " + commandName + ", it was null");
             mSuccess = false;
         }
         else if (isParallel)
@@ -182,6 +189,7 @@ public class CommandParser
         CommandGroup output = createNewCommandGroup(aFilePath);
 
         System.out.println("Reading auton file : " + aFilePath);
+        SmartDashboard.putString(SmartDashboardNames.sAUTON_FILENAME, aFilePath);
 
         String fileContents = "";
     	
@@ -192,7 +200,6 @@ public class CommandParser
             String line;
             while((line = br.readLine()) != null)
             {
-                System.out.println("line = " + line);
                 this.commandParser(output, line);
                 fileContents += line + "\n";
             }
@@ -211,12 +218,8 @@ public class CommandParser
             fileContents += mErrorText;
         }
 
-        System.out.println("********************************");
-        System.out.println(fileContents);
-        System.out.println("********************************");
-
         SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, fileContents);
-        SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, mSuccess);
+        SmartDashboard.putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, mSuccess);
 
         return output;
     }
@@ -228,8 +231,6 @@ public class CommandParser
         CommandGroup output = createNewCommandGroup("From String");
         StringTokenizer tokenizer = new StringTokenizer(aAutonString, "\n");
 
-        System.out.println("***" + aAutonString);
-
         while (tokenizer.hasMoreElements())
         {
             this.commandParser(output, tokenizer.nextToken());
@@ -237,13 +238,34 @@ public class CommandParser
         
         if (!mErrorText.isEmpty())
         {
-            aAutonString += "# There was an error parsing the commands...";
+            aAutonString += "\n\n# There was an error parsing the commands...\n#\n";
             aAutonString += mErrorText;
         }
 
         SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, aAutonString);
-        SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, mSuccess);
+        SmartDashboard.putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, mSuccess);
 
         return output;
+    }
+
+    public CommandGroup saveAutonMode()
+    {
+        String new_text = SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "");
+        String filename = SmartDashboard.getString(SmartDashboardNames.sAUTON_FILENAME, "auton_file.txt");
+
+        System.out.println("Saving auton mode to " + filename);
+        
+        try
+        {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
+            bw.write(new_text);
+            bw.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        return readFile(filename);
     }
 }

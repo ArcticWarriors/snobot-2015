@@ -17,7 +17,6 @@ public class ConfigurationNames
     public static final String sDRIVER_FLIGHTSTICK_2_PORT = "DriverFlightstick2Port";
 
     // Flightsticks Control
-    // TODO PJ doesn't much care for this
     public static final String sFLIGHTSTICKS_Y_AXIS = "FlightsticksYAxis";
     public static final String sFLIGHTSTICKS_X_AXIS = "FlighsticksXAxis";
     public static final String sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK = "FlighstickButtonSwitchToTank";
@@ -71,6 +70,10 @@ public class ConfigurationNames
 
     public static final String sDRIVE_FORWARD_KP_VALUE = "DriveForwardKPValue";
     public static final String sDRIVE_FORWARD_MIN_ERROR = "MinForwardError";
+
+    public static final String sAUTON_DIR = "AutonDir";
+    public static final String sDEFAULT_AUTON_DIR = "../../snobot2015/resources/autonoumous/";
+
     // Logger
     public static final String sLOG_COUNT = "LogCount";
     public static final String sLOG_FILE_PATH = "LogFilePath";

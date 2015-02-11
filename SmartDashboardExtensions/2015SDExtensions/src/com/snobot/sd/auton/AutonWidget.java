@@ -29,8 +29,8 @@ public class AutonWidget extends StaticWidget
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
                 Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
+                Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
             }
         });
         
@@ -38,8 +38,9 @@ public class AutonWidget extends StaticWidget
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
                 Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_REQUEST, true);
+                Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
+                Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
             }
         });
         
@@ -51,7 +52,6 @@ public class AutonWidget extends StaticWidget
                 mPanel.getTextArea().setText(Robot.getTable().getString(SmartDashboardNames.sROBOT_COMMAND_TEXT));
                 
             }
-            
         };
         
         ITableListener errorListener = new ITableListener()
@@ -59,13 +59,24 @@ public class AutonWidget extends StaticWidget
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) 
             {
-                // TODO set flag
+                boolean hasError = Robot.getTable().getBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON);
+                System.out.println("Has error=" + hasError);
             }
-            
+        };
+
+        ITableListener filenameListener = new ITableListener()
+        {
+            @Override
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
+            {
+                String filename = Robot.getTable().getString(SmartDashboardNames.sAUTON_FILENAME);
+                System.out.println("Filename updated to " + filename);
+            }
         };
 
         Robot.getTable().addTableListener(SmartDashboardNames.sROBOT_COMMAND_TEXT, radioListener, true);
-        Robot.getTable().addTableListener(SmartDashboardNames.sCOMMAND_ERROR_BOOL, errorListener, true);
+        Robot.getTable().addTableListener(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, errorListener, true);
+        Robot.getTable().addTableListener(SmartDashboardNames.sAUTON_FILENAME, filenameListener, true);
         
         this.setVisible(true);
     }

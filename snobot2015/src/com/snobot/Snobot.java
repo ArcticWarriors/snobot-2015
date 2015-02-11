@@ -86,7 +86,6 @@ public class Snobot extends IterativeRobot
     private Command mAutonCommand;
     
     private SendableChooser mAutonChooser;
-    private String mAutonDirectory; 
 
    
     
@@ -167,8 +166,6 @@ public class Snobot extends IterativeRobot
         
         mParser = new CommandParser(this);
         
-        mAutonDirectory = "../../snobot2015/resources/autonoumous/";
-        
         mAutonChooser = new SendableChooser();
         readAutoFiles();
         SmartDashboard.putData("mAutonChooser", mAutonChooser );
@@ -182,11 +179,15 @@ public class Snobot extends IterativeRobot
             }
         });
 
-        
         ITableListener saveModeListener = new ITableListener() {
             
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
+                if (SmartDashboard.getBoolean(SmartDashboardNames.sSAVE_REQUEST, false))
+                {
+                    mAutonCommand = mParser.saveAutonMode();
+                }
+                else
                 {
                     mAutonCommand = mParser.parseAutonString(SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT));
                 }
@@ -203,6 +204,10 @@ public class Snobot extends IterativeRobot
     	{
     	    mAutonCommand.start();
     	}
+        else
+        {
+            System.out.println("Couldn't start auton command because it was null");
+        }
     }
 
     /**
@@ -321,22 +326,22 @@ public class Snobot extends IterativeRobot
    
     private void readAutoFiles()
     {
-           File autonDr = new File(mAutonDirectory);
-          
-           if (autonDr.isDirectory())
-           {
-               File[] autonFiles = autonDr.listFiles();
-               
-               for(int i = 0; i < autonFiles.length;i ++)
-               {
-                   
-                   if (autonFiles[i].isFile())
-                   {
-                        mAutonChooser.addObject(autonFiles[i].getName(), autonFiles[i].getAbsolutePath());
-                   }
-                  
-               }
-           }
-        
+        File autonDr = new File(ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_DIR, ConfigurationNames.sDEFAULT_AUTON_DIR));
+
+        if (autonDr.isDirectory())
+        {
+            File[] autonFiles = autonDr.listFiles();
+
+            for (int i = 0; i < autonFiles.length; i++)
+            {
+
+                if (autonFiles[i].isFile())
+                {
+                    mAutonChooser.addObject(autonFiles[i].getName(), autonFiles[i].getAbsolutePath());
+                }
+
+            }
+        }
+
     }
 }
