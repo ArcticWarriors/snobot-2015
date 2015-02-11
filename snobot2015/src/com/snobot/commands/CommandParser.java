@@ -52,12 +52,13 @@ public class CommandParser
         }
 
         Command newCommand = null;
+        String commandName = args.get(0);
 
         boolean isParallel;
-        if (args.get(0).startsWith("&"))
+        if (commandName.startsWith("&"))
         {
             isParallel = true;
-            args.set(0, args.get(0).substring(1));
+            args.set(0, commandName.substring(1));
         }
         else
         {
@@ -66,7 +67,7 @@ public class CommandParser
 
         try
         {
-            switch (args.get(0))
+            switch (commandName)
             {
 
             case ConfigurationNames.sDRIVE_FORWARD_COMMAND:
@@ -113,6 +114,9 @@ public class CommandParser
         catch (IndexOutOfBoundsException e)
         {
             System.err.println("!!!!!! Index out of bounds... " + e.getMessage());
+            SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, false);
+            SmartDashboard.putString(SmartDashboardNames.sCOMMAND_ERROR_TEXT, 
+                    "Not enough arguments for the command: " + commandName);
         }
         catch (Exception e)
         {
@@ -122,16 +126,21 @@ public class CommandParser
         
         if (newCommand==null)
         {
-            System.out.println("Can't add null command for name : " + args.get(0));
+            System.out.println("Can't add null command for name : " + commandName);
+            SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, false);
+            SmartDashboard.putString(SmartDashboardNames.sCOMMAND_ERROR_TEXT, 
+                    "'" + commandName + "' is not a valid command");
         }
         
         else if (isParallel)
         {
         	aGroup.addParallel(newCommand);
+        	SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, true);
         }
         else
         {
         	aGroup.addSequential(newCommand);
+        	SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, true);
         }
     }
     

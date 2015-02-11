@@ -32,4 +32,7 @@ public class SmartDashboardNames
     
     public static final String sROBOT_COMMAND_TEXT = "Robot Command text";
     public static final String sSD_COMMAND_TEXT = "SD Command text";
+    public static final String sCOMMAND_ERROR_TEXT = "Command error text";
+    public static final String sCOMMAND_ERROR_BOOL = "Parsed Command";
+    public static final String sSAVE_REQUEST = "Should save?";
 }
