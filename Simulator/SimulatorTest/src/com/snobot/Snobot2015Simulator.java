@@ -27,9 +27,8 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 1), 
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_B, 1));
         
-        EncoderWrapper stackerEncoder = SensorActuatorRegistry.get().getEncoder(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_A, 1),
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_B, 1));
+        AnalogWrapper stackerPot = SensorActuatorRegistry.get().getAnalog().get(
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_POT, 1));
 
         SpeedControllerWrapper rightDriveMotor = SensorActuatorRegistry.get().getSpeedControllers().get(
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
@@ -52,15 +51,18 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
 
         mRightDriveEnc = new LinearEncoderCalculator(rightDriveMotor, rightEncoder);
         mLeftDriveEnc = new LinearEncoderCalculator(leftDriveMotor, leftEncoder);
-        mStackerSimulator = new StackerSimulator (stackerMotor, stackerEncoder,
-        		upperStackerLimit, lowerStackerLimit);
+        mStackerSimulator = new StackerSimulator (
+                stackerMotor, stackerPot, upperStackerLimit, lowerStackerLimit,
+                ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_MIN_VOLTS, 0),
+                ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_VOLTS_PER_INCH, 1));
 
         
-        stackerEncoder.setDistancePerTick(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ENCODER_DPT, .4));
+        // stackerPot.setDistancePerTick(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_VOLTS_PER_INCH,
+        // .4));
         
         mLeftDriveEnc.setSimulatorParams(.01);
         mRightDriveEnc.setSimulatorParams(-.01);        
-        mStackerSimulator.setSimulatorParams(1000);
+        // mStackerSimulator.setSimulatorParams(1);
         
         
         mGyroSim = new TankDriveGyroSimulator(leftEncoder, rightEncoder, gyroChannel);

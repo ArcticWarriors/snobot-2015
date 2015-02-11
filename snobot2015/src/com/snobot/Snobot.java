@@ -9,14 +9,12 @@ import com.snobot.claw.SnobotClaw;
 import com.snobot.commands.CommandParser;
 import com.snobot.drivetrain.SnobotDriveTrain;
 import com.snobot.joystick.IDriverJoystick;
-import com.snobot.joystick.IDriverJoystick.DriveMode;
 import com.snobot.joystick.SnobotFlightstickJoystick;
 import com.snobot.joystick.SnobotXBoxDriverJoystick;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.position.SnobotPosition;
 import com.snobot.stacker.SnobotStacker;
-import com.snobot.SmartDashboardNames;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -28,7 +26,6 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -83,7 +80,7 @@ public class Snobot extends IterativeRobot
     private AnalogInput mTransducer;
     private Encoder mEncoderLeft;
     private Encoder mEncoderRight;
-    private Encoder mStackerEncoder;
+    private AnalogInput mStackerPot;
 
     private SimpleDateFormat sdf;
     private Command mAutonCommand;
@@ -141,10 +138,9 @@ public class Snobot extends IterativeRobot
         mEncoderRight = new Encoder(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_A, 5),
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6));
 
-        mStackerEncoder = new Encoder(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_A, 0),
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_B, 8));
+        mStackerPot = new AnalogInput(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_POT, 2));
 
-        mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerEncoder);
+        mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerPot);
 
         mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mEncoderLeft, mEncoderRight, mLogger);
 

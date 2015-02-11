@@ -1,26 +1,36 @@
 package com.snobot;
 
+import com.snobot.simulator.AnalogWrapper;
 import com.snobot.simulator.DigitalSourceWrapper;
-import com.snobot.simulator.EncoderWrapper;
 import com.snobot.simulator.SpeedControllerWrapper;
-import com.snobot.simulator.sim.LinearEncoderCalculator;
+import com.snobot.simulator.sim.ISimulatorUpdater;
+import com.snobot.simulator.sim.LinearPotCalculator;
+import com.snobot.simulator.sim.PotWrapper;
 
-public class StackerSimulator extends LinearEncoderCalculator {
+public class StackerSimulator implements ISimulatorUpdater
+{
 
-	DigitalSourceWrapper mUpperStackerLimit;
-	DigitalSourceWrapper mLowerStackerLimit;
+    private DigitalSourceWrapper mUpperStackerLimit;
+    private DigitalSourceWrapper mLowerStackerLimit;
+    private PotWrapper mPotWrapper;
+    private LinearPotCalculator mPotCalculator;
+    private boolean mSetup;
 	
-	public StackerSimulator( SpeedControllerWrapper aStackerMotor,
-			EncoderWrapper aStackerEncoder, 
+    public StackerSimulator(
+            SpeedControllerWrapper aStackerMotor,
+            AnalogWrapper aStackerEncoder,
 			DigitalSourceWrapper aUpperStackerLimit,
-			DigitalSourceWrapper aLowerStackerLimit) 
+            DigitalSourceWrapper aLowerStackerLimit,
+            double aMinPotVoltage,
+            double aVoltsPerUnit)
 			
 	{		
-		super( aStackerMotor, aStackerEncoder);
+        mPotWrapper = new PotWrapper(aStackerEncoder, aMinPotVoltage, aVoltsPerUnit);
+        mPotCalculator = new LinearPotCalculator(aStackerMotor, mPotWrapper);
 		mLowerStackerLimit = aLowerStackerLimit;
 		mUpperStackerLimit = aUpperStackerLimit;
 			
-		mSetup = mSetup && mLowerStackerLimit != null && mUpperStackerLimit != null; 
+        mSetup = mLowerStackerLimit != null && mUpperStackerLimit != null && mPotCalculator != null;
 
 		if(!mSetup)
 		{
@@ -31,10 +41,10 @@ public class StackerSimulator extends LinearEncoderCalculator {
 	
 	@Override
 	public void update()
-	{
-		super.update();
-		
-		double distance = mEncoder.getDecodedDistance();
+    {
+        mPotCalculator.update();
+
+        double distance = mPotWrapper.getDistance();
 		
 		if (distance <= 0) 
 		{

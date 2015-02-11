@@ -49,8 +49,7 @@ public class ConfigurationNames
     public static final String sRIGHT_DRIVE_ENC_B = "RightDriveEnc_B";
     public static final String sLEFT_DRIVE_ENC_A = "LeftDriveEnc_A";
     public static final String sLEFT_DRIVE_ENC_B = "LeftDriveEnc_B";
-    public static final String sSTACKER_ENCODER_A = "StackerEncoder_A";
-    public static final String sSTACKER_ENCODER_B = "StackerEncoder_B";
+    public static final String sSTACKER_POT = "StackerPot";
 
     // Analog Inputs
     public static final String sGYRO_SENSOR = "GyroSensor";
@@ -60,8 +59,9 @@ public class ConfigurationNames
     public static final String sSTACKER_SCORING_PLATFORM_HEIGHT = "StackerScoringPlatformHeight"; 
     public static final String sSTACKER_ONE_STACK_HEIGHT = "StackerOneStackeHeight";
     public static final String sSTACKER_STACKING_MARGIN = "StackerStackingMargin";
-    
-    public static final String sSTACKER_ENCODER_DPT = "StackerEncoderDPT";
+
+    public static final String sSTACKER_POT_VOLTS_PER_INCH = "StackerPotVoltagePerInch";
+    public static final String sSTACKER_POT_MIN_VOLTS = "StackerPotMinVoltage";
 
     public static final String sDRIVE_ROTATE_KP_VALUE = "DriveRotateKPValue";
     public static final String sDRIVE_ROTATE_MIN_ERROR = "MinRotateError";

@@ -1,12 +1,11 @@
 package edu.wpi.first.wpilibj.hal;
 
-import java.nio.IntBuffer;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 
 import com.snobot.simulator.AnalogWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
-import com.snobot.simulator.SpeedControllerWrapper;
 
 public class AnalogJNI extends JNIWrapper {
 
@@ -105,7 +104,7 @@ public class AnalogJNI extends JNIWrapper {
     }
 	public static double getAnalogVoltage(ByteBuffer analog_port_pointer, IntBuffer status)
     {
-		return 0;
+        return getWrapperFromBuffer(analog_port_pointer).getVoltage();
     }
 	public static double getAnalogAverageVoltage(ByteBuffer analog_port_pointer, IntBuffer status)
     {
