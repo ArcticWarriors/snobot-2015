@@ -11,34 +11,25 @@ import com.snobot.sd.config.WidgetConfiguration;
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.Property;
 import edu.wpi.first.smartdashboard.robot.Robot;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
 
 public class AutonWidget extends StaticWidget
 {
-    private String mCommandText;
-    
     private AutonPanel mPanel;
     
     public AutonWidget() {
         this.setLayout(new BorderLayout());
         mPanel = new AutonPanel();
-        
+
         this.add(mPanel, BorderLayout.CENTER);
-        
-        this.setPreferredSize(new Dimension(WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_X, 
-                WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_Y));
-        
-        Robot.getTable().putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, true);
+        this.setPreferredSize(new Dimension(WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_X, WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_Y));
         
         mPanel.addSendListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                mCommandText = mPanel.getTextArea().getText();
-                
-                Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mCommandText);
+                Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
                 Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
             }
         });
@@ -47,42 +38,33 @@ public class AutonWidget extends StaticWidget
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                mCommandText = mPanel.getTextArea().getText();
-                
-                Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mCommandText);
+                Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
                 Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_REQUEST, true);
             }
         });
         
         ITableListener radioListener = new ITableListener()
         {
-
             @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
-                {
-                    mPanel.getTextArea().setText(Robot.getTable().getString(SmartDashboardNames.sROBOT_COMMAND_TEXT));
-                }
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
+            {
+                mPanel.getTextArea().setText(Robot.getTable().getString(SmartDashboardNames.sROBOT_COMMAND_TEXT));
                 
             }
             
         };
-        Robot.getTable().addTableListener(SmartDashboardNames.sROBOT_COMMAND_TEXT, 
-                radioListener, true);
         
         ITableListener errorListener = new ITableListener()
         {
-
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) 
             {
-                if (Robot.getTable().getBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL))
-                {
-                    mPanel.getTextArea().append("\n" + Robot.getTable().getString
-                            (SmartDashboardNames.sCOMMAND_ERROR_TEXT, ""));
-                }
+                // TODO set flag
             }
             
         };
+
+        Robot.getTable().addTableListener(SmartDashboardNames.sROBOT_COMMAND_TEXT, radioListener, true);
         Robot.getTable().addTableListener(SmartDashboardNames.sCOMMAND_ERROR_BOOL, errorListener, true);
         
         this.setVisible(true);
@@ -90,14 +72,12 @@ public class AutonWidget extends StaticWidget
 
     @Override
     public void propertyChanged(Property arg0) {
-        // TODO Auto-generated method stub
-        
+        // Nothing to do
     }
 
     @Override
     public void init() {
-        // TODO Auto-generated method stub
-        
+        // Nothing to do
     }
 
 }

@@ -18,10 +18,15 @@ public class CommandParser
 {
     private static final String sDELIMITER = " ";
     private Snobot mSnobot;
+    private String mErrorText;
+    private boolean mSuccess;
     
     public CommandParser(Snobot aSnobot)
     {
         mSnobot = aSnobot;
+        mErrorText = "";
+        mSuccess = false;
+
     }
 
     /**
@@ -129,13 +134,8 @@ public class CommandParser
         }
         catch (IndexOutOfBoundsException e)
         {
-            SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, false);
-            SmartDashboard.putString(SmartDashboardNames.sCOMMAND_ERROR_TEXT, 
-                    "You have not specied enough arguments for the command: " + args.get(0));
-            System.err.println("!!!!!! Index out of bounds... " + e.getMessage());
-            SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, false);
-            SmartDashboard.putString(SmartDashboardNames.sCOMMAND_ERROR_TEXT, 
-                    "Not enough arguments for the command: " + commandName);
+            addError("You have not specied enough arguments for the command: " + args.get(0) + ".  " + e.getMessage());
+            mSuccess = false;
         }
         catch (Exception e)
         {
@@ -145,50 +145,58 @@ public class CommandParser
         
         if (newCommand==null)
         {
-            System.out.println("Can't add null command for name : " + commandName);
-            SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, false);
-            SmartDashboard.putString(SmartDashboardNames.sCOMMAND_ERROR_TEXT, 
-                    "'" + commandName + "' is not a valid command");
+            addError("Could not create command for " + commandName + ", it was null");
+            mSuccess = false;
         }
-        
         else if (isParallel)
         {
         	aGroup.addParallel(newCommand);
-        	SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, true);
         }
         else
         {
         	aGroup.addSequential(newCommand);
-        	SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, true);
         }
     }
     
+    private CommandGroup createNewCommandGroup(String aName)
+    {
+        return new CommandGroup(aName)
+        {
+            @Override
+            protected void end()
+            {
+                System.out.println("Command group finished!");
+            }
+        };
+    }
+
+    private void addError(String aError)
+    {
+        mErrorText += "# " + aError + "\n";
+    }
+
     public CommandGroup readFile(String aFilePath)
     {
-    	System.out.println("Reading auton file : " + aFilePath);
-    	CommandGroup output = new CommandGroup(aFilePath)
-    	{
-    	    @Override
-    	    protected void end()
-    	    {
-    	        System.out.println("Command group finished!");
-    	    }
-    	};
-    	
+        mSuccess = true;
+        mErrorText = "";
+        CommandGroup output = createNewCommandGroup(aFilePath);
+
+        System.out.println("Reading auton file : " + aFilePath);
+
+        String fileContents = "";
     	
         try
         {
-            String fileContents = "";
             BufferedReader br = new BufferedReader(new FileReader(aFilePath));
             
             String line;
             while((line = br.readLine()) != null)
             {
+                System.out.println("line = " + line);
                 this.commandParser(output, line);
                 fileContents += line + "\n";
             }
             
-            SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, fileContents);
             
             br.close();
         }
@@ -197,19 +205,45 @@ public class CommandParser
             e.printStackTrace();
         }
         
+        if (!mErrorText.isEmpty())
+        {
+            fileContents += "\n\n# There was an error parsing the commands...\n#\n";
+            fileContents += mErrorText;
+        }
+
+        System.out.println("********************************");
+        System.out.println(fileContents);
+        System.out.println("********************************");
+
+        SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, fileContents);
+        SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, mSuccess);
+
         return output;
     }
 
     public CommandGroup parseAutonString(String aAutonString)
     {
-    	CommandGroup output = new CommandGroup("From String...");
+        mSuccess = true;
+        mErrorText = "";
+        CommandGroup output = createNewCommandGroup("From String");
         StringTokenizer tokenizer = new StringTokenizer(aAutonString, "\n");
+
+        System.out.println("***" + aAutonString);
 
         while (tokenizer.hasMoreElements())
         {
             this.commandParser(output, tokenizer.nextToken());
         }
         
+        if (!mErrorText.isEmpty())
+        {
+            aAutonString += "# There was an error parsing the commands...";
+            aAutonString += mErrorText;
+        }
+
+        SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, aAutonString);
+        SmartDashboard.putBoolean(SmartDashboardNames.sCOMMAND_ERROR_BOOL, mSuccess);
+
         return output;
     }
 }
