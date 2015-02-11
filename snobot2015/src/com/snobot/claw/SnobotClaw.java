@@ -24,8 +24,6 @@ public class SnobotClaw implements IClaw
     private AnalogInput mTransducer;
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
-    private boolean mClawHandSolenoidState;
-    private boolean mClawArmSolenoidState;
 
     private boolean mRumbleOn;
 

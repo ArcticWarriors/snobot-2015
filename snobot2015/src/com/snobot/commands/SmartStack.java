@@ -1,19 +1,17 @@
 package com.snobot.commands;
 
-import com.snobot.ConfigurationNames;
-import com.snobot.stacker.SnobotStacker;
+import com.snobot.stacker.IStacker;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SmartStack extends Command
 {
     private boolean mFinished;
     private int mStackCommandIndex;
-    private final SnobotStacker mSnobotStacker;
+    private final IStacker mSnobotStacker;
    
 
-    public SmartStack( int aStackCommandIndex, SnobotStacker aSnobotStacker)
+    public SmartStack(int aStackCommandIndex, IStacker aSnobotStacker)
     {
         mFinished = false;
         mStackCommandIndex = aStackCommandIndex;
@@ -33,7 +31,7 @@ public class SmartStack extends Command
         {
         case 0:
         {
-            mFinished = mSnobotStacker.moveStackerToGround();;
+            mFinished = mSnobotStacker.moveStackerToGround();
             break;
         }
         case 1:

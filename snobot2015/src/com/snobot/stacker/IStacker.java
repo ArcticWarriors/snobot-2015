@@ -23,4 +23,11 @@ public interface IStacker extends ISubsystem
      */
     boolean moveStackerDown();
 
+    // TODO comments
+    boolean moveStackerToGround();
+
+    boolean moveStackerToScoringPlatform();
+
+    boolean moveStackerToOneStack();
+
 }

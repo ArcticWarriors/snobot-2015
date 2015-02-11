@@ -1,6 +1,6 @@
 package com.snobot.commands;
 
-import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -16,7 +16,7 @@ public class DriveRotate extends Command
 
     private boolean mFinished;
 
-    private final SnobotDriveTrain mDriveTrain;
+    private final IDriveTrain mDriveTrain;
     private final SnobotPosition mPosition;
 
     /**
@@ -26,7 +26,7 @@ public class DriveRotate extends Command
      * @param aDriveTrain -SnobotDriveTrain class
      * @param aPosition -SnobotPosition class
      */
-    public DriveRotate(double aDegree, double aSpeed, double aTolerance, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
+    public DriveRotate(double aDegree, double aSpeed, double aTolerance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
         mDegree = aDegree;
         mSpeed = aSpeed;

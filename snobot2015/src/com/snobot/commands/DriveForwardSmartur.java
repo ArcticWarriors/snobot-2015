@@ -1,7 +1,7 @@
 package com.snobot.commands;
 
 import com.snobot.ConfigurationNames;
-import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,12 +12,12 @@ public class DriveForwardSmartur extends Command
     private double mError;
 
     private final double mDesiredDistance;
-    private final SnobotDriveTrain mDriveTrain;
+    private final IDriveTrain mDriveTrain;
     private final SnobotPosition mPosition;
     private double mStartingDistance;
     boolean mFinished;
 
-    public DriveForwardSmartur(double aDistance, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
+    public DriveForwardSmartur(double aDistance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
         mDesiredDistance = aDistance;
         mDriveTrain = aDriveTrain;

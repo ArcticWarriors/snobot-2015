@@ -1,18 +1,18 @@
 package com.snobot.commands;
 
-import com.snobot.stacker.SnobotStacker;
+import com.snobot.stacker.IStacker;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RawStack extends Command
 {
-    private final SnobotStacker mSnobotStacker;
+    private final IStacker mSnobotStacker;
     private final Timer mTimer;
     private final boolean moveUp;
     private final double mTimeout;
 
-    public RawStack(double aTimeout, boolean aMoveUp, SnobotStacker aSnobotStacker)
+    public RawStack(double aTimeout, boolean aMoveUp, IStacker aSnobotStacker)
     {
         mSnobotStacker = aSnobotStacker;
         mTimer = new Timer();

@@ -1,7 +1,7 @@
 package com.snobot.commands;
 
 import com.snobot.ConfigurationNames;
-import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,7 +13,7 @@ public class DriveRotateSmartur extends Command
 
     private final double mDesiredDegree;
     private boolean mFinished;
-    private final SnobotDriveTrain mDriveTrain;
+    private final IDriveTrain mDriveTrain;
     private final SnobotPosition mPosition;
 
     /**
@@ -22,7 +22,7 @@ public class DriveRotateSmartur extends Command
      * @param aDriveTrain -SnobotDriveTrain class
      * @param aPosition -SnobotPosition class
      */
-    public DriveRotateSmartur(double aDegree, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
+    public DriveRotateSmartur(double aDegree, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
         mDesiredDegree = aDegree;
         mDriveTrain = aDriveTrain;

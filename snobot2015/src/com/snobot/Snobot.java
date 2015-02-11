@@ -5,8 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.snobot.claw.IClaw;
 import com.snobot.claw.SnobotClaw;
 import com.snobot.commands.CommandParser;
+import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.drivetrain.SnobotDriveTrain;
 import com.snobot.joystick.IDriverJoystick;
 import com.snobot.joystick.SnobotFlightstickJoystick;
@@ -15,6 +17,7 @@ import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.position.SnobotPosition;
+import com.snobot.stacker.IStacker;
 import com.snobot.stacker.SnobotStacker;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -53,9 +56,9 @@ public class Snobot extends IterativeRobot
     private IDriverJoystick mDriverJoystick;
 
     // Modules
-    private SnobotStacker mStacker;
-    private SnobotClaw mClaw;
-    private SnobotDriveTrain mDriveTrain;
+    private IStacker mStacker;
+    private IClaw mClaw;
+    private IDriveTrain mDriveTrain;
     private Logger mLogger;
     private SnobotPosition mPositioner;
 
@@ -354,7 +357,7 @@ public class Snobot extends IterativeRobot
         }
     }
 
-    public SnobotDriveTrain getDriveTrain()
+    public IDriveTrain getDriveTrain()
     {
         return this.mDriveTrain;
     }
@@ -364,12 +367,12 @@ public class Snobot extends IterativeRobot
         return this.mPositioner;
     }
 
-    public SnobotStacker getSnobotStacker() 
+    public IStacker getSnobotStacker() 
     {
         return this.mStacker;
     }
     
-    public SnobotClaw getSnobotClaw()
+    public IClaw getSnobotClaw()
     {
         return this.mClaw;
     }
