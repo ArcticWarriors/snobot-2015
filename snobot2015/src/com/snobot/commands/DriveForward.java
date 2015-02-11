@@ -1,10 +1,10 @@
         package com.snobot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import com.snobot.ConfigurationNames;
-import com.snobot.drivetrain.*;
-import com.snobot.position.*;
+import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.position.SnobotPosition;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Drives forward at specified speed for the specified distance
@@ -17,6 +17,8 @@ public class DriveForward extends Command
 
     private final double mDesiredDistance;
     private final double mSpeed;
+    private final double mTolerance;
+
     private final SnobotDriveTrain mDriveTrain;
     private final SnobotPosition mPosition;
     private double mStartingDistance;
@@ -34,11 +36,12 @@ public class DriveForward extends Command
      * @param aPosition
      *            -SnobotPosition class
      */
-    public DriveForward(double aDistance, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
+    public DriveForward(double aDistance, double aSpeed, double aTolerance, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
         super(ConfigurationNames.sDRIVE_FORWARD_COMMAND);
         mDesiredDistance = aDistance;
         mSpeed = aSpeed;
+        mTolerance = aTolerance;
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
         mFinished=false;
@@ -58,11 +61,11 @@ public class DriveForward extends Command
     {
         double distanceTravelled = mPosition.getTotalDistance() - mStartingDistance;
 
-        if (distanceTravelled < (mDesiredDistance - .5))
+        if (distanceTravelled < (mDesiredDistance - mTolerance))
         {
             mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
         }
-        else if(distanceTravelled > (mDesiredDistance + .5))
+        else if (distanceTravelled > (mDesiredDistance + mTolerance))
         {
             mDriveTrain.setMotorSpeed(-mSpeed, -mSpeed);
         }
