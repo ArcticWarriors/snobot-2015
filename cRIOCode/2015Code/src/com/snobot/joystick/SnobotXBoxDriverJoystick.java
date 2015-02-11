@@ -31,11 +31,10 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
      * @param aXBoxStick
      *            Argument for xBox Stick
      */
-    public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger, DriveMode aDriveMode)
+    public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger)
     {
         System.out.println("Creating xbox joystick");
         mXBoxStick = aXBoxStick;
-        mDriveMode = aDriveMode;
         mLogger = aLogger;
     }
 
@@ -73,15 +72,11 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     
     public void control()
     {
-        // TODO Auto-generated method stub
-
     }
 
     
     public void rereadPreferences()
     {
-        // TODO Auto-generated method stub
-
         mTankMode = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_TANK_MODE, XboxButtonMap.A_BUTTON);
         mArcadeMode = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_ARCADE_MODE, XboxButtonMap.B_BUTTON);
     }
@@ -89,14 +84,11 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     
     public void updateSmartDashboard()
     {
-        // TODO Auto-generated method stub
-
     }
 
     
     public void updateLog()
     {
-        // TODO Update Drive mode
         // Left Y Axis
         mLogger.updateLogger(mTankLeftYAxis);
 
@@ -116,8 +108,6 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     
     public void stop()
     {
-        // TODO Auto-generated method stub
-
     }
 
     

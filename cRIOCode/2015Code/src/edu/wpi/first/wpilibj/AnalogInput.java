@@ -8,4 +8,9 @@ public class AnalogInput
    {
    }
 
+    public double getVoltage()
+    {
+        return 0;
+    }
+
 }

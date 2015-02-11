@@ -24,7 +24,6 @@ public class SnobotClaw implements IClaw
     private AnalogInput mTransducer;
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
-    
 
     private boolean mRumbleOn;
 
@@ -76,15 +75,15 @@ public class SnobotClaw implements IClaw
     
     public void init()
     {
-        mLogger.addHeader("Claw Up/Down Pressure");
-        mLogger.addHeader("Claw Open/Close Pressure");
+        mLogger.addHeader("Claw Pressure");
         rereadPreferences();
     }
 
     
     public void update()
     {
-        mRobotAirPressure = -1;
+     
+        mRobotAirPressure = 100;
         
         mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
     }
@@ -131,28 +130,27 @@ public class SnobotClaw implements IClaw
     
     public void updateSmartDashboard()
     {
-        SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mRobotAirPressure);
+        SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, getRobotAirPressure());
+        SmartDashboard.putBoolean(SmartDashboardNames.sCLAW_HAND_SOLENOID, mClawHandSolenoid.get());
+        SmartDashboard.putBoolean(SmartDashboardNames.sCLAW_ARM_SOLENOID, mClawArmSolenoid.get());
     }
 
     
     public void updateLog()
     {
-        mLogger.updateLogger(mRobotAirPressure);
+        mLogger.updateLogger(getRobotAirPressure());
 
     }
 
     
     public void stop()
     {
-        // TODO Auto-generated method stub
-
     }
 
     
     public double getRobotAirPressure()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return mRobotAirPressure;
     }
 
 }

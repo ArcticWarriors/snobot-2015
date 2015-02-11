@@ -1,48 +1,43 @@
 package com.snobot.commands;
 
-import com.snobot.stacker.SnobotStacker;
+import com.snobot.stacker.IStacker;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RawStack extends Command
 {
+    private final IStacker mSnobotStacker;
     private final Timer mTimer;
-    private final double mSpeed;
     private final boolean moveUp;
-    private final SnobotStacker mSnobotStacker;
+    private final double mTimeout;
 
-    public RawStack(double aSpeed, boolean aMoveUp, SnobotStacker aSnobotStacker)
+    public RawStack(double aTimeout, boolean aMoveUp, IStacker aSnobotStacker)
     {
-        mSpeed = aSpeed;
-        moveUp = aMoveUp;
-        mTimer = new Timer();
         mSnobotStacker = aSnobotStacker;
+        mTimer = new Timer();
+        mTimeout = aTimeout;
+        moveUp = aMoveUp;
     }
 
     
     protected void end()
     {
-        // TODO Auto-generated method stub
-
+        mSnobotStacker.stop();
     }
 
     
     protected void execute()
     {
-        // TODO Auto-generated method stub
-        if (mTimer.get() < 5)
-        {
-            if (moveUp)
-            {
-                mSnobotStacker.moveStackerUp();
-            }
-            else
-            {
-                mSnobotStacker.moveStackerDown();
-            }
-        }
 
+        if (moveUp)
+        {
+            mSnobotStacker.moveStackerUp();
+        }
+        else
+        {
+            mSnobotStacker.moveStackerDown();
+        }
     }
 
     
@@ -54,23 +49,12 @@ public class RawStack extends Command
     
     protected void interrupted()
     {
-        // TODO Auto-generated method stub
-
     }
 
     
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
-        if (mTimer.get() >= 5)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
+        return (mTimer.get() >= mTimeout);
     }
 
 }

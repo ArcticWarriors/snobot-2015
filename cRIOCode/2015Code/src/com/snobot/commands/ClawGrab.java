@@ -1,65 +1,60 @@
 package com.snobot.commands;
 
-import com.snobot.claw.SnobotClaw;
+import com.snobot.claw.IClaw;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ClawGrab extends Command
 {
     private final boolean mOpen;
-    private final SnobotClaw mClaw;
+    private final double mLiftSeconds;
+    private final IClaw mClaw;
+    private Timer mTimer;
     
-    public ClawGrab(boolean aOpen, SnobotClaw aClaw)
+    
+    public ClawGrab(boolean aOpen, double aOpenSeconds, IClaw aClaw)
     {
         mOpen = aOpen;
         mClaw = aClaw;
+        mLiftSeconds = aOpenSeconds;
+        mTimer = new Timer();
     }
     
     
     protected void end()
     {
-        // TODO Auto-generated method stub
-
     }
 
     
     protected void execute()
-    {
-        
-        
+    {        
         //Actuates claw open/closed
         if(mOpen)
         {
-        mClaw.openClaw();
+            mClaw.openClaw();
         }
         else
         {
             mClaw.closeClaw();
         }
-        
-        
-
     }
 
     
     protected void initialize()
     {
-        // TODO Auto-generated method stub
-
+        mTimer.start();
     }
 
     
     protected void interrupted()
     {
-        // TODO Auto-generated method stub
-
     }
 
     
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
-        return false;
+        return(mTimer.get() > mLiftSeconds);
     }
 
 }

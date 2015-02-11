@@ -1,9 +1,8 @@
 package com.snobot.position;
 
-import com.snobot.ConfigurationNames;
 import com.snobot.ISubsystem;
 import com.snobot.SmartDashboardNames;
-import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Gyro;
@@ -52,7 +51,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Snobot's drive-train that SnobotPosition uses to get distance
      */
-    private SnobotDriveTrain mDriveTrain;
+    private IDriveTrain mDriveTrain;
 
     /**
      * Logger for recording data
@@ -73,7 +72,7 @@ public class SnobotPosition implements ISubsystem
      * @param aDefaultMeasure
      *            Measure that is to be used by default
      */
-    public SnobotPosition(Gyro aGyroSensor, SnobotDriveTrain aDriveTrain, Logger aLogger)
+    public SnobotPosition(Gyro aGyroSensor, IDriveTrain aDriveTrain, Logger aLogger)
     {
         this.mPositionX = 0;
         this.mPositionY = 0;
@@ -89,10 +88,10 @@ public class SnobotPosition implements ISubsystem
      */
     public void init()
     {
-        this.mLogger.addHeader("Snobot X-position");
-        this.mLogger.addHeader("Snobot's Y-position");
-        this.mLogger.addHeader("Snobot's orientation in degrees");
-        this.mLogger.addHeader("Distance traveled since last update");
+        this.mLogger.addHeader("X-position");
+        this.mLogger.addHeader("Y-position");
+        this.mLogger.addHeader("Heading");
+        this.mLogger.addHeader("Traveled");
 
     }
     
@@ -249,23 +248,12 @@ public class SnobotPosition implements ISubsystem
         this.mRadianRotation = Math.toRadians(aDegrees);
     }
 
-    public void updateSmartDashbaord()
-    {
-        SmartDashboard.putNumber("Gyro Angle", getSnobotDegrees());
-        SmartDashboard.putNumber("Snobot X", mPositionX);
-        SmartDashboard.putNumber("Snobot Y", mPositionY);
-    }
-
     
     public void control() {
-        // TODO Auto-generated method stub
-        
     }
 
     
     public void rereadPreferences() {
-        // TODO Auto-generated method stub
-        
     }
 
     
@@ -279,7 +267,5 @@ public class SnobotPosition implements ISubsystem
 
     
     public void stop() {
-        // TODO Auto-generated method stub
-        
     }
 }

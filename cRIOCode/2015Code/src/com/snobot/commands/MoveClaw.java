@@ -1,22 +1,27 @@
 package com.snobot.commands;
 
-import com.snobot.claw.*;
+import com.snobot.claw.IClaw;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveClaw extends Command{
     
     private final boolean mClawUp;
-    private final SnobotClaw mClaw;
+    private final double mTimeout;
+    private final IClaw mClaw;
     
-    public MoveClaw(boolean aClawUp, SnobotClaw aClaw)
+    private final Timer mTimer;
+    
+    public MoveClaw(boolean aClawUp, double aLiftSeconds, IClaw aClaw)
     {
         mClawUp = aClawUp;
+        mTimeout = aLiftSeconds;
         mClaw = aClaw;
+        mTimer = new Timer();
     }
     
     protected void end() {
-        // TODO Auto-generated method stub
-        
     }
 
     
@@ -30,25 +35,20 @@ public class MoveClaw extends Command{
         {
             mClaw.moveClawDown();
         }
-        
     }
 
     
     protected void initialize() {
-        // TODO Auto-generated method stub
-        
+        mTimer.start();
     }
 
     
     protected void interrupted() {
-        // TODO Auto-generated method stub
-        
     }
 
     
     protected boolean isFinished() {
-        // TODO Auto-generated method stub
-        return false;
+        return mTimer.get() >= mTimeout;
     }
     
 }
