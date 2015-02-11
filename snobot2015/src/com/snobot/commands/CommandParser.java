@@ -135,19 +135,17 @@ public class CommandParser
                 break;
             default:
                 addError("Unknown command name: " + commandName);
-                mSuccess = false;
                 break;
             }
         }
         catch (IndexOutOfBoundsException e)
         {
             addError("You have not specified enough arguments for the command: " + commandName + ".  " + e.getMessage());
-            mSuccess = false;
         }
         catch (Exception e)
         {
+            addError("Unknown exception has occured parsing: " + commandName + ".  " + e.getMessage());
             e.printStackTrace();
-            mSuccess = false;
         }
         
         
@@ -179,7 +177,21 @@ public class CommandParser
 
     private void addError(String aError)
     {
+        // Put the '#' so we can pretend like the error text is a comment
         mErrorText += "# " + aError + "\n";
+        mSuccess = false;
+    }
+
+    private void publishParsingResults(String aCommandString)
+    {
+        if (!mErrorText.isEmpty())
+        {
+            aCommandString += "\n\n# There was an error parsing the commands...\n#\n";
+            aCommandString += mErrorText;
+        }
+
+        SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, aCommandString);
+        SmartDashboard.putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, mSuccess);
     }
 
     public CommandGroup readFile(String aFilePath)
@@ -212,14 +224,7 @@ public class CommandParser
             e.printStackTrace();
         }
         
-        if (!mErrorText.isEmpty())
-        {
-            fileContents += "\n\n# There was an error parsing the commands...\n#\n";
-            fileContents += mErrorText;
-        }
-
-        SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, fileContents);
-        SmartDashboard.putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, mSuccess);
+        publishParsingResults(fileContents);
 
         return output;
     }
@@ -235,15 +240,8 @@ public class CommandParser
         {
             this.commandParser(output, tokenizer.nextToken());
         }
-        
-        if (!mErrorText.isEmpty())
-        {
-            aAutonString += "\n\n# There was an error parsing the commands...\n#\n";
-            aAutonString += mErrorText;
-        }
 
-        SmartDashboard.putString(SmartDashboardNames.sROBOT_COMMAND_TEXT, aAutonString);
-        SmartDashboard.putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, mSuccess);
+        publishParsingResults(aAutonString);
 
         return output;
     }
