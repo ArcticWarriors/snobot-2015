@@ -31,6 +31,9 @@ public class ConfigurationNames
     public static final String sXBOX_BUTTON_CLAW_CLOSE = "XboxClawCloseButton";
     public static final String sXBOX_BUTTON_TANK_MODE = "XboxTankModeButton";
     public static final String sXBOX_BUTTON_ARCADE_MODE = "XboxArcadeModeButton";
+
+    public static final String sSTACKER_TO_FLOOR_BTN = "XboxStackerToFloor";
+
     // Motors
     public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
     public static final String sDRIVE_MOTOR_RIGHT_1 = "RightDriveMotor1";

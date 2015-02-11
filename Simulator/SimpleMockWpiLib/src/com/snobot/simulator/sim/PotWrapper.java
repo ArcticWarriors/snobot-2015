@@ -22,7 +22,6 @@ public class PotWrapper
         mDistance += distance_travelled;
 
         double voltage = (mDistance * mVoltsPerValue) + mMinVoltage;
-        System.out.println("Adding distance..." + mDistance + ", voltage = " + voltage + ", " + mMinVoltage + ", " + mVoltsPerValue);
         mWrapper.setVoltage(voltage);
     }
 

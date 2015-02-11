@@ -1,6 +1,7 @@
 package com.snobot.operatorjoystick;
 
 import com.snobot.ConfigurationNames;
+import com.snobot.XboxButtonMap;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.RumbleType;
@@ -13,14 +14,16 @@ import edu.wpi.first.wpilibj.Joystick.RumbleType;
  */
 public class SnobotOperatorJoystick implements IOperatorJoystick
 {
-    double mStackerJoystickDirection;
-    int mStackerJoystickAxis1;
-    int mXBOXButtonClawUp;
-    int mXBOXButtonClawDown; 
-    int mXBOXButtonClawOpen;
-    int mXBOXButtonClawClose;
-    double mXBOXStackerJoystickUp;
-    double mXBOXStackerJoystickDown;
+    private double mStackerJoystickDirection;
+    private int mStackerJoystickAxis1;
+    private int mXBOXButtonClawUp;
+    private int mXBOXButtonClawDown;
+    private int mXBOXButtonClawOpen;
+    private int mXBOXButtonClawClose;
+    private double mXBOXStackerJoystickUp;
+    private double mXBOXStackerJoystickDown;
+
+    private int mMoveStackerToFloorButton;
     
 
     private Joystick mOperatorJoystick;
@@ -60,7 +63,8 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
             return false;
         }
     }
-    
+
+    @Override
     public boolean getClawDown()
     {
         if (mOperatorJoystick.getRawButton(mXBOXButtonClawDown))
@@ -99,8 +103,10 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
             return false;
         }
     }
-    
-    public double getJoystickValue (){
+
+    @Override
+    public double getJoystickValue()
+    {
         return mStackerJoystickDirection;
     }
 
@@ -118,13 +124,20 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public void update()
     {
+        //Thresholds
         mXBOXStackerJoystickUp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sXBOX_JOYSTICK_STACKER_UP, .2);
         mXBOXStackerJoystickDown = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sXBOX_JOYSTICK_STACKER_DOWN, -.2);
-        mXBOXButtonClawOpen = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_OPEN, 6);
-        mXBOXButtonClawClose = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_CLOSE, 5);
-        mXBOXButtonClawUp = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_UP, 4);
-        mXBOXButtonClawDown = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_DOWN, 3);
+        
+        // Buttons
+        mXBOXButtonClawOpen = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_OPEN, XboxButtonMap.RB_BUTTON);
+        mXBOXButtonClawClose = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_CLOSE, XboxButtonMap.LB_BUTTON);
+        mXBOXButtonClawUp = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_UP, XboxButtonMap.Y_BUTTON);
+        mXBOXButtonClawDown = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_DOWN, XboxButtonMap.X_BUTTON);
         mStackerJoystickAxis1 = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS, 1);
+
+        mMoveStackerToFloorButton = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_TO_FLOOR_BTN, XboxButtonMap.B_BUTTON);
+        
+        // Joystick values
         mStackerJoystickDirection = -mOperatorJoystick.getRawAxis(mStackerJoystickAxis1);
     }
 
@@ -185,5 +198,11 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
 
         mOperatorJoystick.setRumble(RumbleType.kLeftRumble, lRumbleMagnitude);
         mOperatorJoystick.setRumble(RumbleType.kRightRumble, lRumbleMagnitude);
+    }
+
+    @Override
+    public boolean getStackerToFloorButton()
+    {
+        return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);
     }
 }

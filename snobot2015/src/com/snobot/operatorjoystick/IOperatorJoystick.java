@@ -10,6 +10,8 @@ import com.snobot.ISubsystem;
  */
 public interface IOperatorJoystick extends ISubsystem
 {
+    // TODO comments
+    public boolean getStackerToFloorButton();
 
     /**
      * Asks if stacker is up
