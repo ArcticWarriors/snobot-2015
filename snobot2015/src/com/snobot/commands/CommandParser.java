@@ -1,7 +1,6 @@
 package com.snobot.commands;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +12,7 @@ import com.snobot.Snobot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
 
 public class CommandParser
 {
@@ -74,6 +70,7 @@ public class CommandParser
                 newCommand = new DriveForward(
                         Double.parseDouble(args.get(1)), 
                         Double.parseDouble(args.get(2)), 
+                        Double.parseDouble(args.get(3)),
                         mSnobot.getDriveTrain(),
                         mSnobot.getPositioner());
                 break;
@@ -82,6 +79,7 @@ public class CommandParser
                 newCommand = new DriveRotate(
                         Double.parseDouble(args.get(1)), 
                         Double.parseDouble(args.get(2)), 
+                        Double.parseDouble(args.get(3)),
                         mSnobot.getDriveTrain(), 
                         mSnobot.getPositioner());
                 break;

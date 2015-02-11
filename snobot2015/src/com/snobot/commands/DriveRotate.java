@@ -12,7 +12,10 @@ public class DriveRotate extends Command
      */
     private final double mDegree;
     private final double mSpeed;
+    private final double mTolerance;
+
     private boolean mFinished;
+
     private final SnobotDriveTrain mDriveTrain;
     private final SnobotPosition mPosition;
 
@@ -23,13 +26,15 @@ public class DriveRotate extends Command
      * @param aDriveTrain -SnobotDriveTrain class
      * @param aPosition -SnobotPosition class
      */
-    public DriveRotate(double aDegree, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
+    public DriveRotate(double aDegree, double aSpeed, double aTolerance, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
         mDegree = aDegree;
         mSpeed = aSpeed;
+        mTolerance = aTolerance;
+
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
-        
+
         mFinished = false;
     }
 
@@ -46,13 +51,13 @@ public class DriveRotate extends Command
     protected void execute()
     {
         System.out.println("Current = " + mPosition.getSnobotDegrees() + ", desired = " + mDegree + ", speed = " + mSpeed);
-        if (mPosition.getSnobotDegrees() < (mDegree - 2))
+        if (mPosition.getSnobotDegrees() < (mDegree - mTolerance))
         {
             mDriveTrain.setMotorSpeed(mSpeed, -mSpeed);
         }
-        else if (mPosition.getSnobotDegrees() > (mDegree + 2))
+        else if (mPosition.getSnobotDegrees() > (mDegree + mTolerance))
         {
-            mDriveTrain.setMotorSpeed((-(mSpeed)), mSpeed);
+            mDriveTrain.setMotorSpeed((-mSpeed), mSpeed);
         }
         else
         {
@@ -73,12 +78,7 @@ public class DriveRotate extends Command
     @Override
     protected boolean isFinished()
     {
-        if(mFinished)
-        {
-            mFinished = false;
-            return true;
-        }
-        return false;
+        return mFinished;
     }
 
 }
