@@ -101,7 +101,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     }
     
     public double getJoystickValue (){
-        return mOperatorJoystick.getY();
+        return mStackerJoystickDirection;
     }
 
     /**
@@ -125,7 +125,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         mXBOXButtonClawUp = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_UP, 4);
         mXBOXButtonClawDown = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_DOWN, 3);
         mStackerJoystickAxis1 = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS, 1);
-        mStackerJoystickDirection =mOperatorJoystick.getRawAxis(mStackerJoystickAxis1);
+        mStackerJoystickDirection = -mOperatorJoystick.getRawAxis(mStackerJoystickAxis1);
     }
 
     /**

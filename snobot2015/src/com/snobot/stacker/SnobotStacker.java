@@ -21,7 +21,6 @@ public class SnobotStacker implements IStacker
 
     private SpeedController mStackerMotor;
     private IOperatorJoystick mOperatorJoystick;
-    private double mStackerDefaultSpeed;
     private boolean mUpperLimitSwitchState;
     private boolean mLowerLimitSwitchState;
     private double mStackerEncoderDistance;
@@ -70,7 +69,7 @@ public class SnobotStacker implements IStacker
         else
         {
 //            System.out.println("Move Stacker Up Moving :)");
-            mStackerMotor.set(mAdjustedStackerSpeed);
+            setElevatorSpeed(mAdjustedStackerSpeed);
             return true;
         }
         /**
@@ -92,7 +91,7 @@ public class SnobotStacker implements IStacker
         else
         {
 //            System.out.println("Move Stacker Down Moving :)");
-            mStackerMotor.set(mAdjustedStackerSpeed);
+            setElevatorSpeed(mAdjustedStackerSpeed);
             return true;
         }
         /**
@@ -178,7 +177,6 @@ public class SnobotStacker implements IStacker
     @Override
     public void rereadPreferences()
     {
-        mStackerDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
         mStackerGroundHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_GROUND_HEIGHT, 0);
         mStackerScoringPlatformHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_SCORING_PLATFORM_HEIGHT, 2);
         mStackerOneStackHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ONE_STACK_HEIGHT, 13.1);
@@ -209,8 +207,13 @@ public class SnobotStacker implements IStacker
     @Override
     public void stop()
     {
-        mStackerMotor.set(0);
+        setElevatorSpeed(0);
 
+    }
+
+    private void setElevatorSpeed(double aSpeed)
+    {
+        mStackerMotor.set(aSpeed);
     }
 
 }

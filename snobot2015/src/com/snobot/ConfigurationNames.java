@@ -56,7 +56,6 @@ public class ConfigurationNames
     public static final String sGYRO_SENSOR = "GyroSensor";
 
     // Misc. Variables
-    public static final String sSTACKER_DEFAULT_SPEED = "StackerDefaultSpeed";
     public static final String sSTACKER_GROUND_HEIGHT = "StackerGroundHeight";
     public static final String sSTACKER_SCORING_PLATFORM_HEIGHT = "StackerScoringPlatformHeight"; 
     public static final String sSTACKER_ONE_STACK_HEIGHT = "StackerOneStackeHeight";
