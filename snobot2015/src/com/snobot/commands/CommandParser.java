@@ -1,7 +1,6 @@
 package com.snobot.commands;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +12,7 @@ import com.snobot.Snobot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
 
 public class CommandParser
 {
@@ -77,6 +73,13 @@ public class CommandParser
                         mSnobot.getPositioner());
                 break;
                 
+            case ConfigurationNames.sDRIVE_FORWARD_SMARTER_COMMAND:
+                newCommand = new DriveForwardSmartur(
+                        Double.parseDouble(args.get(1)), 
+                        mSnobot.getDriveTrain(),
+                        mSnobot.getPositioner());
+                break;
+
             case ConfigurationNames.sDRIVE_ROTATE_COMMAND:
                 newCommand = new DriveRotate(
                         Double.parseDouble(args.get(1)), 
@@ -84,24 +87,35 @@ public class CommandParser
                         mSnobot.getDriveTrain(), 
                         mSnobot.getPositioner());
                 break;
+
+            case ConfigurationNames.sDRIVE_ROTATE_SMARTER_COMMAND:
+                newCommand = new DriveRotateSmartur(
+                        Double.parseDouble(args.get(1)), 
+                        mSnobot.getDriveTrain(), 
+                        mSnobot.getPositioner());
+                break;
+
             case ConfigurationNames.sRAW_STACK_COMMAND:
                 newCommand = new RawStack(
                         Double.parseDouble(args.get(1)),
                         Boolean.parseBoolean(args.get(2)),
                         mSnobot.getSnobotStacker());
                 break;
+                
             case ConfigurationNames.sCLAW_GRAB_COMMAND:
                     newCommand = new ClawGrab(
-                            Boolean.parseBoolean(args.get(1)), 
-                            Double.parseDouble(args.get(2)), 
-                            mSnobot.getSnobotClaw());
+                        Boolean.parseBoolean(args.get(1)), 
+                        Double.parseDouble(args.get(2)), 
+                        mSnobot.getSnobotClaw());
                 break;
+                
             case ConfigurationNames.sMOVE_CLAW_COMMAND:
                 newCommand = new MoveClaw(
                         Boolean.parseBoolean(args.get(1)),
                         Double.parseDouble(args.get(2)),
                         mSnobot.getSnobotClaw());
                 break;
+                
             case ConfigurationNames.sSMART_STACK_COMMAND:
                 newCommand = new SmartStack(
                         Integer.parseInt(args.get(1)),

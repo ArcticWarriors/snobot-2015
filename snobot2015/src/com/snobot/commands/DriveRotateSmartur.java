@@ -40,6 +40,8 @@ public class DriveRotateSmartur extends Command
     @Override
     protected void execute()
     {
+        // TODO Determine which parameter should be set to negative (rotate left
+        // or rotate right)
         mError = (mPosition.getSnobotDegrees() - mDesiredDegree);
         mSpeed = mError * ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_ROTATE_KP_VALUE, 0.01);
         mDriveTrain.setMotorSpeed(mSpeed, -mSpeed);

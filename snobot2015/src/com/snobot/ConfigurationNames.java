@@ -66,13 +66,18 @@ public class ConfigurationNames
 
     public static final String sDRIVE_ROTATE_KP_VALUE = "DriveRotateKPValue";
     public static final String sDRIVE_ROTATE_MIN_ERROR = "MinRotateError";
+
+    public static final String sDRIVE_FORWARD_KP_VALUE = "DriveForwardKPValue";
+    public static final String sDRIVE_FORWARD_MIN_ERROR = "MinForwardError";
     // Logger
     public static final String sLOG_COUNT = "LogCount";
     public static final String sLOG_FILE_PATH = "LogFilePath";
 
     // Autonomous Commands
     public static final String sDRIVE_FORWARD_COMMAND = "DriveForward";
+    public static final String sDRIVE_FORWARD_SMARTER_COMMAND = "DriveForwardSmart";
     public static final String sDRIVE_ROTATE_COMMAND = "DriveRotate";
+    public static final String sDRIVE_ROTATE_SMARTER_COMMAND = "DriveRotateSmart";
     public static final String sRAW_STACK_COMMAND = "RawStack";
     public static final String sCLAW_GRAB_COMMAND = "ClawGrab";
     public static final String sMOVE_CLAW_COMMAND = "MoveClaw";
