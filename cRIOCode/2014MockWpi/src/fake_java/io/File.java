@@ -1,5 +1,5 @@
 
-package java.io;
+package fake_java.io;
 
 public class File 
 {

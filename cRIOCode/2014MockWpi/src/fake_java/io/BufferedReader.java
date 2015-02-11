@@ -1,5 +1,8 @@
 
-package java.io;
+package fake_java.io;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class BufferedReader 
 {

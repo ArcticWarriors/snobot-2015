@@ -1,5 +1,5 @@
 
-package java.text;
+package fake_java.text;
 
 import java.util.Date;
 

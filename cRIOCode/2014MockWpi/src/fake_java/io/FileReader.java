@@ -1,7 +1,12 @@
 
-package java.io;
+package fake_java.io;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import com.sun.squawk.microedition.io.FileConnection;
+
 import javax.microedition.io.Connector;
 
 public class FileReader 

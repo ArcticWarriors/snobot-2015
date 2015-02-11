@@ -1,5 +1,7 @@
 
-package java.io;
+package fake_java.io;
+
+import java.io.IOException;
 
 public class FileWriter 
 {

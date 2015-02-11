@@ -1,5 +1,5 @@
 
-package java.util;
+package fake_java.util;
 
 public class StringTokenizer 
 {

@@ -1,8 +1,7 @@
 
-package java.util;
+package fake_java.util;
 
-import com.snobot.ISubsystem;
-import com.snobot.operatorjoystick.SnobotOperatorJoystick;
+import java.util.Vector;
 
 public class ArrayList implements List
 {

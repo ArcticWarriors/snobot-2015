@@ -1,17 +1,16 @@
 package com.snobot.commands;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import com.snobot.ConfigurationNames;
 import com.snobot.Snobot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import fake_java.io.BufferedReader;
+import fake_java.io.File;
+import fake_java.io.FileReader;
+import fake_java.util.ArrayList;
+import fake_java.util.List;
+import fake_java.util.StringTokenizer;
 
 public class CommandParser
 {

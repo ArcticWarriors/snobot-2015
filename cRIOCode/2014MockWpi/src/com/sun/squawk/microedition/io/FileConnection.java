@@ -38,17 +38,23 @@ public class FileConnection {
     }
 
     public void close() throws IOException {
-        
+    	if(mInStream != null)
+    	{
+    		mInStream.close();
+    	}
+    	
+    	if(mOutStream != null)
+    	{
+    		mOutStream.close();
+    	}
     }
 
     public void create() {
-        // TODO Auto-generated method stub
-        
+    	System.err.println("Not implemented...");
     }
 
-    public OutputStream openOutputStream() {
-        // TODO Auto-generated method stub
-        return null;
+    public OutputStream openOutputStream() throws FileNotFoundException {
+        return new FileOutputStream(mFile);
     }
 
 }
