@@ -6,7 +6,10 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
+import com.snobot.simulator.DigitalSourceWrapper;
+import com.snobot.simulator.SensorActuatorRegistry;
 import com.sun.squawk.util.MathUtils;
+
 import edu.wpi.first.wpilibj.communication.ModulePresence;
 import edu.wpi.first.wpilibj.fpga.tDIO;
 import edu.wpi.first.wpilibj.util.AllocationException;
@@ -229,6 +232,9 @@ public class DigitalModule extends Module {
             throw new AllocationException(
                     "Digital channel " + channel + " on module " + m_moduleNumber + " is already allocated");
         }
+
+        SensorActuatorRegistry.get().register(new DigitalSourceWrapper(), channel);
+
         final int outputEnable = m_fpgaDIO.readOutputEnable();
         final int bitToSet = 1 << (DigitalModule.remapDigitalChannel((channel - 1)));
         short outputEnableValue;
@@ -279,11 +285,14 @@ public class DigitalModule extends Module {
     public boolean getDIO(final int channel) {
         final int currentDIO = m_fpgaDIO.readDI();
 
+        int shift = remapDigitalChannel(channel - 1);
+        int shifted = currentDIO >> shift;
+
         // Shift 00000001 over channel-1 places.
         // AND it against the currentDIO
         // if it == 0, then return 0
         // else return 1
-        return ((currentDIO >> remapDigitalChannel(channel - 1)) & 1) == 1;
+        return (shifted & 1) == 1;
     }
 
     /**

@@ -3,9 +3,13 @@
 
 package edu.wpi.first.wpilibj.fpga;
 
+import java.util.Map.Entry;
+
+import com.snobot.simulator.DigitalSourceWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
 import com.snobot.simulator.SpeedControllerWrapper;
 
+import edu.wpi.first.wpilibj.DigitalModule;
 
 public class tDIO extends tSystem
 {
@@ -144,12 +148,15 @@ public class tDIO extends tSystem
       kDIO1_OutputEnable_Address,
    };
 
+    private int mOutputEnable = 0;
+
    public void writeOutputEnable(final int value)
    {
+        mOutputEnable = value;
    }
    public int readOutputEnable()
    {
-       return 0;
+        return mOutputEnable;
    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -286,7 +293,18 @@ public class tDIO extends tSystem
 
    public int readDI()
    {
-       return 0;
+        int mask = 0;
+        for (Entry<Integer, DigitalSourceWrapper> x : SensorActuatorRegistry.get().getDigitalSources().entrySet())
+        {
+            if (x.getValue().get())
+            {
+                int shift = DigitalModule.remapDigitalChannel(x.getKey() - 1);
+                mask |= (1 << shift);
+            }
+        }
+
+
+        return mask;
    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

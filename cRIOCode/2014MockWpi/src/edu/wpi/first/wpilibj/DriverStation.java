@@ -225,6 +225,8 @@ public class DriverStation implements IInputOutput {
     protected synchronized void getData() {
         FRCControl.getCommonControlData(m_controlData, Semaphore.WAIT_FOREVER);
 
+        // System.out.println("Got data : " + m_controlData);
+
         if (!lastEnabled && isEnabled()) {
             // If starting teleop, assume that autonomous just took up 15 seconds
             if (isAutonomous()) {

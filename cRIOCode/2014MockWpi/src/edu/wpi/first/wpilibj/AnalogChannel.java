@@ -6,6 +6,9 @@
 /*----------------------------------------------------------------------------*/
 package edu.wpi.first.wpilibj;
 
+import com.snobot.simulator.AnalogWrapper;
+import com.snobot.simulator.SensorActuatorRegistry;
+
 import edu.wpi.first.wpilibj.communication.UsageReporting;
 import edu.wpi.first.wpilibj.fpga.tAccumulator;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -62,6 +65,8 @@ public class AnalogChannel extends SensorBase implements PIDSource, LiveWindowSe
         m_channel = channel;
         m_moduleNumber = moduleNumber;
         m_module = AnalogModule.getInstance(moduleNumber);
+
+        SensorActuatorRegistry.get().register(new AnalogWrapper(), channel);
         try {
             channels.allocate((moduleNumber - 1) * kAnalogChannels + m_channel - 1);
         } catch (CheckedAllocationException e) {
