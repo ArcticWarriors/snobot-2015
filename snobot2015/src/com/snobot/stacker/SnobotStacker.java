@@ -64,7 +64,7 @@ public class SnobotStacker implements IStacker
         }
         else
         {
-//            System.out.println("Move Stacker Up Moving :)");
+            System.out.println("Move Stacker Up Moving :)");
             setElevatorSpeed(mAdjustedStackerSpeed);
             return true;
         }
@@ -86,7 +86,7 @@ public class SnobotStacker implements IStacker
         }
         else
         {
-//            System.out.println("Move Stacker Down Moving :)");
+            System.out.println("Move Stacker Down Moving :)");
             setElevatorSpeed(mAdjustedStackerSpeed);
             return true;
         }
@@ -226,7 +226,7 @@ public class SnobotStacker implements IStacker
 
     private void setElevatorSpeed(double aSpeed)
     {
-        mStackerMotor.set(aSpeed);
+        mStackerMotor.set(-aSpeed);
     }
 
 }

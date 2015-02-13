@@ -5,7 +5,6 @@ import com.snobot.XboxButtonMap;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * Implements Driver Joy stick Interface Sets up Snobot xBox Joy stick for
@@ -66,7 +65,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         mTankLeftYAxis = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         mTankRightYAxis = mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
         mArcadeLeftSpeed = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
-        mArcadeRightRotation = mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
+        mArcadeRightRotation = -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
     }
 
     @Override
