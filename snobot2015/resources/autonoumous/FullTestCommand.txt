@@ -1,15 +1,38 @@
 RawStack .5 true
 RawStack .5 false
 
-ClawGrab true
-ClawGrab false
+ClawGrab true 2
+ClawGrab false 2
 
 MoveClaw true 2
 MoveClaw false 2
 
-DriveForward 5 1
-DriveForward -5 1
+DriveForward 5 1 1
+DriveForward -5 1 1
 
-DriveRotate 90 .7
-DriveRotate 180 .7
-DriveRotate 0 .7
+DriveRotate 90 .7 1
+DriveRotate 180 .7 1
+DriveRotate 0 .7 1
+
+
+# There was an error parsing the commands...
+#
+# You have not specified enough arguments for the command: ClawGrab.  Index: 2, Size: 2
+# You have not specified enough arguments for the command: ClawGrab.  Index: 2, Size: 2
+# You have not specified enough arguments for the command: DriveForward.  Index: 3, Size: 3
+# You have not specified enough arguments for the command: DriveForward.  Index: 3, Size: 3
+# You have not specified enough arguments for the command: DriveRotate.  Index: 3, Size: 3
+# You have not specified enough arguments for the command: DriveRotate.  Index: 3, Size: 3
+# You have not specified enough arguments for the command: DriveRotate.  Index: 3, Size: 3
+
+
+# There was an error parsing the commands...
+#
+# You have not specified enough arguments for the command: ClawGrab.  Index: 2, Size: 2
+# You have not specified enough arguments for the command: ClawGrab.  Index: 2, Size: 2
+
+
+# There was an error parsing the commands...
+#
+# You have not specified enough arguments for the command: ClawGrab.  Index: 2, Size: 2
+# You have not specified enough arguments for the command: ClawGrab.  Index: 2, Size: 2
