@@ -1,2 +1,1 @@
-# Start robot near one of the yellow tote and recycle container clusters.
-DriveForward 81.5 .5 1
+DriveForward 20 1 3

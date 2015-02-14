@@ -254,7 +254,7 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
-        mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+        mAutonCommand = mParser.parseAutonString(SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, ""));
     	if(mAutonCommand != null)
     	{
     	    mAutonCommand.start();
