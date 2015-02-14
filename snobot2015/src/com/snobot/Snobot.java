@@ -1,6 +1,7 @@
 package com.snobot;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -383,10 +384,26 @@ public class Snobot extends IterativeRobot
         mAutonChooser = new SendableChooser();
         
         File autonDr = new File(ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_DIR, ConfigurationNames.sDEFAULT_AUTON_DIR));
+        String autonIgnoreFilter = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "Test");
 
         if (autonDr.isDirectory())
         {
-            File[] autonFiles = autonDr.listFiles();
+            File[] autonFiles = autonDr.listFiles(new FilenameFilter()
+            {
+
+                @Override
+                public boolean accept(File dir, String name)
+                {
+                    boolean keep = !name.startsWith(autonIgnoreFilter);
+
+                    if (keep)
+                    {
+                        System.out.println("Keeping file " + name);
+                    }
+
+                    return keep;
+                }
+            });
 
             for (int i = 0; i < autonFiles.length; i++)
             {
