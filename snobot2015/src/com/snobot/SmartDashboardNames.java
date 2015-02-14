@@ -30,6 +30,9 @@ public class SmartDashboardNames
     public static final String sENCODER_HEIGHT = "Encoder Height";
     public static final String sSTACKER_MOTOR_VALUE = "Stacker Motor";
     
+    public static final String sLIMIT_SWITCH_DEPRESSED = "Limit Switch Depressed";
+    public static final String sRAKE_MOTOR = "Rake Motor";
+
     // Auton Widget stuff
     public static final String sROBOT_COMMAND_TEXT = "Robot Command text";
     public static final String sSD_COMMAND_TEXT = "SD Command text";

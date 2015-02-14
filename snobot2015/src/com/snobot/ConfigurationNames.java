@@ -39,6 +39,7 @@ public class ConfigurationNames
     public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
     public static final String sDRIVE_MOTOR_RIGHT_1 = "RightDriveMotor1";
     public static final String sSTACKER_MOTOR = "StackerMotor";
+    public static final String sRAKE_MOTOR_SPEED = "RakeMotorSpeed";
 
     // Solenoid
     public static final String sAIR_PRESSURE_RANGE_MIN = "AirPressureRangeMin";
