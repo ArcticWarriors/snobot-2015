@@ -60,6 +60,30 @@ public interface IOperatorJoystick extends ISubsystem
      * 
      */
     
+    public boolean getMoveToFloor();
+
+    /**
+     * True if moveToFloor button is pressed
+     * 
+     * @return
+     */
+
+    public boolean getMoveToScoring();
+
+    /**
+     * True if moveToScoring button is pressed
+     * 
+     * @return
+     */
+
+    public boolean getMoveToOneStack();
+
+    /**
+     * True if moveToOneStack button is pressed
+     * 
+     * @return
+     */
+
     public double getJoystickValue ();
     /**
      * Gets value of Joystick to set as stacker speed

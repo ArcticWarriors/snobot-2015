@@ -32,6 +32,8 @@ public class ConfigurationNames
     public static final String sXBOX_BUTTON_ARCADE_MODE = "XboxArcadeModeButton";
 
     public static final String sSTACKER_TO_FLOOR_BTN = "XboxStackerToFloor";
+    public static final String sSTACKER_TO_SCORINGPLATFORM_BTN = "XboxStackerToScoringPlatform";
+    public static final String sSTACKER_TO_ONE_STACK_BTN = "XboxStackerToOneStack";
 
     // Motors
     public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
