@@ -23,20 +23,21 @@ public class RobotDrawer2015 extends JPanel
     //Claw Tower dimensions
     private static final double sCLAW_TO_CHASSIS = 21;
     private static final double sCLAW_TOWER_HEIGHT = 47.25;
-    private static final double sCLAW_TOWER_WIDTH = 1;
+    private static final double sCLAW_TOWER_WIDTH = 3;
+    private static final double sCLAW_TOWER_ARM_WIDTH = 1;
     private static final double sCLAW_TOWER_X_START = (sCHASSIS_X_START + sCLAW_TO_CHASSIS);
-    private static final double sCLAW_TOWER_Y_START = (sCHASSIS_Y_START - sCLAW_TOWER_HEIGHT);  
+    private static final double sCLAW_TOWER_Y_START = (sCHASSIS_Y_START - sCLAW_TOWER_HEIGHT);
     
     //Stacker Tower dimensions
     private static final double sCHASSIS_TO_STACKER = 0;
     private static final double sSTACKER_TOWER_HEIGHT = 34.375;
-    private static final double sSTACKER_TOWER_WIDTH = 4;
+    private static final double sSTACKER_TOWER_WIDTH = 3;
     private static final double sSTACKER_TOWER_X_START = (sCHASSIS_X_START + sCHASSIS_TO_STACKER);
     private static final double sSTACKER_TOWER_Y_START = (sCHASSIS_Y_START - sSTACKER_TOWER_HEIGHT);
     
     //Stacker Fork dimensions
     private static final double sSTACKER_FORK_LENGTH = 20.75;
-    private static final double sSTACKER_FORK_HEIGHT = 1;
+    private static final double sSTACKER_FORK_WIDTH = 1;
     private static final double sSTACKER_FORK_X_START = (sSTACKER_TOWER_X_START - sSTACKER_FORK_LENGTH);
     private static final double sSTACKER_FORK_Y_START = (sSTACKER_TOWER_Y_START + sSTACKER_TOWER_HEIGHT);
     
@@ -170,7 +171,7 @@ public class RobotDrawer2015 extends JPanel
                 sSTACKER_FORK_X_START * mScaleFactor, 
                 (sSTACKER_FORK_Y_START-mStackerHeight) * mScaleFactor, 
                 sSTACKER_FORK_LENGTH * mScaleFactor, 
-                sSTACKER_FORK_HEIGHT * mScaleFactor);
+                sSTACKER_FORK_WIDTH * mScaleFactor);
         
         g2d.setColor(sROBOT_FORK_COLOR);
         g2d.fill(forklift);
@@ -217,7 +218,7 @@ public class RobotDrawer2015 extends JPanel
         Rectangle2D claw = new Rectangle2D.Double(
                 sCLAW_TOWER_X_START ,
                 sCLAW_TOWER_Y_START, 
-                sCLAW_TOWER_WIDTH,
+                sCLAW_TOWER_ARM_WIDTH,
                 sCLAW_TOWER_HEIGHT);
         
         AffineTransform transform = new AffineTransform();
