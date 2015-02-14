@@ -180,6 +180,24 @@ public class SnobotStacker implements IStacker
             stop();
         }
 
+        if (mOperatorJoystick.getMoveToFloor())
+        {
+            moveStackerToGround();
+        }
+
+        else if (mOperatorJoystick.getMoveToScoring())
+        {
+            moveStackerToScoringPlatform();
+        }
+        else if (mOperatorJoystick.getMoveToOneStack())
+        {
+            moveStackerToOneStack();
+        }
+        else
+        {
+            stop();
+        }
+
     }
 
     private double getStackerHeight()

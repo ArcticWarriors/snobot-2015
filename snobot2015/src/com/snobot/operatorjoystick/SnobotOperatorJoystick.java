@@ -24,6 +24,8 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     private double mXBOXStackerJoystickDown;
 
     private int mMoveStackerToFloorButton;
+    private int mMoveStackerToScoringButton;
+    private int mMoveStackerToOneStackButton;
     
 
     private Joystick mOperatorJoystick;
@@ -104,6 +106,21 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         }
     }
 
+    public boolean getMoveToFloor()
+    {
+        return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);
+    }
+
+    public boolean getMoveToScoring()
+    {
+        return mOperatorJoystick.getRawButton(mMoveStackerToScoringButton);
+    }
+
+    public boolean getMoveToOneStack()
+    {
+        return mOperatorJoystick.getRawButton(mMoveStackerToOneStackButton);
+    }
+
     @Override
     public double getJoystickValue()
     {
@@ -131,11 +148,14 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         // Buttons
         mXBOXButtonClawOpen = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_OPEN, XboxButtonMap.RB_BUTTON);
         mXBOXButtonClawClose = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_CLOSE, XboxButtonMap.LB_BUTTON);
-        mXBOXButtonClawUp = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_UP, XboxButtonMap.Y_BUTTON);
-        mXBOXButtonClawDown = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_DOWN, XboxButtonMap.X_BUTTON);
+        mXBOXButtonClawUp = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_UP, XboxButtonMap.B_BUTTON);
+        mXBOXButtonClawDown = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_DOWN, XboxButtonMap.B_BUTTON);
         mStackerJoystickAxis1 = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS, 1);
 
-        mMoveStackerToFloorButton = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_TO_FLOOR_BTN, XboxButtonMap.B_BUTTON);
+        mMoveStackerToFloorButton = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_TO_FLOOR_BTN, XboxButtonMap.A_BUTTON);
+        mMoveStackerToScoringButton = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_TO_SCORINGPLATFORM_BTN,
+                XboxButtonMap.X_BUTTON);
+        mMoveStackerToOneStackButton = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_TO_ONE_STACK_BTN, XboxButtonMap.Y_BUTTON);
         
         // Joystick values
         mStackerJoystickDirection = -mOperatorJoystick.getRawAxis(mStackerJoystickAxis1);
