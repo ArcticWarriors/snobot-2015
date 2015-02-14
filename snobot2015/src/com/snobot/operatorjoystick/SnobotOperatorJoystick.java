@@ -136,8 +136,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         // Joystick values
         mStackerJoystickDirection = -mOperatorJoystick.getRawAxis(mStackerJoystickAxis1);
 
-        // mIsHandOpen =
-        mClawHandButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawHand));
+        mIsHandOpen = mClawHandButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawHand));
         mIsArmUp = mClawArmButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawArm));
     }
 

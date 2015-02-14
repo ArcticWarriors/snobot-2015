@@ -23,11 +23,12 @@ public class RobotDrawer2015 extends JPanel
     //Claw Tower dimensions
     private static final double sCLAW_TO_CHASSIS = 21;
     private static final double sCLAW_TOWER_HEIGHT = 47.25;
+    private static final double sCLAW_ARM_LENGTH = 47.25;
     private static final double sCLAW_TOWER_WIDTH = 3;
     private static final double sCLAW_TOWER_ARM_WIDTH = 1;
     private static final double sCLAW_TOWER_X_START = (sCHASSIS_X_START + sCLAW_TO_CHASSIS);
     private static final double sCLAW_TOWER_Y_START = (sCHASSIS_Y_START - sCLAW_TOWER_HEIGHT);
-    
+
     //Stacker Tower dimensions
     private static final double sCHASSIS_TO_STACKER = 0;
     private static final double sSTACKER_TOWER_HEIGHT = 34.375;
@@ -44,6 +45,12 @@ public class RobotDrawer2015 extends JPanel
     private static final double sROBOT_WIDTH = sSTACKER_TOWER_X_START + sCHASSIS_WIDTH+sSTACKER_FORK_LENGTH + (sCLAW_TOWER_HEIGHT- sCLAW_TO_CHASSIS);
     private static final double sROBOT_HEIGHT = sCHASSIS_HEIGHT+sSTACKER_TOWER_HEIGHT + sCLAW_TOWER_HEIGHT;
     
+    // Claw dimensions
+    private static final double sCLAW_X_START = (sCLAW_TOWER_X_START);
+    private static final double sCLAW_Y_START = (sCLAW_TOWER_Y_START);
+    private static final double sCLAW_WIDTH = 13;
+    private static final double sCLAW_HEIGHT = 5;
+
     //Limit Switch dimensions
     private static final double sLIMIT_SWITCH_HEIGHT = 1;
     private static final double sLIMIT_SWITCH_WIDTH = 1;
@@ -64,8 +71,10 @@ public class RobotDrawer2015 extends JPanel
     private static final Color sROBOT_BASE_COLOR = Color.black;
     private static final Color sROBOT_FORK_COLOR = Color.blue;
     private static final Color sROBOT_STACKER_COLOR = Color.gray;
-    private static final Color sROBOT_CLAW_COLOR = Color.gray;
     private static final Color sROBOT_ARM_COLOR = Color.magenta;
+    private static final Color sROBOT_TOWER_COLOR = Color.gray;
+    private static final Color sROBOT_CLAW_CLOSED_COLOR = Color.orange;
+    private static final Color sROBOT_CLAW_OPEN_COLOR = Color.cyan;
     
     public RobotDrawer2015()
     {
@@ -108,8 +117,10 @@ public class RobotDrawer2015 extends JPanel
         drawStacker(g2d);
         drawClawTower(g2d);
         drawClawArm(g2d);
+        drawClaw(g2d);
         drawUpperLimitSwitch(g2d);
         drawLowerLimitSwitch(g2d);
+
     }
 
   
@@ -197,7 +208,7 @@ public class RobotDrawer2015 extends JPanel
             sCLAW_TOWER_WIDTH * mScaleFactor,
             sCLAW_TOWER_HEIGHT * mScaleFactor);
         
-        g2d.setColor(sROBOT_CLAW_COLOR);
+        g2d.setColor(sROBOT_TOWER_COLOR);
         g2d.fill(claw);
     }
     
@@ -215,19 +226,36 @@ public class RobotDrawer2015 extends JPanel
         }
         
 
-        Rectangle2D claw = new Rectangle2D.Double(
-                sCLAW_TOWER_X_START ,
-                sCLAW_TOWER_Y_START, 
+        Rectangle2D arm = new Rectangle2D.Double(
+                sCLAW_TOWER_X_START,
+                sCLAW_TOWER_Y_START,
                 sCLAW_TOWER_ARM_WIDTH,
-                sCLAW_TOWER_HEIGHT);
+                sCLAW_ARM_LENGTH);
         
         AffineTransform transform = new AffineTransform();
         transform.scale(mScaleFactor, mScaleFactor);
         transform.rotate(Math.toRadians(rotation), sCLAW_TOWER_X_START,sCLAW_TOWER_Y_START);  
         
-        Shape shape = transform.createTransformedShape(claw);
+        Shape shape = transform.createTransformedShape(arm);
         g2d.setColor(sROBOT_ARM_COLOR);
         g2d.fill(shape);
+    }
+
+    private void drawClaw(Graphics2D g2d)
+    {
+        double rotation = mClawUp ? -100 : -20;
+        
+        double sTRIG_VARIABLE = sCLAW_ARM_LENGTH * (Math.cos(Math.toRadians(rotation)));
+        double sWIDTH_BETWEEN_CLAW_TOWER_ARM = sCLAW_ARM_LENGTH * (Math.sin(Math.toRadians(rotation)));
+
+        Rectangle2D claw = new Rectangle2D.Double(
+                (sCLAW_X_START - sWIDTH_BETWEEN_CLAW_TOWER_ARM) * mScaleFactor,
+                (sCLAW_Y_START + sTRIG_VARIABLE) * mScaleFactor,
+                sCLAW_WIDTH * mScaleFactor,
+                sCLAW_HEIGHT * mScaleFactor);
+
+        g2d.setColor(mClawOpen ? sROBOT_CLAW_OPEN_COLOR : sROBOT_CLAW_CLOSED_COLOR);
+        g2d.fill(claw);
     }
 
     /**
