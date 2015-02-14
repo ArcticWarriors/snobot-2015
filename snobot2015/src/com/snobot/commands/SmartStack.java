@@ -50,7 +50,7 @@ public class SmartStack extends Command
             mFinished = true;
         }
         
-        System.out.println(mStackCommandIndex);
+            System.out.println("Stack index=" + mStackCommandIndex + ", finished=" + mFinished);
         }
     }
 

@@ -61,8 +61,8 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         // mDriveMode = DriveMode.Arcade;
         // }
         
-        mTankLeftYAxis = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
-        mTankRightYAxis = mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
+        mTankLeftYAxis = -mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        mTankRightYAxis = -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
         // mArcadeLeftSpeed = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         // mArcadeRightRotation = -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
     }

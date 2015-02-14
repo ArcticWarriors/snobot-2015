@@ -34,6 +34,7 @@ public class ConfigurationNames
     public static final String sSTACKER_TO_FLOOR_BTN = "XboxStackerToFloor";
     public static final String sSTACKER_TO_SCORINGPLATFORM_BTN = "XboxStackerToScoringPlatform";
     public static final String sSTACKER_TO_ONE_STACK_BTN = "XboxStackerToOneStack";
+    public static final String sSTACKER_COOP_HEIGHT_BTN = "XboxStackerCoOpHeight";
 
     // Motors
     public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
@@ -55,6 +56,9 @@ public class ConfigurationNames
     public static final String sLEFT_DRIVE_ENC_B = "LeftDriveEnc_B";
     public static final String sSTACKER_POT = "StackerPot";
 
+    public static final String sLEFT_ENC_DPP = "LeftEncDpp";
+    public static final String sRIGHT_ENC_DPP = "RightEncDpp";
+
     // Analog Inputs
     public static final String sGYRO_SENSOR = "GyroSensor";
     public static final String sTRANSDUCER = "Transducer";
@@ -64,6 +68,7 @@ public class ConfigurationNames
     public static final String sSTACKER_SCORING_PLATFORM_HEIGHT = "StackerScoringPlatformHeight"; 
     public static final String sSTACKER_ONE_STACK_HEIGHT = "StackerOneStackeHeight";
     public static final String sSTACKER_STACKING_MARGIN = "StackerStackingMargin";
+    public static final String sSTACKER_COOP_HEIGHT = "StackerCoOpHeight";
 
     public static final String sSTACKER_POT_VOLTS_PER_INCH = "StackerPotVoltagePerInch";
     public static final String sSTACKER_POT_MIN_VOLTS = "StackerPotMinVoltage";
@@ -71,6 +76,7 @@ public class ConfigurationNames
     public static final String sDRIVE_ROTATE_KP_VALUE = "DriveRotateKPValue";
     public static final String sDRIVE_ROTATE_MIN_ERROR = "MinRotateError";
 
+    public static final String sSTACKER_KP = "StackerKp";
     public static final String sDRIVE_FORWARD_KP_VALUE = "DriveForwardKPValue";
     public static final String sDRIVE_FORWARD_MIN_ERROR = "MinForwardError";
 
@@ -142,6 +148,7 @@ public class ConfigurationNames
             System.out.println("-------------------------------------------");
             System.out.println("Config file updated, saving it");
             System.out.println("-------------------------------------------");
+            sPropertyAdded = false;
         }
     }
 

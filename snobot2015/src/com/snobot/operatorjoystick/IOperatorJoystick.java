@@ -134,4 +134,6 @@ public interface IOperatorJoystick extends ISubsystem
      */
     void setRumble(Boolean aRumbleOn);
 
+    public abstract boolean getMoveToCoopHeight();
+
 }

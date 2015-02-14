@@ -1,5 +1,6 @@
 package com.snobot.drivetrain;
 
+import com.snobot.ConfigurationNames;
 import com.snobot.SmartDashboardNames;
 import com.snobot.joystick.IDriverJoystick;
 import com.snobot.logger.Logger;
@@ -56,6 +57,7 @@ public class SnobotDriveTrain implements IDriveTrain
         mLogger=aLogger;
         
         mRobotDrive.setSafetyEnabled(false); //TODO - PJ - probably not the safest thing for competition....
+        mEncoderLeft.setReverseDirection(true);
     }
 
     @Override
@@ -63,6 +65,7 @@ public class SnobotDriveTrain implements IDriveTrain
     {
         mLogger.addHeader("Left Drive Speed");
         mLogger.addHeader("Right Drive Speed");
+        rereadPreferences();
     }
 
     @Override
@@ -95,6 +98,8 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void rereadPreferences()
     {
+        mEncoderLeft.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sLEFT_ENC_DPP, 0.0097370983));
+        mEncoderRight.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRIGHT_ENC_DPP, 0.0097370983));
     }
 
     @Override
@@ -104,6 +109,8 @@ public class SnobotDriveTrain implements IDriveTrain
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
         SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_LEFT, mDistanceLeftTrack);
         SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_RIGHT, mDistanceRightTrack);
+        SmartDashboard.putNumber("Left Encoder Raw", mEncoderLeft.getRaw());
+        SmartDashboard.putNumber("Right Encoder Raw", mEncoderRight.getRaw());
     }
 
     @Override
