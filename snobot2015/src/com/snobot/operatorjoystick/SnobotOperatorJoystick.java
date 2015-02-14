@@ -16,12 +16,15 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
 {
     private double mStackerJoystickDirection;
     private int mStackerJoystickAxis1;
-    private int mXBOXButtonClawUp;
-    private int mXBOXButtonClawDown;
-    private int mXBOXButtonClawOpen;
-    private int mXBOXButtonClawClose;
+    private int mXBOXButtonMoveClawArm;
+    private int mXBOXButtonMoveClawHand;
     private double mXBOXStackerJoystickUp;
     private double mXBOXStackerJoystickDown;
+    private ToggleButton mClawArmButton;
+    private ToggleButton mClawHandButton;
+    
+    private boolean mIsHandOpen;
+    private boolean mIsArmUp;
 
     private int mMoveStackerToFloorButton;
     private int mMoveStackerToScoringButton;
@@ -39,6 +42,8 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     public SnobotOperatorJoystick(Joystick aOperatorJoystick)
     {
         mOperatorJoystick = aOperatorJoystick;
+        mClawArmButton = new ToggleButton(mXBOXButtonMoveClawArm);
+        mClawHandButton = new ToggleButton(mXBOXButtonMoveClawHand);
     }
 
     @Override
@@ -52,58 +57,30 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     {
        return mStackerJoystickDirection <= mXBOXStackerJoystickDown;
     }
-
+    
     @Override
     public boolean getClawUp()
     {
-        if (mOperatorJoystick.getRawButton(mXBOXButtonClawUp))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return mIsArmUp;
     }
 
     @Override
     public boolean getClawDown()
     {
-        if (mOperatorJoystick.getRawButton(mXBOXButtonClawDown))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return !mIsArmUp;
     }
     
 
     @Override
     public boolean getClawOpen()
     {
-        if (mOperatorJoystick.getRawButton(mXBOXButtonClawOpen))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return mIsHandOpen;
     }
     
     @Override
     public boolean getClawClose()
     {
-        if (mOperatorJoystick.getRawButton(mXBOXButtonClawClose))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return !mIsHandOpen;
     }
 
     public boolean getMoveToFloor()
@@ -141,15 +118,14 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public void update()
     {
+
         //Thresholds
         mXBOXStackerJoystickUp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sXBOX_JOYSTICK_STACKER_UP, .2);
         mXBOXStackerJoystickDown = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sXBOX_JOYSTICK_STACKER_DOWN, -.2);
         
         // Buttons
-        mXBOXButtonClawOpen = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_OPEN, XboxButtonMap.RB_BUTTON);
-        mXBOXButtonClawClose = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_CLOSE, XboxButtonMap.LB_BUTTON);
-        mXBOXButtonClawUp = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_UP, XboxButtonMap.B_BUTTON);
-        mXBOXButtonClawDown = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_DOWN, XboxButtonMap.B_BUTTON);
+        mXBOXButtonMoveClawArm = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_OPEN, XboxButtonMap.RB_BUTTON);
+        mXBOXButtonMoveClawHand = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_CLAW_CLOSE, XboxButtonMap.LB_BUTTON);
         mStackerJoystickAxis1 = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS, 1);
 
         mMoveStackerToFloorButton = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_TO_FLOOR_BTN, XboxButtonMap.A_BUTTON);
@@ -159,6 +135,10 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         
         // Joystick values
         mStackerJoystickDirection = -mOperatorJoystick.getRawAxis(mStackerJoystickAxis1);
+
+        // mIsHandOpen =
+        mClawHandButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawHand));
+        mIsArmUp = mClawArmButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawArm));
     }
 
     /**

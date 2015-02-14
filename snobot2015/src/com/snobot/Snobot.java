@@ -72,6 +72,7 @@ public class Snobot extends IterativeRobot
     private Talon mDriveRight1;
     private Talon mStackerMotor;
     
+
     //Digital Inputs
     private DigitalInput mUpperLimitSwitch;
     private DigitalInput mLowerLimitSwitch;

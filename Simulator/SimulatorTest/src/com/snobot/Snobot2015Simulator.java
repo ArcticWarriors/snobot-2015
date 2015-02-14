@@ -62,7 +62,7 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
         
         mLeftDriveEnc.setSimulatorParams(.01);
         mRightDriveEnc.setSimulatorParams(-.01);
-        mStackerSimulator.setSimulatorParams(1);
+        mStackerSimulator.setSimulatorParams(-1);
         // mStackerSimulator.setSimulatorParams(1);
         
         

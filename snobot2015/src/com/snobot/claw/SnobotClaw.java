@@ -24,7 +24,7 @@ public class SnobotClaw implements IClaw
     private AnalogInput mTransducer;
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
-    private boolean mClawArmState;
+
 
     private boolean mRumbleOn;
 
@@ -76,6 +76,8 @@ public class SnobotClaw implements IClaw
     @Override
     public void init()
     {
+        mClawArmSolenoid.set(false);
+        mClawHandSolenoid.set(false);
         mLogger.addHeader("Claw Pressure");
         rereadPreferences();
     }
@@ -88,7 +90,6 @@ public class SnobotClaw implements IClaw
         
         mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
 
-        mClawArmState = mClawArmSolenoid.get();
     }
 
     @Override
@@ -96,11 +97,11 @@ public class SnobotClaw implements IClaw
     {
         mOperatorJoystick.setRumble(mRumbleOn);
         
-        if (mOperatorJoystick.getClawOpen() && mClawArmState)
+        if (mOperatorJoystick.getClawOpen())
         {
             openClaw();
         }
-        else if (mOperatorJoystick.getClawClose() && !mClawArmState)
+        else if (mOperatorJoystick.getClawClose())
         {
             closeClaw();
         }

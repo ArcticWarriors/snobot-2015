@@ -163,11 +163,7 @@ public class SnobotStacker implements IStacker
     @Override
     public void control()
     {
-        if (mOperatorJoystick.getStackerToFloorButton())
-        {
-            moveStackerToGround();
-        }
-        else if (mOperatorJoystick.getStackerUp())
+        if (mOperatorJoystick.getStackerUp())
         {
             moveStackerUp();
         }
@@ -175,12 +171,8 @@ public class SnobotStacker implements IStacker
         {
             moveStackerDown();
         }
-        else
-        {
-            stop();
-        }
 
-        if (mOperatorJoystick.getMoveToFloor())
+        else if (mOperatorJoystick.getStackerToFloorButton())
         {
             moveStackerToGround();
         }
