@@ -56,6 +56,20 @@ public interface IOperatorJoystick extends ISubsystem
     public boolean getClawClose();
     
     /**
+     * Asks if the rake down button is pressed.
+     * 
+     * @return True if button is pressed else false.
+     */
+    public boolean getRakeDown();
+
+    /**
+     * Asks if rake up button is pressed.
+     * 
+     * @returnTrue if button is pressed else false.
+     */
+    public boolean getRakeUp();
+
+    /**
      * Perform initialization 
      * 
      */

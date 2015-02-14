@@ -23,6 +23,8 @@ public class XboxButtonMap
     public static final int Y_BUTTON = 4;
     public static final int LB_BUTTON = 5;
     public static final int RB_BUTTON = 6;
+    public static final int BACK_BUTTON = 7;
+    public static final int START_BUTTON = 8;
     public static final int L3_BUTTON = 9;
     public static final int R3_BUTTON = 10;
 }

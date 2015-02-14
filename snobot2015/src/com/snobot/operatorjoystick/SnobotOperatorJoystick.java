@@ -210,4 +210,18 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);
     }
+
+    @Override
+    public boolean getRakeDown()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean getRakeUp()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }
