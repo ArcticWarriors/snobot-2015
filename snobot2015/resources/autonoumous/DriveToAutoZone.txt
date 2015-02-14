@@ -1,2 +1,2 @@
-# Start robot near one of the yellow tote and container clusters.
+# Start robot near one of the yellow tote and recycle container clusters.
 DriveForward 81.5 .5 1
