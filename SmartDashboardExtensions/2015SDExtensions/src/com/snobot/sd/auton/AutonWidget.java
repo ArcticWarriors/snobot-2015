@@ -22,6 +22,8 @@ public class AutonWidget extends StaticWidget
         this.setLayout(new BorderLayout());
         mPanel = new AutonPanel();
 
+        Robot.getTable().putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, false);
+
         this.add(mPanel, BorderLayout.CENTER);
         this.setPreferredSize(new Dimension(WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_X, WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_Y));
         

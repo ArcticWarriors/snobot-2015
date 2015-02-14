@@ -156,10 +156,12 @@ public class CommandParser
         else if (isParallel)
         {
         	aGroup.addParallel(newCommand);
+            mSuccess = true;
         }
         else
         {
         	aGroup.addSequential(newCommand);
+            mSuccess = true;
         }
     }
     
