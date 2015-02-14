@@ -19,7 +19,6 @@ public class ToggleButton
         }
 
         mLastSwitchState = aCurrentState;
-        System.out.println(aCurrentState + "," + mLastSwitchState);
         return mSwitchState;
 
     }
