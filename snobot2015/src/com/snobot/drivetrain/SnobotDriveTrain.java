@@ -2,7 +2,6 @@ package com.snobot.drivetrain;
 
 import com.snobot.SmartDashboardNames;
 import com.snobot.joystick.IDriverJoystick;
-import com.snobot.joystick.IDriverJoystick.DriveMode;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -80,14 +79,16 @@ public class SnobotDriveTrain implements IDriveTrain
     public void control()
     {
         
-        if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode())
-        {
-            mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
-        }
-        else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
+        if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
         {
             mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
         }
+        // else if (IDriverJoystick.DriveMode.Arcade ==
+        // mDriverJoystick.getDriveMode())
+        // {
+        // mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(),
+        // mDriverJoystick.getRotate());
+        // }
 
     }
 
