@@ -1,2 +1,18 @@
-&DriveForward 5 1
-&MoveClaw true
+&DriveForward 5 1 1
+&MoveClaw true 3
+
+
+# There was an error parsing the commands...
+#
+# You have not specified enough arguments for the command: DriveForward.  Index: 3, Size: 3
+# You have not specified enough arguments for the command: MoveClaw.  Index: 2, Size: 2
+
+
+# There was an error parsing the commands...
+#
+# You have not specified enough arguments for the command: MoveClaw.  Index: 2, Size: 2
+
+
+# There was an error parsing the commands...
+#
+# You have not specified enough arguments for the command: MoveClaw.  Index: 2, Size: 2

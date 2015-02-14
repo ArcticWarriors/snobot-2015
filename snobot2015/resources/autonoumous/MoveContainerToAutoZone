@@ -1,0 +1,5 @@
+ClawGrab true 1
+&MoveClaw true 2
+&DriveRotate 0 1 1
+DriveForward 81.5 1 1
+ClawGrab false 1

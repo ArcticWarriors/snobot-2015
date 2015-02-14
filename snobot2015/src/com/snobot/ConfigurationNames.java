@@ -75,6 +75,7 @@ public class ConfigurationNames
 
     public static final String sAUTON_DIR = "AutonDir";
     public static final String sDEFAULT_AUTON_DIR = "../../snobot2015/resources/autonoumous/";
+    public static final String sAUTON_IGNORE_STRING = "AutonIgnoreString";
 
     // Logger
     public static final String sLOG_COUNT = "LogCount";
