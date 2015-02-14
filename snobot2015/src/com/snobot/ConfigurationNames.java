@@ -57,6 +57,7 @@ public class ConfigurationNames
 
     // Analog Inputs
     public static final String sGYRO_SENSOR = "GyroSensor";
+    public static final String sTRANSDUCER = "Transducer";
 
     // Misc. Variables
     public static final String sSTACKER_GROUND_HEIGHT = "StackerGroundHeight";

@@ -121,13 +121,13 @@ public class Snobot extends IterativeRobot
         int stacker_lower_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 2);
         
         //Analog
-        int stacker_pot_port 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_POT, 2);
-        int gyro_port 				= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0);
-        int transducer_port 		= 3; //TODO make configurable
+        int transducer_port         = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sTRANSDUCER, 2);
+        int stacker_pot_port 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_POT, 1);
+        int gyro_port               = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0);
         
         //Solenoid
-        int claw_solenoid_port 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sCLAW_HAND_SOLENOID, 1);
-        int arm_solenoid_port 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sCLAW_ARM_SOLENOID, 2);
+        int claw_solenoid_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sCLAW_HAND_SOLENOID, 2);
+        int arm_solenoid_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sCLAW_ARM_SOLENOID, 1);
 
         String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJOYSTICK_MODE, SmartDashboardNames.sJOYSTICK_MODE_XBOX);
         
