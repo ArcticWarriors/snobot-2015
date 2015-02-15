@@ -17,6 +17,8 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     private double mStackerJoystickDirection;
     private int mStackerJoystickAxis1;
     private int mXBOXButtonMoveClawArm;
+    private int mXBOXButtonRakeUp;
+    private int mXBOXButtonRakeDown;
     private int mXBOXButtonMoveClawHand;
     private double mXBOXStackerJoystickUp;
     private double mXBOXStackerJoystickDown;
@@ -25,6 +27,9 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     
     private boolean mIsHandOpen;
     private boolean mIsArmUp;
+
+    private boolean mIsRakeUp;
+    private boolean mIsRakeDown;
 
     private int mMoveStackerToFloorButton;
     private int mMoveStackerToScoringButton;
@@ -83,6 +88,18 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         return !mIsHandOpen;
     }
 
+    @Override
+    public boolean getRakeDown() {
+        // TODO Auto-generated method stub
+        return mIsRakeDown;
+    }
+
+    @Override
+    public boolean getRakeUp() {
+        // TODO Auto-generated method stub
+        return mIsRakeUp;
+    }
+
     public boolean getMoveToFloor()
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);
@@ -138,6 +155,9 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
 
         mIsHandOpen = mClawHandButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawHand));
         mIsArmUp = mClawArmButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawArm));
+        mIsRakeUp = mOperatorJoystick.getRawButton(7);
+        mIsRakeDown = mOperatorJoystick.getRawButton(8);
+
     }
 
     /**
@@ -204,4 +224,6 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);
     }
+
+
 }
