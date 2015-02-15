@@ -34,7 +34,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     private int mMoveStackerToFloorButton;
     private int mMoveStackerToScoringButton;
     private int mMoveStackerToOneStackButton;
-    
+    private int mMoveStackerToCoOpHeight;
 
     private Joystick mOperatorJoystick;
 
@@ -116,6 +116,12 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     }
 
     @Override
+    public boolean getMoveToCoopHeight()
+    {
+        return mOperatorJoystick.getRawButton(mMoveStackerToCoOpHeight);
+    }
+
+    @Override
     public double getJoystickValue()
     {
         return mStackerJoystickDirection;
@@ -149,7 +155,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         mMoveStackerToScoringButton = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_TO_SCORINGPLATFORM_BTN,
                 XboxButtonMap.X_BUTTON);
         mMoveStackerToOneStackButton = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_TO_ONE_STACK_BTN, XboxButtonMap.Y_BUTTON);
-        
+        mMoveStackerToCoOpHeight = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_COOP_HEIGHT_BTN, XboxButtonMap.B_BUTTON);
         // Joystick values
         mStackerJoystickDirection = -mOperatorJoystick.getRawAxis(mStackerJoystickAxis1);
 
@@ -224,6 +230,5 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);
     }
-
 
 }

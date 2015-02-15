@@ -115,7 +115,7 @@ public class Snobot extends IterativeRobot
         
         //Digital IO
     	int left_drive_enc_a 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 7);
-    	int left_drive_enc_b 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_B, 4);
+    	int left_drive_enc_b 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_B, 8);
     	int right_drive_enc_a 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_A, 5);
     	int right_drive_enc_b 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6);
         int stacker_upper_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 1);
@@ -231,6 +231,11 @@ public class Snobot extends IterativeRobot
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
               
                 mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+
+                // TODO may want to do this somehwere else
+                mPositioner.setSnobotXPosition(0);
+                mPositioner.setSnobotYPosition(0);
+                mPositioner.setSnobotDegreeRotation(0);
             }
         });
 
@@ -255,7 +260,12 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
-        mAutonCommand = mParser.parseAutonString(SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, ""));
+        String auton_text = SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "THIS WILL BREAK IT");
+        // mAutonCommand = mParser.parseAutonString(auton_text);
+
+        // TODO This will break "send only" from the widget
+
+        mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
     	if(mAutonCommand != null)
     	{
     	    mAutonCommand.start();
@@ -385,7 +395,10 @@ public class Snobot extends IterativeRobot
         mAutonChooser = new SendableChooser();
         
         File autonDr = new File(ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_DIR, ConfigurationNames.sDEFAULT_AUTON_DIR));
-        String autonIgnoreFilter = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "Test");
+        String autonIgnoreFilter = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "");
+
+        System.out.println("Reading auton files from directory " + autonDr.getAbsolutePath());
+        System.out.println(" Using filter : " + autonIgnoreFilter);
 
         if (autonDr.isDirectory())
         {
@@ -395,11 +408,15 @@ public class Snobot extends IterativeRobot
                 @Override
                 public boolean accept(File dir, String name)
                 {
-                    boolean keep = !name.startsWith(autonIgnoreFilter);
+                    boolean keep = !name.startsWith(autonIgnoreFilter) || autonIgnoreFilter.isEmpty();
 
                     if (keep)
                     {
-                        System.out.println("Keeping file " + name);
+                        System.out.println("  Keeping file  : " + name);
+                    }
+                    else
+                    {
+                        System.out.println("  Ignoring file : " + name);
                     }
 
                     return keep;

@@ -34,6 +34,7 @@ public class ConfigurationNames
     public static final String sSTACKER_TO_FLOOR_BTN = "XboxStackerToFloor";
     public static final String sSTACKER_TO_SCORINGPLATFORM_BTN = "XboxStackerToScoringPlatform";
     public static final String sSTACKER_TO_ONE_STACK_BTN = "XboxStackerToOneStack";
+    public static final String sSTACKER_COOP_HEIGHT_BTN = "XboxStackerCoOpHeight";
 
     // Motors
     public static final String sDRIVE_MOTOR_LEFT_1 = "LeftDriveMotor1";
@@ -54,7 +55,16 @@ public class ConfigurationNames
     public static final String sRIGHT_DRIVE_ENC_B = "RightDriveEnc_B";
     public static final String sLEFT_DRIVE_ENC_A = "LeftDriveEnc_A";
     public static final String sLEFT_DRIVE_ENC_B = "LeftDriveEnc_B";
+
     public static final String sSTACKER_POT = "StackerPot";
+    public static final String sPOT_TOP_MIN_VOLT = "StackerPotTopMinVoltage";
+    public static final String sPOT_BOT_MAX_VOLT = "StackerPotBotMaxVoltage";
+    public static final String sSTACKER_MAX_HEIGHT = "StackerMaxHeight";
+    public static final String sSTACKER_LIMIT_SPEED_UP = "StackerLimitSpeedUp";
+    public static final String sSTACKER_LIMIT_SPEED_DOWN = "StackerLimitSpeedDown";
+
+    public static final String sLEFT_ENC_DPP = "LeftEncDpp";
+    public static final String sRIGHT_ENC_DPP = "RightEncDpp";
 
     // Analog Inputs
     public static final String sGYRO_SENSOR = "GyroSensor";
@@ -65,6 +75,7 @@ public class ConfigurationNames
     public static final String sSTACKER_SCORING_PLATFORM_HEIGHT = "StackerScoringPlatformHeight"; 
     public static final String sSTACKER_ONE_STACK_HEIGHT = "StackerOneStackeHeight";
     public static final String sSTACKER_STACKING_MARGIN = "StackerStackingMargin";
+    public static final String sSTACKER_COOP_HEIGHT = "StackerCoOpHeight";
 
     public static final String sSTACKER_POT_VOLTS_PER_INCH = "StackerPotVoltagePerInch";
     public static final String sSTACKER_POT_MIN_VOLTS = "StackerPotMinVoltage";
@@ -72,12 +83,13 @@ public class ConfigurationNames
     public static final String sDRIVE_ROTATE_KP_VALUE = "DriveRotateKPValue";
     public static final String sDRIVE_ROTATE_MIN_ERROR = "MinRotateError";
 
+    public static final String sSTACKER_KP = "StackerKp";
     public static final String sDRIVE_FORWARD_KP_VALUE = "DriveForwardKPValue";
     public static final String sDRIVE_FORWARD_MIN_ERROR = "MinForwardError";
 
     public static final String sAUTON_DIR = "AutonDir";
-    public static final String sDEFAULT_AUTON_DIR = "../../snobot2015/resources/autonoumous/";
     public static final String sAUTON_IGNORE_STRING = "AutonIgnoreString";
+    public static final String sDEFAULT_AUTON_DIR = "/home/lvuser/autonoumous/";
 
     // Logger
     public static final String sLOG_COUNT = "LogCount";
@@ -143,6 +155,7 @@ public class ConfigurationNames
             System.out.println("-------------------------------------------");
             System.out.println("Config file updated, saving it");
             System.out.println("-------------------------------------------");
+            sPropertyAdded = false;
         }
     }
 

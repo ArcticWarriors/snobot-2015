@@ -1,11 +1,15 @@
 package com.snobot.simulator;
 
-public class EncoderWrapper {
+import com.snobot.simulator.sim.DistanceCalculator;
+
+public class EncoderWrapper implements DistanceCalculator
+{
 	
 	private double distance_traveled = 0;
 	private double distance_per_tick =  1 / 255.0;
 
-	public void addDistanceDelta(double aDistance) {
+    public void addDistance(double aDistance)
+    {
 		distance_traveled += aDistance;
 	}
 	

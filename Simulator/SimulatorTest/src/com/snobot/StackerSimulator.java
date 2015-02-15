@@ -1,32 +1,29 @@
 package com.snobot;
 
-import com.snobot.simulator.AnalogWrapper;
 import com.snobot.simulator.DigitalSourceWrapper;
 import com.snobot.simulator.SpeedControllerWrapper;
+import com.snobot.simulator.sim.DistanceCalculator;
 import com.snobot.simulator.sim.ISimulatorUpdater;
-import com.snobot.simulator.sim.LinearPotCalculator;
-import com.snobot.simulator.sim.PotWrapper;
+import com.snobot.simulator.sim.LinearEncoderCalculator;
 
 public class StackerSimulator implements ISimulatorUpdater
 {
 
     private DigitalSourceWrapper mUpperStackerLimit;
     private DigitalSourceWrapper mLowerStackerLimit;
-    private PotWrapper mPotWrapper;
-    private LinearPotCalculator mPotCalculator;
+    private DistanceCalculator mPotWrapper;
+    private LinearEncoderCalculator mPotCalculator;
     private boolean mSetup;
 	
     public StackerSimulator(
             SpeedControllerWrapper aStackerMotor,
-            AnalogWrapper aStackerEncoder,
 			DigitalSourceWrapper aUpperStackerLimit,
             DigitalSourceWrapper aLowerStackerLimit,
-            double aMinPotVoltage,
-            double aVoltsPerUnit)
+            DistanceCalculator aPotWrapper)
 			
 	{		
-        mPotWrapper = new PotWrapper(aStackerEncoder, aMinPotVoltage, aVoltsPerUnit);
-        mPotCalculator = new LinearPotCalculator(aStackerMotor, mPotWrapper);
+        mPotWrapper = aPotWrapper;
+        mPotCalculator = new LinearEncoderCalculator(aStackerMotor, mPotWrapper);
 		mLowerStackerLimit = aLowerStackerLimit;
 		mUpperStackerLimit = aUpperStackerLimit;
 			
