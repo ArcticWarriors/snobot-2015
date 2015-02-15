@@ -29,8 +29,8 @@ public class SnobotDriveTrain implements IDriveTrain
 
     private Logger mLogger;
     private UnitOfMeasure mDefaultMeasure;
-    private double mDistanceLeftTrack;
-    private double mDistanceRightTrack;
+    private double mRightEncDistance;
+    private double mLeftEncDistance;
 
     
     
@@ -56,8 +56,8 @@ public class SnobotDriveTrain implements IDriveTrain
         mEncoderRight = aEncoderRight;
         mLogger=aLogger;
         
-        mRobotDrive.setSafetyEnabled(false); //TODO - PJ - probably not the safest thing for competition....
-        mEncoderLeft.setReverseDirection(true);
+        mRobotDrive.setSafetyEnabled(false); // TODO - PJ - probably not the safest thing for competition....
+        mEncoderLeft.setReverseDirection(true); // TODO PJ - is this totally useless?
     }
 
     @Override
@@ -71,8 +71,8 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void update()
     {
-        mDistanceLeftTrack = mEncoderLeft.getDistance();
-        mDistanceRightTrack = mEncoderRight.getDistance(); 
+        mRightEncDistance = mEncoderLeft.getDistance();
+        mLeftEncDistance = mEncoderRight.getDistance(); 
         mSpeedControllerLeft.get();
         mSpeedControllerRight.get();
         
@@ -98,8 +98,8 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void rereadPreferences()
     {
-        mEncoderLeft.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sLEFT_ENC_DPP, 0.0097370983));
-        mEncoderRight.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRIGHT_ENC_DPP, 0.0097370983));
+        mEncoderLeft.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sLEFT_ENC_DPP, -0.0389483932));
+        mEncoderRight.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRIGHT_ENC_DPP, 0.0389483932));
     }
 
     @Override
@@ -107,10 +107,10 @@ public class SnobotDriveTrain implements IDriveTrain
     {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
-        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_LEFT, mDistanceLeftTrack);
-        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_RIGHT, mDistanceRightTrack);
-        SmartDashboard.putNumber("Left Encoder Raw", mEncoderLeft.getRaw());
-        SmartDashboard.putNumber("Right Encoder Raw", mEncoderRight.getRaw());
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_LEFT, mRightEncDistance);
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_RIGHT, mLeftEncDistance);
+        SmartDashboard.putNumber(SmartDashboardNames.sLEFT_ENC_RAW, mEncoderLeft.getRaw());
+        SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_ENC_RAW, mEncoderRight.getRaw());
     }
 
     @Override
@@ -136,13 +136,13 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public double calculateDistanceRight()
     {
-        return mDistanceRightTrack;
+        return mLeftEncDistance;
     }
 
     @Override
     public double calculateDistanceLeft()
     {
-        return mDistanceLeftTrack;
+        return mRightEncDistance;
     }
 
     @Override

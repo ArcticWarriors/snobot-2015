@@ -263,7 +263,7 @@ public class Snobot extends IterativeRobot
         String auton_text = SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "THIS WILL BREAK IT");
         // mAutonCommand = mParser.parseAutonString(auton_text);
 
-        // TODO This will break send only from the widget
+        // TODO This will break "send only" from the widget
 
         mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
     	if(mAutonCommand != null)
@@ -395,9 +395,10 @@ public class Snobot extends IterativeRobot
         mAutonChooser = new SendableChooser();
         
         File autonDr = new File(ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_DIR, ConfigurationNames.sDEFAULT_AUTON_DIR));
-        String autonIgnoreFilter = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "Test");
+        String autonIgnoreFilter = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "");
 
         System.out.println("Reading auton files from directory " + autonDr.getAbsolutePath());
+        System.out.println(" Using filter : " + autonIgnoreFilter);
 
         if (autonDr.isDirectory())
         {
@@ -407,11 +408,15 @@ public class Snobot extends IterativeRobot
                 @Override
                 public boolean accept(File dir, String name)
                 {
-                    boolean keep = !name.startsWith(autonIgnoreFilter);
+                    boolean keep = !name.startsWith(autonIgnoreFilter) || autonIgnoreFilter.isEmpty();
 
                     if (keep)
                     {
-                        System.out.println("Keeping file " + name);
+                        System.out.println("  Keeping file  : " + name);
+                    }
+                    else
+                    {
+                        System.out.println("  Ignoring file : " + name);
                     }
 
                     return keep;

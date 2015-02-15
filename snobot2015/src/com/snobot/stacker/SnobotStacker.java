@@ -72,8 +72,7 @@ public class SnobotStacker implements IStacker
             {
                 safeSpeed = mStackerLimitSpeedUp;
             }
-            // System.out.println("Move Stacker Up Moving :) safe pseed = " +
-            // safeSpeed + "... " + mStackerLimitSpeedUp);
+            // System.out.println("Move Stacker Up Moving :) safe speed = " + safeSpeed + "... " + mStackerLimitSpeedUp);
 
             setElevatorSpeed(safeSpeed);
             return true;
@@ -101,8 +100,7 @@ public class SnobotStacker implements IStacker
             {
                 safeSpeed = mStackerLimitSpeedDown;
             }
-            // System.out.println("Move Stacker Down Moving :) safe pseed = " +
-            // safeSpeed + "... " + mStackerLimitSpeedDown);
+            // System.out.println("Move Stacker Down Moving :) safe speed = " + safeSpeed + "... " + mStackerLimitSpeedDown);
             setElevatorSpeed(safeSpeed);
             return true;
         }
@@ -135,10 +133,10 @@ public class SnobotStacker implements IStacker
     {
         double current_height = getStackerHeight();
         double error = aHeight - current_height;
-        double kp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_KP, .05);
-        double temp = error * kp;
+        double kp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_KP, .35);
+        double pid_speed = error * kp;
 
-        System.out.println("Current Hieght: " + current_height + " ,error: " + error + " ,Stacker Speed: " + temp);
+        // System.out.println("Current Hieght: " + current_height + " , error: " + error + " , Stacker Speed: " + pid_speed);
         if (Math.abs(error) < mStackerStackingMargin)
         {
             stop();
@@ -146,12 +144,12 @@ public class SnobotStacker implements IStacker
         }
         else if (current_height > aHeight)
         {
-            mAdjustedStackerSpeed = error * kp;
+            mAdjustedStackerSpeed = pid_speed;
             return !moveStackerDown();
         }
         else
         {
-            mAdjustedStackerSpeed = error * kp;
+            mAdjustedStackerSpeed = pid_speed;
             return !moveStackerUp();
         }
 
@@ -177,33 +175,17 @@ public class SnobotStacker implements IStacker
         mLowerLimitSwitchState = !mLowerLimitSwitch.get();
         mStackerMotorValue = mStackerMotor.get();
 
-        // double pot_voltage = mStackerPotentiometer.getVoltage();
-        // double pot_min =
-        // ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_MIN_VOLTS,
-        // 0);
-        // double pot_max =
-        // double pot_vpi =
-        // ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_VOLTS_PER_INCH,
-        // .25);
-
+        // TODO make configurable
         double pot_voltage = mStackerPotentiometer.getVoltage();
         double pot_min_top = 3.596190;
         double pot_max_bot = 4.9731405;
         double pot_diff = (pot_max_bot - pot_min_top);
+        double stacker_height = 24;
 
-        double pot_ipv = 24 / pot_diff;
+        double pot_ipv = stacker_height / pot_diff;
+        mStackerHeight = stacker_height - ((pot_voltage - pot_min_top) * pot_ipv);
 
-        // double blah = pot_voltage - pot_max_bot;
-
-        // double new_blah = pot_voltage * pot_ipv
-        mStackerHeight = 24 - ((pot_voltage - pot_min_top) * pot_ipv);
-
-        // System.out.println("Diff : " + pot_diff + ", ipv: " + pot_ipv + ", "
-        // + mStackerHeight);
-
-        // System.out.println("Pot Voltage: " + pot_voltage + ", diff=" +
-        // pot_diff + ", blah=" + blah + "\tStacker Height: " + mStackerHeight);
-        // System.out.println("\tStacker Height: " + mStackerHeight);
+        System.out.println("Pot Voltage: " + pot_voltage + ", diff=" + pot_diff + ", Stacker Height: " + mStackerHeight);
 
     }
 
@@ -259,6 +241,10 @@ public class SnobotStacker implements IStacker
         // TODO Make Configurable
         mStackerLimitSpeedUp = 0.7;
         mStackerLimitSpeedDown = -0.35;
+
+        // Just reading these so they will get automatically put into the
+        // preferences
+        ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_KP, .05);
     }
 
     @Override
