@@ -85,7 +85,7 @@ public class SnobotClaw implements IClaw
     @Override
     public void update()
     {
-     
+        // TODO Figure out the actual air pressure and set the rumble.
         mRobotAirPressure = 100;
         
         mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;

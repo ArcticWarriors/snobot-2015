@@ -100,7 +100,7 @@ public class SnobotStacker implements IStacker
             {
                 safeSpeed = mStackerLimitSpeedDown;
             }
-            // System.out.println("Move Stacker Down Moving :) safe speed = " + safeSpeed + "... " + mStackerLimitSpeedDown);
+//            System.out.println("Move Stacker Down Moving :) safe speed = " + safeSpeed + "... " + mStackerLimitSpeedDown);
             setElevatorSpeed(safeSpeed);
             return true;
         }
@@ -136,7 +136,8 @@ public class SnobotStacker implements IStacker
         double kp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_KP, .35);
         double pid_speed = error * kp;
 
-        // System.out.println("Current Hieght: " + current_height + " , error: " + error + " , Stacker Speed: " + pid_speed);
+//        System.out.println("Current Hieght: " + current_height + " , error: " + error + " , Stacker Speed: " + pid_speed);
+
         if (Math.abs(error) < mStackerStackingMargin)
         {
             stop();
@@ -175,15 +176,13 @@ public class SnobotStacker implements IStacker
         mLowerLimitSwitchState = !mLowerLimitSwitch.get();
         mStackerMotorValue = mStackerMotor.get();
 
-        // TODO make configurable
         double pot_voltage = mStackerPotentiometer.getVoltage();
-        double pot_min_top = 3.596190;
-        double pot_max_bot = 4.9731405;
-        double pot_diff = (pot_max_bot - pot_min_top);
-        double max_stacker_height = 24;
-
+        double pot_top_min = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sPOT_TOP_MIN_VOLT, 3.596190);
+        double pot_max_bot = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sPOT_BOT_MAX_VOLT, 4.9731405);
+        double max_stacker_height = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_MAX_HEIGHT, 24);
+        double pot_diff = (pot_max_bot - pot_top_min);
         double pot_ipv = max_stacker_height / pot_diff;
-        mStackerHeight = max_stacker_height - ((pot_voltage - pot_min_top) * pot_ipv);
+        mStackerHeight = max_stacker_height - ((pot_voltage - pot_top_min) * pot_ipv);
 
         // System.out.println("Pot Voltage: " + pot_voltage + ", diff=" + pot_diff + ", Stacker Height: " + mStackerHeight);
 
@@ -238,12 +237,11 @@ public class SnobotStacker implements IStacker
         mStackerOneStackHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ONE_STACK_HEIGHT, 13.1);
         mStackerStackingMargin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_STACKING_MARGIN, .5);
         mStackerCoopHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_COOP_HEIGHT, 23.5);
-        // TODO Make Configurable
-        mStackerLimitSpeedUp = 0.7;
-        mStackerLimitSpeedDown = -0.35;
 
-        // Just reading these so they will get automatically put into the
-        // preferences
+        mStackerLimitSpeedUp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_LIMIT_SPEED_UP, 0.7);
+        mStackerLimitSpeedDown = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_LIMIT_SPEED_DOWN, -0.35);
+
+        // Just reading these so they will get automatically put into the preferences
         ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_KP, .05);
     }
 

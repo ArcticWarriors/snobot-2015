@@ -55,7 +55,13 @@ public class ConfigurationNames
     public static final String sRIGHT_DRIVE_ENC_B = "RightDriveEnc_B";
     public static final String sLEFT_DRIVE_ENC_A = "LeftDriveEnc_A";
     public static final String sLEFT_DRIVE_ENC_B = "LeftDriveEnc_B";
+
     public static final String sSTACKER_POT = "StackerPot";
+    public static final String sPOT_TOP_MIN_VOLT = "StackerPotTopMinVoltage";
+    public static final String sPOT_BOT_MAX_VOLT = "StackerPotBotMaxVoltage";
+    public static final String sSTACKER_MAX_HEIGHT = "StackerMaxHeight";
+    public static final String sSTACKER_LIMIT_SPEED_UP = "StackerLimitSpeedUp";
+    public static final String sSTACKER_LIMIT_SPEED_DOWN = "StackerLimitSpeedDown";
 
     public static final String sLEFT_ENC_DPP = "LeftEncDpp";
     public static final String sRIGHT_ENC_DPP = "RightEncDpp";
