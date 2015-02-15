@@ -91,6 +91,9 @@ public class ConfigurationNames
     public static final String sAUTON_IGNORE_STRING = "AutonIgnoreString";
     public static final String sDEFAULT_AUTON_DIR = "/home/lvuser/autonoumous/";
 
+    public static final String sIS_RAKE_UP = "IsRakeUp";
+    public static final String sIS_RAKE_DOWN = "IsRakeDown";
+
     // Logger
     public static final String sLOG_COUNT = "LogCount";
     public static final String sLOG_FILE_PATH = "LogFilePath";

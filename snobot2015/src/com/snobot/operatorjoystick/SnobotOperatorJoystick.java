@@ -90,13 +90,11 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
 
     @Override
     public boolean getRakeDown() {
-        // TODO Auto-generated method stub
         return mIsRakeDown;
     }
 
     @Override
     public boolean getRakeUp() {
-        // TODO Auto-generated method stub
         return mIsRakeUp;
     }
 
@@ -161,8 +159,10 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
 
         mIsHandOpen = mClawHandButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawHand));
         mIsArmUp = mClawArmButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawArm));
-        mIsRakeUp = mOperatorJoystick.getRawButton(7);
-        mIsRakeDown = mOperatorJoystick.getRawButton(8);
+
+        mIsRakeUp = mOperatorJoystick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sIS_RAKE_UP, XboxButtonMap.BACK_BUTTON));
+        mIsRakeDown = mOperatorJoystick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sIS_RAKE_DOWN, XboxButtonMap.START_BUTTON));
+        
 
     }
 
