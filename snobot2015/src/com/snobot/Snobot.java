@@ -18,6 +18,8 @@ import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
 import com.snobot.position.SnobotPosition;
+import com.snobot.rake.IRake;
+import com.snobot.rake.SnobotRake;
 import com.snobot.stacker.IStacker;
 import com.snobot.stacker.SnobotStacker;
 
@@ -29,7 +31,9 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -60,6 +64,7 @@ public class Snobot extends IterativeRobot
     private IStacker mStacker;
     private IClaw mClaw;
     private IDriveTrain mDriveTrain;
+    private IRake mRake;
     private Logger mLogger;
     private SnobotPosition mPositioner;
 
@@ -68,9 +73,10 @@ public class Snobot extends IterativeRobot
     private Solenoid mClawArmSolenoid;
 
     // Motors
-    private Talon mDriveLeft1;
-    private Talon mDriveRight1;
-    private Talon mStackerMotor;
+    private SpeedController mDriveLeft1;
+    private SpeedController mDriveRight1;
+    private SpeedController mStackerMotor;
+    private SpeedController mRakeMotor;
     
 
     //Digital Inputs
@@ -78,6 +84,7 @@ public class Snobot extends IterativeRobot
     private DigitalInput mLowerLimitSwitch;
     private Encoder mEncoderLeft;
     private Encoder mEncoderRight;
+    private DigitalInput mRakeLimitSwitch;
     
     //Analog Inputs
     private Gyro mGyroSensor;
@@ -112,6 +119,7 @@ public class Snobot extends IterativeRobot
     	int left_drive_motor_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1,  0);
     	int right_drive_motor_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1);
         int stacker_motor_port 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR,       2);
+        int rake_motor_port = 3; // TODO make constant
         
         //Digital IO
     	int left_drive_enc_a 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 7);
@@ -120,6 +128,7 @@ public class Snobot extends IterativeRobot
     	int right_drive_enc_b 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6);
         int stacker_upper_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 1);
         int stacker_lower_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 2);
+        int rake_limit_switch_port = 3; // TODO make configurable
         
         //Analog
         int transducer_port         = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sTRANSDUCER, 2);
@@ -158,6 +167,11 @@ public class Snobot extends IterativeRobot
             mRawDriverJoystickSecondary = new Joystick(driver_joystick_2_port);
             mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
         }
+        
+        //Rake
+        mRakeMotor = new Victor(rake_motor_port);
+        mRakeLimitSwitch = new DigitalInput(rake_limit_switch_port);
+        mRake = new SnobotRake(mRakeMotor, mOperatorJoystick, mRakeLimitSwitch, mLogger);
 
         ////////////////////////////////////////
         // Drivetrain
@@ -206,6 +220,7 @@ public class Snobot extends IterativeRobot
         mSubsystems.add(mClaw);
         mSubsystems.add(mDriveTrain);
         mSubsystems.add(mPositioner);
+        mSubsystems.add(mRake);
 
         mLogger.init();
         for (ISubsystem iSubsystem : mSubsystems)

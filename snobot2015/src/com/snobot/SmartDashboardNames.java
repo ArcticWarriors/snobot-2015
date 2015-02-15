@@ -40,6 +40,8 @@ public class SmartDashboardNames
     // Rake
     public static final String sLIMIT_SWITCH_DEPRESSED = "Limit Switch Depressed";
     public static final String sRAKE_MOTOR = "Rake Motor";
+    public static final String sRAKE_JOYSTICK_VALUE_UP = "RakeJoystickValueUp";
+    public static final String sRAKE_JOYSTICK_VALUE_DOWN = "RakeJoystickValueDown";
 
     // Auton Widget stuff
     public static final String sROBOT_COMMAND_TEXT = "Robot Command text";

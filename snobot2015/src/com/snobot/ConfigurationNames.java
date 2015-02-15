@@ -91,8 +91,9 @@ public class ConfigurationNames
     public static final String sAUTON_IGNORE_STRING = "AutonIgnoreString";
     public static final String sDEFAULT_AUTON_DIR = "/home/lvuser/autonoumous/";
 
-    public static final String sIS_RAKE_UP = "IsRakeUp";
-    public static final String sIS_RAKE_DOWN = "IsRakeDown";
+    public static final String sRAKE_JOYSTICK_VALUE_UP = "RakeJoystickValueUpDeadband";
+    public static final String sRAKE_JOYSTICK_VALUE_DOWN = "RakeJoystickValueDownDeadband";
+    public static final String sMOVE_RAKE = "MoveRake";
 
     // Logger
     public static final String sLOG_COUNT = "LogCount";

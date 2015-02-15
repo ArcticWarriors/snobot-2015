@@ -28,8 +28,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     private boolean mIsHandOpen;
     private boolean mIsArmUp;
 
-    private boolean mIsRakeUp;
-    private boolean mIsRakeDown;
+    private double mMoveRake;
 
     private int mMoveStackerToFloorButton;
     private int mMoveStackerToScoringButton;
@@ -88,14 +87,12 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         return !mIsHandOpen;
     }
 
-    @Override
-    public boolean getRakeDown() {
-        return mIsRakeDown;
-    }
+
 
     @Override
-    public boolean getRakeUp() {
-        return mIsRakeUp;
+    public double getMoveRake()
+    {
+        return mMoveRake;
     }
 
     public boolean getMoveToFloor()
@@ -160,9 +157,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         mIsHandOpen = mClawHandButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawHand));
         mIsArmUp = mClawArmButton.update(mOperatorJoystick.getRawButton(mXBOXButtonMoveClawArm));
 
-        mIsRakeUp = mOperatorJoystick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sIS_RAKE_UP, XboxButtonMap.BACK_BUTTON));
-        mIsRakeDown = mOperatorJoystick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sIS_RAKE_DOWN, XboxButtonMap.START_BUTTON));
-        
+        mMoveRake = mOperatorJoystick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sMOVE_RAKE, XboxButtonMap.RIGHT_Y_AXIS));
 
     }
 
