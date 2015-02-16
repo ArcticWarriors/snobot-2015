@@ -1,6 +1,4 @@
-DriveRotate 135 .7 1
-
-
-# There was an error parsing the commands...
-#
-# You have not specified enough arguments for the command: DriveRotate.  Index: 3, Size: 3
+MoveClaw true 3
+ClawGrab true 3
+ClawGrab false 1
+MoveClaw false 3

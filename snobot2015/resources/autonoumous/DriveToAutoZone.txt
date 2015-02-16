@@ -1,1 +1,1 @@
-DriveForward 20 1 3
+DriveForwardSmart 90

@@ -99,6 +99,10 @@ public class CommandParser
                         mSnobot.getPositioner());
                 break;
 
+            case ConfigurationNames.sRAW_DRIVE_COMMAND:
+                newCommand = new RawDriveFoward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
+                        mSnobot.getDriveTrain());
+                break;
 
             case ConfigurationNames.sDRIVE_ROTATE_SMARTER_COMMAND:
                 newCommand = new DriveRotateSmartur(

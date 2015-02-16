@@ -17,12 +17,16 @@ public class DriveForwardSmartur extends Command
     private double mStartingDistance;
     boolean mFinished;
 
+    private InDeadbandHelper mDbHelper;
+
     public DriveForwardSmartur(double aDistance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
         mDesiredDistance = aDistance;
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
         mFinished = false;
+
+        mDbHelper = new InDeadbandHelper(5);
     }
 
 
@@ -39,9 +43,11 @@ public class DriveForwardSmartur extends Command
         mSpeed = mError * ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_FORWARD_KP_VALUE, 0.01);
         mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
         
-        // System.out.println("DFS Error = " + mError + ", speed = " + mSpeed);
+        boolean is_in_range = (Math.abs(mError) < ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_FORWARD_MIN_ERROR, 2));
+
         
-        mFinished = (Math.abs(mError) < ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_FORWARD_MIN_ERROR, 2));
+        mFinished = mDbHelper.isFinished(is_in_range);
+        System.out.println("DFS Error = " + mError + ", speed = " + mSpeed + " loops good = " + mDbHelper.getLoopsGood());
     }
 
     @Override

@@ -1,0 +1,7 @@
+SmartStack 0
+RawDrive .3 .76
+SmartStack 2
+DriveRotateSmart 90
+DriveForwardSmart 85
+SmartStack 0
+DriveForwardSmart -10

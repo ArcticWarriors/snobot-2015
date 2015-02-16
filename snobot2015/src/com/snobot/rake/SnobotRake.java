@@ -58,7 +58,8 @@ public class SnobotRake implements IRake {
     @Override
     public void control() {
 
-        System.out.println("Speed : " + mMotorSpeed + ", limit = " + mLimitSwitchPressed);
+        // System.out.println("Speed : " + mMotorSpeed + ", limit = " +
+        // mLimitSwitchPressed);
         if (mMotorSpeed > mRakeValueOut)
         {
             moveRakeOut();
@@ -103,12 +104,12 @@ public class SnobotRake implements IRake {
 
     @Override
     public void moveRakeOut() {
-        mRakeMotor.set(mMotorSpeed);
+        mRakeMotor.set(-mMotorSpeed);
     }
 
     @Override
     public void moveRakeIn() {
-        mRakeMotor.set(mMotorSpeed);
+        mRakeMotor.set(-mMotorSpeed);
     }
 
 }

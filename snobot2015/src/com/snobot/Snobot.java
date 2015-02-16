@@ -248,9 +248,7 @@ public class Snobot extends IterativeRobot
                 mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
 
                 // TODO may want to do this somehwere else
-                mPositioner.setSnobotXPosition(0);
-                mPositioner.setSnobotYPosition(0);
-                mPositioner.setSnobotDegreeRotation(0);
+                mPositioner.setPosition(0, 0, 0);
             }
         });
 
@@ -266,6 +264,9 @@ public class Snobot extends IterativeRobot
                 {
                     mAutonCommand = mParser.parseAutonString(SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT));
                 }
+
+                // TODO may want to do this somehwere else
+                mPositioner.setPosition(0, 0, 0);
             }
         };
         NetworkTable.getTable("SmartDashboard").addTableListener(SmartDashboardNames.sSD_COMMAND_TEXT, 

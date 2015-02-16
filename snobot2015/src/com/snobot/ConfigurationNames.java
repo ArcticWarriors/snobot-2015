@@ -108,6 +108,7 @@ public class ConfigurationNames
     public static final String sCLAW_GRAB_COMMAND = "ClawGrab";
     public static final String sMOVE_CLAW_COMMAND = "MoveClaw";
     public static final String sSMART_STACK_COMMAND = "SmartStack";
+    public static final String sRAW_DRIVE_COMMAND = "RawDrive";
     
     // ////////////////////////////////
     // Preference Wrapper Functions //

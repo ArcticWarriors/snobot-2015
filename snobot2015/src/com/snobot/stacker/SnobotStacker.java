@@ -184,7 +184,7 @@ public class SnobotStacker implements IStacker
         double pot_ipv = max_stacker_height / pot_diff;
         mStackerHeight = max_stacker_height - ((pot_voltage - pot_top_min) * pot_ipv);
 
-        // System.out.println("Pot Voltage: " + pot_voltage + ", diff=" + pot_diff + ", Stacker Height: " + mStackerHeight);
+        System.out.println("Pot Voltage: " + pot_voltage + ", diff=" + pot_diff + ", Stacker Height: " + mStackerHeight);
 
     }
 

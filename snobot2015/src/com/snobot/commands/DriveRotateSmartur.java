@@ -16,6 +16,8 @@ public class DriveRotateSmartur extends Command
     private final IDriveTrain mDriveTrain;
     private final SnobotPosition mPosition;
 
+    private InDeadbandHelper mDbHelper;
+
     /**
      * Creates DriveRotate command object
      * @param aDegree -Degree specified to turn to
@@ -27,8 +29,9 @@ public class DriveRotateSmartur extends Command
         mDesiredDegree = aDegree;
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
-        
         mFinished = false;
+        
+        mDbHelper = new InDeadbandHelper(5);
     }
 
     @Override
@@ -46,7 +49,10 @@ public class DriveRotateSmartur extends Command
         mSpeed = mError * ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_ROTATE_KP_VALUE, 0.01);
         mDriveTrain.setMotorSpeed(mSpeed, -mSpeed);
 
-        mFinished = (Math.abs(mError) < ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_ROTATE_MIN_ERROR, 2));
+        boolean is_in_range = (Math.abs(mError) < ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_ROTATE_MIN_ERROR, 2));
+        mFinished = mDbHelper.isFinished(is_in_range);
+
+        System.out.println("DRS: error: " + mError + ", speed=" + mSpeed);
     }
 
     @Override

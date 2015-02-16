@@ -215,6 +215,18 @@ public class SnobotPosition implements ISubsystem
         return this.mLastDistance;
     }
 
+    public void setPosition(double aX, double aY, double aAngle)
+    {
+        setSnobotXPosition(aX);
+        setSnobotYPosition(aY);
+        setSnobotDegreeRotation(aAngle);
+        mGyroSensor.reset();
+
+        mDriveTrain.resetEncoders();
+
+        System.out.println("Reseting position");
+    }
+
     /**
      * Sets Snobot's X-position
      * 
