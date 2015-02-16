@@ -14,11 +14,11 @@ public interface IRake extends ISubsystem {
     /**
      * Moves the rake down.
      */
-    void moveRakeDown();
+    void moveRakeOut();
 
     /**
      * Moves rake up
      */
-    void moveRakeUp();
+    void moveRakeIn();
 
 }
