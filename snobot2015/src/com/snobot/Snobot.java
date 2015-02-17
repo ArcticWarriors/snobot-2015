@@ -24,6 +24,7 @@ import com.snobot.stacker.IStacker;
 import com.snobot.stacker.SnobotStacker;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
@@ -109,6 +110,9 @@ public class Snobot extends IterativeRobot
     @Override
     public void robotInit()
     {
+        CameraServer server = CameraServer.getInstance();
+        server.setQuality(50);
+        server.startAutomaticCapture("cam0");
 
         //Joysticks
     	int operator_joystick_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT,    1);
