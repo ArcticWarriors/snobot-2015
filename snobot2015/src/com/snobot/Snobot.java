@@ -34,7 +34,6 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -110,10 +109,11 @@ public class Snobot extends IterativeRobot
     @Override
     public void robotInit()
     {
+        SmartDashboard.putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
+
         CameraServer server = CameraServer.getInstance();
         server.setQuality(50);
         server.startAutomaticCapture("cam0");
-        SmartDashboard.putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
 
         //Joysticks
     	int operator_joystick_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT,    1);
@@ -174,7 +174,7 @@ public class Snobot extends IterativeRobot
         }
         
         //Rake
-        mRakeMotor = new Victor(rake_motor_port);
+        mRakeMotor = new Talon(rake_motor_port);
         mRakeLimitSwitch = new DigitalInput(rake_limit_switch_port);
         mRake = new SnobotRake(mRakeMotor, mOperatorJoystick, mRakeLimitSwitch, mLogger);
 
