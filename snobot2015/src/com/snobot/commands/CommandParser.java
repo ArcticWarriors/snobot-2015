@@ -252,7 +252,7 @@ public class CommandParser
         return output;
     }
 
-    public CommandGroup saveAutonMode()
+    public void saveAutonMode()
     {
         String new_text = SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "");
         String filename = SmartDashboard.getString(SmartDashboardNames.sAUTON_FILENAME, "auton_file.txt");
@@ -269,7 +269,5 @@ public class CommandParser
         {
             e.printStackTrace();
         }
-        
-        return readFile(filename);
     }
 }
