@@ -73,6 +73,13 @@ public class CommandParser
         {
             switch (commandName)
             {
+            
+            // Not really a command, but a special case
+            case ConfigurationNames.sSET_POSITION_COMMAND:
+                mSnobot.getPositioner().setPosition(
+                        Double.parseDouble(args.get(1)),
+                        Double.parseDouble(args.get(2)),
+                        Double.parseDouble(args.get(3)));
 
             case ConfigurationNames.sDRIVE_FORWARD_COMMAND:
                 newCommand = new DriveForward(
@@ -160,12 +167,10 @@ public class CommandParser
         else if (isParallel)
         {
         	aGroup.addParallel(newCommand);
-            mSuccess = true;
         }
         else
         {
         	aGroup.addSequential(newCommand);
-            mSuccess = true;
         }
     }
     
@@ -200,10 +205,18 @@ public class CommandParser
         SmartDashboard.putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, mSuccess);
     }
 
-    public CommandGroup readFile(String aFilePath)
+    private void initReading()
     {
         mSuccess = true;
         mErrorText = "";
+
+        mSnobot.getPositioner().setPosition(0, 0, 0);
+    }
+
+    public CommandGroup readFile(String aFilePath)
+    {
+        initReading();
+
         CommandGroup output = createNewCommandGroup(aFilePath);
 
         System.out.println("Reading auton file : " + aFilePath);
@@ -237,8 +250,8 @@ public class CommandParser
 
     public CommandGroup parseAutonString(String aAutonString)
     {
-        mSuccess = true;
-        mErrorText = "";
+        initReading();
+
         CommandGroup output = createNewCommandGroup("From String");
         StringTokenizer tokenizer = new StringTokenizer(aAutonString, "\n");
 
