@@ -12,6 +12,9 @@ public class TankDriveGyroSimulator implements ISimulatorUpdater {
 	
 	private double mAngle; //degrees
 	private boolean mIsSetup;
+
+    private boolean mIsLeftReversed;
+    private boolean mIsRightReversed;
 	
 	public TankDriveGyroSimulator(EncoderWrapper aLeftEncoder, EncoderWrapper aRightEncoder, AnalogWrapper aGyroPort)
 	{
@@ -27,6 +30,12 @@ public class TankDriveGyroSimulator implements ISimulatorUpdater {
 		}
 	}
 
+    public void setIsReverse(boolean isLeftReversed, boolean isRightReversed)
+    {
+        mIsLeftReversed = isLeftReversed;
+        mIsRightReversed = isRightReversed;
+    }
+
 	@Override
 	public void update() {
 		
@@ -35,11 +44,20 @@ public class TankDriveGyroSimulator implements ISimulatorUpdater {
 
 	        double rightDist = mRightEncoder.getDecodedDistance();
 	        double leftDist  = mLeftEncoder.getDecodedDistance();
-	        
-	        mAngle = (double)(leftDist - rightDist)/(double)(3.14159*22.0/12.0)*(180.0);
+
+            if (mIsLeftReversed == true)
+            {
+                leftDist *= -1;
+            }
+            if (mIsRightReversed == true)
+            {
+                rightDist *= -1;
+            }
+
+            mAngle = (double) (leftDist - rightDist) / (double) (3.14159 * 22.0 / 12.0) * (180.0);
 	        
 	        mGyroPort.setAccumulator(mAngle); //multiply by volts per degree second
-//	        System.out.println("SIMULATOR : angle=" + mAngle + ", right=" + rightDist + ", left=" + leftDist);
+            // System.out.println("SIMULATOR : angle=" + mAngle + ", right=" + rightDist + ", left=" + leftDist);
 		}
 	}
 }

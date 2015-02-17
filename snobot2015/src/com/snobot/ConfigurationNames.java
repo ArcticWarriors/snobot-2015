@@ -100,6 +100,7 @@ public class ConfigurationNames
     public static final String sLOG_FILE_PATH = "LogFilePath";
 
     // Autonomous Commands
+    public static final String sSET_POSITION_COMMAND = "SetPosition";
     public static final String sDRIVE_FORWARD_COMMAND = "DriveForward";
     public static final String sDRIVE_FORWARD_SMARTER_COMMAND = "DriveForwardSmart";
     public static final String sDRIVE_ROTATE_COMMAND = "DriveRotate";

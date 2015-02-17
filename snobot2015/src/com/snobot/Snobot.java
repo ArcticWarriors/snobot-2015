@@ -113,6 +113,7 @@ public class Snobot extends IterativeRobot
         CameraServer server = CameraServer.getInstance();
         server.setQuality(50);
         server.startAutomaticCapture("cam0");
+        SmartDashboard.putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
 
         //Joysticks
     	int operator_joystick_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT,    1);
@@ -240,19 +241,22 @@ public class Snobot extends IterativeRobot
 
         //Now all the preferences should be loaded, make sure they are all saved
         ConfigurationNames.saveIfUpdated();
+
+        readFile();
     }
     
+    private void readFile()
+    {
+        mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+    }
+
     private void addSmartDashboardListeners()
     {
         mAutonChooser.getTable().addTableListener(new ITableListener() {
             
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
-              
-                mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
-
-                // TODO may want to do this somehwere else
-                mPositioner.setPosition(0, 0, 0);
+                readFile();
             }
         });
 
@@ -262,15 +266,13 @@ public class Snobot extends IterativeRobot
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
                 if (SmartDashboard.getBoolean(SmartDashboardNames.sSAVE_REQUEST, false))
                 {
-                    mAutonCommand = mParser.saveAutonMode();
+                    mParser.saveAutonMode();
+                    readFile();
                 }
                 else
                 {
                     mAutonCommand = mParser.parseAutonString(SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT));
                 }
-
-                // TODO may want to do this somehwere else
-                mPositioner.setPosition(0, 0, 0);
             }
         };
         NetworkTable.getTable("SmartDashboard").addTableListener(SmartDashboardNames.sSD_COMMAND_TEXT, 
@@ -285,7 +287,8 @@ public class Snobot extends IterativeRobot
 
         // TODO This will break "send only" from the widget
 
-        mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+        readFile();
+
     	if(mAutonCommand != null)
     	{
     	    mAutonCommand.start();

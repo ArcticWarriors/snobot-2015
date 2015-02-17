@@ -58,6 +58,8 @@ public class SnobotPosition implements ISubsystem
      */
     private Logger mLogger;
 
+    private double mInitialRotationDegrees;
+
     /**
      * Constructs a SnobotPosition object
      * 
@@ -77,6 +79,7 @@ public class SnobotPosition implements ISubsystem
         this.mPositionX = 0;
         this.mPositionY = 0;
         this.mRadianRotation = 0;
+        this.mInitialRotationDegrees = 0;
         this.mGyroSensor = aGyroSensor;
         this.mDriveTrain = aDriveTrain;
         this.mLogger = aLogger;
@@ -113,7 +116,7 @@ public class SnobotPosition implements ISubsystem
      */
     private double calculateDirection()
     {
-        double gyroDegrees = mGyroSensor.getAngle();
+        double gyroDegrees = mInitialRotationDegrees + mGyroSensor.getAngle();
         while (gyroDegrees > 360)
         {
             gyroDegrees = gyroDegrees - 360;
@@ -220,7 +223,6 @@ public class SnobotPosition implements ISubsystem
         setSnobotXPosition(aX);
         setSnobotYPosition(aY);
         setSnobotDegreeRotation(aAngle);
-        mGyroSensor.reset();
 
         mDriveTrain.resetEncoders();
 
@@ -257,7 +259,8 @@ public class SnobotPosition implements ISubsystem
      */
     public void setSnobotDegreeRotation(double aDegrees)
     {
-        this.mRadianRotation = Math.toRadians(aDegrees);
+        mInitialRotationDegrees = aDegrees;
+        mGyroSensor.reset();
     }
 
     @Override
