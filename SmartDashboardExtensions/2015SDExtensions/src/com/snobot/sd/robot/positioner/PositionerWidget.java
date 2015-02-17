@@ -18,6 +18,19 @@ public class PositionerWidget extends StaticWidget
     public static final String NAME = "2015 Positioner";
     private RobotWidget2015Positioner mPanel;
 
+    private ITableListener mPositionListener = new ITableListener()
+    {
+
+        @Override
+        public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
+        {
+            boolean aClawArmState = Boolean.parseBoolean(arg2.toString());
+            mPanel.setRobotPosition(Robot.getTable().getNumber(SmartDashboardNames.sSNOBOT_X_POSITION, 0),
+                    Robot.getTable().getNumber(SmartDashboardNames.sSNOBOT_Y_POSITION, 0),
+                    Robot.getTable().getNumber(SmartDashboardNames.sSNOBOT_HEADING, 0));
+        }
+    };
+
     public PositionerWidget()
     {
         setLayout(new BorderLayout());
@@ -25,9 +38,9 @@ public class PositionerWidget extends StaticWidget
         add(mPanel, BorderLayout.CENTER);
         setPreferredSize(new Dimension(400, 400));
 
-        addXListener();
-        addYListener();
-        addAngleListener();
+        // Only listen to one, you won't ever be off by more than 20ms, good
+        // enough
+        Robot.getTable().addTableListener(SmartDashboardNames.sSNOBOT_HEADING, mPositionListener, true);
     }
 
     public void init()
@@ -40,51 +53,6 @@ public class PositionerWidget extends StaticWidget
                 mPanel.updateSize();
             }
         });
-    }
-
-    private void addXListener()
-    {
-        ITableListener listener = new ITableListener()
-        {
-
-            @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
-            {
-            }
-        };
-
-        Robot.getTable().addTableListener(SmartDashboardNames.sSNOBOT_X_POSITION, listener, true);
-
-    }
-
-    private void addYListener()
-    {
-        ITableListener listener = new ITableListener()
-        {
-
-            @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
-            {
-            }
-        };
-
-        Robot.getTable().addTableListener(SmartDashboardNames.sSNOBOT_Y_POSITION, listener, true);
-
-    }
-
-    private void addAngleListener()
-    {
-        ITableListener listener = new ITableListener()
-        {
-
-            @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
-            {
-            }
-        };
-
-        Robot.getTable().addTableListener(SmartDashboardNames.sSNOBOT_HEADING, listener, true);
-
     }
 
     @Override
