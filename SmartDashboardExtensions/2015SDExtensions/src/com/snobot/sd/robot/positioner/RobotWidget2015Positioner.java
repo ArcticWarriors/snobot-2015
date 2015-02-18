@@ -62,4 +62,10 @@ public class RobotWidget2015Positioner extends JPanel
             System.err.println(ex);
         }
     }
+
+    public void updateSize()
+    {
+        // TODO Auto-generated method stub
+
+    }
 }
