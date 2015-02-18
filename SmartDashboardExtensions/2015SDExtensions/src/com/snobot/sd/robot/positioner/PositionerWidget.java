@@ -50,7 +50,7 @@ public class PositionerWidget extends StaticWidget
             @Override
             public void componentResized(ComponentEvent arg0)
             {
-                mPanel.updateSize();
+                mPanel.updateScale();
             }
         });
     }
