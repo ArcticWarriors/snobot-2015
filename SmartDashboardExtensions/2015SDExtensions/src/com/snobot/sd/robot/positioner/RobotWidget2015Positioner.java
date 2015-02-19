@@ -16,7 +16,6 @@ public class RobotWidget2015Positioner extends JPanel
     private static final long serialVersionUID = 616523100310426790L;
     private BufferedImage mFieldImage;
     private BufferedImage mRobotImage;
-    // private Dimension mFieldImageDimension;
     private Dimension mRobotImageDimension;
     private double mScale;
 
@@ -32,13 +31,17 @@ public class RobotWidget2015Positioner extends JPanel
         if (mFieldImage != null) {
             setPreferredSize(new Dimension(mFieldImage.getWidth(), mFieldImage.getHeight()));
         }
-        // mFieldImageDimension = new Dimension();
-        // this.readFieldImage();
+        if (mRobotImage != null){
+            setPreferredSize(new Dimension(mRobotImage.getWidth(), mRobotImage.getHeight()));
+        }
         updateScale();
     }
 
     private static final double FIELD_WIDTH_INCH = 432;
     private static final double FIELD_HEIGHT_INCH = 360;
+
+    private static final double ROBOT_WIDTH_INCH = 27.5;
+    private static final double ROBOT_HEIGHT_INCH = 58.5;
 
     public void updateScale() {
         int width = this.getWidth();
@@ -74,14 +77,6 @@ public class RobotWidget2015Positioner extends JPanel
                     System.out.println("Could not open image file : " + aFilename);
                 }
 
-                // if (output != null) {
-                // setPreferredSize(new Dimension(output.getWidth(),
-                // output.getHeight()));
-                // }
-                // else {
-                // System.out.println("Could not open image file : " +
-                // filename);
-                // }
                 updateScale();
             }
             else {
@@ -92,33 +87,6 @@ public class RobotWidget2015Positioner extends JPanel
             ex.printStackTrace();
             System.err.println(ex);
         }
-        // try {
-        // InputStream in =
-        // getClass().getResourceAsStream("/2015SDExtensions/src/com/snobot" +
-        // "/sd/robot/positioner/robot_edited.png");
-        //
-        // // Image exists
-        // if (in != null) {
-        // mRobotImage = ImageIO.read(in);
-        //
-        // if (mRobotImage != null) {
-        // setPreferredSize(new Dimension(mFieldImage.getWidth(),
-        // mFieldImage.getHeight()));
-        // }
-        // else {
-        // System.out.println("Could not open image file : " +
-        // "'/2015SDExtensions/src/com/snobot/sd/robot/positioner/robot_edited.png'");
-        // }
-        // updateScale();
-        // }
-        // else {
-        // System.out.println("Could not find image file : " +
-        // "'/2015SDExtensions/src/com/snobot/sd/robot/positioner/robot_edited.png'");
-        // }
-        // }
-        // catch (Exception ex) {
-        // System.err.println(ex);
-        // }
 
         return output;
     }
@@ -128,12 +96,8 @@ public class RobotWidget2015Positioner extends JPanel
 
         if (mFieldImage != null) {
             g.drawImage(mFieldImage, 0, 0, (int) (FIELD_WIDTH_INCH * mScale), (int) (FIELD_HEIGHT_INCH * mScale), null);
+            g.drawImage(mRobotImage, (int) mRobotX, (int) mRobotY, (int) (ROBOT_WIDTH_INCH * mScale), (int) (ROBOT_HEIGHT_INCH * mScale), null);
         }
-        // if (mRobotImage != null) {
-        // g.drawImage(mRobotImage, (int) this.mRobotX, (int) this.mRobotY,
-        // (int) (mFieldImageDimension.width * this.mScale),
-        // (int) (mFieldImageDimension.height * this.mScale), null);
-        // }
     }
 
     public void setRobotPosition(double aRobotX, double aRobotY, double aRobotHeading) {

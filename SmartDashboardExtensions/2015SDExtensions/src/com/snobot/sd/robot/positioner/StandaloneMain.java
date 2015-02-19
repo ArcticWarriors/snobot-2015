@@ -15,6 +15,8 @@ public class StandaloneMain
 
         RobotWidget2015Positioner panel = new RobotWidget2015Positioner();
 
+        panel.setRobotPosition(90, 24, 45);
+
         frame.add(panel);
 
         frame.pack();
