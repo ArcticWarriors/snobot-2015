@@ -105,4 +105,10 @@ public class RobotWidget2015Positioner extends JPanel
         mRobotY = aRobotY;
         mRobotHeading = aRobotHeading;
     }
+
+    public void updateSize()
+    {
+        // TODO Auto-generated method stub
+
+    }
 }

@@ -29,6 +29,7 @@ public class RobotWidget2015 extends StaticWidget
         addUpperLimitSwitchListener();
         addLowerLimitSwitchListener();
         addArmListener();
+        addClawListener();
     }
 
     public void init()
@@ -108,6 +109,23 @@ public class RobotWidget2015 extends StaticWidget
             }
         };
         Robot.getTable().addTableListener(SmartDashboardNames.sCLAW_ARM_SOLENOID, clawArmStateListener, true);
+    }
+
+    private void addClawListener()
+    {
+        ITableListener clawOpenListener = new ITableListener()
+
+        {
+
+            @Override
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
+            {
+                boolean aClawState = Boolean.parseBoolean(arg2.toString());
+                mRobotDrawer2015.setClawOpen(aClawState);
+                repaint();
+            }
+        };
+        Robot.getTable().addTableListener(SmartDashboardNames.sCLAW_HAND_SOLENOID, clawOpenListener, true);
     }
 
     @Override

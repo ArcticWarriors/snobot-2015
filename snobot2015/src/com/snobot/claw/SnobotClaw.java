@@ -86,9 +86,10 @@ public class SnobotClaw implements IClaw
     public void update()
     {
         // TODO Figure out the actual air pressure and set the rumble.
-        mRobotAirPressure = 100;
+        mRobotAirPressure = ((33.125 * mTransducer.getVoltage()) - 16.821);
         
         mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
+        System.out.println("Voltage: " + mTransducer.getVoltage());
 
     }
 
@@ -128,7 +129,7 @@ public class SnobotClaw implements IClaw
     public void rereadPreferences()
     {
 
-        mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAIR_PRESSURE_RANGE_MIN, 50);
+        mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAIR_PRESSURE_RANGE_MIN, 60);
     }
 
     @Override

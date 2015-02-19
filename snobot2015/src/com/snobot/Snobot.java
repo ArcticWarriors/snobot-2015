@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -111,9 +112,17 @@ public class Snobot extends IterativeRobot
     {
         SmartDashboard.putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
 
+        USBCamera camera = new USBCamera("cam0");
+        camera.setFPS(5);
+        camera.setBrightness(10);
+        camera.setExposureManual(50);
+
         CameraServer server = CameraServer.getInstance();
-        server.setQuality(50);
-        server.startAutomaticCapture("cam0");
+        server.setQuality(10);
+        server.setSize(2);
+        server.startAutomaticCapture(camera);
+
+
 
         //Joysticks
     	int operator_joystick_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT,    1);

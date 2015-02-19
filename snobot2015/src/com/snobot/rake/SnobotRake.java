@@ -49,8 +49,8 @@ public class SnobotRake implements IRake {
         mLimitSwitchPressed = !mLimitSwitch.get();
         mMotorSpeed = mOperatorJoystick.getMoveRake();
 
-        mRakeValueOut = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRAKE_JOYSTICK_VALUE_UP, .2);
-        mRakeValueIn = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRAKE_JOYSTICK_VALUE_DOWN, -.2);
+        mRakeValueOut = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRAKE_JOYSTICK_VALUE_UP, -.2);
+        mRakeValueIn = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRAKE_JOYSTICK_VALUE_DOWN, .2);
 
 
     }
@@ -69,7 +69,8 @@ public class SnobotRake implements IRake {
         {
             moveRakeIn();
         }
-        else {
+        else
+        {
             stop();
         }
     }
