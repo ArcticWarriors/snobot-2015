@@ -11,3 +11,5 @@
 hs_err_pid*
 
 .classpath
+/cRIOCode/2015Code/build/
+/2015Code/nbproject/private

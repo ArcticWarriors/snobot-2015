@@ -9,7 +9,7 @@ public class StandAloneTextArea {
     {
         JFrame frame = new JFrame();
         
-        TextArea tester = new TextArea();
+        SDTextArea tester = new SDTextArea();
         
         frame.setContentPane(tester.getScrollPane());;
         frame.pack();

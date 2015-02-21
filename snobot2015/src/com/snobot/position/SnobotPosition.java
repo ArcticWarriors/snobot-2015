@@ -1,9 +1,8 @@
 package com.snobot.position;
 
-import com.snobot.ConfigurationNames;
 import com.snobot.ISubsystem;
 import com.snobot.SmartDashboardNames;
-import com.snobot.drivetrain.SnobotDriveTrain;
+import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Gyro;
@@ -52,12 +51,14 @@ public class SnobotPosition implements ISubsystem
     /**
      * Snobot's drive-train that SnobotPosition uses to get distance
      */
-    private SnobotDriveTrain mDriveTrain;
+    private IDriveTrain mDriveTrain;
 
     /**
      * Logger for recording data
      */
     private Logger mLogger;
+
+    private double mInitialRotationDegrees;
 
     /**
      * Constructs a SnobotPosition object
@@ -73,11 +74,12 @@ public class SnobotPosition implements ISubsystem
      * @param aDefaultMeasure
      *            Measure that is to be used by default
      */
-    public SnobotPosition(Gyro aGyroSensor, SnobotDriveTrain aDriveTrain, Logger aLogger)
+    public SnobotPosition(Gyro aGyroSensor, IDriveTrain aDriveTrain, Logger aLogger)
     {
         this.mPositionX = 0;
         this.mPositionY = 0;
         this.mRadianRotation = 0;
+        this.mInitialRotationDegrees = 0;
         this.mGyroSensor = aGyroSensor;
         this.mDriveTrain = aDriveTrain;
         this.mLogger = aLogger;
@@ -114,7 +116,7 @@ public class SnobotPosition implements ISubsystem
      */
     private double calculateDirection()
     {
-        double gyroDegrees = mGyroSensor.getAngle();
+        double gyroDegrees = mInitialRotationDegrees + mGyroSensor.getAngle();
         while (gyroDegrees > 360)
         {
             gyroDegrees = gyroDegrees - 360;
@@ -216,6 +218,17 @@ public class SnobotPosition implements ISubsystem
         return this.mLastDistance;
     }
 
+    public void setPosition(double aX, double aY, double aAngle)
+    {
+        setSnobotXPosition(aX);
+        setSnobotYPosition(aY);
+        setSnobotDegreeRotation(aAngle);
+
+        mDriveTrain.resetEncoders();
+
+        System.out.println("Reseting position");
+    }
+
     /**
      * Sets Snobot's X-position
      * 
@@ -246,26 +259,16 @@ public class SnobotPosition implements ISubsystem
      */
     public void setSnobotDegreeRotation(double aDegrees)
     {
-        this.mRadianRotation = Math.toRadians(aDegrees);
-    }
-
-    public void updateSmartDashbaord()
-    {
-        SmartDashboard.putNumber("Heading", getSnobotDegrees());
-        SmartDashboard.putNumber("Snobot X", mPositionX);
-        SmartDashboard.putNumber("Snobot Y", mPositionY);
+        mInitialRotationDegrees = aDegrees;
+        mGyroSensor.reset();
     }
 
     @Override
     public void control() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     public void rereadPreferences() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
@@ -279,7 +282,5 @@ public class SnobotPosition implements ISubsystem
 
     @Override
     public void stop() {
-        // TODO Auto-generated method stub
-        
     }
 }

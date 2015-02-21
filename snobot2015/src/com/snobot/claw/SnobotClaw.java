@@ -24,7 +24,7 @@ public class SnobotClaw implements IClaw
     private AnalogInput mTransducer;
     private Solenoid mClawHandSolenoid;
     private Solenoid mClawArmSolenoid;
-    
+
 
     private boolean mRumbleOn;
 
@@ -76,17 +76,21 @@ public class SnobotClaw implements IClaw
     @Override
     public void init()
     {
-        mLogger.addHeader("Claw Up/Down Pressure");
-        mLogger.addHeader("Claw Open/Close Pressure");
+        mClawArmSolenoid.set(false);
+        mClawHandSolenoid.set(false);
+        mLogger.addHeader("Claw Pressure");
         rereadPreferences();
     }
 
     @Override
     public void update()
     {
-        mRobotAirPressure = -1;
+        // TODO Figure out the actual air pressure and set the rumble.
+        mRobotAirPressure = ((33.125 * mTransducer.getVoltage()) - 16.821);
         
         mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
+        System.out.println("Voltage: " + mTransducer.getVoltage());
+
     }
 
     @Override
@@ -125,34 +129,33 @@ public class SnobotClaw implements IClaw
     public void rereadPreferences()
     {
 
-        mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAIR_PRESSURE_RANGE_MIN, 50);
+        mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAIR_PRESSURE_RANGE_MIN, 60);
     }
 
     @Override
     public void updateSmartDashboard()
     {
-        SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, mRobotAirPressure);
+        SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, getRobotAirPressure());
+        SmartDashboard.putBoolean(SmartDashboardNames.sCLAW_HAND_SOLENOID, mClawHandSolenoid.get());
+        SmartDashboard.putBoolean(SmartDashboardNames.sCLAW_ARM_SOLENOID, mClawArmSolenoid.get());
     }
 
     @Override
     public void updateLog()
     {
-        mLogger.updateLogger(mRobotAirPressure);
+        mLogger.updateLogger(getRobotAirPressure());
 
     }
 
     @Override
     public void stop()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public double getRobotAirPressure()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return mRobotAirPressure;
     }
 
 }

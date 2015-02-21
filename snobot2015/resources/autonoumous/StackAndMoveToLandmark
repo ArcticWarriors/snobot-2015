@@ -1,0 +1,8 @@
+SmartStack 2
+DriveRotate 41 1 1
+DriveForward 11.8 1 1
+DriveRotate 0 1
+DriveForward 1 .5 1
+SmartStack 0
+ClawGrab true 2
+DriveForward -1 1 1

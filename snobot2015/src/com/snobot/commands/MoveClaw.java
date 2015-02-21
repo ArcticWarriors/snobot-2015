@@ -1,6 +1,6 @@
 package com.snobot.commands;
 
-import com.snobot.claw.*;
+import com.snobot.claw.IClaw;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,22 +8,20 @@ import edu.wpi.first.wpilibj.command.Command;
 public class MoveClaw extends Command{
     
     private final boolean mClawUp;
-    private final double mLiftSeconds;
-    private final SnobotClaw mClaw;
+    private final double mTimeout;
+    private final IClaw mClaw;
     
-    private Timer mTimer;
+    private final Timer mTimer;
     
-    public MoveClaw(boolean aClawUp, double aLiftSeconds, SnobotClaw aClaw)
+    public MoveClaw(boolean aClawUp, double aLiftSeconds, IClaw aClaw)
     {
         mClawUp = aClawUp;
-        mLiftSeconds = aLiftSeconds;
+        mTimeout = aLiftSeconds;
         mClaw = aClaw;
         mTimer = new Timer();
     }
     @Override
     protected void end() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
@@ -31,16 +29,12 @@ public class MoveClaw extends Command{
       //Actuates claw up/down
         if(mClawUp)
         {
-            if(mTimer.get() < mLiftSeconds)
-            {
-                mClaw.moveClawUp();
-            }
+            mClaw.moveClawUp();
         }
         else if(!mClawUp)
         {
             mClaw.moveClawDown();
         }
-        
     }
 
     @Override
@@ -50,14 +44,11 @@ public class MoveClaw extends Command{
 
     @Override
     protected void interrupted() {
-        // TODO Auto-generated method stub
-        
     }
 
     @Override
     protected boolean isFinished() {
-        // TODO Auto-generated method stub
-        return(mTimer.get() < mLiftSeconds);
+        return mTimer.get() >= mTimeout;
     }
     
 }

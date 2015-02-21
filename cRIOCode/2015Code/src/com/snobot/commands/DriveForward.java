@@ -1,10 +1,10 @@
         package com.snobot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import com.snobot.ConfigurationNames;
-import com.snobot.drivetrain.*;
-import com.snobot.position.*;
+import com.snobot.drivetrain.IDriveTrain;
+import com.snobot.position.SnobotPosition;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * Drives forward at specified speed for the specified distance
@@ -17,7 +17,9 @@ public class DriveForward extends Command
 
     private final double mDesiredDistance;
     private final double mSpeed;
-    private final SnobotDriveTrain mDriveTrain;
+    private final double mTolerance;
+
+    private final IDriveTrain mDriveTrain;
     private final SnobotPosition mPosition;
     private double mStartingDistance;
     boolean mFinished;
@@ -34,11 +36,12 @@ public class DriveForward extends Command
      * @param aPosition
      *            -SnobotPosition class
      */
-    public DriveForward(double aDistance, double aSpeed, SnobotDriveTrain aDriveTrain, SnobotPosition aPosition)
+    public DriveForward(double aDistance, double aSpeed, double aTolerance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
         super(ConfigurationNames.sDRIVE_FORWARD_COMMAND);
         mDesiredDistance = aDistance;
         mSpeed = aSpeed;
+        mTolerance = aTolerance;
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
         mFinished=false;
@@ -56,16 +59,22 @@ public class DriveForward extends Command
      */
     protected void execute()
     {
-        double distance_travelled = mPosition.getTotalDistance() - mStartingDistance;
+        double distanceTravelled = mPosition.getTotalDistance() - mStartingDistance;
 
-        if (distance_travelled < mDesiredDistance)
+        if (distanceTravelled < (mDesiredDistance - mTolerance))
         {
             mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
         }
+        else if (distanceTravelled > (mDesiredDistance + mTolerance))
+        {
+            mDriveTrain.setMotorSpeed(-mSpeed, -mSpeed);
+        }
         else
         {
-            mFinished=true;
+            mFinished = true;
         }
+        
+        System.out.println(mPosition.getTotalDistance());
     }
 
     

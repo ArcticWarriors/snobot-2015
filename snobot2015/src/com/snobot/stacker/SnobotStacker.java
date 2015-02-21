@@ -5,8 +5,8 @@ import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -21,22 +21,22 @@ public class SnobotStacker implements IStacker
 
     private SpeedController mStackerMotor;
     private IOperatorJoystick mOperatorJoystick;
-    private double mStackerDefaultSpeed;
     private boolean mUpperLimitSwitchState;
     private boolean mLowerLimitSwitchState;
-    private double mStackerEncoderDistance;
     private double mStackerMotorValue;
     private double mStackerHeight;
     private double mStackerGroundHeight;
     private double mStackerScoringPlatformHeight;
     private double mStackerOneStackHeight;
-    private double mStackerTwoStackHeight;
-    private double mStackerThreeStackHeight;
+    private double mStackerCoopHeight;
     private double mStackerStackingMargin;
+    private double mAdjustedStackerSpeed;
+    private double mStackerLimitSpeedUp;
+    private double mStackerLimitSpeedDown;
     private Logger mLogger;
-    DigitalInput mUpperLimitSwitch;
-    DigitalInput mLowerLimitSwitch;
-    Encoder mStackerEncoder;
+    private DigitalInput mUpperLimitSwitch;
+    private DigitalInput mLowerLimitSwitch;
+    private AnalogInput mStackerPotentiometer;
 
     /**
      * Constructs a SnobotStacker object
@@ -45,30 +45,37 @@ public class SnobotStacker implements IStacker
      *            Argument of operator joy stick
      */
     public SnobotStacker(IOperatorJoystick aOperatorJoystick, SpeedController aStackerMotor, DigitalInput aUpperLimitSwitch,
-            DigitalInput aLowerLimitSwitch, Logger aLogger, Encoder aStackerEncoder)
+            DigitalInput aLowerLimitSwitch, Logger aLogger, AnalogInput aStackerEncoder)
     {
         mOperatorJoystick = aOperatorJoystick;
         mStackerMotor = aStackerMotor;
         mUpperLimitSwitch = aUpperLimitSwitch;
         mLowerLimitSwitch = aLowerLimitSwitch;
         mLogger = aLogger;
-        mStackerEncoder = aStackerEncoder;
-
-        // TODO - PJ make configurable
-        mStackerEncoder.setDistancePerPulse(.4);
+        mStackerPotentiometer = aStackerEncoder;
     }
 
     @Override
-    public void moveStackerUp()
+    public boolean moveStackerUp()
     {
 
         if (mUpperLimitSwitchState)
         {
+//            System.out.println("Move Stacker Up Stopped :)");
             stop();
+            return false;
         }
         else
         {
-            mStackerMotor.set(mStackerDefaultSpeed);
+            double safeSpeed = mAdjustedStackerSpeed;
+            if (safeSpeed > mStackerLimitSpeedUp)
+            {
+                safeSpeed = mStackerLimitSpeedUp;
+            }
+            // System.out.println("Move Stacker Up Moving :) safe speed = " + safeSpeed + "... " + mStackerLimitSpeedUp);
+
+            setElevatorSpeed(safeSpeed);
+            return true;
         }
         /**
          * Assuming Physical Limit Switch will stop stacker at limit
@@ -77,62 +84,76 @@ public class SnobotStacker implements IStacker
     }
 
     @Override
-    public void moveStackerDown()
+    public boolean moveStackerDown()
     {
 
         if (mLowerLimitSwitchState)
         {
+//            System.out.println("Move Stacker Down Stopped :)");
             stop();
+            return false;
         }
         else
         {
-            mStackerMotor.set(-mStackerDefaultSpeed);
+            double safeSpeed = mAdjustedStackerSpeed;
+            if (safeSpeed < mStackerLimitSpeedDown)
+            {
+                safeSpeed = mStackerLimitSpeedDown;
+            }
+//            System.out.println("Move Stacker Down Moving :) safe speed = " + safeSpeed + "... " + mStackerLimitSpeedDown);
+            setElevatorSpeed(safeSpeed);
+            return true;
         }
         /**
          * Assuming Physical Limit Switch will stop stacker at limit
          */
     }
     
-    public void moveStackerToGround()
+    public boolean moveStackerToGround()
     {
-        moveStackerToHeight(mStackerGroundHeight);
+       return moveStackerToHeight(mStackerGroundHeight);
     }
     
-    public void moveStackerToScoringPlatform()
+    public boolean moveStackerToScoringPlatform()
     {
-        moveStackerToHeight(mStackerScoringPlatformHeight);
+        return moveStackerToHeight(mStackerScoringPlatformHeight);
     }
 
-    public void moveStackerToOneStack()
+    public boolean moveStackerToOneStack()
     {
-        moveStackerToHeight(mStackerOneStackHeight);
-    }
-    
-    public void moveStackerToTwoStack()
+        return moveStackerToHeight(mStackerOneStackHeight);
+    } 
+
+    public boolean moveStackerToCoopHeight()
     {
-        moveStackerToHeight(mStackerTwoStackHeight);
-    }
-    
-    public void moveStackerToThreeStack()
-    {
-        moveStackerToHeight(mStackerThreeStackHeight);
+        return moveStackerToHeight(mStackerCoopHeight);
     }
 
-    private void moveStackerToHeight(double aHeight)
+    public boolean moveStackerToHeight(double aHeight)
     {
-        if (mStackerHeight <= aHeight + mStackerStackingMargin
-                && mStackerHeight >= aHeight - mStackerStackingMargin)
+        double current_height = getStackerHeight();
+        double error = aHeight - current_height;
+        double kp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_KP, .35);
+        double pid_speed = error * kp;
+
+//        System.out.println("Current Hieght: " + current_height + " , error: " + error + " , Stacker Speed: " + pid_speed);
+
+        if (Math.abs(error) < mStackerStackingMargin)
         {
             stop();
+            return true;
         }
-        else if (mStackerHeight > aHeight)
+        else if (current_height > aHeight)
         {
-            moveStackerDown();
+            mAdjustedStackerSpeed = pid_speed;
+            return !moveStackerDown();
         }
         else
         {
-            moveStackerUp();
+            mAdjustedStackerSpeed = pid_speed;
+            return !moveStackerUp();
         }
+
     }
 
     @Override
@@ -143,16 +164,27 @@ public class SnobotStacker implements IStacker
         mLogger.addHeader("LowerLimitSwitchState");
         mLogger.addHeader("StackerEncoderDistance");
         mLogger.addHeader("StackerMotorValue");
+        
+        rereadPreferences ();
     }
 
     @Override
     public void update()
     {
-        mStackerHeight = mStackerEncoder.getDistance();
-        mUpperLimitSwitchState = mUpperLimitSwitch.get();
-        mLowerLimitSwitchState = mLowerLimitSwitch.get();
-        mStackerEncoderDistance = mStackerEncoder.getDistance();
+        mAdjustedStackerSpeed = mOperatorJoystick.getJoystickValue();
+        mUpperLimitSwitchState = !mUpperLimitSwitch.get();
+        mLowerLimitSwitchState = !mLowerLimitSwitch.get();
         mStackerMotorValue = mStackerMotor.get();
+
+        double pot_voltage = mStackerPotentiometer.getVoltage();
+        double pot_top_min = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sPOT_TOP_MIN_VOLT, 3.596190);
+        double pot_max_bot = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sPOT_BOT_MAX_VOLT, 4.9731405);
+        double max_stacker_height = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_MAX_HEIGHT, 24);
+        double pot_diff = (pot_max_bot - pot_top_min);
+        double pot_ipv = max_stacker_height / pot_diff;
+        mStackerHeight = max_stacker_height - ((pot_voltage - pot_top_min) * pot_ipv);
+
+        // System.out.println("Pot Voltage: " + pot_voltage + ", diff=" + pot_diff + ", Stacker Height: " + mStackerHeight);
 
     }
 
@@ -167,6 +199,24 @@ public class SnobotStacker implements IStacker
         {
             moveStackerDown();
         }
+
+        else if (mOperatorJoystick.getStackerToFloorButton())
+        {
+            moveStackerToGround();
+        }
+
+        else if (mOperatorJoystick.getMoveToScoring())
+        {
+            moveStackerToScoringPlatform();
+        }
+        else if (mOperatorJoystick.getMoveToOneStack())
+        {
+            moveStackerToOneStack();
+        }
+        else if (mOperatorJoystick.getMoveToCoopHeight())
+        {
+            moveStackerToCoopHeight();
+        }
         else
         {
             stop();
@@ -174,13 +224,25 @@ public class SnobotStacker implements IStacker
 
     }
 
+    private double getStackerHeight()
+    {
+        return mStackerHeight;
+    }
+
     @Override
     public void rereadPreferences()
     {
-        mStackerDefaultSpeed = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_DEFAULT_SPEED, .5);
-        mStackerOneStackHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ONESTACK_HEIGHT, 13.1);
+        mStackerGroundHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_GROUND_HEIGHT, 0);
+        mStackerScoringPlatformHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_SCORING_PLATFORM_HEIGHT, 2);
+        mStackerOneStackHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_ONE_STACK_HEIGHT, 13.1);
         mStackerStackingMargin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_STACKING_MARGIN, .5);
+        mStackerCoopHeight = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_COOP_HEIGHT, 23.5);
 
+        mStackerLimitSpeedUp = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_LIMIT_SPEED_UP, 0.7);
+        mStackerLimitSpeedDown = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_LIMIT_SPEED_DOWN, -0.35);
+
+        // Just reading these so they will get automatically put into the preferences
+        ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_KP, .05);
     }
 
     @Override
@@ -188,7 +250,7 @@ public class SnobotStacker implements IStacker
     {
         SmartDashboard.putBoolean(SmartDashboardNames.sUPPER_LIMIT_SWITCH_STATE, mUpperLimitSwitchState);
         SmartDashboard.putBoolean(SmartDashboardNames.sLOWER_LIMIT_SWITCH_STATE, mLowerLimitSwitchState);
-        SmartDashboard.putNumber(SmartDashboardNames.sENCODER_HEIGHT, mStackerEncoderDistance);
+        SmartDashboard.putNumber(SmartDashboardNames.sENCODER_HEIGHT, getStackerHeight());
         SmartDashboard.putNumber(SmartDashboardNames.sSTACKER_MOTOR_VALUE, mStackerMotorValue);
     }
 
@@ -198,7 +260,7 @@ public class SnobotStacker implements IStacker
 
         mLogger.updateLogger(mUpperLimitSwitchState);
         mLogger.updateLogger(mLowerLimitSwitchState);
-        mLogger.updateLogger(mStackerEncoderDistance);
+        mLogger.updateLogger(getStackerHeight());
         mLogger.updateLogger(mStackerMotorValue);
 
     }
@@ -206,8 +268,13 @@ public class SnobotStacker implements IStacker
     @Override
     public void stop()
     {
-        mStackerMotor.set(0);
+        setElevatorSpeed(0);
 
+    }
+
+    private void setElevatorSpeed(double aSpeed)
+    {
+        mStackerMotor.set(-aSpeed);
     }
 
 }

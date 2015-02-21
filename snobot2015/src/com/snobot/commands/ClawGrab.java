@@ -1,6 +1,6 @@
 package com.snobot.commands;
 
-import com.snobot.claw.SnobotClaw;
+import com.snobot.claw.IClaw;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -9,23 +9,21 @@ public class ClawGrab extends Command
 {
     private final boolean mOpen;
     private final double mLiftSeconds;
-    private final SnobotClaw mClaw;
+    private final IClaw mClaw;
     private Timer mTimer;
     
     
-    public ClawGrab(boolean aOpen, double aLiftSeconds, SnobotClaw aClaw)
+    public ClawGrab(boolean aOpen, double aOpenSeconds, IClaw aClaw)
     {
         mOpen = aOpen;
         mClaw = aClaw;
-        mLiftSeconds = aLiftSeconds;
+        mLiftSeconds = aOpenSeconds;
         mTimer = new Timer();
     }
     
     @Override
     protected void end()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -34,21 +32,12 @@ public class ClawGrab extends Command
         //Actuates claw open/closed
         if(mOpen)
         {
-            if(mTimer.get() < mLiftSeconds)
-            {
-                mClaw.openClaw();
-            }
+            mClaw.openClaw();
         }
         else
         {
-            if(mTimer.get() < mLiftSeconds)
-            {
-                mClaw.closeClaw();
-            }
+            mClaw.closeClaw();
         }
-        
-        
-
     }
 
     @Override
@@ -60,14 +49,11 @@ public class ClawGrab extends Command
     @Override
     protected void interrupted()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
         return(mTimer.get() > mLiftSeconds);
     }
 

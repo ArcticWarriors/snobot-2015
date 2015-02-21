@@ -1,10 +1,11 @@
 package com.snobot.logger;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import com.snobot.ConfigurationNames;
+
+import fake_java.io.File;
+import fake_java.io.FileWriter;
 
 /**
  * Class for logger
@@ -48,22 +49,22 @@ public class Logger
         mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "logs/");
         mCurrentLogCount = 0;
 
-        try
-        {
-            File dir = new File(mLogFilePath);
-            if(!dir.exists())
-            {
-                dir.mkdirs();
-            }
-            mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
-
-            mLogWriter.write("Date and Time,Voltage,TotalCurrent");
-
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+//        try
+//        {
+//            File dir = new File(mLogFilePath);
+//            if(!dir.exists())
+//            {
+//                dir.mkdirs();
+//            }
+//            mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
+//
+//            mLogWriter.write("Date and Time,Voltage,TotalCurrent");
+//
+//        }
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
 
     }
 

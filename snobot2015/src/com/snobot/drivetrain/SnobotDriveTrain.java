@@ -1,8 +1,8 @@
 package com.snobot.drivetrain;
 
+import com.snobot.ConfigurationNames;
 import com.snobot.SmartDashboardNames;
 import com.snobot.joystick.IDriverJoystick;
-import com.snobot.joystick.IDriverJoystick.DriveMode;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -23,15 +23,14 @@ public class SnobotDriveTrain implements IDriveTrain
     private SpeedController mSpeedControllerRight;
     private IDriverJoystick mDriverJoystick;
     private RobotDrive mRobotDrive;
-    private DriveMode mDriveMode;
 
     private Encoder mEncoderLeft;
     private Encoder mEncoderRight;
 
     private Logger mLogger;
     private UnitOfMeasure mDefaultMeasure;
-    private double mDistanceLeftTrack;
-    private double mDistanceRightTrack;
+    private double mRightEncDistance;
+    private double mLeftEncDistance;
 
     
     
@@ -46,36 +45,34 @@ public class SnobotDriveTrain implements IDriveTrain
      *            Argument Driver Joy stick
      */
     public SnobotDriveTrain(SpeedController aSpeedControllerLeft, SpeedController aSpeedControllerRight, IDriverJoystick aDriverJoystick,
-            DriveMode aDriveMode, Encoder aEncoderLeft, Encoder aEncoderRight, Logger aLogger)
+             Encoder aEncoderLeft, Encoder aEncoderRight, Logger aLogger)
     {
         mSpeedControllerLeft = aSpeedControllerLeft;
         mSpeedControllerRight = aSpeedControllerRight;
         mDriverJoystick = aDriverJoystick;
         mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
-        mDriveMode = aDriveMode;
         mDefaultMeasure = UnitOfMeasure.Feet;
         mEncoderLeft = aEncoderLeft;
         mEncoderRight = aEncoderRight;
         mLogger=aLogger;
         
-        mRobotDrive.setSafetyEnabled(false); //TODO - PJ - probably not the safest thing for competition....
+        mRobotDrive.setSafetyEnabled(false); // TODO - PJ - probably not the safest thing for competition....
+        mEncoderLeft.setReverseDirection(true); // TODO PJ - is this totally useless?
     }
 
     @Override
     public void init()
     {
-        mLogger.addHeader("Drive Mode");
         mLogger.addHeader("Left Drive Speed");
         mLogger.addHeader("Right Drive Speed");
+        rereadPreferences();
     }
 
     @Override
     public void update()
     {
-        // TODO Auto-generated method stub
-
-        mDistanceLeftTrack = mEncoderLeft.getDistance();
-        mDistanceRightTrack = mEncoderRight.getDistance(); 
+        mRightEncDistance = mEncoderLeft.getDistance();
+        mLeftEncDistance = mEncoderRight.getDistance(); 
         mSpeedControllerLeft.get();
         mSpeedControllerRight.get();
         
@@ -85,22 +82,24 @@ public class SnobotDriveTrain implements IDriveTrain
     public void control()
     {
         
-        if (IDriverJoystick.DriveMode.Arcade == mDriverJoystick.getDriveMode())
-        {
-            mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(), mDriverJoystick.getRotate());
-        }
-        else if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
+        if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
         {
             mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
         }
+        // else if (IDriverJoystick.DriveMode.Arcade ==
+        // mDriverJoystick.getDriveMode())
+        // {
+        // mRobotDrive.arcadeDrive(mDriverJoystick.getSpeed(),
+        // mDriverJoystick.getRotate());
+        // }
 
     }
 
     @Override
     public void rereadPreferences()
     {
-        // TODO Auto-generated method stub
-
+        mEncoderLeft.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sLEFT_ENC_DPP, -0.0389483932));
+        mEncoderRight.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRIGHT_ENC_DPP, 0.0389483932));
     }
 
     @Override
@@ -108,24 +107,15 @@ public class SnobotDriveTrain implements IDriveTrain
     {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_DRIVE_SPEED, mSpeedControllerRight.get());
-        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_LEFT, mDistanceLeftTrack);
-        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_RIGHT, mDistanceRightTrack);
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_LEFT, mRightEncDistance);
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_DISTANCE_RIGHT, mLeftEncDistance);
+        SmartDashboard.putNumber(SmartDashboardNames.sLEFT_ENC_RAW, mEncoderLeft.getRaw());
+        SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_ENC_RAW, mEncoderRight.getRaw());
     }
 
     @Override
     public void updateLog()
     {
-        String modeString=null;
-        if (mDriveMode==DriveMode.Tank)
-        {
-            modeString="TANK";
-        }
-        else if (mDriveMode==DriveMode.Arcade)
-        {
-            modeString="ARCADE";
-        }
-        
-        mLogger.updateLogger(modeString);
         mLogger.updateLogger(mSpeedControllerLeft.get());
         mLogger.updateLogger(mSpeedControllerRight.get());
     }
@@ -146,13 +136,13 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public double calculateDistanceRight()
     {
-        return mDistanceRightTrack;
+        return mLeftEncDistance;
     }
 
     @Override
     public double calculateDistanceLeft()
     {
-        return mDistanceLeftTrack;
+        return mRightEncDistance;
     }
 
     @Override

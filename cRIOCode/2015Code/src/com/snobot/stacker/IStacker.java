@@ -13,12 +13,21 @@ public interface IStacker extends ISubsystem
 
     /**
      * Moves stacker up
+     * returns true if moving, false if stopped 
      */
-    void moveStackerUp();
+    boolean moveStackerUp();
 
     /**
      * Moves stacker down
+     * returns true if moving, false if stopped
      */
-    void moveStackerDown();
+    boolean moveStackerDown();
+
+    // TODO comments
+    boolean moveStackerToGround();
+
+    boolean moveStackerToScoringPlatform();
+
+    boolean moveStackerToOneStack();
 
 }

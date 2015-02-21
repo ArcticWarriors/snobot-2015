@@ -10,6 +10,8 @@ import com.snobot.ISubsystem;
  */
 public interface IOperatorJoystick extends ISubsystem
 {
+    // TODO comments
+    public boolean getStackerToFloorButton();
 
     /**
      * Asks if stacker is up
@@ -54,8 +56,44 @@ public interface IOperatorJoystick extends ISubsystem
     public boolean getClawClose();
     
     /**
+     * Asks if rake up button is pressed.
+     * 
+     * @returnTrue if button is pressed else false.
+     */
+    public double getMoveRake();
+
+    /**
      * Perform initialization 
      * 
+     */
+    
+    public boolean getMoveToFloor();
+
+    /**
+     * True if moveToFloor button is pressed
+     * 
+     * @return
+     */
+
+    public boolean getMoveToScoring();
+
+    /**
+     * True if moveToScoring button is pressed
+     * 
+     * @return
+     */
+
+    public boolean getMoveToOneStack();
+
+    /**
+     * True if moveToOneStack button is pressed
+     * 
+     * @return
+     */
+
+    public double getJoystickValue ();
+    /**
+     * Gets value of Joystick to set as stacker speed
      */
     
     @Override
@@ -102,5 +140,7 @@ public interface IOperatorJoystick extends ISubsystem
      * @return True if the controller should rumble and false if it should not
      */
     void setRumble(Boolean aRumbleOn);
+
+    public abstract boolean getMoveToCoopHeight();
 
 }

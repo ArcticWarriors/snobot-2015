@@ -11,10 +11,13 @@ public class SmartDashboardNames
     public static final String sLEFT_DRIVE_SPEED = "LeftDriveSpeed";
     public static final String sRIGHT_DRIVE_SPEED = "RightDriveSpeed";
     public static final String sCLAW_AIR_PRESSURE = "ClawAirPressure";
+    public static final String sCLAW_HAND_SOLENOID = "ClawHandSolenoid";
+    public static final String sCLAW_ARM_SOLENOID = "ClawArmSolenoid";
+
 
     public static final String sJOYSTICK_MODE_XBOX = "Xboxmode";
-    public static final String sJoystickMode_flightstick = "FlightstickMode";
-    public static final String sJoystickMode = "JoystickMode";
+    public static final String sJOYSTICKMODE_FLIGHTSTICK = "FlightstickMode";
+    public static final String sJOYSTICK_MODE = "JoystickMode";
     
     public static final String sSNOBOT_HEADING = "Heading";
     public static final String sSNOBOT_X_POSITION = "X-position";
@@ -27,4 +30,11 @@ public class SmartDashboardNames
     public static final String sENCODER_HEIGHT = "Encoder Height";
     public static final String sSTACKER_MOTOR_VALUE = "Stacker Motor";
     
+    // Auton Widget stuff
+    public static final String sROBOT_COMMAND_TEXT = "Robot Command text";
+    public static final String sSD_COMMAND_TEXT = "SD Command text";
+    public static final String sSUCCESFULLY_PARSED_AUTON = "Parsed Command";
+    public static final String sSAVE_REQUEST = "Should save?";
+    public static final String sAUTON_FILENAME = "Auton Filename";
+
 }

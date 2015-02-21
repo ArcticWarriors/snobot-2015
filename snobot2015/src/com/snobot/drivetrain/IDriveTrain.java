@@ -27,6 +27,8 @@ public interface IDriveTrain extends ISubsystem
 
     public double calculateDistanceLeft();
 
+    public void resetEncoders();
+
     public enum UnitOfMeasure
     {
         Feet, Meters, Inches, Centimeters

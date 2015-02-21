@@ -5,6 +5,7 @@ import com.snobot.simulator.DigitalSourceWrapper;
 import com.snobot.simulator.EncoderWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
 import com.snobot.simulator.SpeedControllerWrapper;
+import com.snobot.simulator.sim.DistanceCalculator;
 import com.snobot.simulator.sim.ISimulatorContainer;
 import com.snobot.simulator.sim.LinearEncoderCalculator;
 import com.snobot.simulator.sim.TankDriveGyroSimulator;
@@ -13,7 +14,7 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
 
     private LinearEncoderCalculator mRightDriveEnc;
     private LinearEncoderCalculator mLeftDriveEnc;
-    private StackerSImulator mStackerSimulator;
+    private StackerSimulator mStackerSimulator;
     
     private TankDriveGyroSimulator mGyroSim;
     
@@ -27,9 +28,8 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 1), 
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_B, 1));
         
-        EncoderWrapper stackerEncoder = SensorActuatorRegistry.get().getEncoder(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_A, 1),
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_ENCODER_B, 1));
+        AnalogWrapper stackerPot = SensorActuatorRegistry.get().getAnalog().get(
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_POT, 1));
 
         SpeedControllerWrapper rightDriveMotor = SensorActuatorRegistry.get().getSpeedControllers().get(
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
@@ -44,26 +44,44 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 1));
         
         DigitalSourceWrapper lowerStackerLimit = SensorActuatorRegistry.get().getDigitalSources().get(
-        		ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH_PORT_1, 1));
+        		ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 1));
         
         DigitalSourceWrapper upperStackerLimit = SensorActuatorRegistry.get().getDigitalSources().get(
-        		ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH_PORT_1, 2));
+        		ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 2));
 	   
 
         mRightDriveEnc = new LinearEncoderCalculator(rightDriveMotor, rightEncoder);
         mLeftDriveEnc = new LinearEncoderCalculator(leftDriveMotor, leftEncoder);
-        mStackerSimulator = new StackerSImulator (stackerMotor, stackerEncoder,
-        		upperStackerLimit, lowerStackerLimit);
+
+        // mStackerSimulator = new StackerSimulator (
+        // stackerMotor, stackerPot, upperStackerLimit, lowerStackerLimit,
+        // ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_MIN_VOLTS, 0),
+        // ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_VOLTS_PER_INCH, 1));
+
+        // TODO update with non-hardcoded values
+
+        // double pot_voltage = mStackerPotentiometer.getVoltage();
+        // double pot_min_top = 3.596190;
+        // double pot_max_bot = 4.9731405;
+        // double pot_diff = (pot_max_bot - pot_min_top);
+        // double stacker_height = 24;
+        DistanceCalculator pot_wrapper = new StackerPotSim(stackerPot);
+        mStackerSimulator = new StackerSimulator (
+                stackerMotor, upperStackerLimit, lowerStackerLimit, pot_wrapper);
 
         
-        stackerEncoder.setDistancePerTick(.04);
+        // stackerPot.setDistancePerTick(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_VOLTS_PER_INCH,
+        // .4));
         
-        mLeftDriveEnc.setSimulatorParams(.01);
-        mRightDriveEnc.setSimulatorParams(-.01);        
-        mStackerSimulator.setSimulatorParams(1);
+        mLeftDriveEnc.setSimulatorParams(-.8);
+        mRightDriveEnc.setSimulatorParams(-.8);
+        mStackerSimulator.setSimulatorParams(-1);
+        // mStackerSimulator.setSimulatorParams(1);
         
         
         mGyroSim = new TankDriveGyroSimulator(leftEncoder, rightEncoder, gyroChannel);
+
+        mGyroSim.setIsReverse(true, false);
 	}
 
 	@Override

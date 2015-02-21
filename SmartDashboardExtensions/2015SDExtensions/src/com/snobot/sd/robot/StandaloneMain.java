@@ -26,7 +26,7 @@ public class StandaloneMain
             @Override
             public void keyPressed(KeyEvent arg0) {
                 
-                double shooterSpeedIncrement = .05;
+                double shooterSpeedIncrement = .5;
                 
                 if(arg0.getKeyChar() == 'a')
                 {

@@ -1,0 +1,4 @@
+&MoveClaw true 2
+&DriveForwardSmart 95
+DriveRotateSmart -90
+ClawGrab true 1

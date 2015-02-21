@@ -10,6 +10,8 @@ import com.snobot.ISubsystem;
  */
 public interface IOperatorJoystick extends ISubsystem
 {
+    // TODO comments
+    public boolean getStackerToFloorButton();
 
     /**
      * Asks if stacker is up
@@ -56,6 +58,11 @@ public interface IOperatorJoystick extends ISubsystem
     /**
      * Perform initialization 
      * 
+     */
+    
+    public double getJoystickValue ();
+    /**
+     * Gets value of Joystick to set as stacker speed
      */
     
     

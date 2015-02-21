@@ -1,11 +1,9 @@
 package com.snobot.joystick;
 
-import com.snobot.ConfigurationNames;
 import com.snobot.XboxButtonMap;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * Implements Driver Joy stick Interface Sets up Snobot xBox Joy stick for
@@ -31,11 +29,10 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
      * @param aXBoxStick
      *            Argument for xBox Stick
      */
-    public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger, DriveMode aDriveMode)
+    public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger)
     {
         System.out.println("Creating xbox joystick");
         mXBoxStick = aXBoxStick;
-        mDriveMode = aDriveMode;
         mLogger = aLogger;
     }
 
@@ -44,8 +41,8 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     {
         mLogger.addHeader("Tank Mode: Left Y Axis");
         mLogger.addHeader("Tank Mode: Right Y Axis");
-        mLogger.addHeader("Arcade Mode: Speed (1 to -1)");
-        mLogger.addHeader("Arcade Mode: Right X Axis");
+        // mLogger.addHeader("Arcade Mode: Speed (1 to -1)");
+        // mLogger.addHeader("Arcade Mode: Right X Axis");
         mLogger.addHeader("Drive Mode");
         mDriveMode = DriveMode.Tank;
         
@@ -55,48 +52,45 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public void update()
     {
-        if (mXBoxStick.getRawButton(mTankMode))
-        {
-            mDriveMode = DriveMode.Tank;
-        }
-        else if (mXBoxStick.getRawButton(mArcadeMode))
-        {
-            mDriveMode = DriveMode.Arcade;
-        }
+//        if (mXBoxStick.getRawButton(mTankMode))
+//        {
+//            mDriveMode = DriveMode.Tank;
+//        }
+        // else if (mXBoxStick.getRawButton(mArcadeMode))
+        // {
+        // mDriveMode = DriveMode.Arcade;
+        // }
         
-        mTankLeftYAxis = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
-        mTankRightYAxis = mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
-        mArcadeLeftSpeed = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
-        mArcadeRightRotation = mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
+        mTankLeftYAxis = -mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        mTankRightYAxis = -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
+        // mArcadeLeftSpeed = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        // mArcadeRightRotation = -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
     }
 
     @Override
     public void control()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void rereadPreferences()
     {
-        // TODO Auto-generated method stub
-
-        mTankMode = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_TANK_MODE, XboxButtonMap.A_BUTTON);
-        mArcadeMode = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_ARCADE_MODE, XboxButtonMap.B_BUTTON);
+        // mTankMode =
+        // ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_TANK_MODE,
+        // XboxButtonMap.A_BUTTON);
+        // mArcadeMode =
+        // ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_ARCADE_MODE,
+        // XboxButtonMap.B_BUTTON);
     }
 
     @Override
     public void updateSmartDashboard()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void updateLog()
     {
-        // TODO Update Drive mode
         // Left Y Axis
         mLogger.updateLogger(mTankLeftYAxis);
 
@@ -104,11 +98,10 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         mLogger.updateLogger(mTankRightYAxis);
 
         // Speed
-        mLogger.updateLogger(mArcadeLeftSpeed);
+        // mLogger.updateLogger(mArcadeLeftSpeed);
 
         // Angle of the Joy stick (for arcade drive)
-        mLogger.updateLogger(mArcadeRightRotation);
-        
+        // mLogger.updateLogger(mArcadeRightRotation);
         
         mLogger.updateLogger(getDriveMode().toString());
     }
@@ -116,8 +109,6 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public void stop()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
