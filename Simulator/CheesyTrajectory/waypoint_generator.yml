@@ -1,0 +1,51 @@
+
+output_dir: ../../snobot2015/resources/paths
+wheelbase: 2.125 # 25.5/12
+dt: .01
+
+paths:
+
+- name: InsideLanePathFar
+  max_vel   : 10
+  max_accel : 8
+  max_jerk  : 50
+  waypoints:
+  - { x: 0,  y: 0, angle: 0 }
+  - { x: 7,  y: 0, angle: 0 }
+  - { x: 14, y: 1, angle: 0.261799387 } # PI / 12.0
+
+- name: CenterLanePathFar
+  max_vel   : 10
+  max_accel : 8
+  max_jerk  : 50
+  waypoints:
+  - { x: 0,  y: 0, angle: 0 }
+  - { x: 7,  y: 0, angle: 0 }
+  - { x: 14, y: 5, angle: 0.261799387 } # PI / 12.0
+
+- name: InsideLanePathClose
+  max_vel   : 12
+  max_accel : 8.5
+  max_jerk  : 50
+  waypoints:
+  - { x: 0,  y: 0, angle: 0 }
+  - { x: 7,  y: 0, angle: 0 }
+  - { x: 15, y: 3, angle: 0.261799387 } # PI / 12.0
+
+- name: StraightAheadPath
+  max_vel   : 11.75
+  max_accel : 9
+  max_jerk  : 50
+  waypoints:
+  - { x: 0,  y: 0, angle: 0 }
+  - { x: 14, y: 0, angle: 0 }
+
+- name: WallLanePath
+  max_vel   : 10
+  max_accel : 7
+  max_jerk  : 50
+  waypoints:
+  - { x: 0.0,   y: 0.0, angle: 0 }
+  - { x: 2.5,   y: 0.0, angle: 0 }
+  - { x: 10.5,  y: 8.0, angle: 0.261799387 } # PI / 12.0
+  - { x: 13.75, y: 9.5, angle: 0 }

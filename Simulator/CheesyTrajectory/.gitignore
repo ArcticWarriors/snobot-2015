@@ -7,3 +7,4 @@
 /nbproject/private/
 /build/
 /bin/
+!snakeyaml-1.11.jar
