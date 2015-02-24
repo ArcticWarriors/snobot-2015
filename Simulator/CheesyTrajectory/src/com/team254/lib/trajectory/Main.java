@@ -11,6 +11,10 @@ import java.io.IOException;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+import com.snobot.trajectory.SimplePathGenerator;
+import com.snobot.trajectory.config.GeneratorConfig;
+import com.snobot.trajectory.config.SimpleConfig;
+import com.snobot.trajectory.config.SplinePathConfig;
 import com.team254.lib.trajectory.io.TextFileSerializer;
 
 /**
@@ -51,7 +55,7 @@ public class Main
         return true;
     }
 
-    public static void generatePath(String outDir, double dt, double wheelbase, GeneratorConfig.PathConfig aPath)
+    public static void generatePath(String outDir, double dt, double wheelbase, SplinePathConfig aPath)
     {
         TrajectoryGenerator.Config config = new TrajectoryGenerator.Config();
         config.dt = dt;
@@ -61,8 +65,7 @@ public class Main
 
         WaypointSequence p = new WaypointSequence(10);
 
-        for (GeneratorConfig.WaypointConfig waypoint : aPath.getWaypoints())
-
+        for (SplinePathConfig.WaypointConfig waypoint : aPath.getWaypoints())
         {
             p.addWaypoint(new WaypointSequence.Waypoint(waypoint.getX(), waypoint.getY(), waypoint.getAngle()));
         }
@@ -84,6 +87,25 @@ public class Main
         }
     }
 
+    private static void generateTurn(String output_dir, double dt, SimpleConfig pathConfig)
+    {
+        SimplePathGenerator generator = new SimplePathGenerator();
+
+        String serialized = generator.serialize(pathConfig, dt);
+
+        String fullpath = joinPath(output_dir, pathConfig.getName() + ".txt");
+
+        if (!writeFile(fullpath, serialized))
+        {
+            System.err.println(fullpath + " could not be written!!");
+            System.exit(1);
+        }
+        else
+        {
+            System.out.println("Wrote " + fullpath);
+        }
+    }
+
     public static void main(String[] args) throws FileNotFoundException
     {
 
@@ -92,9 +114,31 @@ public class Main
 
         GeneratorConfig config = (GeneratorConfig) yaml.load(new FileInputStream("waypoint_generator.yml"));
 
-        for (GeneratorConfig.PathConfig pathConfig : config.getPaths())
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("Generating spline paths");
+        System.out.println("--------------------------------------------------------------------------------");
+        for (SplinePathConfig pathConfig : config.getPaths())
         {
             generatePath(config.getOutput_dir(), config.getDt(), config.getWheelbase(), pathConfig);
         }
+        System.out.println("\n\n");
+
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("Generating simple paths");
+        System.out.println("--------------------------------------------------------------------------------");
+        for (SimpleConfig pathConfig : config.getSimple_paths())
+        {
+            generateTurn(config.getOutput_dir(), config.getDt(), pathConfig);
+        }
+        System.out.println("\n\n");
+
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("Generating simple turning paths");
+        System.out.println("--------------------------------------------------------------------------------");
+        for (SimpleConfig pathConfig : config.getTurns())
+        {
+            generateTurn(config.getOutput_dir(), config.getDt(), pathConfig);
+        }
+        System.out.println("\n\n");
     }
 }

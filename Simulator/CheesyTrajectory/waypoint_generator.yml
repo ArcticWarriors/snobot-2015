@@ -3,8 +3,38 @@ output_dir: ../../snobot2015/resources/paths
 wheelbase: 2.125 # 25.5/12
 dt: .01
 
-paths:
+############################
+# Turns
+############################
+turns:
 
+- name: Turn90Slow
+  max_vel   : 45 #Degrees per second
+  max_accel : 45
+  position: 90
+  
+- name: Turn90Fast
+  max_vel   : 200 #Degrees per second
+  max_accel : 500
+  position: 180
+
+
+############################
+# Simple Paths
+############################
+simple_paths:
+
+- name: SimpleStraightPath
+  max_vel   : 7
+  max_accel : 12
+  position: 14
+
+
+############################
+# Spline-Paths
+############################
+paths:  
+  
 - name: InsideLanePathFar
   max_vel   : 10
   max_accel : 8

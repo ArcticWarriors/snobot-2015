@@ -11,13 +11,13 @@ public class GeneratorConfig
     private double wheelbase;
     private double dt;
 
-    private List<PathConfig> paths;
+    private List<SplinePathConfig> paths;
     private List<SimpleConfig> simple_paths;
     private List<SimpleConfig> turns;
 
     public GeneratorConfig()
     {
-        paths = new ArrayList<PathConfig>();
+        paths = new ArrayList<SplinePathConfig>();
         simple_paths = new ArrayList<SimpleConfig>();
         turns = new ArrayList<SimpleConfig>();
     }
@@ -42,12 +42,12 @@ public class GeneratorConfig
         this.dt = dt;
     }
 
-    public List<PathConfig> getPaths()
+    public List<SplinePathConfig> getPaths()
     {
         return paths;
     }
 
-    public void setPaths(List<PathConfig> paths)
+    public void setPaths(List<SplinePathConfig> paths)
     {
         this.paths = paths;
     }
