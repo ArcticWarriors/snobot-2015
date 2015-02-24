@@ -89,7 +89,7 @@ public class SnobotClaw implements IClaw
         mRobotAirPressure = ((33.125 * mTransducer.getVoltage()) - 16.821);
         
         mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
-        System.out.println("Voltage: " + mTransducer.getVoltage());
+        // System.out.println("Voltage: " + mTransducer.getVoltage());
 
     }
 

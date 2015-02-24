@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import com.snobot.ConfigurationNames;
 import com.snobot.SmartDashboardNames;
 import com.snobot.Snobot;
+import com.snobot.xlib.simple_trajectory.SimplePathDeserializer;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -80,7 +81,29 @@ public class CommandParser
                         Double.parseDouble(args.get(1)),
                         Double.parseDouble(args.get(2)),
                         Double.parseDouble(args.get(3)));
+                break;
 
+            // case "TrajectoryFollower":
+            // {
+            // TextFileDeserializer deserializer = new TextFileDeserializer();
+            // newCommand = new
+            // TrajectoryFollowerCommand(deserializer.deserialize(args.get(1)),
+            // mSnobot.getDriveTrain(),
+            // mSnobot.getPositioner());
+            // break;
+            // }
+            case "SimplePathTurnFollower":
+            {
+                SimplePathDeserializer deserializer = new SimplePathDeserializer();
+                newCommand = new SimplePathTurnCommand(deserializer.deserialize(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
+                break;
+            }
+            case "SimplePathDriveFollower":
+            {
+                SimplePathDeserializer deserializer = new SimplePathDeserializer();
+                newCommand = new SimplePathDriveCommand(deserializer.deserialize(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
+                break;
+            }
             case ConfigurationNames.sDRIVE_FORWARD_COMMAND:
                 newCommand = new DriveForward(
                         Double.parseDouble(args.get(1)), 
