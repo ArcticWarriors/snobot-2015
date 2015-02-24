@@ -57,4 +57,11 @@ public class SimplePathPoint
     {
         this.acceleration = acceleration;
     }
+
+    @Override
+    public String toString()
+    {
+        return "SimplePathPoint [dt=" + dt + ", angle=" + angle + ", velocity=" + velocity + ", acceleration=" + acceleration + "]";
+    }
+
 }

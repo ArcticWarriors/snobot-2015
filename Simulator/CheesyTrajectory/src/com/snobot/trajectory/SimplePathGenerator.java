@@ -26,7 +26,7 @@ public class SimplePathGenerator
             double current_velocity = max_accel * t;
             double current_accel = max_accel;
 
-            turnInfo.add(new SimplePathPoint(0, t, current_angle, current_velocity, current_accel));
+            turnInfo.add(new SimplePathPoint(0, current_angle, current_velocity, current_accel, t));
         }
 
         double end_accel_pos = turnInfo.get(turnInfo.size() - 1).getAngle();
@@ -36,7 +36,7 @@ public class SimplePathGenerator
             double current_velocity = max_vel;
             double current_accel = 0;
 
-            turnInfo.add(new SimplePathPoint(1, t, current_angle, current_velocity, current_accel));
+            turnInfo.add(new SimplePathPoint(1, current_angle, current_velocity, current_accel, t));
         }
 
         for (double t = t2; t < t3; t += dt)
@@ -46,7 +46,7 @@ public class SimplePathGenerator
             double current_velocity = -max_accel * t_field;
             double current_accel = -max_accel;
 
-            turnInfo.add(new SimplePathPoint(2, t, current_angle, current_velocity, current_accel));
+            turnInfo.add(new SimplePathPoint(2, current_angle, current_velocity, current_accel, t));
         }
 
         String output = "";
