@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import com.snobot.ConfigurationNames;
 import com.snobot.SmartDashboardNames;
 import com.snobot.Snobot;
+import com.snobot.xlib.simplePath.SimplePathDeserializer;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -80,7 +81,7 @@ public class CommandParser
                         Double.parseDouble(args.get(1)),
                         Double.parseDouble(args.get(2)),
                         Double.parseDouble(args.get(3)));
-
+                break;
             case ConfigurationNames.sDRIVE_FORWARD_COMMAND:
                 newCommand = new DriveForward(
                         Double.parseDouble(args.get(1)), 
@@ -144,6 +145,24 @@ public class CommandParser
                         Integer.parseInt(args.get(1)),
                         mSnobot.getSnobotStacker());
                 break;
+            case ConfigurationNames.sTURN_SIMPLE_COMMAND:
+            {
+                String path = args.get(1);
+                SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
+
+                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.read(path));
+
+                break;
+            }
+            case ConfigurationNames.sSTRAIGHT_SIMPLE_COMMAND:
+            {
+                String path = args.get(1);
+                SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
+
+                newCommand = new StraightSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.read(path));
+
+                break;
+            }
             default:
                 addError("Unknown command name: " + commandName);
                 break;

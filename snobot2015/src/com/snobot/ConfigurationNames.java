@@ -99,6 +99,10 @@ public class ConfigurationNames
     public static final String sLOG_COUNT = "LogCount";
     public static final String sLOG_FILE_PATH = "LogFilePath";
 
+    // Turn Path
+    public static final String sKP = "TurnPathKP";
+    public static final String sKFF = "TurnPathKFF";
+
     // Autonomous Commands
     public static final String sSET_POSITION_COMMAND = "SetPosition";
     public static final String sDRIVE_FORWARD_COMMAND = "DriveForward";
@@ -110,6 +114,8 @@ public class ConfigurationNames
     public static final String sMOVE_CLAW_COMMAND = "MoveClaw";
     public static final String sSMART_STACK_COMMAND = "SmartStack";
     public static final String sRAW_DRIVE_COMMAND = "RawDrive";
+    public static final String sTURN_SIMPLE_COMMAND = "TurnSimplePath";
+    public static final String sSTRAIGHT_SIMPLE_COMMAND = "StraightSimplePath";
     
     // ////////////////////////////////
     // Preference Wrapper Functions //
