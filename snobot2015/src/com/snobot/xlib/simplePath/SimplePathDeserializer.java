@@ -16,15 +16,14 @@ public class SimplePathDeserializer
         {
             BufferedReader br = new BufferedReader(new FileReader(aFileDeserialPath));
 
-            boolean flag = true;
+            boolean firstLine = true;
 
             String line;
             while ((line = br.readLine()) != null)
             {
-                if (flag)
+                if (firstLine)
                 {
-                    flag = false;
-
+                    firstLine = false;
                     continue;
                 }
 
@@ -38,21 +37,15 @@ public class SimplePathDeserializer
 
                 output.add(point);
             }
+
+            br.close();
         }
         catch (Exception e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         return output;
 
-    }
-
-    public static void main(String[] args)
-    {
-        List<SimplePathPoint> points = new SimplePathDeserializer().read("test.csv");
-
-        System.out.println(points);
     }
 }

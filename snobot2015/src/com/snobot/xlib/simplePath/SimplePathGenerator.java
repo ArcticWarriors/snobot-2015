@@ -32,7 +32,7 @@ public class SimplePathGenerator
         {
             pos = aPosition - .5 * aMaxAccel * Math.pow((t - ((aMaxVelocity / aMaxAccel) + (aPosition / aMaxVelocity))), 2);
             vel = aMaxAccel * ((aMaxVelocity / aMaxAccel) + (aPosition / aMaxVelocity) - t);
-            SimplePathPoint point = new SimplePathPoint(2, t, pos, vel, -aMaxAccel);
+            SimplePathPoint point = new SimplePathPoint(3, t, pos, vel, -aMaxAccel);
             output.add(point);
         }
 
@@ -40,12 +40,4 @@ public class SimplePathGenerator
         return output;
     }
 
-    public static void main(String[] args)
-    {
-        SimplePathGenerator gen = new SimplePathGenerator();
-
-        List<SimplePathPoint> points = gen.generate(.7 * 12, 1 * 12, 4 * 12, .02);
-
-        new SimplePathSerializer().write(points, "genTest.csv");
-    }
 }

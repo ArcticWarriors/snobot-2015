@@ -19,7 +19,6 @@ public class SimplePathPoint
 
     public SimplePathPoint()
     {
-        // TODO Auto-generated constructor stub
     }
 
     @Override
