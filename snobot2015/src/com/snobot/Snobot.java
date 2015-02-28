@@ -255,8 +255,7 @@ public class Snobot extends IterativeRobot
     
     private void readFile()
     {
-        // mAutonCommand =
-        // mParser.readFile(mAutonChooser.getSelected().toString());
+        mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
     }
 
     private void addSmartDashboardListeners()

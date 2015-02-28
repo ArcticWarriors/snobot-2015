@@ -102,8 +102,10 @@ public class ConfigurationNames
     public static final String sLOG_FILE_PATH = "LogFilePath";
 
     // Turn Path
-    public static final String sKP = "TurnPathKP";
-    public static final String sKFF = "TurnPathKFF";
+    public static final String sTURN_PATH_KP = "TurnPathKP";
+    public static final String sTURN_PATH_KFF = "TurnPathKFF";
+    public static final String sDRIVE_PATH_KP = "DrivePathKP";
+    public static final String sDRIVE_PATH_KFF = "DrivePathKFF";
 
     // Autonomous Commands
     public static final String sSET_POSITION_COMMAND = "SetPosition";

@@ -18,13 +18,25 @@ public class SimplePathFollower
 
     public double calculate(double aCurrPosition)
     {
+        if (mPathIndex >= mListPoints.size())
+        {
+            return 0;
+        }
+        double desiredPosition = mListPoints.get(mPathIndex).mPosition;
 
-        double error = mListPoints.get(mPathIndex).mPosition - aCurrPosition;
+        double error = desiredPosition - aCurrPosition;
         double currVel = mListPoints.get(mPathIndex).mVelocity;
+
+        double p_term = error * mKp;
+        double v_term = mKff * currVel;
+        double output = p_term + v_term;
+
+        System.out.println("Current : " + aCurrPosition + ", desired: " + desiredPosition + ", p: " + p_term + ", v: " + v_term + ", " + mKff
+                + ", output = " + output);
 
         mPathIndex++;
 
-        return (error * mKp + mKff * currVel);
+        return p_term + v_term;
     }
 
     public boolean isFinished()
