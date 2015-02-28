@@ -66,6 +66,8 @@ public class ConfigurationNames
     public static final String sLEFT_ENC_DPP = "LeftEncDpp";
     public static final String sRIGHT_ENC_DPP = "RightEncDpp";
 
+    public static final String sRAKE_MOTOR = "RakeMotor";
+    public static final String sRAKE_MOTOR_LS = "RakeMotorLimitSwitch";
     // Analog Inputs
     public static final String sGYRO_SENSOR = "GyroSensor";
     public static final String sTRANSDUCER = "Transducer";

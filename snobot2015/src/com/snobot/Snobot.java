@@ -24,7 +24,6 @@ import com.snobot.stacker.IStacker;
 import com.snobot.stacker.SnobotStacker;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
@@ -41,7 +40,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -112,15 +110,15 @@ public class Snobot extends IterativeRobot
     {
         SmartDashboard.putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
 
-        USBCamera camera = new USBCamera("cam0");
-        camera.setFPS(5);
-        camera.setBrightness(10);
-        camera.setExposureManual(50);
-
-        CameraServer server = CameraServer.getInstance();
-        server.setQuality(10);
-        server.setSize(2);
-        server.startAutomaticCapture(camera);
+        // USBCamera camera = new USBCamera("cam0");
+        // camera.setFPS(5);
+        // camera.setBrightness(10);
+        // camera.setExposureManual(50);
+        //
+        // CameraServer server = CameraServer.getInstance();
+        // server.setQuality(10);
+        // server.setSize(2);
+        // server.startAutomaticCapture(camera);
 
 
 
@@ -133,7 +131,7 @@ public class Snobot extends IterativeRobot
     	int left_drive_motor_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1,  0);
     	int right_drive_motor_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1);
         int stacker_motor_port 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR,       2);
-        int rake_motor_port = 4; // TODO make constant
+        int rake_motor_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRAKE_MOTOR, 4);
         
         //Digital IO
     	int left_drive_enc_a 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 7);
@@ -142,7 +140,7 @@ public class Snobot extends IterativeRobot
     	int right_drive_enc_b 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6);
         int stacker_upper_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 1);
         int stacker_lower_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 2);
-        int rake_limit_switch_port = 0; // TODO make configurable
+        int rake_limit_switch_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRAKE_MOTOR_LS, 0);
         
         //Analog
         int transducer_port         = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sTRANSDUCER, 2);
@@ -236,6 +234,7 @@ public class Snobot extends IterativeRobot
         mSubsystems.add(mPositioner);
         mSubsystems.add(mRake);
 
+        // TODO Combine for loops
         mLogger.init();
         for (ISubsystem iSubsystem : mSubsystems)
         {
@@ -256,7 +255,8 @@ public class Snobot extends IterativeRobot
     
     private void readFile()
     {
-        mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+        // mAutonCommand =
+        // mParser.readFile(mAutonChooser.getSelected().toString());
     }
 
     private void addSmartDashboardListeners()
