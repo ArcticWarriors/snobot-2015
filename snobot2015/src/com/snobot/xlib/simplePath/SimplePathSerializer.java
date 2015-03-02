@@ -2,6 +2,7 @@ package com.snobot.xlib.simplePath;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class SimplePathSerializer
 
     public void write(List<SimplePathPoint> points, String aFileSerialPath)
     {
+        DecimalFormat df = new DecimalFormat("#.000");
 
         try
         {
@@ -23,8 +25,12 @@ public class SimplePathSerializer
             for (SimplePathPoint pathPoint : points)
             {
 
-                mSerialFileWriter.write("" + pathPoint.mSegment + "," + pathPoint.mTime + "," + pathPoint.mPosition + "," + pathPoint.mVelocity + ","
-                        + pathPoint.mAcceleration + "\n");
+                mSerialFileWriter.write("" +
+                        df.format(pathPoint.mSegment) + "," +
+                        df.format(pathPoint.mTime) + "," +
+                        df.format(pathPoint.mPosition) + "," +
+                        df.format(pathPoint.mVelocity) + "," +
+                        df.format(pathPoint.mAcceleration) + "\n");
             }
             mSerialFileWriter.close();
 

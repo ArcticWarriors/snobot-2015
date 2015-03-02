@@ -15,8 +15,10 @@ import com.snobot.Snobot;
 import com.snobot.commands.raw.DriveForward;
 import com.snobot.commands.raw.DriveRotate;
 import com.snobot.commands.raw.RawDriveFoward;
+import com.snobot.commands.raw.RawRotateCommand;
 import com.snobot.commands.raw.RawStack;
 import com.snobot.xlib.simplePath.SimplePathDeserializer;
+import com.snobot.xlib.simplePath.SimplePathPoint;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -116,6 +118,11 @@ public class CommandParser
                         mSnobot.getDriveTrain());
                 break;
 
+            case ConfigurationNames.sRAW_ROTATE_COMMAND:
+                newCommand = new RawRotateCommand(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
+                        mSnobot.getDriveTrain());
+                break;
+
             case ConfigurationNames.sDRIVE_ROTATE_SMARTER_COMMAND:
                 newCommand = new DriveRotateSmartur(
                         Double.parseDouble(args.get(1)), 
@@ -153,8 +160,14 @@ public class CommandParser
             {
                 String path = args.get(1);
                 SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
+                List<SimplePathPoint> points = mSimpleDeserializer.deserialize(path);
 
-                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.deserialize(path));
+                if (points.isEmpty())
+                {
+                    addError("Could not read SimplePoint path at '" + path + "'");
+                }
+
+                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
 
                 break;
             }
@@ -162,8 +175,14 @@ public class CommandParser
             {
                 String path = args.get(1);
                 SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
+                List<SimplePathPoint> points = mSimpleDeserializer.deserialize(path);
 
-                newCommand = new StraightSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.deserialize(path));
+                if (points.isEmpty())
+                {
+                    addError("Could not read SimplePoint path at '" + path + "'");
+                }
+
+                newCommand = new StraightSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
 
                 break;
             }

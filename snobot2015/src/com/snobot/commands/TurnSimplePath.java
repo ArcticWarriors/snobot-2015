@@ -24,9 +24,9 @@ public class TurnSimplePath extends Command
         mSnobotPosition = aSnobotPosition;
         mListPoints = aListPoints;
 
-        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KP, .1);
+        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KP, 0);
         double kD = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KD, 0);
-        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KV, .5);
+        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KV, 0.002);
         double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KA, 0);
 
         mSimplePathFollower = new SimplePathFollower(mListPoints, kP, kD, kVelocity, kAccel);

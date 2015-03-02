@@ -1,0 +1,3 @@
+SimplePathDrive ../../snobot2015/resources/paths/TestDriveStraight.csv
+SimplePathRotate ../../snobot2015/resources/paths/TestTurn90.csv
+SimplePathDrive ../../snobot2015/resources/paths/TestDriveStraight.csv

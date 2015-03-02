@@ -48,14 +48,20 @@ public class SimplePathFollower
         double output = p_term + d_term + v_term + a_term;
 
         DecimalFormat df = new DecimalFormat("#.000");
-        System.out.println(
+        System.out.println("" +
                 "Current: " + df.format(aCurrPosition) + ", " +
-                        "Desired: " + df.format(point.mPosition) + ", " +
-                        "p: " + df.format(p_term) + ", " +
-                        "d: " + df.format(d_term) + ", " +
-                        "v: " + df.format(v_term) + ", " +
-                        "a: " + df.format(a_term) + ", " +
-                        "output: " + output);
+                "Desired: " + df.format(point.mPosition) + ", " +
+                "p: " + df.format(p_term) + ", " +
+                "d: " + df.format(d_term) + ", " +
+                "v: " + df.format(v_term) + ", " +
+                "a: " + df.format(a_term) + ", " +
+                "output: " + output);
+
+        // System.out.println(
+        // "kp = " + mKp + ", " +
+        // "kd = " + mKd + ", " +
+        // "kv = " + mKv + ", " +
+        // "ka = " + mKa);
 
         mLastError = error;
         mPathIndex++;

@@ -123,8 +123,9 @@ public class ConfigurationNames
     public static final String sMOVE_CLAW_COMMAND = "MoveClaw";
     public static final String sSMART_STACK_COMMAND = "SmartStack";
     public static final String sRAW_DRIVE_COMMAND = "RawDrive";
-    public static final String sTURN_SIMPLE_COMMAND = "TurnSimplePath";
-    public static final String sSTRAIGHT_SIMPLE_COMMAND = "StraightSimplePath";
+    public static final String sRAW_ROTATE_COMMAND = "RawRotate";
+    public static final String sTURN_SIMPLE_COMMAND = "SimplePathRotate";
+    public static final String sSTRAIGHT_SIMPLE_COMMAND = "SimplePathDrive";
     
     // ////////////////////////////////
     // Preference Wrapper Functions //
