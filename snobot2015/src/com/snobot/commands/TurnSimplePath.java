@@ -23,8 +23,13 @@ public class TurnSimplePath extends Command
         mDrivetrain = aDrivetrain;
         mSnobotPosition = aSnobotPosition;
         mListPoints = aListPoints;
-        mSimplePathFollower = new SimplePathFollower(mListPoints, ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KP, .1),
-                ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KFF, .5));
+
+        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KP, .1);
+        double kD = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KD, 0);
+        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KV, .5);
+        double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KA, 0);
+
+        mSimplePathFollower = new SimplePathFollower(mListPoints, kP, kD, kVelocity, kAccel);
     }
     
     @Override

@@ -150,7 +150,7 @@ public class CommandParser
                 String path = args.get(1);
                 SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
 
-                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.read(path));
+                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.deserialize(path));
 
                 break;
             }
@@ -159,7 +159,7 @@ public class CommandParser
                 String path = args.get(1);
                 SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
 
-                newCommand = new StraightSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.read(path));
+                newCommand = new StraightSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.deserialize(path));
 
                 break;
             }

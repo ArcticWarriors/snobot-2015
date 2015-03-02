@@ -1,18 +1,32 @@
 package com.snobot.xlib.simplePath;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class SimplePathFollower
 {
-    double mKp;
-    double mKff;
-    int mPathIndex = 0;
-    List<SimplePathPoint> mListPoints;
+    private double mKp; // Proportional to error term
+    private double mKd; // Derivitave of error term
+    private double mKv; // Feed forward velocity term
+    private double mKa; // Feed forward acceleration term
 
-    public SimplePathFollower(List<SimplePathPoint> aListPoints, double aKp, double aKff)
+    private double mLastError;
+    private int mPathIndex = 0;
+    private List<SimplePathPoint> mListPoints;
+
+    public SimplePathFollower(List<SimplePathPoint> aListPoints,
+            double aKp,
+            double aKd,
+            double aKv,
+            double aKa)
     {
         mKp = aKp;
-        mKff = aKff;
+        mKd = aKd;
+        mKv = aKv;
+        mKa = aKa;
+
+        mLastError = 0;
+        mPathIndex = 0;
         mListPoints = aListPoints;
     }
 
@@ -22,18 +36,28 @@ public class SimplePathFollower
         {
             return 0;
         }
-        double desiredPosition = mListPoints.get(mPathIndex).mPosition;
 
-        double error = desiredPosition - aCurrPosition;
-        double currVel = mListPoints.get(mPathIndex).mVelocity;
+        SimplePathPoint point = mListPoints.get(mPathIndex);
+
+        double error = point.mPosition - aCurrPosition;
 
         double p_term = error * mKp;
-        double v_term = mKff * currVel;
-        double output = p_term + v_term;
+        double d_term = mKd * ((error - mLastError) / point.mTime - point.mVelocity);
+        double v_term = mKv * point.mVelocity;
+        double a_term = mKa * point.mAcceleration;
+        double output = p_term + d_term + v_term + a_term;
 
-        System.out.println("Current : " + aCurrPosition + ", desired: " + desiredPosition + ", p: " + p_term + ", v: " + v_term + ", " + mKff
-                + ", output = " + output);
+        DecimalFormat df = new DecimalFormat("#.000");
+        System.out.println(
+                "Current: " + df.format(aCurrPosition) + ", " +
+                        "Desired: " + df.format(point.mPosition) + ", " +
+                        "p: " + df.format(p_term) + ", " +
+                        "d: " + df.format(d_term) + ", " +
+                        "v: " + df.format(v_term) + ", " +
+                        "a: " + df.format(a_term) + ", " +
+                        "output: " + output);
 
+        mLastError = error;
         mPathIndex++;
 
         return p_term + v_term;

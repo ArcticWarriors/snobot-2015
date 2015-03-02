@@ -23,8 +23,13 @@ public class StraightSimplePath extends Command
         mDrivetrain = aDrivetrain;
         mSnobotPosition = aSnobotPosition;
         mListPoints = aListPoints;
-        mSimplePathFollower = new SimplePathFollower(mListPoints, ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KP, .1),
-                ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KFF, .5));
+
+        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KP, .1);
+        double kD = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KD, 0);
+        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KV, .5);
+        double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KA, 0);
+
+        mSimplePathFollower = new SimplePathFollower(mListPoints, kP, kD, kVelocity, kAccel);
     }
     
     @Override

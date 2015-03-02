@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 public class SimplePathDeserializer
 {
-    public List<SimplePathPoint> read(String aFileDeserialPath)
+    public List<SimplePathPoint> deserialize(String aFileDeserialPath)
     {
         List<SimplePathPoint> output = new ArrayList<>();
 
@@ -16,11 +16,12 @@ public class SimplePathDeserializer
         {
             BufferedReader br = new BufferedReader(new FileReader(aFileDeserialPath));
 
+            String line;
             boolean firstLine = true;
 
-            String line;
             while ((line = br.readLine()) != null)
             {
+                // Skip the header line
                 if (firstLine)
                 {
                     firstLine = false;

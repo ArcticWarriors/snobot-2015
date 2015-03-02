@@ -103,9 +103,14 @@ public class ConfigurationNames
 
     // Turn Path
     public static final String sTURN_PATH_KP = "TurnPathKP";
-    public static final String sTURN_PATH_KFF = "TurnPathKFF";
+    public static final String sTURN_PATH_KD = "TurnPathKD";
+    public static final String sTURN_PATH_KV = "TurnPathKVel";
+    public static final String sTURN_PATH_KA = "TurnPathKAccel";
+
     public static final String sDRIVE_PATH_KP = "DrivePathKP";
-    public static final String sDRIVE_PATH_KFF = "DrivePathKFF";
+    public static final String sDRIVE_PATH_KD = "DrivePathKD";
+    public static final String sDRIVE_PATH_KV = "DrivePathKVel";
+    public static final String sDRIVE_PATH_KA = "DrivePathKAccel";
 
     // Autonomous Commands
     public static final String sSET_POSITION_COMMAND = "SetPosition";
