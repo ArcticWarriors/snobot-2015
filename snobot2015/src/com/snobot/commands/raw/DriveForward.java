@@ -1,4 +1,4 @@
-        package com.snobot.commands;
+        package com.snobot.commands.raw;
 
 import com.snobot.ConfigurationNames;
 import com.snobot.drivetrain.IDriveTrain;
