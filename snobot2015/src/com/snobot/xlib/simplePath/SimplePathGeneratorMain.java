@@ -36,9 +36,9 @@ public class SimplePathGeneratorMain
 
         List<SimplePathGeneratorConfig> configs = new ArrayList<SimplePathGeneratorConfig>();
 
-        configs.add(new SimplePathGeneratorConfig("TestDriveStraight", 7 * 12, 100 * 12, 7 * 12, dt));
-        configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 1800, 90, dt));
-        configs.add(new SimplePathGeneratorConfig("TestTurn90Slow", 20, 1800, 90, dt));
+        configs.add(new SimplePathGeneratorConfig("TestDriveStraight", 7 * 12, 20 * 12, 7 * 12, dt));
+        configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 600, 90, dt));
+        configs.add(new SimplePathGeneratorConfig("TestTurn90Slow", 20, 600, 90, dt));
 
         SimplePathGenerator gen = new SimplePathGenerator();
         SimplePathSerializer serializer = new SimplePathSerializer();
