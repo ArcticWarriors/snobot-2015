@@ -73,9 +73,9 @@ public class PathGenerator
         int cur_spline = 0;
         double cur_spline_start_pos = 0;
         double length_of_splines_finished = 0;
-        for (int i = 0; i < traj.getNumSegments(); ++i)
+        for (int i = 0; i < traj.size(); ++i)
         {
-            double cur_pos = traj.getSegment(i).pos;
+            double cur_pos = traj.get(i).pos;
 
             boolean found_spline = false;
             while (!found_spline)
@@ -85,10 +85,10 @@ public class PathGenerator
                 {
                     double percentage = splines[cur_spline].getPercentageForDistance(
                             cur_pos_relative);
-                    traj.getSegment(i).heading = splines[cur_spline].angleAt(percentage);
+                    traj.get(i).heading = splines[cur_spline].angleAt(percentage);
                     double[] coords = splines[cur_spline].getXandY(percentage);
-                    traj.getSegment(i).x = coords[0];
-                    traj.getSegment(i).y = coords[1];
+                    traj.get(i).x = coords[0];
+                    traj.get(i).y = coords[1];
                     found_spline = true;
                 }
                 else if (cur_spline < splines.length - 1)
@@ -99,10 +99,10 @@ public class PathGenerator
                 }
                 else
                 {
-                    traj.getSegment(i).heading = splines[splines.length - 1].angleAt(1.0);
+                    traj.get(i).heading = splines[splines.length - 1].angleAt(1.0);
                     double[] coords = splines[splines.length - 1].getXandY(1.0);
-                    traj.getSegment(i).x = coords[0];
-                    traj.getSegment(i).y = coords[1];
+                    traj.get(i).x = coords[0];
+                    traj.get(i).y = coords[1];
                     found_spline = true;
                 }
             }
@@ -129,17 +129,17 @@ public class PathGenerator
         Trajectory left = output[0];
         Trajectory right = output[1];
 
-        for (int i = 0; i < input.getNumSegments(); ++i)
+        for (int i = 0; i < input.size(); ++i)
         {
-            Segment current = input.getSegment(i);
+            Segment current = input.get(i);
             double cos_angle = Math.cos(current.heading);
             double sin_angle = Math.sin(current.heading);
 
-            Segment s_left = left.getSegment(i);
+            Segment s_left = left.get(i);
             s_left.x = current.x - wheelbase_width / 2 * sin_angle;
             s_left.y = current.y + wheelbase_width / 2 * cos_angle;
 
-            Segment s_right = right.getSegment(i);
+            Segment s_right = right.get(i);
             s_right.x = current.x + wheelbase_width / 2 * sin_angle;
             s_right.y = current.y - wheelbase_width / 2 * cos_angle;
 
@@ -148,8 +148,8 @@ public class PathGenerator
 
             if (i > 0)
             {
-                previous_left = left.getSegment(i - 1);
-                previous_right = right.getSegment(i - 1);
+                previous_left = left.get(i - 1);
+                previous_right = right.get(i - 1);
             }
 
             updateWithPrevious(previous_right, s_right);

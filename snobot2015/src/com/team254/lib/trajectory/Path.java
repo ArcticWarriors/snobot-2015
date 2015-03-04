@@ -32,15 +32,11 @@ public class Path
     public void goLeft()
     {
         go_left_ = true;
-        go_left_pair_.left.setInvertedY(false);
-        go_left_pair_.right.setInvertedY(false);
     }
 
     public void goRight()
     {
         go_left_ = false;
-        go_left_pair_.left.setInvertedY(true);
-        go_left_pair_.right.setInvertedY(true);
     }
 
     public Trajectory getLeftWheelTrajectory()
@@ -60,8 +56,8 @@ public class Path
 
     public double getEndHeading()
     {
-        int numSegments = getLeftWheelTrajectory().getNumSegments();
-        Segment lastSegment = getLeftWheelTrajectory().getSegment(numSegments - 1);
+        int numSegments = getLeftWheelTrajectory().size();
+        Segment lastSegment = getLeftWheelTrajectory().get(numSegments - 1);
         return lastSegment.heading;
     }
 }

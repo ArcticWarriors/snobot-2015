@@ -30,10 +30,10 @@ public class TextFileSerializer implements IPathSerializer
         content += "LeftPos,LeftVelocity,LeftAcceleration,LeftJerk,LeftHeading,LeftDt,LeftX,LeftY,";
         content += "RightPos,RightVelocity,RightAcceleration,RightJerk,RightHeading,RightDt,RightX,RightY,";
         content += "\n";
-        for (int i = 0; i < left.getNumSegments(); ++i)
+        for (int i = 0; i < left.size(); ++i)
         {
-            Segment left_segment = left.getSegment(i);
-            Segment right_segment = right.getSegment(i);
+            Segment left_segment = left.get(i);
+            Segment right_segment = right.get(i);
 
             content += String.format(
                     "%.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f\n",

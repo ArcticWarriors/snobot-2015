@@ -39,7 +39,7 @@ public class TextFileDeserializer implements IPathDeserializer
             segment.x = Double.parseDouble(line_tokenizer.nextToken());
             segment.y = Double.parseDouble(line_tokenizer.nextToken());
 
-            left.setSegment(i, segment);
+            left.set(i, segment);
         }
         Trajectory right = new Trajectory(num_elements);
         for (int i = 0; i < num_elements; ++i)
@@ -57,7 +57,7 @@ public class TextFileDeserializer implements IPathDeserializer
             segment.x = Double.parseDouble(line_tokenizer.nextToken());
             segment.y = Double.parseDouble(line_tokenizer.nextToken());
 
-            right.setSegment(i, segment);
+            right.set(i, segment);
         }
 
         System.out.println("...finished parsing path from string.");

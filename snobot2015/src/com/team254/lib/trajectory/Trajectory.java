@@ -8,9 +8,8 @@ import java.util.List;
  *
  * @author Jared341
  */
-public class Trajectory
+public class Trajectory extends ArrayList<Segment>
 {
-
     public static class Pair
     {
         public Pair(Trajectory left, Trajectory right)
@@ -23,102 +22,54 @@ public class Trajectory
         public Trajectory right;
     }
 
-    List<Segment> segments_ = null;
-    boolean inverted_y_ = false;
+    public Trajectory()
+    {
+        super();
+    }
 
     public Trajectory(int length)
     {
-        segments_ = new ArrayList<>(length);
+        super(length);
         for (int i = 0; i < length; ++i)
         {
-            segments_.add(new Segment());
+            add(new Segment());
         }
     }
 
     public Trajectory(List<Segment> segments)
     {
-        segments_ = segments;
-    }
-
-    public void setInvertedY(boolean inverted)
-    {
-        inverted_y_ = inverted;
-    }
-
-    public int getNumSegments()
-    {
-        return segments_.size();
-    }
-
-    public Segment getSegment(int index)
-    {
-        if (index < getNumSegments())
-        {
-            if (!inverted_y_)
-            {
-                return segments_.get(index);
-            }
-            else
-            {
-                Segment segment = new Segment(segments_.get(index));
-                segment.y *= -1.0;
-                segment.heading *= -1.0;
-                return segment;
-            }
-        }
-        else
-        {
-            return new Segment();
-        }
-    }
-
-    public void setSegment(int index, Segment segment)
-    {
-        if (index < getNumSegments())
-        {
-            segments_.set(index, segment);
-        }
+        super(segments);
     }
 
     public void scale(double scaling_factor)
     {
-        for (int i = 0; i < getNumSegments(); ++i)
+        for (int i = 0; i < size(); ++i)
         {
-            segments_.get(i).pos *= scaling_factor;
-            segments_.get(i).vel *= scaling_factor;
-            segments_.get(i).acc *= scaling_factor;
-            segments_.get(i).jerk *= scaling_factor;
+            get(i).pos *= scaling_factor;
+            get(i).vel *= scaling_factor;
+            get(i).acc *= scaling_factor;
+            get(i).jerk *= scaling_factor;
         }
-    }
-
-    public void append(Trajectory to_append)
-    {
-        this.segments_.addAll(to_append.segments_);
     }
 
     public Trajectory copy()
     {
-        Trajectory cloned = new Trajectory(getNumSegments());
-        cloned.segments_ = copySegments(this.segments_);
+        Trajectory cloned = new Trajectory();
+
+        for (Segment s : this)
+        {
+            cloned.add(new Segment(s));
+        }
+
         return cloned;
     }
 
-    private List<Segment> copySegments(List<Segment> tocopy)
-    {
-        List<Segment> copied = new ArrayList<>(tocopy.size());
-        for (Segment s : tocopy)
-        {
-            copied.add(new Segment(s));
-        }
-        return copied;
-    }
-
-    public String toString()
+    public String toStringProfile()
     {
         String str = "Segment\tPos\tVel\tAcc\tJerk\tHeading\n";
-        for (int i = 0; i < getNumSegments(); ++i)
+        for (int i = 0; i < size(); ++i)
         {
-            Segment segment = getSegment(i);
+            Segment segment = get(i);
             str += i + "\t";
             str += segment.pos + "\t";
             str += segment.vel + "\t";
@@ -131,17 +82,12 @@ public class Trajectory
         return str;
     }
 
-    public String toStringProfile()
-    {
-        return toString();
-    }
-
     public String toStringEuclidean()
     {
         String str = "Segment\tx\ty\tHeading\n";
-        for (int i = 0; i < getNumSegments(); ++i)
+        for (int i = 0; i < size(); ++i)
         {
-            Segment segment = getSegment(i);
+            Segment segment = get(i);
             str += i + "\t";
             str += segment.x + "\t";
             str += segment.y + "\t";
@@ -150,5 +96,11 @@ public class Trajectory
         }
 
         return str;
+    }
+
+    @Override
+    public String toString()
+    {
+        return toStringProfile();
     }
 }
