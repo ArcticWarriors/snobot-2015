@@ -103,9 +103,9 @@ public class TrajectoryGenerator
         double total_heading_change = goal_heading - start_heading;
         for (int i = 0; i < traj.getNumSegments(); ++i)
         {
-            traj.segments_[i].heading = start_heading + total_heading_change
-                    * (traj.segments_[i].pos)
-                    / traj.segments_[traj.getNumSegments() - 1].pos;
+            traj.segments_.get(i).heading = start_heading + total_heading_change
+                    * (traj.segments_.get(i).pos)
+                    / traj.segments_.get(traj.getNumSegments() - 1).pos;
         }
 
         return traj;
@@ -245,27 +245,27 @@ public class TrajectoryGenerator
             f2 = f2 / f1_length;
 
             // Velocity is the normalized sum of f2 * the max velocity
-            traj.segments_[i].vel = f2 / f2_length * max_vel;
+            traj.segments_.get(i).vel = f2 / f2_length * max_vel;
 
             if (integration == IntegrationMethod.RectangularIntegration)
             {
-                traj.segments_[i].pos = traj.segments_[i].vel * dt + last.pos;
+                traj.segments_.get(i).pos = traj.segments_.get(i).vel * dt + last.pos;
             }
             else if (integration == IntegrationMethod.TrapezoidalIntegration)
             {
-                traj.segments_[i].pos = (last.vel
-                        + traj.segments_[i].vel) / 2.0 * dt + last.pos;
+                traj.segments_.get(i).pos = (last.vel
+                        + traj.segments_.get(i).vel) / 2.0 * dt + last.pos;
             }
-            traj.segments_[i].x = traj.segments_[i].pos;
-            traj.segments_[i].y = 0;
+            traj.segments_.get(i).x = traj.segments_.get(i).pos;
+            traj.segments_.get(i).y = 0;
 
             // Acceleration and jerk are the differences in velocity and
             // acceleration, respectively.
-            traj.segments_[i].acc = (traj.segments_[i].vel - last.vel) / dt;
-            traj.segments_[i].jerk = (traj.segments_[i].acc - last.acc) / dt;
-            traj.segments_[i].dt = dt;
+            traj.segments_.get(i).acc = (traj.segments_.get(i).vel - last.vel) / dt;
+            traj.segments_.get(i).jerk = (traj.segments_.get(i).acc - last.acc) / dt;
+            traj.segments_.get(i).dt = dt;
 
-            last = traj.segments_[i];
+            last = traj.segments_.get(i);
         }
 
         return traj;

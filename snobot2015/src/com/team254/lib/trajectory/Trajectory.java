@@ -1,5 +1,8 @@
 package com.team254.lib.trajectory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Implementation of a Trajectory using arrays as the underlying storage mechanism.
  *
@@ -20,19 +23,19 @@ public class Trajectory
         public Trajectory right;
     }
 
-    Segment[] segments_ = null;
+    List<Segment> segments_ = null;
     boolean inverted_y_ = false;
 
     public Trajectory(int length)
     {
-        segments_ = new Segment[length];
+        segments_ = new ArrayList<>(length);
         for (int i = 0; i < length; ++i)
         {
-            segments_[i] = new Segment();
+            segments_.add(new Segment());
         }
     }
 
-    public Trajectory(Segment[] segments)
+    public Trajectory(List<Segment> segments)
     {
         segments_ = segments;
     }
@@ -44,7 +47,7 @@ public class Trajectory
 
     public int getNumSegments()
     {
-        return segments_.length;
+        return segments_.size();
     }
 
     public Segment getSegment(int index)
@@ -53,11 +56,11 @@ public class Trajectory
         {
             if (!inverted_y_)
             {
-                return segments_[index];
+                return segments_.get(index);
             }
             else
             {
-                Segment segment = new Segment(segments_[index]);
+                Segment segment = new Segment(segments_.get(index));
                 segment.y *= -1.0;
                 segment.heading *= -1.0;
                 return segment;
@@ -73,7 +76,7 @@ public class Trajectory
     {
         if (index < getNumSegments())
         {
-            segments_[index] = segment;
+            segments_.set(index, segment);
         }
     }
 
@@ -81,28 +84,16 @@ public class Trajectory
     {
         for (int i = 0; i < getNumSegments(); ++i)
         {
-            segments_[i].pos *= scaling_factor;
-            segments_[i].vel *= scaling_factor;
-            segments_[i].acc *= scaling_factor;
-            segments_[i].jerk *= scaling_factor;
+            segments_.get(i).pos *= scaling_factor;
+            segments_.get(i).vel *= scaling_factor;
+            segments_.get(i).acc *= scaling_factor;
+            segments_.get(i).jerk *= scaling_factor;
         }
     }
 
     public void append(Trajectory to_append)
     {
-        Segment[] temp = new Segment[getNumSegments()
-                + to_append.getNumSegments()];
-
-        for (int i = 0; i < getNumSegments(); ++i)
-        {
-            temp[i] = new Segment(segments_[i]);
-        }
-        for (int i = 0; i < to_append.getNumSegments(); ++i)
-        {
-            temp[i + getNumSegments()] = new Segment(to_append.getSegment(i));
-        }
-
-        this.segments_ = temp;
+        this.segments_.addAll(to_append.segments_);
     }
 
     public Trajectory copy()
@@ -112,12 +103,12 @@ public class Trajectory
         return cloned;
     }
 
-    private Segment[] copySegments(Segment[] tocopy)
+    private List<Segment> copySegments(List<Segment> tocopy)
     {
-        Segment[] copied = new Segment[tocopy.length];
-        for (int i = 0; i < tocopy.length; ++i)
+        List<Segment> copied = new ArrayList<>(tocopy.size());
+        for (Segment s : tocopy)
         {
-            copied[i] = new Segment(tocopy[i]);
+            copied.add(new Segment(s));
         }
         return copied;
     }
