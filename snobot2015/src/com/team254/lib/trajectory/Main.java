@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.team254.lib.trajectory.io.TextFileSerializer;
 
@@ -45,7 +47,7 @@ public class Main
         return true;
     }
 
-    private static void generate(TrajectoryGenerator.Config config, WaypointSequence p, String directory, String path_name, double kWheelbaseWidth)
+    private static void generate(TrajectoryGenerator.Config config, List<Waypoint> p, String directory, String path_name, double kWheelbaseWidth)
     {
 
         Path path = PathGenerator.makePath(p, config,
@@ -89,10 +91,10 @@ public class Main
 
             // Description of this auto mode path.
             // Remember that this is for the GO LEFT CASE!
-            WaypointSequence p = new WaypointSequence(10);
-            p.addWaypoint(new WaypointSequence.Waypoint(0, 0, 0));
-            p.addWaypoint(new WaypointSequence.Waypoint(7.0, 0, 0));
-            p.addWaypoint(new WaypointSequence.Waypoint(14.0, 1.0, 0));
+            List<Waypoint> p = new ArrayList();
+            p.add(new Waypoint(0, 0, 0));
+            p.add(new Waypoint(7.0, 0, 0));
+            p.add(new Waypoint(14.0, 1.0, 0));
 
             generate(config, p, directory, path_name, kWheelbaseWidth);
         }
@@ -105,10 +107,10 @@ public class Main
             config.max_jerk = 50.0;
             config.max_vel = 10.0;
 
-            WaypointSequence p = new WaypointSequence(10);
-            p.addWaypoint(new WaypointSequence.Waypoint(0, 0, 0));
-            p.addWaypoint(new WaypointSequence.Waypoint(7.0, 0, 0));
-            p.addWaypoint(new WaypointSequence.Waypoint(14.0, 5.0, Math.PI / 12.0));
+            List<Waypoint> p = new ArrayList();
+            p.add(new Waypoint(0, 0, 0));
+            p.add(new Waypoint(7.0, 0, 0));
+            p.add(new Waypoint(14.0, 5.0, Math.PI / 12.0));
 
             generate(config, p, directory, path_name, kWheelbaseWidth);
         }
@@ -121,10 +123,10 @@ public class Main
             config.max_jerk = 50.0;
             config.max_vel = 12.0;
 
-            WaypointSequence p = new WaypointSequence(10);
-            p.addWaypoint(new WaypointSequence.Waypoint(0, 0, 0));
-            p.addWaypoint(new WaypointSequence.Waypoint(7.0, 0, 0));
-            p.addWaypoint(new WaypointSequence.Waypoint(15.0, 3, Math.PI / 12.0));
+            List<Waypoint> p = new ArrayList();
+            p.add(new Waypoint(0, 0, 0));
+            p.add(new Waypoint(7.0, 0, 0));
+            p.add(new Waypoint(15.0, 3, Math.PI / 12.0));
 
             generate(config, p, directory, path_name, kWheelbaseWidth);
         }
@@ -138,9 +140,9 @@ public class Main
             config.max_jerk = 50.0;
             config.max_vel = 11.75;
 
-            WaypointSequence p = new WaypointSequence(10);
-            p.addWaypoint(new WaypointSequence.Waypoint(0, 0, 0));
-            p.addWaypoint(new WaypointSequence.Waypoint(14, 0, 0));
+            List<Waypoint> p = new ArrayList();
+            p.add(new Waypoint(0, 0, 0));
+            p.add(new Waypoint(14, 0, 0));
 
             generate(config, p, directory, path_name, kWheelbaseWidth);
         }
