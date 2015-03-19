@@ -28,7 +28,7 @@ public class SimplePathSerializer
             {
 
                 mSerialFileWriter.write("" +
-                        df.format(pathPoint.mSegment) + "," +
+                        pathPoint.mSegment + "," +
                         df.format(pathPoint.mTime) + "," +
                         df.format(pathPoint.mPosition) + "," +
                         df.format(pathPoint.mVelocity) + "," +

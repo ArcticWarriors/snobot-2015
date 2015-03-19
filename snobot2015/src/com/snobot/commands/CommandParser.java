@@ -19,6 +19,8 @@ import com.snobot.commands.raw.RawRotateCommand;
 import com.snobot.commands.raw.RawStack;
 import com.snobot.xlib.path.SimplePathPoint;
 import com.snobot.xlib.path.simple.SimplePathDeserializer;
+import com.team254.lib.trajectory.Path;
+import com.team254.lib.trajectory.io.TextFileDeserializer;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -183,6 +185,16 @@ public class CommandParser
                 }
 
                 newCommand = new StraightSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
+
+                break;
+            }
+            case ConfigurationNames.sDRIVE_SPLINE_COMMAND:
+            {
+                String path = args.get(1);
+                TextFileDeserializer mSimpleDeserializer = new TextFileDeserializer();
+                Path points = mSimpleDeserializer.deserializeFromFile(path);
+
+                newCommand = new TrajectoryPathCommand(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
 
                 break;
             }

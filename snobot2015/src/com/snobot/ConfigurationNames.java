@@ -111,6 +111,7 @@ public class ConfigurationNames
     public static final String sDRIVE_PATH_KD = "DrivePathKD";
     public static final String sDRIVE_PATH_KV = "DrivePathKVel";
     public static final String sDRIVE_PATH_KA = "DrivePathKAccel";
+    public static final String sSPLINE_K_TURN = "SplineKTurn";
 
     // Autonomous Commands
     public static final String sSET_POSITION_COMMAND = "SetPosition";
@@ -126,6 +127,7 @@ public class ConfigurationNames
     public static final String sRAW_ROTATE_COMMAND = "RawRotate";
     public static final String sTURN_SIMPLE_COMMAND = "SimplePathRotate";
     public static final String sSTRAIGHT_SIMPLE_COMMAND = "SimplePathDrive";
+    public static final String sDRIVE_SPLINE_COMMAND = "DriveSplineCommand";
     
     // ////////////////////////////////
     // Preference Wrapper Functions //

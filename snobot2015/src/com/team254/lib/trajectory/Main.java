@@ -83,68 +83,68 @@ public class Main
 
         {
             config.dt = .01;
-            config.max_acc = 8.0;
-            config.max_jerk = 50.0;
-            config.max_vel = 10.0;
+            config.max_acc = 8.0 * 12;
+            config.max_jerk = 50.0 * 12;
+            config.max_vel = 10.0 * 12;
             // Path name must be a valid Java class name.
             final String path_name = "InsideLanePathFar";
 
             // Description of this auto mode path.
             // Remember that this is for the GO LEFT CASE!
             List<Waypoint> p = new ArrayList();
-            p.add(new Waypoint(0, 0, 0));
-            p.add(new Waypoint(7.0, 0, 0));
-            p.add(new Waypoint(14.0, 1.0, 0));
+            p.add(new Waypoint(0 * 12, 0, 0));
+            p.add(new Waypoint(7.0 * 12, 0, 0));
+            p.add(new Waypoint(14.0 * 12, 1.0 * 12, 0));
 
             generate(config, p, directory, path_name, kWheelbaseWidth);
         }
-
-        {
-            final String path_name = "CenterLanePathFar";
-
-            config.dt = .01;
-            config.max_acc = 8.0;
-            config.max_jerk = 50.0;
-            config.max_vel = 10.0;
-
-            List<Waypoint> p = new ArrayList();
-            p.add(new Waypoint(0, 0, 0));
-            p.add(new Waypoint(7.0, 0, 0));
-            p.add(new Waypoint(14.0, 5.0, Math.PI / 12.0));
-
-            generate(config, p, directory, path_name, kWheelbaseWidth);
-        }
-
-        {
-            final String path_name = "InsideLanePathClose";
-
-            config.dt = .01;
-            config.max_acc = 8.5;
-            config.max_jerk = 50.0;
-            config.max_vel = 12.0;
-
-            List<Waypoint> p = new ArrayList();
-            p.add(new Waypoint(0, 0, 0));
-            p.add(new Waypoint(7.0, 0, 0));
-            p.add(new Waypoint(15.0, 3, Math.PI / 12.0));
-
-            generate(config, p, directory, path_name, kWheelbaseWidth);
-        }
-
-        {
-            // Path name must be a valid Java class name.
-            final String path_name = "StraightAheadPath";
-
-            config.dt = .01;
-            config.max_acc = 9.0;
-            config.max_jerk = 50.0;
-            config.max_vel = 11.75;
-
-            List<Waypoint> p = new ArrayList();
-            p.add(new Waypoint(0, 0, 0));
-            p.add(new Waypoint(14, 0, 0));
-
-            generate(config, p, directory, path_name, kWheelbaseWidth);
-        }
+        //
+        // {
+        // final String path_name = "CenterLanePathFar";
+        //
+        // config.dt = .01;
+        // config.max_acc = 8.0;
+        // config.max_jerk = 50.0;
+        // config.max_vel = 10.0;
+        //
+        // List<Waypoint> p = new ArrayList();
+        // p.add(new Waypoint(0, 0, 0));
+        // p.add(new Waypoint(7.0, 0, 0));
+        // p.add(new Waypoint(14.0, 5.0, Math.PI / 12.0));
+        //
+        // generate(config, p, directory, path_name, kWheelbaseWidth);
+        // }
+        //
+        // {
+        // final String path_name = "InsideLanePathClose";
+        //
+        // config.dt = .01;
+        // config.max_acc = 8.5;
+        // config.max_jerk = 50.0;
+        // config.max_vel = 12.0;
+        //
+        // List<Waypoint> p = new ArrayList();
+        // p.add(new Waypoint(0, 0, 0));
+        // p.add(new Waypoint(7.0, 0, 0));
+        // p.add(new Waypoint(15.0, 3, Math.PI / 12.0));
+        //
+        // generate(config, p, directory, path_name, kWheelbaseWidth);
+        // }
+        //
+        // {
+        // // Path name must be a valid Java class name.
+        // final String path_name = "StraightAheadPath";
+        //
+        // config.dt = .01;
+        // config.max_acc = 9.0;
+        // config.max_jerk = 50.0;
+        // config.max_vel = 11.75;
+        //
+        // List<Waypoint> p = new ArrayList();
+        // p.add(new Waypoint(0, 0, 0));
+        // p.add(new Waypoint(14, 0, 0));
+        //
+        // generate(config, p, directory, path_name, kWheelbaseWidth);
+        // }
     }
 }
