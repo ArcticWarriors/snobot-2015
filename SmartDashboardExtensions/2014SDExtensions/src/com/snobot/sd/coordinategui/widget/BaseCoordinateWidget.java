@@ -14,7 +14,6 @@ import com.snobot.sd.coordinategui.AutonPointParser;
 import com.snobot.sd.coordinategui.Coordinate;
 import com.snobot.sd.coordinategui.FieldDrawerPanel;
 import com.snobot.sd.coordinategui.FieldProperties;
-import com.snobot.sd.coordinategui.FieldDrawerPanel.DrawingType;
 import com.snobot.sd.util.AutoUpdateWidget;
 
 import edu.wpi.first.smartdashboard.properties.ColorProperty;
@@ -147,8 +146,8 @@ public abstract class BaseCoordinateWidget extends AutoUpdateWidget
 
         
         Coordinate c = new Coordinate();
-        c.x = Robot.getTable().getNumber(SDKeys.sDISTANCE_X_SD_KEY, 0);
-        c.y = Robot.getTable().getNumber(SDKeys.sDISTANCE_Y_SD_KEY, 0);
+        c.x = Robot.getTable().getNumber(SDKeys.sDISTANCE_X_SD_KEY, 0) / 12.0;
+        c.y = Robot.getTable().getNumber(SDKeys.sDISTANCE_Y_SD_KEY, 0) / 12.0;
         c.angle = Robot.getTable().getNumber(SDKeys.sANGLE_KEY, 0);
         mPanel.addPoint(c);            
 

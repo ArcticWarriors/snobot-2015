@@ -69,6 +69,7 @@ public class SimplePathGeneratorMain
         double position = 9.5;
 
         return new SimplePathGeneratorConfig("TestDriveAutoZoneFromStep", max_vel * 12, max_accel * 12, position * 12, dt);
+
     }
 
     public SimplePathGeneratorMain()

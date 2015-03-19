@@ -60,14 +60,13 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
         double inches_per_sec = 7 * 12 * 2;
         double driveKp = -inches_per_sec / 124.125;
         
+
         mLeftDriveEnc.setSimulatorParams(driveKp);
         mRightDriveEnc.setSimulatorParams(driveKp);
         mStackerSimulator.setSimulatorParams(-1);
         
         
         mGyroSim = new TankDriveGyroSimulator(leftEncoder, rightEncoder, gyroChannel);
-
-        mGyroSim.setIsReverse(true, false);
 	}
 
 	@Override

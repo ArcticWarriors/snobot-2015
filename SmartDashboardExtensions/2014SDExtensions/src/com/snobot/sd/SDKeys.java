@@ -16,9 +16,9 @@ public class SDKeys
     public static final String GOAL_IS_HOT = "Goal is hot";
     
     //Drivetrain
-    public static final String sDISTANCE_X_SD_KEY = "Robot X";
-    public static final String sDISTANCE_Y_SD_KEY = "Robot Y";
-    public static final String sANGLE_KEY = "Angle";
+    public static final String sDISTANCE_X_SD_KEY = "X-position";
+    public static final String sDISTANCE_Y_SD_KEY = "Y-position";
+    public static final String sANGLE_KEY = "Heading";
     public static final String sDRIVE_GEAR_SD_KEY = "Driving Gear";
     public static final String sIS_CALIBRATING_SD_KEY = "Wheel Calibration Mode";
     public static final String sWHEEL_TO_CAL_SD_KEY = "Wheel to Calibrate";
