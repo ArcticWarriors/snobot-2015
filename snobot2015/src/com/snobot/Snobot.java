@@ -1,10 +1,17 @@
 package com.snobot;
 
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.snobot.claw.IClaw;
 import com.snobot.claw.SnobotClaw;
@@ -24,7 +31,6 @@ import com.snobot.stacker.IStacker;
 import com.snobot.stacker.SnobotStacker;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
@@ -41,7 +47,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
-import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -112,15 +117,15 @@ public class Snobot extends IterativeRobot
     {
         SmartDashboard.putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
 
-        USBCamera camera = new USBCamera("cam0");
-        camera.setFPS(5);
-        camera.setBrightness(10);
-        camera.setExposureManual(50);
-
-        CameraServer server = CameraServer.getInstance();
-        server.setQuality(10);
-        server.setSize(2);
-        server.startAutomaticCapture(camera);
+        // USBCamera camera = new USBCamera("cam0");
+        // camera.setFPS(5);
+        // camera.setBrightness(10);
+        // camera.setExposureManual(50);
+        //
+        // CameraServer server = CameraServer.getInstance();
+        // server.setQuality(10);
+        // server.setSize(2);
+        // server.startAutomaticCapture(camera);
 
 
 
@@ -133,7 +138,7 @@ public class Snobot extends IterativeRobot
     	int left_drive_motor_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1,  0);
     	int right_drive_motor_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1);
         int stacker_motor_port 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR,       2);
-        int rake_motor_port = 4; // TODO make constant
+        int rake_motor_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRAKE_MOTOR, 4);
         
         //Digital IO
     	int left_drive_enc_a 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 7);
@@ -142,7 +147,7 @@ public class Snobot extends IterativeRobot
     	int right_drive_enc_b 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6);
         int stacker_upper_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 1);
         int stacker_lower_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 2);
-        int rake_limit_switch_port = 0; // TODO make configurable
+        int rake_limit_switch_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRAKE_MOTOR_LS, 0);
         
         //Analog
         int transducer_port         = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sTRANSDUCER, 2);
@@ -236,6 +241,7 @@ public class Snobot extends IterativeRobot
         mSubsystems.add(mPositioner);
         mSubsystems.add(mRake);
 
+        // TODO Combine for loops
         mLogger.init();
         for (ISubsystem iSubsystem : mSubsystems)
         {
@@ -256,7 +262,14 @@ public class Snobot extends IterativeRobot
     
     private void readFile()
     {
-        mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+        if (mAutonChooser.getSelected() != null)
+        {
+            mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+        }
+        else
+        {
+            mAutonCommand = null;
+        }
     }
 
     private void addSmartDashboardListeners()
@@ -421,7 +434,8 @@ public class Snobot extends IterativeRobot
     {
         return this.mClaw;
     }
-   
+    
+
     private void readAutoFiles()
     {
         mAutonChooser = new SendableChooser();
@@ -430,43 +444,60 @@ public class Snobot extends IterativeRobot
         String autonIgnoreFilter = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "");
 
         System.out.println("Reading auton files from directory " + autonDr.getAbsolutePath());
-        System.out.println(" Using filter : " + autonIgnoreFilter);
+        System.out.println(" Using filter : \"" + autonIgnoreFilter + "\"");
 
-        if (autonDr.isDirectory())
+
+        try
         {
-            File[] autonFiles = autonDr.listFiles(new FilenameFilter()
+            SnobotAutonCrawler fileProcessor = new SnobotAutonCrawler();
+            Files.walkFileTree(Paths.get(autonDr.toURI()), fileProcessor);
+
+            for (Path p : fileProcessor.mPaths)
             {
-
-                @Override
-                public boolean accept(File dir, String name)
-                {
-                    boolean keep = !name.startsWith(autonIgnoreFilter) || autonIgnoreFilter.isEmpty();
-
-                    if (keep)
-                    {
-                        System.out.println("  Keeping file  : " + name);
-                    }
-                    else
-                    {
-                        System.out.println("  Ignoring file : " + name);
-                    }
-
-                    return keep;
-                }
-            });
-
-            for (int i = 0; i < autonFiles.length; i++)
-            {
-
-                if (autonFiles[i].isFile())
-                {
-                    mAutonChooser.addObject(autonFiles[i].getName(), autonFiles[i].getAbsolutePath());
-                }
-
+                mAutonChooser.addObject(p.getFileName().toString(), p.toString());
             }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
         
         SmartDashboard.putData("mAutonChooser", mAutonChooser );
 
+    }
+
+    private static final class SnobotAutonCrawler extends SimpleFileVisitor<Path>
+    {
+        private List<Path> mPaths;
+
+        public SnobotAutonCrawler()
+        {
+            mPaths = new ArrayList<Path>();
+        }
+
+        @Override
+        public FileVisitResult visitFile(Path aFile, BasicFileAttributes aAttrs) throws IOException
+        {
+            System.out.println("  Keeping file " + aFile);
+            mPaths.add(aFile);
+
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult preVisitDirectory(Path aDir, BasicFileAttributes aAttrs) throws IOException
+        {
+            Path dirName = aDir.getFileName();
+            if (dirName.startsWith(ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "")))
+            {
+                System.out.println(" Skipping directory: " + dirName);
+                return FileVisitResult.SKIP_SUBTREE;
+            }
+            else
+            {
+                System.out.println(" Processing directory: " + dirName);
+                return FileVisitResult.CONTINUE;
+            }
+        }
     }
 }

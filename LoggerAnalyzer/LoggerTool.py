@@ -182,7 +182,7 @@ def plot_dt(converted_dict):
 
 
 def main():
-    file_name = "RobotLog_20150206_080300371_log.csv"
+    file_name = "Team 174 Robot Logs - RobotLog_20150210_054531870_log.csv"
     converted_dict = load_csv_file(file_name)
 
     image_dir = "images/"

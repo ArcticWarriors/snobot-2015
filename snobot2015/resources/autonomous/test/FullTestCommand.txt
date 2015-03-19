@@ -1,0 +1,15 @@
+RawStack .5 true
+RawStack .5 false
+
+ClawGrab true 2
+ClawGrab false 2
+
+MoveClaw true 2
+MoveClaw false 2
+
+DriveForward 5 1 1
+DriveForward -5 1 1
+
+DriveRotate 90 .7 1
+DriveRotate 180 .7 1
+DriveRotate 0 .7 1

@@ -45,7 +45,7 @@ public class Logger
     {
 
         mConfigLogCount = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLOG_COUNT, 25);
-        mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "logs/");
+        mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "logs/"); //CHANGE THE LOG PATH TO /U  BEFORE COMPETITION
         mCurrentLogCount = 0;
 
         try

@@ -53,35 +53,20 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
         mRightDriveEnc = new LinearEncoderCalculator(rightDriveMotor, rightEncoder);
         mLeftDriveEnc = new LinearEncoderCalculator(leftDriveMotor, leftEncoder);
 
-        // mStackerSimulator = new StackerSimulator (
-        // stackerMotor, stackerPot, upperStackerLimit, lowerStackerLimit,
-        // ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_MIN_VOLTS, 0),
-        // ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_VOLTS_PER_INCH, 1));
-
-        // TODO update with non-hardcoded values
-
-        // double pot_voltage = mStackerPotentiometer.getVoltage();
-        // double pot_min_top = 3.596190;
-        // double pot_max_bot = 4.9731405;
-        // double pot_diff = (pot_max_bot - pot_min_top);
-        // double stacker_height = 24;
         DistanceCalculator pot_wrapper = new StackerPotSim(stackerPot);
         mStackerSimulator = new StackerSimulator (
                 stackerMotor, upperStackerLimit, lowerStackerLimit, pot_wrapper);
 
+        double inches_per_sec = 7 * 12 * 2;
+        double driveKp = -inches_per_sec / 124.125;
         
-        // stackerPot.setDistancePerTick(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSTACKER_POT_VOLTS_PER_INCH,
-        // .4));
-        
-        mLeftDriveEnc.setSimulatorParams(-.8);
-        mRightDriveEnc.setSimulatorParams(-.8);
+
+        mLeftDriveEnc.setSimulatorParams(driveKp);
+        mRightDriveEnc.setSimulatorParams(driveKp);
         mStackerSimulator.setSimulatorParams(-1);
-        // mStackerSimulator.setSimulatorParams(1);
         
         
         mGyroSim = new TankDriveGyroSimulator(leftEncoder, rightEncoder, gyroChannel);
-
-        mGyroSim.setIsReverse(true, false);
 	}
 
 	@Override
