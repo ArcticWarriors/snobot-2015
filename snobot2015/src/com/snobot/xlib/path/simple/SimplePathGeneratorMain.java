@@ -26,6 +26,51 @@ public class SimplePathGeneratorMain
         }
     }
 
+    private SimplePathGeneratorConfig genTestDriveStraight(double dt)
+    {
+        double max_vel = 7;
+        double max_accel = 20;
+        double position = 7;
+
+        return new SimplePathGeneratorConfig("TestDriveStraight", max_vel * 12, max_accel * 12, position * 12, dt);
+    }
+
+    private SimplePathGeneratorConfig genTestDriveFortyFiveDegree(double dt)
+    {
+        double max_vel = 3.5;
+        double max_accel = 20;
+        double position = 1;
+
+        return new SimplePathGeneratorConfig("TestDriveStraight", max_vel * 12, max_accel * 12, position * 12, dt);
+    }
+
+    private SimplePathGeneratorConfig genTestDriveAutoZone(double dt)
+    {
+        double max_vel = 4;
+        double max_accel = 20;
+        double position = 9.5;
+
+        return new SimplePathGeneratorConfig("TestDriveAutoZone", max_vel * 12, max_accel * 12, position * 12, dt);
+    }
+
+    private SimplePathGeneratorConfig genTestDriveCenterStep(double dt)
+    {
+        double max_vel = 5;
+        double max_accel = 20;
+        double position = 19;
+
+        return new SimplePathGeneratorConfig("TestDriveCenterStep", max_vel * 12, max_accel * 12, position * 12, dt);
+    }
+
+    private SimplePathGeneratorConfig genTestDriveAutoZoneFromStep(double dt)
+    {
+        double max_vel = -4;
+        double max_accel = 20;
+        double position = 9.5;
+
+        return new SimplePathGeneratorConfig("TestDriveAutoZoneFromStep", max_vel * 12, max_accel * 12, position * 12, dt);
+    }
+
     public SimplePathGeneratorMain()
     {
         double dt = .02;
@@ -38,7 +83,7 @@ public class SimplePathGeneratorMain
 
         List<SimplePathGeneratorConfig> configs = new ArrayList<SimplePathGeneratorConfig>();
 
-        configs.add(new SimplePathGeneratorConfig("TestDriveStraight", 7 * 12, 20 * 12, 7 * 12, dt));
+        configs.add(genTestDriveStraight(dt));
         configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 600, 90, dt));
         configs.add(new SimplePathGeneratorConfig("TestTurn90Slow", 20, 600, 90, dt));
 
