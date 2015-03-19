@@ -57,16 +57,37 @@ public class Main
         TextFileSerializer js = new TextFileSerializer();
         String serialized = js.serialize(path);
         // System.out.print(serialized);
-        String fullpath = joinPath(directory, path_name + ".txt");
+        String fullpath = joinPath(directory, path_name + ".csv");
         if (!writeFile(fullpath, serialized))
         {
-            System.err.println(fullpath + " could not be written!!!!1");
+            System.err.println(fullpath + " could not be written!!!!");
             System.exit(1);
         }
         else
         {
             System.out.println("Wrote " + fullpath);
         }
+    }
+
+    private static void generate3TotesComplicated(String directory, double kWheelbaseWidth)
+    {
+        TrajectoryGenerator.Config config = new TrajectoryGenerator.Config();
+        final String path_name = "3TotesComlicated";
+
+        config.dt = .01;
+        config.max_acc = 9.0 * 12;
+        config.max_jerk = 50.0 * 12;
+        config.max_vel = 4.0 * 12;
+
+        List<Waypoint> p = new ArrayList<Waypoint>();
+        p.add(new Waypoint(0, 0, 0));
+        p.add(new Waypoint(20, 20, 0));
+        p.add(new Waypoint(80, 0, 0));
+        p.add(new Waypoint(100, 20, 0));
+        p.add(new Waypoint(160, 0, 0));
+        p.add(new Waypoint(200, 70, (Math.PI / 2) - .005));
+
+        generate(config, p, directory, path_name, kWheelbaseWidth);
     }
 
     public static void main(String[] args)
@@ -78,73 +99,7 @@ public class Main
         }
 
         final double kWheelbaseWidth = 25.5 / 12;
-        TrajectoryGenerator.Config config = new TrajectoryGenerator.Config();
 
-
-        {
-            config.dt = .01;
-            config.max_acc = 8.0 * 12;
-            config.max_jerk = 50.0 * 12;
-            config.max_vel = 10.0 * 12;
-            // Path name must be a valid Java class name.
-            final String path_name = "InsideLanePathFar";
-
-            // Description of this auto mode path.
-            // Remember that this is for the GO LEFT CASE!
-            List<Waypoint> p = new ArrayList();
-            p.add(new Waypoint(0 * 12, 0, 0));
-            p.add(new Waypoint(7.0 * 12, 0, 0));
-            p.add(new Waypoint(14.0 * 12, 1.0 * 12, 0));
-
-            generate(config, p, directory, path_name, kWheelbaseWidth);
-        }
-        //
-        // {
-        // final String path_name = "CenterLanePathFar";
-        //
-        // config.dt = .01;
-        // config.max_acc = 8.0;
-        // config.max_jerk = 50.0;
-        // config.max_vel = 10.0;
-        //
-        // List<Waypoint> p = new ArrayList();
-        // p.add(new Waypoint(0, 0, 0));
-        // p.add(new Waypoint(7.0, 0, 0));
-        // p.add(new Waypoint(14.0, 5.0, Math.PI / 12.0));
-        //
-        // generate(config, p, directory, path_name, kWheelbaseWidth);
-        // }
-        //
-        // {
-        // final String path_name = "InsideLanePathClose";
-        //
-        // config.dt = .01;
-        // config.max_acc = 8.5;
-        // config.max_jerk = 50.0;
-        // config.max_vel = 12.0;
-        //
-        // List<Waypoint> p = new ArrayList();
-        // p.add(new Waypoint(0, 0, 0));
-        // p.add(new Waypoint(7.0, 0, 0));
-        // p.add(new Waypoint(15.0, 3, Math.PI / 12.0));
-        //
-        // generate(config, p, directory, path_name, kWheelbaseWidth);
-        // }
-        //
-        // {
-        // // Path name must be a valid Java class name.
-        // final String path_name = "StraightAheadPath";
-        //
-        // config.dt = .01;
-        // config.max_acc = 9.0;
-        // config.max_jerk = 50.0;
-        // config.max_vel = 11.75;
-        //
-        // List<Waypoint> p = new ArrayList();
-        // p.add(new Waypoint(0, 0, 0));
-        // p.add(new Waypoint(14, 0, 0));
-        //
-        // generate(config, p, directory, path_name, kWheelbaseWidth);
-        // }
+        generate3TotesComplicated(directory, kWheelbaseWidth);
     }
 }

@@ -1,5 +1,6 @@
 package com.snobot.commands;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import com.snobot.ConfigurationNames;
@@ -33,7 +34,7 @@ public class TrajectoryPathCommand extends Command
         double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KV, .012);
         double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KA, 0);
 
-        mKTurn = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSPLINE_K_TURN, 0);
+        mKTurn = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSPLINE_K_TURN, 0.04);
 
         followerLeft.configure(kP, 0, kD, kVelocity, kAccel);
         followerRight.configure(kP, 0, kD, kVelocity, kAccel);
@@ -62,14 +63,19 @@ public class TrajectoryPathCommand extends Command
         double speedLeft = followerLeft.calculate(distanceL);
         double speedRight = followerRight.calculate(distanceR);
 
-        double goalHeading = followerLeft.getHeading();
+        double goalHeading = Math.toDegrees(followerLeft.getHeading());
         double observedHeading = mSnobotPosition.getSnobotDegrees();
 
-        double angleDiffRads = Utilities.getDifferenceInAngleRadians(observedHeading, goalHeading);
-        double angleDiff = Math.toDegrees(angleDiffRads);
+        double angleDiff = Utilities.getDifferenceInAngleDegrees(observedHeading, goalHeading);
 
         double turn = mKTurn * angleDiff;
-        mDrivetrain.setMotorSpeed(speedLeft - turn, speedRight + turn);
+
+        DecimalFormat df = new DecimalFormat("#.000");
+        System.out
+                .println("Turn - Current : " + df.format(observedHeading) + ", desired: " + df.format(goalHeading) + ", output: " + df.format(turn));
+        System.out.println();
+
+        mDrivetrain.setMotorSpeed(speedLeft + turn, speedRight - turn);
 
     }
 

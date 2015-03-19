@@ -1,5 +1,7 @@
 package com.snobot.xlib.path.spline;
 
+import java.text.DecimalFormat;
+
 import com.team254.lib.trajectory.Segment;
 import com.team254.lib.trajectory.Trajectory;
 
@@ -56,9 +58,22 @@ public class TrajectoryFollower
         {
             Segment segment = profile_.get(current_segment);
             double error = segment.pos - distance_so_far;
-            double output = kp_ * error + kd_ * ((error - last_error_)
-                    / segment.dt - segment.vel) + (kv_ * segment.vel
-                    + ka_ * segment.acc);
+
+            double p_term = error * kp_;
+            double d_term = kd_ * ((error - last_error_) / segment.dt - segment.vel);
+            double v_term = kv_ * segment.vel;
+            double a_term = ka_ * segment.acc;
+            double output = p_term + d_term + v_term + a_term;
+
+            DecimalFormat df = new DecimalFormat("#.000");
+            System.out.println(name + " - " +
+                    "Current: " + df.format(distance_so_far) + ", " +
+                    "Desired: " + df.format(segment.pos) + ", " +
+                    "p: " + df.format(p_term) + ", " +
+                    "d: " + df.format(d_term) + ", " +
+                    "v: " + df.format(v_term) + ", " +
+                    "a: " + df.format(a_term) + ", " +
+                    "output: " + output);
 
             last_error_ = error;
             current_heading = segment.heading;
