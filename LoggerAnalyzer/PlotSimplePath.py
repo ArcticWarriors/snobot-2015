@@ -26,32 +26,52 @@ def load_csv_file(file_name):
     return converted_dict
 
 
-def create_plots(filepath):
+def create_plots(filepath, filename):
 
     converted_dict = load_csv_file(filepath)
-    print converted_dict.keys()
 
     segment = converted_dict['Segment Number']
-    time = converted_dict['Time']
+    dt = converted_dict['Time']
     position = converted_dict['Position']
     velocity = converted_dict['Velocity']
     acceleration = converted_dict['Acceleration']
 
-    plt.figure(1)
+    time = []
+    sum_time = 0
+    for i in range(len(dt)):
+        time.append(sum_time)
+        sum_time += dt[i]
+
+    plt.figure(filename)
+    plt.subplot(3, 1, 1)
     plt.title("Position")
     plt.scatter(time, position, c=segment)
 
-    plt.figure(2)
+    plt.subplot(3, 1, 2)
     plt.title("Velocity")
     plt.scatter(time, velocity, c=segment)
 
-    plt.figure(3)
+    plt.subplot(3, 1, 3)
     plt.title("Acceleration")
     plt.scatter(time, acceleration, c=segment)
 
-    plt.show()
-
 if __name__ == "__main__":
+<<<<<<< HEAD
 #     file_path = r"../snobot2015/resources/paths/TestTurn90.csv"
-    file_path = r"../snobot2015/resources/paths/TestDriveStraight.csv"
+    file_path = r"../snobot2015/resources/paths/TestTurn90Slow.csv"
     create_plots(os.path.abspath(file_path))
+=======
+
+    path_files = []
+
+    path_dir = r"../snobot2015/resources/paths/"
+
+    for root, _, files in os.walk(path_dir):
+        for f in files:
+            path_files.append(os.path.join(root, f))
+#
+    for f in path_files:
+        create_plots(f, f)
+#
+    plt.show()
+>>>>>>> branch 'master' of https://github.com/ArcticWarriors/snobot2015.git
