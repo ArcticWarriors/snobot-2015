@@ -225,6 +225,7 @@ public class SnobotPosition implements ISubsystem
         setSnobotDegreeRotation(aAngle);
 
         mDriveTrain.resetEncoders();
+        mLastDistance = 0;
 
         System.out.println("Reseting position");
     }
@@ -277,6 +278,7 @@ public class SnobotPosition implements ISubsystem
         SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_HEADING, this.getSnobotDegrees());
         SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_X_POSITION, this.mPositionX);
         SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_Y_POSITION, this.mPositionY);
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_INSTANT_VELOCITY, this.mDeltaDistance);
         
     }
 

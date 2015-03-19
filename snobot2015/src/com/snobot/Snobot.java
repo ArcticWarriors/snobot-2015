@@ -1,10 +1,17 @@
 package com.snobot;
 
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.snobot.claw.IClaw;
 import com.snobot.claw.SnobotClaw;
@@ -255,7 +262,14 @@ public class Snobot extends IterativeRobot
     
     private void readFile()
     {
-        mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+        if (mAutonChooser.getSelected() != null)
+        {
+            mAutonCommand = mParser.readFile(mAutonChooser.getSelected().toString());
+        }
+        else
+        {
+            mAutonCommand = null;
+        }
     }
 
     private void addSmartDashboardListeners()
@@ -420,7 +434,8 @@ public class Snobot extends IterativeRobot
     {
         return this.mClaw;
     }
-   
+    
+
     private void readAutoFiles()
     {
         mAutonChooser = new SendableChooser();
@@ -429,43 +444,60 @@ public class Snobot extends IterativeRobot
         String autonIgnoreFilter = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "");
 
         System.out.println("Reading auton files from directory " + autonDr.getAbsolutePath());
-        System.out.println(" Using filter : " + autonIgnoreFilter);
+        System.out.println(" Using filter : \"" + autonIgnoreFilter + "\"");
 
-        if (autonDr.isDirectory())
+
+        try
         {
-            File[] autonFiles = autonDr.listFiles(new FilenameFilter()
+            SnobotAutonCrawler fileProcessor = new SnobotAutonCrawler();
+            Files.walkFileTree(Paths.get(autonDr.toURI()), fileProcessor);
+
+            for (Path p : fileProcessor.mPaths)
             {
-
-                @Override
-                public boolean accept(File dir, String name)
-                {
-                    boolean keep = !name.startsWith(autonIgnoreFilter) || autonIgnoreFilter.isEmpty();
-
-                    if (keep)
-                    {
-                        System.out.println("  Keeping file  : " + name);
-                    }
-                    else
-                    {
-                        System.out.println("  Ignoring file : " + name);
-                    }
-
-                    return keep;
-                }
-            });
-
-            for (int i = 0; i < autonFiles.length; i++)
-            {
-
-                if (autonFiles[i].isFile())
-                {
-                    mAutonChooser.addObject(autonFiles[i].getName(), autonFiles[i].getAbsolutePath());
-                }
-
+                mAutonChooser.addObject(p.getFileName().toString(), p.toString());
             }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
         
         SmartDashboard.putData("mAutonChooser", mAutonChooser );
 
+    }
+
+    private static final class SnobotAutonCrawler extends SimpleFileVisitor<Path>
+    {
+        private List<Path> mPaths;
+
+        public SnobotAutonCrawler()
+        {
+            mPaths = new ArrayList<Path>();
+        }
+
+        @Override
+        public FileVisitResult visitFile(Path aFile, BasicFileAttributes aAttrs) throws IOException
+        {
+            System.out.println("  Keeping file " + aFile);
+            mPaths.add(aFile);
+
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult preVisitDirectory(Path aDir, BasicFileAttributes aAttrs) throws IOException
+        {
+            Path dirName = aDir.getFileName();
+            if (dirName.startsWith(ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "")))
+            {
+                System.out.println(" Skipping directory: " + dirName);
+                return FileVisitResult.SKIP_SUBTREE;
+            }
+            else
+            {
+                System.out.println(" Processing directory: " + dirName);
+                return FileVisitResult.CONTINUE;
+            }
+        }
     }
 }

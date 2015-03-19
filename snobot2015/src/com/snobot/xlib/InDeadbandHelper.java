@@ -1,4 +1,4 @@
-package com.snobot.commands;
+package com.snobot.xlib;
 
 public class InDeadbandHelper
 {

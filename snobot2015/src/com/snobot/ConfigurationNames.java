@@ -93,6 +93,9 @@ public class ConfigurationNames
     public static final String sAUTON_IGNORE_STRING = "AutonIgnoreString";
     public static final String sDEFAULT_AUTON_DIR = "/home/lvuser/autonoumous/";
 
+    public static final String sPATH_DIR = "PathDir";
+    public static final String sDEFAULT_PATH_DIR = "/home/lvuser/paths/";
+
     public static final String sRAKE_JOYSTICK_VALUE_UP = "RakeJoystickValueUpDeadband";
     public static final String sRAKE_JOYSTICK_VALUE_DOWN = "RakeJoystickValueDownDeadband";
     public static final String sMOVE_RAKE = "MoveRake";
@@ -103,9 +106,15 @@ public class ConfigurationNames
 
     // Turn Path
     public static final String sTURN_PATH_KP = "TurnPathKP";
-    public static final String sTURN_PATH_KFF = "TurnPathKFF";
+    public static final String sTURN_PATH_KD = "TurnPathKD";
+    public static final String sTURN_PATH_KV = "TurnPathKVel";
+    public static final String sTURN_PATH_KA = "TurnPathKAccel";
+
     public static final String sDRIVE_PATH_KP = "DrivePathKP";
-    public static final String sDRIVE_PATH_KFF = "DrivePathKFF";
+    public static final String sDRIVE_PATH_KD = "DrivePathKD";
+    public static final String sDRIVE_PATH_KV = "DrivePathKVel";
+    public static final String sDRIVE_PATH_KA = "DrivePathKAccel";
+    public static final String sSPLINE_K_TURN = "SplineKTurn";
 
     // Autonomous Commands
     public static final String sSET_POSITION_COMMAND = "SetPosition";
@@ -118,8 +127,10 @@ public class ConfigurationNames
     public static final String sMOVE_CLAW_COMMAND = "MoveClaw";
     public static final String sSMART_STACK_COMMAND = "SmartStack";
     public static final String sRAW_DRIVE_COMMAND = "RawDrive";
-    public static final String sTURN_SIMPLE_COMMAND = "TurnSimplePath";
-    public static final String sSTRAIGHT_SIMPLE_COMMAND = "StraightSimplePath";
+    public static final String sRAW_ROTATE_COMMAND = "RawRotate";
+    public static final String sTURN_SIMPLE_COMMAND = "SimplePathRotate";
+    public static final String sSTRAIGHT_SIMPLE_COMMAND = "SimplePathDrive";
+    public static final String sDRIVE_SPLINE_COMMAND = "DriveSplineCommand";
     
     // ////////////////////////////////
     // Preference Wrapper Functions //

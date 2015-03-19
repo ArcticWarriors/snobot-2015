@@ -1,8 +1,10 @@
-package com.snobot.xlib.simplePath;
+package com.snobot.xlib.path.simple;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.snobot.xlib.path.SimplePathPoint;
 
 public class SimplePathGeneratorMain
 {
@@ -36,9 +38,9 @@ public class SimplePathGeneratorMain
 
         List<SimplePathGeneratorConfig> configs = new ArrayList<SimplePathGeneratorConfig>();
 
-        configs.add(new SimplePathGeneratorConfig("TestDriveStraight", 7, 100, 7, dt));
-        configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 1800, 90, dt));
-        configs.add(new SimplePathGeneratorConfig("TestTurn90Slow", 20, 1800, 90, dt));
+        configs.add(new SimplePathGeneratorConfig("TestDriveStraight", 7 * 12, 20 * 12, 7 * 12, dt));
+        configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 600, 90, dt));
+        configs.add(new SimplePathGeneratorConfig("TestTurn90Slow", 20, 600, 90, dt));
 
         SimplePathGenerator gen = new SimplePathGenerator();
         SimplePathSerializer serializer = new SimplePathSerializer();

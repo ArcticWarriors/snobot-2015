@@ -5,8 +5,8 @@ import java.util.List;
 import com.snobot.ConfigurationNames;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
-import com.snobot.xlib.simplePath.SimplePathFollower;
-import com.snobot.xlib.simplePath.SimplePathPoint;
+import com.snobot.xlib.path.SimplePathPoint;
+import com.snobot.xlib.path.simple.SimplePathFollower;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -23,8 +23,13 @@ public class TurnSimplePath extends Command
         mDrivetrain = aDrivetrain;
         mSnobotPosition = aSnobotPosition;
         mListPoints = aListPoints;
-        mSimplePathFollower = new SimplePathFollower(mListPoints, ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KP, .1),
-                ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KFF, .5));
+
+        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KP, 0);
+        double kD = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KD, 0);
+        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KV, 0.002);
+        double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KA, 0);
+
+        mSimplePathFollower = new SimplePathFollower(mListPoints, kP, kD, kVelocity, kAccel);
     }
     
     @Override

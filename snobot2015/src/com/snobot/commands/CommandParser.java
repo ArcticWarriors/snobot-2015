@@ -12,7 +12,15 @@ import java.util.StringTokenizer;
 import com.snobot.ConfigurationNames;
 import com.snobot.SmartDashboardNames;
 import com.snobot.Snobot;
-import com.snobot.xlib.simplePath.SimplePathDeserializer;
+import com.snobot.commands.raw.DriveForward;
+import com.snobot.commands.raw.DriveRotate;
+import com.snobot.commands.raw.RawDriveFoward;
+import com.snobot.commands.raw.RawRotateCommand;
+import com.snobot.commands.raw.RawStack;
+import com.snobot.xlib.path.SimplePathPoint;
+import com.snobot.xlib.path.simple.SimplePathDeserializer;
+import com.team254.lib.trajectory.Path;
+import com.team254.lib.trajectory.io.TextFileDeserializer;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -41,6 +49,7 @@ public class CommandParser
      */
     private void commandParser(CommandGroup aGroup, String aLine)
     {
+        String pathsDir = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sPATH_DIR, ConfigurationNames.sDEFAULT_PATH_DIR);
     	aLine = aLine.trim();
     	if(aLine.isEmpty() || aLine.startsWith("#"))
     	{
@@ -112,6 +121,11 @@ public class CommandParser
                         mSnobot.getDriveTrain());
                 break;
 
+            case ConfigurationNames.sRAW_ROTATE_COMMAND:
+                newCommand = new RawRotateCommand(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
+                        mSnobot.getDriveTrain());
+                break;
+
             case ConfigurationNames.sDRIVE_ROTATE_SMARTER_COMMAND:
                 newCommand = new DriveRotateSmartur(
                         Double.parseDouble(args.get(1)), 
@@ -147,19 +161,49 @@ public class CommandParser
                 break;
             case ConfigurationNames.sTURN_SIMPLE_COMMAND:
             {
-                String path = args.get(1);
+                String path = pathsDir + "/" + args.get(1);
                 SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
+                List<SimplePathPoint> points = mSimpleDeserializer.deserialize(path);
 
-                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.read(path));
+                if (points.isEmpty())
+                {
+                    addError("Could not read SimplePoint path at '" + path + "'");
+                }
+
+                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
 
                 break;
             }
             case ConfigurationNames.sSTRAIGHT_SIMPLE_COMMAND:
             {
-                String path = args.get(1);
+                String path = pathsDir + "/" + args.get(1);
                 SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
+                List<SimplePathPoint> points = mSimpleDeserializer.deserialize(path);
 
-                newCommand = new StraightSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), mSimpleDeserializer.read(path));
+                if (points.isEmpty())
+                {
+                    addError("Could not read SimplePoint path at '" + path + "'");
+                }
+
+                newCommand = new StraightSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
+
+                break;
+            }
+            case ConfigurationNames.sDRIVE_SPLINE_COMMAND:
+            {
+                String path = pathsDir + "/" + args.get(1);
+                TextFileDeserializer mSimpleDeserializer = new TextFileDeserializer();
+                Path points = mSimpleDeserializer.deserializeFromFile(path);
+
+                if (points.getPair() == null)
+                {
+                    addError("Could not read trajectory path at '" + path + "'");
+                }
+                else
+                {
+                    newCommand = new TrajectoryPathCommand(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
+                }
+
 
                 break;
             }
@@ -238,7 +282,6 @@ public class CommandParser
 
         CommandGroup output = createNewCommandGroup(aFilePath);
 
-        System.out.println("Reading auton file : " + aFilePath);
         SmartDashboard.putString(SmartDashboardNames.sAUTON_FILENAME, aFilePath);
 
         String fileContents = "";
@@ -288,8 +331,6 @@ public class CommandParser
     {
         String new_text = SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "");
         String filename = SmartDashboard.getString(SmartDashboardNames.sAUTON_FILENAME, "auton_file.txt");
-
-        System.out.println("Saving auton mode to " + filename);
         
         try
         {

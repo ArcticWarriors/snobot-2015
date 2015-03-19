@@ -1,4 +1,4 @@
-package com.snobot.xlib.simplePath;
+package com.snobot.xlib.path.simple;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import com.snobot.xlib.path.SimplePathPoint;
+
 public class SimplePathDeserializer
 {
-    public List<SimplePathPoint> read(String aFileDeserialPath)
+    public List<SimplePathPoint> deserialize(String aFileDeserialPath)
     {
         List<SimplePathPoint> output = new ArrayList<>();
 
@@ -16,11 +18,12 @@ public class SimplePathDeserializer
         {
             BufferedReader br = new BufferedReader(new FileReader(aFileDeserialPath));
 
+            String line;
             boolean firstLine = true;
 
-            String line;
             while ((line = br.readLine()) != null)
             {
+                // Skip the header line
                 if (firstLine)
                 {
                     firstLine = false;

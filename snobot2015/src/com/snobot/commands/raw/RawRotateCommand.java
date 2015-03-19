@@ -1,11 +1,11 @@
-package com.snobot.commands;
+package com.snobot.commands.raw;
 
 import com.snobot.drivetrain.IDriveTrain;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RawDriveFoward extends Command
+public class RawRotateCommand extends Command
 {
     private final Timer mTimer;
     private final double mSpeed;
@@ -13,7 +13,7 @@ public class RawDriveFoward extends Command
 
     private final IDriveTrain mDriveTrain;
 
-    public RawDriveFoward(double aSpeed, double aTimeout, IDriveTrain aDriveTrain)
+    public RawRotateCommand(double aSpeed, double aTimeout, IDriveTrain aDriveTrain)
     {
         mSpeed = aSpeed;
         mDriveTrain = aDriveTrain;
@@ -33,7 +33,7 @@ public class RawDriveFoward extends Command
      */
     protected void execute()
     {
-        mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
+        mDriveTrain.setMotorSpeed(mSpeed, -mSpeed);
     }
 
     @Override
