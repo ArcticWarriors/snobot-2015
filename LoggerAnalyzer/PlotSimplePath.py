@@ -1,44 +1,3 @@
-
-<<<<<<< HEAD
-import csv
-import matplotlib.pyplot as plt
-import numpy
-import time
-import os
-from matplotlib.cm import cmap_d
-from matplotlib.pyplot import subplot
-
-
-def load_csv_file(file_name):
-
-    with open(file_name) as csvfile:
-        reader = csv.DictReader(csvfile)
-
-        col_names = reader.fieldnames
-        rows = list(reader)
-
-        num_rows = len(rows)
-
-        converted_dict = {}
-        for col_name in col_names:
-            converted_dict[col_name] = numpy.zeros(num_rows)
-
-        for i, row in enumerate(rows):
-            for col_name in col_names:
-
-                if col_name == 'Date and Time':
-                    converted_dict[col_name][i] = parse_datetime(row[col_name])
-                elif col_name == 'Drive Mode':
-                    if converted_dict[col_name][i] == "Tank":
-                        row[col_name] = 0
-                    else:
-                        row[col_name] = 1
-                   
-                else:
-                    converted_dict[col_name][i] = row[col_name]
-
-    return converted_dict
-=======
 import os
 import csv
 import numpy
@@ -69,6 +28,9 @@ def load_csv_file(file_name):
 def create_plots(filepath, filename):
 
     converted_dict = load_csv_file(filepath)
+    
+    if 'Segment Number' not in converted_dict:
+        return
 
     segment = converted_dict['Segment Number']
     dt = converted_dict['Time']
@@ -96,12 +58,6 @@ def create_plots(filepath, filename):
     plt.scatter(time, acceleration, c=segment)
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-<<<<<<< HEAD
-#     file_path = r"../snobot2015/resources/paths/TestTurn90.csv"
-    file_path = r"../snobot2015/resources/paths/TestTurn90Slow.csv"
-    create_plots(os.path.abspath(file_path))
-=======
 
     path_files = []
 
@@ -115,20 +71,3 @@ if __name__ == "__main__":
         create_plots(f, f)
 #
     plt.show()
->>>>>>> branch 'master' of https://github.com/ArcticWarriors/snobot2015.git
-=======
-
-    path_files = []
-
-    path_dir = r"../snobot2015/resources/paths/"
-
-    for root, _, files in os.walk(path_dir):
-        for f in files:
-            path_files.append(os.path.join(root, f))
-#
-    for f in path_files:
-        create_plots(f, f)
-#
-    plt.show()
->>>>>>> branch 'master' of https://github.com/ArcticWarriors/snobot2015.git
->>>>>>> branch 'master' of https://github.com/ArcticWarriors/snobot2015.git

@@ -50,7 +50,7 @@ public class SimplePathGeneratorMain
         double max_accel = 20;
         double position = 1;
 
-        return new SimplePathGeneratorConfig("TestDriveStraight", max_vel * 12, max_accel * 12, position * 12, dt);
+        return new SimplePathGeneratorConfig("TestDriveFortyFiveDegree", max_vel * 12, max_accel * 12, position * 12, dt);
     }
 
     private SimplePathGeneratorConfig genTestDriveAutoZone(double dt)
