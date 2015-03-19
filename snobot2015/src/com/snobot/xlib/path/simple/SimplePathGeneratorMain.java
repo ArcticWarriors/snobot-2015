@@ -26,6 +26,15 @@ public class SimplePathGeneratorMain
         }
     }
 
+    private SimplePathGeneratorConfig genTestDriveStraight(double dt)
+    {
+        double velocity = 4;
+        double accel = 10;
+        double position = 7;
+
+        return new SimplePathGeneratorConfig("TestDriveStraight", velocity * 12, accel * 12, position * 12, dt);
+    }
+
     public SimplePathGeneratorMain()
     {
         double dt = .02;
@@ -38,7 +47,7 @@ public class SimplePathGeneratorMain
 
         List<SimplePathGeneratorConfig> configs = new ArrayList<SimplePathGeneratorConfig>();
 
-        configs.add(new SimplePathGeneratorConfig("TestDriveStraight", 7 * 12, 20 * 12, 7 * 12, dt));
+        configs.add(genTestDriveStraight(dt));
         configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 600, 90, dt));
         configs.add(new SimplePathGeneratorConfig("TestTurn90Slow", 20, 600, 90, dt));
 
