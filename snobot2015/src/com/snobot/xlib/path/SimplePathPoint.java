@@ -1,12 +1,12 @@
-package com.snobot.xlib.simplePath;
+package com.snobot.xlib.path;
 
 public class SimplePathPoint
 {
-    int mSegment;
-    double mTime;
-    double mPosition;
-    double mVelocity;
-    double mAcceleration;
+    public int mSegment;
+    public double mTime;
+    public double mPosition;
+    public double mVelocity;
+    public double mAcceleration;
 
     public SimplePathPoint(int aSegment, double aTime, double aPosition, double aVelocity, double aAccel)
     {

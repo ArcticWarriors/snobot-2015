@@ -1,8 +1,10 @@
-package com.snobot.xlib.simplePath;
+package com.snobot.xlib.path.simple;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.snobot.xlib.path.SimplePathPoint;
 
 public class SimplePathGeneratorMain
 {

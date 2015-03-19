@@ -5,8 +5,8 @@ import java.util.List;
 import com.snobot.ConfigurationNames;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
-import com.snobot.xlib.simplePath.SimplePathFollower;
-import com.snobot.xlib.simplePath.SimplePathPoint;
+import com.snobot.xlib.path.SimplePathPoint;
+import com.snobot.xlib.path.simple.SimplePathFollower;
 
 import edu.wpi.first.wpilibj.command.Command;
 

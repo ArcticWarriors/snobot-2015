@@ -1,10 +1,12 @@
-package com.snobot.xlib.simplePath;
+package com.snobot.xlib.path.simple;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.snobot.xlib.path.SimplePathPoint;
 
 public class SimplePathSerializer
 {
