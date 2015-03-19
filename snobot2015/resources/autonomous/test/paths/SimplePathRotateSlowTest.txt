@@ -1,1 +1,1 @@
-SimplePathRotate ../../snobot2015/resources/paths/TestTurn90Slow.csv
+SimplePathRotate TestTurn90Slow.csv

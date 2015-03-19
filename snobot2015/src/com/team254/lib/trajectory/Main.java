@@ -90,6 +90,23 @@ public class Main
         generate(config, p, directory, path_name, kWheelbaseWidth);
     }
 
+    private static void generate3ToteStraight(String directory, double kWheelbaseWidth)
+    {
+        TrajectoryGenerator.Config config = new TrajectoryGenerator.Config();
+        final String path_name = "3ToteStraight";
+
+        config.dt = .01;
+        config.max_acc = 9.0 * 12;
+        config.max_jerk = 50.0 * 12;
+        config.max_vel = 8.0 * 12;
+
+        List<Waypoint> p = new ArrayList();
+        p.add(new Waypoint(0, 0, 0));
+        p.add(new Waypoint(20 * 12, 0, 0));
+
+        generate(config, p, directory, path_name, kWheelbaseWidth);
+    }
+
     public static void main(String[] args)
     {
         String directory = "resources/paths";
@@ -101,5 +118,6 @@ public class Main
         final double kWheelbaseWidth = 25.5 / 12;
 
         generate3TotesComplicated(directory, kWheelbaseWidth);
+        generate3ToteStraight(directory, kWheelbaseWidth);
     }
 }

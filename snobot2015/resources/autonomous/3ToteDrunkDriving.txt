@@ -1,1 +1,1 @@
-DriveSplineCommand ../../snobot2015/resources/paths/3TotesComlicated.csv
+DriveSplineCommand 3TotesComlicated.csv
