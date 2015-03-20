@@ -207,6 +207,13 @@ public class CommandParser
 
                 break;
             }
+            case ConfigurationNames.sTHREE_TOTE_STACK_COMMAND:
+            {
+                newCommand = new ThreeToteStackCommand(mSnobot.getSnobotStacker(), Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
+                        Double.parseDouble(args.get(3)), Double.parseDouble(args.get(4)));
+
+                break;
+            }
             default:
                 addError("Unknown command name: " + commandName);
                 break;
