@@ -55,9 +55,9 @@ public class SimplePathGeneratorMain
 
     private SimplePathGeneratorConfig genTestDriveAutoZone(double dt)
     {
-        double max_vel = 4;
+        double max_vel = 2;
         double max_accel = 20;
-        double position = 9.5;
+        double position = 8;
 
         return new SimplePathGeneratorConfig("TestDriveAutoZone", max_vel * 12, max_accel * 12, position * 12, dt);
     }
@@ -74,11 +74,20 @@ public class SimplePathGeneratorMain
     private SimplePathGeneratorConfig genTestDriveAutoZoneFromStep(double dt)
     {
         double max_vel = -4;
-        double max_accel = 20;
-        double position = 9.5;
+        double max_accel = -20;
+        double position = -8;
 
         return new SimplePathGeneratorConfig("TestDriveAutoZoneFromStep", max_vel * 12, max_accel * 12, position * 12, dt);
 
+    }
+
+    private SimplePathGeneratorConfig genContainerDistance(double dt)
+    {
+        double max_vel = 1;
+        double max_accel = 5;
+        double position = 1;
+
+        return new SimplePathGeneratorConfig("ContainerPath", max_vel * 12, max_accel * 12, position * 12, dt);
     }
 
     public SimplePathGeneratorMain()
@@ -98,6 +107,8 @@ public class SimplePathGeneratorMain
         configs.add(genTestDriveAutoZone(dt));
         configs.add(genTestDriveTurn90(dt));
         configs.add(genTestDriveCenterStep(dt));
+        configs.add(genContainerDistance(dt));
+
         // configs.add(genTestDriveAutoZoneFromStep(dt));
         configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 600, 90, dt));
         configs.add(new SimplePathGeneratorConfig("TestTurn90Slow", 20, 600, 90, dt));
