@@ -1,1 +1,2 @@
-DriveSplineCommand 3TotesComlicated.csv
+&DriveSplineCommand 3TotesComlicated.csv
+ThreeToteStackCommand 4 8 12 13

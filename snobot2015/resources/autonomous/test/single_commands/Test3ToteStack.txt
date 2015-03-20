@@ -1,1 +1,1 @@
-ThreeToteStackCommand 2 4 6 8
+ThreeToteStackCommand 4 8 12 13
