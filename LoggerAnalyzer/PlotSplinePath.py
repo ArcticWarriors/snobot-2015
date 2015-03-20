@@ -1,29 +1,8 @@
 
+
 import os
-import csv
-import numpy
 import matplotlib.pyplot as plt
-
-
-def load_csv_file(file_name):
-
-    with open(file_name) as csvfile:
-        reader = csv.DictReader(csvfile)
-
-        col_names = reader.fieldnames
-        rows = list(reader)
-
-        num_rows = len(rows)
-
-        converted_dict = {}
-        for col_name in col_names:
-            converted_dict[col_name] = numpy.zeros(num_rows)
-
-        for i, row in enumerate(rows):
-            for col_name in col_names:
-                converted_dict[col_name][i] = row[col_name]
-
-    return converted_dict
+from read_csv_file import load_csv_file
 
 
 def create_plots(filepath, filename):
@@ -82,14 +61,6 @@ def create_plots(filepath, filename):
     plt.title("Position")
     plt.scatter(left_x, left_y, c=time)
     plt.scatter(right_x, right_y, c=time)
-
-#         plt.subplot(num_rows, num_cols, i + 7)
-#         plt.title(direction + " X")
-#         plt.scatter(time, x)
-#
-#         plt.subplot(num_rows, num_cols, i + 9)
-#         plt.title(direction + " Y")
-#         plt.scatter(time, y)
 
 
 if __name__ == "__main__":

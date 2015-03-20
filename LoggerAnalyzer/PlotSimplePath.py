@@ -1,34 +1,13 @@
+
 import os
-import csv
-import numpy
 import matplotlib.pyplot as plt
-
-
-def load_csv_file(file_name):
-
-    with open(file_name) as csvfile:
-        reader = csv.DictReader(csvfile)
-
-        col_names = reader.fieldnames
-        rows = list(reader)
-
-        num_rows = len(rows)
-
-        converted_dict = {}
-        for col_name in col_names:
-            converted_dict[col_name] = numpy.zeros(num_rows)
-
-        for i, row in enumerate(rows):
-            for col_name in col_names:
-                converted_dict[col_name][i] = row[col_name]
-
-    return converted_dict
+from read_csv_file import load_csv_file
 
 
 def create_plots(filepath, filename):
 
     converted_dict = load_csv_file(filepath)
-    
+
     if 'Segment Number' not in converted_dict:
         return
 

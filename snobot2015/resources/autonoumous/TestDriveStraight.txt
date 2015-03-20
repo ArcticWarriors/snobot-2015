@@ -1,2 +1,0 @@
-TurnSimplePath C:\Users\1335draco\Documents\GitHub\snobot2015\snobot2015\resources\paths\TestTurn90Slow.csv
-StraightSimplePath C:\Users\1335draco\Documents\GitHub\snobot2015\snobot2015\resources\paths\TestDriveStraight.csv
