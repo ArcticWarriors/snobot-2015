@@ -72,12 +72,12 @@ public class Main
     private static void generate3TotesComplicated(String directory, double kWheelbaseWidth)
     {
         TrajectoryGenerator.Config config = new TrajectoryGenerator.Config();
-        final String path_name = "3TotesComlicated";
+        final String path_name = "3TotesSWERVE";
 
-        config.dt = .01;
-        config.max_acc = 9.0 * 12;
-        config.max_jerk = 50.0 * 12;
-        config.max_vel = 4.0 * 12;
+        config.dt = .02;
+        config.max_acc = 7.0 * 12;
+        config.max_jerk = 40.0 * 12;
+        config.max_vel = 2.2 * 12;
 
         List<Waypoint> p = new ArrayList<Waypoint>();
         p.add(new Waypoint(0, 0, 0));
@@ -95,7 +95,7 @@ public class Main
         TrajectoryGenerator.Config config = new TrajectoryGenerator.Config();
         final String path_name = "3ToteStraight";
 
-        config.dt = .01;
+        config.dt = .02;
         config.max_acc = 9.0 * 12;
         config.max_jerk = 50.0 * 12;
         config.max_vel = 8.0 * 12;
@@ -112,7 +112,7 @@ public class Main
         TrajectoryGenerator.Config config = new TrajectoryGenerator.Config();
         final String path_name = "TestTrajectory";
 
-        config.dt = .01;
+        config.dt = .02;
         config.max_acc = 9.0 * 12;
         config.max_jerk = 50.0 * 12;
         config.max_vel = 4.0 * 12;
