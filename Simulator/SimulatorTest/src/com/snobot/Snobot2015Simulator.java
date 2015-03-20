@@ -18,8 +18,8 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
     
     private TankDriveGyroSimulator mGyroSim;
     
-	public Snobot2015Simulator()
-	{
+    public Snobot2015Simulator()
+    {
         EncoderWrapper rightEncoder = SensorActuatorRegistry.get().getEncoder(
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_A, 1), 
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 1));
@@ -44,11 +44,11 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
                 ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 1));
         
         DigitalSourceWrapper lowerStackerLimit = SensorActuatorRegistry.get().getDigitalSources().get(
-        		ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 1));
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 1));
         
         DigitalSourceWrapper upperStackerLimit = SensorActuatorRegistry.get().getDigitalSources().get(
-        		ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 2));
-	   
+                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 2));
+       
 
         mRightDriveEnc = new LinearEncoderCalculator(rightDriveMotor, rightEncoder);
         mLeftDriveEnc = new LinearEncoderCalculator(leftDriveMotor, leftEncoder);
@@ -57,28 +57,29 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
         mStackerSimulator = new StackerSimulator (
                 stackerMotor, upperStackerLimit, lowerStackerLimit, pot_wrapper);
 
-        double inches_per_sec = 7 * 12 * 2;
+        double inches_per_sec = 7 * 12;
         double driveKp = -inches_per_sec / 124.125;
         
-
         mLeftDriveEnc.setSimulatorParams(driveKp);
         mRightDriveEnc.setSimulatorParams(driveKp);
         mStackerSimulator.setSimulatorParams(-1);
         
         
         mGyroSim = new TankDriveGyroSimulator(leftEncoder, rightEncoder, gyroChannel);
-	}
 
-	@Override
-	public void looped() {
+        mGyroSim.setIsReverse(true, false);
+    }
+
+    @Override
+    public void looped() {
         mRightDriveEnc.update();
         mLeftDriveEnc.update();
         mGyroSim.update();
         mStackerSimulator.update();
-	}
+    }
 
-	@Override
-	public void setConfigFile(String simulator_config) {
-		//Not implemented...
-	}
+    @Override
+    public void setConfigFile(String simulator_config) {
+        //Not implemented...
+    }
 }
