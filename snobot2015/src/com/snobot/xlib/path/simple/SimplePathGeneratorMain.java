@@ -44,13 +44,13 @@ public class SimplePathGeneratorMain
         return new SimplePathGeneratorConfig("TestDriveSlowStraight", max_vel * 12, max_accel * 12, position * 12, dt);
     }
 
-    private SimplePathGeneratorConfig genTestDriveFortyFiveDegree(double dt)
+    private SimplePathGeneratorConfig genTestDriveTurn90(double dt)
     {
         double max_vel = 3.5;
         double max_accel = 20;
         double position = 1;
 
-        return new SimplePathGeneratorConfig("TestDriveFortyFiveDegree", max_vel * 12, max_accel * 12, position * 12, dt);
+        return new SimplePathGeneratorConfig("TestDrive90Degrees", max_vel * 12, max_accel * 12, position * 12, dt);
     }
 
     private SimplePathGeneratorConfig genTestDriveAutoZone(double dt)
@@ -96,7 +96,7 @@ public class SimplePathGeneratorMain
         configs.add(genTestDriveStraight(dt));
         configs.add(genTestDriveStraightSlow(dt));
         configs.add(genTestDriveAutoZone(dt));
-        configs.add(genTestDriveFortyFiveDegree(dt));
+        configs.add(genTestDriveTurn90(dt));
         configs.add(genTestDriveCenterStep(dt));
         // configs.add(genTestDriveAutoZoneFromStep(dt));
         configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 600, 90, dt));
