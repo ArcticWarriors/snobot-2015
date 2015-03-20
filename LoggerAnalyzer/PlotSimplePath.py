@@ -2,6 +2,7 @@
 import os
 import matplotlib.pyplot as plt
 from read_csv_file import load_csv_file
+import fnmatch
 
 
 def create_plots(filepath, filename):
@@ -39,12 +40,15 @@ def create_plots(filepath, filename):
 if __name__ == "__main__":
 
     path_files = []
+    plot_pattern = "*"
+    plot_pattern = "*Dat*"
 
     path_dir = r"../snobot2015/resources/paths/"
 
     for root, _, files in os.walk(path_dir):
         for f in files:
-            path_files.append(os.path.join(root, f))
+            if fnmatch.fnmatch(f, plot_pattern):
+                path_files.append(os.path.join(root, f))
 #
     for f in path_files:
         create_plots(f, f)

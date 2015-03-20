@@ -90,6 +90,15 @@ public class SimplePathGeneratorMain
         return new SimplePathGeneratorConfig("ContainerPath", max_vel * 12, max_accel * 12, position * 12, dt);
     }
 
+    private SimplePathGeneratorConfig genBackupOffDatTote(double dt)
+    {
+        double max_vel = -5;
+        double max_accel = -20;
+        double position = -2.5;
+
+        return new SimplePathGeneratorConfig("BackupOffDatTote", max_vel * 12, max_accel * 12, position * 12, dt);
+    }
+
     public SimplePathGeneratorMain()
     {
         double dt = .02;
@@ -108,8 +117,8 @@ public class SimplePathGeneratorMain
         configs.add(genTestDriveTurn90(dt));
         configs.add(genTestDriveCenterStep(dt));
         configs.add(genContainerDistance(dt));
-
-        // configs.add(genTestDriveAutoZoneFromStep(dt));
+        configs.add(genBackupOffDatTote(dt));
+        configs.add(genTestDriveAutoZoneFromStep(dt));
         configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 600, 90, dt));
         configs.add(new SimplePathGeneratorConfig("TestTurn90Slow", 20, 600, 90, dt));
 
