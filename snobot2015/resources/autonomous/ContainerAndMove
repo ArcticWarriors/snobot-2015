@@ -1,5 +1,12 @@
-MoveClaw true 2 & ClawGrab true 3
-MoveClaw true 2 & ClawGrab true 3
-SimplePathDrive TestDrive90Degrees.csv
+SmartStack 0 
+SmartStack 2
+
+&MoveClaw true 3 
+ClawGrab true 3
+
+
+MoveClaw false 3
+ClawGrab false 3
+SimplePathRotate TestDrive90Degrees.csv
 SimplePathDrive TestDriveAutoZone.csv
-SimplePathDrive TestDrive90Degrees.csv 
+#SimplePathDrive TestDrive90Degrees.csv 
