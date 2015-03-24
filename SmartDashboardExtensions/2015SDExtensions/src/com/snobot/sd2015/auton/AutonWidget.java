@@ -5,8 +5,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.snobot.sd.config.SmartDashboardNames;
-import com.snobot.sd.config.WidgetConfiguration;
+import com.snobot.sd2015.config.SmartDashboardNames;
+import com.snobot.sd2015.config.WidgetConfiguration;
 
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.Property;
@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.tables.ITableListener;
 
 public class AutonWidget extends StaticWidget
 {
+    public static final String NAME = "2015 Auton Widget";
+
     private AutonPanel mPanel;
     
     public AutonWidget() {

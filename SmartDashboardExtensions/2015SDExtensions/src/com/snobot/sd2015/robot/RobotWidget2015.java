@@ -1,11 +1,11 @@
-package com.snobot.sd.robot;
+package com.snobot.sd2015.robot;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import com.snobot.sd.config.SmartDashboardNames;
+import com.snobot.sd2015.config.SmartDashboardNames;
 
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.Property;

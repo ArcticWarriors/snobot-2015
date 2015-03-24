@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
-import com.snobot.sd.config.SmartDashboardNames;
+import com.snobot.sd2015.config.SmartDashboardNames;
 
 import edu.wpi.first.smartdashboard.robot.Robot;
 import edu.wpi.first.wpilibj.tables.ITable;

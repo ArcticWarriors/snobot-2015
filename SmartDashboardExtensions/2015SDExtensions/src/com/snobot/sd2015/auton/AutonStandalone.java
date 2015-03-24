@@ -2,8 +2,6 @@ package com.snobot.sd2015.auton;
 
 import javax.swing.JFrame;
 
-import com.snobot.sd.button.SDButton;
-
 public class AutonStandalone {
 
 

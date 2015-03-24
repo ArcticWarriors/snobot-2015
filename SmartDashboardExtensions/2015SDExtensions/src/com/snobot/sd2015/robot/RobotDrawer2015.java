@@ -1,4 +1,4 @@
-package com.snobot.sd.robot;
+package com.snobot.sd2015.robot;
 
 import java.awt.Color;
 import java.awt.Dimension;

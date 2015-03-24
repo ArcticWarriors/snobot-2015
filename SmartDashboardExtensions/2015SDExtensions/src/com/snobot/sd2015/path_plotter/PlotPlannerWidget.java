@@ -1,9 +1,9 @@
-package com.snobot.sd.path_plotter;
+package com.snobot.sd2015.path_plotter;
 
 import java.awt.BorderLayout;
 import java.util.StringTokenizer;
 
-import com.snobot.sd.config.SmartDashboardNames;
+import com.snobot.sd2015.config.SmartDashboardNames;
 import com.snobot.sd2015.util.AutoUpdateWidget;
 
 import edu.wpi.first.smartdashboard.properties.Property;

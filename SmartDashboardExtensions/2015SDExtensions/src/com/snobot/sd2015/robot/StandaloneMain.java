@@ -1,4 +1,4 @@
-package com.snobot.sd.robot;
+package com.snobot.sd2015.robot;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

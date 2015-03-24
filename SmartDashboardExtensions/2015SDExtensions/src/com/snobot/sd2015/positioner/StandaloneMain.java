@@ -1,4 +1,4 @@
-package com.snobot.sd.robot.positioner;
+package com.snobot.sd2015.positioner;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;

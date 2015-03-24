@@ -1,4 +1,4 @@
-package com.snobot.sd.path_plotter;
+package com.snobot.sd2015.path_plotter;
 
 import java.util.ArrayList;
 import java.util.List;

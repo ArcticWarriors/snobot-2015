@@ -1,4 +1,4 @@
-package com.snobot.sd.config;
+package com.snobot.sd2015.config;
 
 public class WidgetConfiguration {
 
