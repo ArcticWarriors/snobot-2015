@@ -96,13 +96,16 @@ public class Main
         final String path_name = "3ToteStraight";
 
         config.dt = .02;
-        config.max_acc = 9.0 * 12;
-        config.max_jerk = 50.0 * 12;
-        config.max_vel = 8.0 * 12;
+        config.max_acc = 7.0 * 12;
+        config.max_jerk = 40.0 * 12;
+        config.max_vel = 1.6 * 12;
 
-        List<Waypoint> p = new ArrayList();
+        double end_x = 20 * 12;
+
+        List<Waypoint> p = new ArrayList<Waypoint>();
         p.add(new Waypoint(0, 0, 0));
-        p.add(new Waypoint(20 * 12, 0, 0));
+        p.add(new Waypoint(160, 0, 0));
+        p.add(new Waypoint(200, 70, (Math.PI / 2) - .005));
 
         generate(config, p, directory, path_name, kWheelbaseWidth);
     }
