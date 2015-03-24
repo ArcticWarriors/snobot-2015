@@ -39,11 +39,12 @@ public abstract class AutoUpdateWidget extends StaticWidget
         {
             while (!destroyed)
             {
-                poll();
                 try
                 {
+                    poll();
                     Thread.sleep(mUpdateMs);
-                } catch (InterruptedException ex)
+                }
+                catch (Exception ex)
                 {
                 }
             }
@@ -57,5 +58,5 @@ public abstract class AutoUpdateWidget extends StaticWidget
         }
     }
 
-    protected abstract void poll();
+    protected abstract void poll() throws Exception;
 }

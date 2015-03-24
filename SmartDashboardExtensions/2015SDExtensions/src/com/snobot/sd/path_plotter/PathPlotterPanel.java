@@ -17,7 +17,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class PathPlotterPanel extends JPanel
 {
     private XYSeriesCollection mCollection;
+    private XYSeries mIdealPosition;
     private XYSeries mIdealVelocity;
+    private XYSeries mRealPosition;
     private XYSeries mRealVelocity;
 
     JPanel m_chartPanel;
@@ -25,30 +27,26 @@ public class PathPlotterPanel extends JPanel
     public PathPlotterPanel()
     {
         setLayout(new BorderLayout());
+        mIdealPosition = new XYSeries("Ideal Position");
         mIdealVelocity = new XYSeries("Ideal Velocity");
         mRealVelocity = new XYSeries("Real Velocity");
+        mRealPosition = new XYSeries("Real Position");
 
         mCollection = new XYSeriesCollection();
+        mCollection.addSeries(mIdealPosition);
         mCollection.addSeries(mIdealVelocity);
         mCollection.addSeries(mRealVelocity);
-
-
-        // mIdealVelocity.addChangeListener(arg0);
-
-        // XYSeries
+        mCollection.addSeries(mRealPosition);
 
         // final TimeSeriesCollection dataset1 = createRandomDataset("Series 1");
-        final JFreeChart chart = ChartFactory.createXYLineChart(
-                "XXXX",
-                "Time (units)",
+        final JFreeChart chart = ChartFactory.createXYLineChart("Motion Profile", "Time (sec)",
                 "Data",
                 mCollection,
                 PlotOrientation.VERTICAL,
-                false,
+                true,
                 true,
                 false);
         chart.setBackgroundPaint(Color.white);
-
 
         m_chartPanel = new ChartPanel(chart);
         m_chartPanel.setPreferredSize(new Dimension(400, 300));
@@ -57,26 +55,29 @@ public class PathPlotterPanel extends JPanel
         add(m_chartPanel, BorderLayout.CENTER);
     }
 
-    public void setPath(List<Double> path_points)
+    public void setPath(List<SimplePathPoint> path_points)
     {
+        mIdealPosition.clear();
         mIdealVelocity.clear();
         clearActuals();
 
         for (int i = 0; i < path_points.size(); ++i)
         {
-            mIdealVelocity.add(i, path_points.get(i));
+            mIdealPosition.add(i, path_points.get(i).mPosition);
+            mIdealVelocity.add(i, path_points.get(i).mVelocity);
         }
     }
 
     public void clearActuals()
     {
+        mRealPosition.clear();
         mRealVelocity.clear();
     }
 
-    public void setVelPoint(int index, double velocity)
+    public void setPoint(int index, SimplePathPoint aPoint)
     {
-        System.out.println("Setting velocity point at " + index + " to " + velocity);
-        mRealVelocity.add(index, velocity);
+        mRealPosition.add(index, aPoint.mPosition);
+        mRealVelocity.add(index, aPoint.mVelocity);
     }
 
 }

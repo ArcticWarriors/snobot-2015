@@ -14,23 +14,43 @@ public class StandaloneMain
     {
         JFrame frame = new JFrame();
 
-        PathPlotterPanel panel = new PathPlotterPanel();
+        final PathPlotterPanel panel = new PathPlotterPanel();
 
-        List<Double> path_points = new ArrayList<Double>();
+        final List<SimplePathPoint> path_points = new ArrayList<SimplePathPoint>();
 
-        for (int i = 0; i < 10; ++i)
+        SimplePathPoint p;
+
+        p = new SimplePathPoint();
+        p.mVelocity = 0;
+        p.mPosition = 0;
+        path_points.add(p);
+
+        for (int i = 1; i < 10; ++i)
         {
-            path_points.add(0 + i * .7);
+            p = new SimplePathPoint();
+            p.mVelocity = 0 + i * .7;
+            p.mPosition = path_points.get(path_points.size() - 1).mPosition + p.mVelocity * .02;
+            path_points.add(p);
         }
         for (int i = 0; i < 20; ++i)
         {
-            path_points.add(7.0);
+            p = new SimplePathPoint();
+            p.mVelocity = 7.0;
+            p.mPosition = path_points.get(path_points.size() - 1).mPosition + p.mVelocity * .02;
+            path_points.add(p);
         }
         for (int i = 0; i < 10; ++i)
         {
-            path_points.add(7 - i * .7);
+            p = new SimplePathPoint();
+            p.mVelocity = 7 - i * .7;
+            p.mPosition = path_points.get(path_points.size() - 1).mPosition + p.mVelocity * .02;
+            path_points.add(p);
         }
-        path_points.add(0.0);
+
+        p = new SimplePathPoint();
+        p.mVelocity = 0;
+        p.mPosition = path_points.get(path_points.size() - 1).mPosition + p.mVelocity * .02;
+        path_points.add(p);
 
         panel.setPath(path_points);
 
@@ -53,13 +73,29 @@ public class StandaloneMain
             @Override
             public void run()
             {
+                List<SimplePathPoint> actuals = new ArrayList<SimplePathPoint>();
+
                 for (int i = 0; i < path_points.size(); ++i)
                 {
-                    panel.setVelPoint(i, 5);;
+                    SimplePathPoint p = path_points.get(i);
+                    p.mVelocity *= .9;
+                    p.mPosition = 0;
+
+                    if (i != 0)
+                    {
+                        p.mPosition = actuals.get(i - 1).mPosition + p.mVelocity * .02;
+                    }
+
+                    actuals.add(p);
+                }
+
+                for (int i = 0; i < actuals.size(); ++i)
+                {
+                    panel.setPoint(i, actuals.get(i));
 
                     try
                     {
-                        Thread.sleep(1000);
+                        Thread.sleep(500);
                     }
                     catch (InterruptedException e)
                     {

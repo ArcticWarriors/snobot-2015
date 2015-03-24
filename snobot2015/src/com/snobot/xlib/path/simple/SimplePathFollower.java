@@ -1,8 +1,10 @@
 package com.snobot.xlib.path.simple;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import com.snobot.SmartDashboardNames;
+import com.snobot.xlib.path.IdealPlotSerializer;
 import com.snobot.xlib.path.SimplePathPoint;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -49,15 +51,7 @@ public class SimplePathFollower
 
     private void sendIdealPath()
     {
-
-        StringBuilder output = new StringBuilder();
-
-        for (int i = 0; i < mListPoints.size(); ++i)
-        {
-            output.append(mListPoints.get(i).mVelocity + ",");
-        }
-
-        SmartDashboard.putString(SmartDashboardNames.sSIMPLE_IDEAL_PATH, output.toString());
+        SmartDashboard.putString(SmartDashboardNames.sSIMPLE_IDEAL_PATH, IdealPlotSerializer.serializePath(mListPoints));
     }
 
     public double calculate(double aCurrPosition)
@@ -79,10 +73,22 @@ public class SimplePathFollower
 
         double velocity = (aCurrPosition - mLastPosition) / point.mTime;
 
-        System.out.println("i = " + mPathIndex + ", cur = " + aCurrPosition + ", " + mLastPosition + ", " + velocity);
+        SimplePathPoint actual_point = new SimplePathPoint(point.mSegment, point.mTime, aCurrPosition, velocity, 0);
 
-        String point_info = mPathIndex + "," + velocity;
+        // System.out.println("i = " + mPathIndex + ", cur = " + aCurrPosition +
+        // ", " + mLastPosition + ", " + velocity);
 
+        DecimalFormat df = new DecimalFormat("#.000");
+        System.out.println("" +
+                "Current: " + df.format(aCurrPosition) + ", " +
+                "Desired: " + df.format(point.mPosition) + ", " +
+                "p: " + df.format(p_term) + ", " +
+                "d: " + df.format(d_term) + ", " +
+                "v: " + df.format(v_term) + ", " +
+                "a: " + df.format(a_term) + ", " +
+                "output: " + output);
+
+        String point_info = mPathIndex + "," + IdealPlotSerializer.serializePathPoint(actual_point);
         SmartDashboard.putString(SmartDashboardNames.sSIMPLE_PATH_POINT_INFO, point_info);
 
         mLastError = error;

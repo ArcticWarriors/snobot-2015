@@ -1,8 +1,6 @@
 package com.snobot.sd.path_plotter;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 import com.snobot.sd.config.SmartDashboardNames;
@@ -40,16 +38,7 @@ public class PlotPlannerWidget extends AutoUpdateWidget
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
             {
-                List<Double> points = new ArrayList<Double>();
-                StringTokenizer tokenizer = new StringTokenizer(arg2.toString(), ",");
-
-                while (tokenizer.hasMoreElements())
-                {
-                    double d = Double.parseDouble(tokenizer.nextToken());
-                    points.add(d);
-                }
-
-                mPanel.setPath(points);
+                mPanel.setPath(IdealPlotSerializer.deserializePath(arg2.toString()));
                 mLastIndex = 0;
                 revalidate();
                 repaint();
@@ -69,7 +58,7 @@ public class PlotPlannerWidget extends AutoUpdateWidget
     }
 
     @Override
-    protected void poll()
+    protected void poll() throws Exception
     {
         String point_info = Robot.getTable().getString(SmartDashboardNames.sSIMPLE_PATH_POINT_INFO, "");
 
@@ -87,8 +76,7 @@ public class PlotPlannerWidget extends AutoUpdateWidget
 
             if (index > mLastIndex)
             {
-                double velocity = Double.parseDouble(tokenizer.nextElement().toString());
-                mPanel.setVelPoint(index, velocity);
+                mPanel.setPoint(index, IdealPlotSerializer.deserializePathPoint(tokenizer));
             }
 
             mLastIndex = index;

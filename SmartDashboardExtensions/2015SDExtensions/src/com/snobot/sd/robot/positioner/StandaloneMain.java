@@ -13,7 +13,7 @@ public class StandaloneMain
     {
         JFrame frame = new JFrame();
 
-        RobotWidget2015Positioner panel = new RobotWidget2015Positioner();
+        final RobotWidget2015Positioner panel = new RobotWidget2015Positioner();
 
         panel.setRobotPosition(90, 24, 45);
 
