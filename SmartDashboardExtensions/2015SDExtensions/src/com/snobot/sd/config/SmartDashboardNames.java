@@ -28,6 +28,7 @@ public class SmartDashboardNames
     public static final String sSNOBOT_HEADING = "Heading";
     public static final String sSNOBOT_X_POSITION = "X-position";
     public static final String sSNOBOT_Y_POSITION = "Y-position";
+    public static final String sSNOBOT_INSTANT_VELOCITY = "Velocity";
     public static final String sSNOBOT_DISTANCE_LEFT = "Left Distance";
     public static final String sSNOBOT_DISTANCE_RIGHT ="Right Distance";
     
@@ -40,6 +41,8 @@ public class SmartDashboardNames
     // Rake
     public static final String sLIMIT_SWITCH_DEPRESSED = "Limit Switch Depressed";
     public static final String sRAKE_MOTOR = "Rake Motor";
+    public static final String sRAKE_JOYSTICK_VALUE_UP = "RakeJoystickValueUp";
+    public static final String sRAKE_JOYSTICK_VALUE_DOWN = "RakeJoystickValueDown";
 
     // Auton Widget stuff
     public static final String sROBOT_COMMAND_TEXT = "Robot Command text";
@@ -47,5 +50,9 @@ public class SmartDashboardNames
     public static final String sSUCCESFULLY_PARSED_AUTON = "Parsed Command";
     public static final String sSAVE_REQUEST = "Should save?";
     public static final String sAUTON_FILENAME = "Auton Filename";
+
+    // Path Widget stuff
+    public static final String sSIMPLE_PATH_POINT_INFO = "CurrentPathInfo";
+    public static final String sSIMPLE_IDEAL_PATH = "IdealPath";
 
 }

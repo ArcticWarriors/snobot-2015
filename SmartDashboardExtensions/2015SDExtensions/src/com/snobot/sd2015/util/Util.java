@@ -1,4 +1,4 @@
-package com.snobot.sd.util;
+package com.snobot.sd2015.util;
 
 import java.awt.Color;
 

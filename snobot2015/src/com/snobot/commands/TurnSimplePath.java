@@ -35,6 +35,7 @@ public class TurnSimplePath extends Command
     @Override
     protected void initialize()
     {
+        mSimplePathFollower.init();
         mStartingDegrees = mSnobotPosition.getSnobotDegrees();
         
     }

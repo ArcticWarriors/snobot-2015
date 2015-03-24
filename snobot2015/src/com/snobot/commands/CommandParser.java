@@ -50,12 +50,12 @@ public class CommandParser
     private void commandParser(CommandGroup aGroup, String aLine)
     {
         String pathsDir = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sPATH_DIR, ConfigurationNames.sDEFAULT_PATH_DIR);
-    	aLine = aLine.trim();
-    	if(aLine.isEmpty() || aLine.startsWith("#"))
-    	{
-    		return;
-    	}
-    	
+        aLine = aLine.trim();
+        if(aLine.isEmpty() || aLine.startsWith("#"))
+        {
+            return;
+        }
+        
         StringTokenizer tokenizer = new StringTokenizer(aLine, sDELIMITER);
 
         List<String> args = new ArrayList<>();
@@ -236,11 +236,11 @@ public class CommandParser
         }
         else if (isParallel)
         {
-        	aGroup.addParallel(newCommand);
+            aGroup.addParallel(newCommand);
         }
         else
         {
-        	aGroup.addSequential(newCommand);
+            aGroup.addSequential(newCommand);
         }
     }
     
@@ -281,6 +281,7 @@ public class CommandParser
         mErrorText = "";
 
         mSnobot.getPositioner().setPosition(0, 0, 0);
+        SmartDashboard.putString(SmartDashboardNames.sSIMPLE_IDEAL_PATH, "");
     }
 
     public CommandGroup readFile(String aFilePath)
@@ -292,7 +293,7 @@ public class CommandParser
         SmartDashboard.putString(SmartDashboardNames.sAUTON_FILENAME, aFilePath);
 
         String fileContents = "";
-    	
+        
         try
         {
             BufferedReader br = new BufferedReader(new FileReader(aFilePath));

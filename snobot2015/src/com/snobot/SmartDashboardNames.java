@@ -51,4 +51,8 @@ public class SmartDashboardNames
     public static final String sSAVE_REQUEST = "Should save?";
     public static final String sAUTON_FILENAME = "Auton Filename";
 
+    // Path Widget stuff
+    public static final String sSIMPLE_PATH_POINT_INFO = "CurrentPathInfo";
+    public static final String sSIMPLE_IDEAL_PATH = "IdealPath";
+
 }

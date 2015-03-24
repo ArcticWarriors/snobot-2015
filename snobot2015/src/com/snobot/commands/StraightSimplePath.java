@@ -36,6 +36,7 @@ public class StraightSimplePath extends Command
     @Override
     protected void initialize()
     {
+        mSimplePathFollower.init();
         mStartingDistance = mSnobotPosition.getTotalDistance();
         t.start();
         

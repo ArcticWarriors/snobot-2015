@@ -1,9 +1,11 @@
 package com.snobot.xlib.path.simple;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
+import com.snobot.SmartDashboardNames;
 import com.snobot.xlib.path.SimplePathPoint;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SimplePathFollower
 {
@@ -16,7 +18,9 @@ public class SimplePathFollower
     private int mPathIndex = 0;
     private List<SimplePathPoint> mListPoints;
 
-    public SimplePathFollower(List<SimplePathPoint> aListPoints,
+    private double mLastPosition;
+
+    public SimplePathFollower(List<SimplePathPoint> aPath,
             double aKp,
             double aKd,
             double aKv,
@@ -29,7 +33,31 @@ public class SimplePathFollower
 
         mLastError = 0;
         mPathIndex = 0;
-        mListPoints = aListPoints;
+        mLastPosition = 0;
+        mListPoints = aPath;
+
+        if (SmartDashboard.getString(SmartDashboardNames.sSIMPLE_IDEAL_PATH, "").isEmpty())
+        {
+            sendIdealPath();
+        }
+    }
+
+    public void init()
+    {
+        sendIdealPath();
+    }
+
+    private void sendIdealPath()
+    {
+
+        StringBuilder output = new StringBuilder();
+
+        for (int i = 0; i < mListPoints.size(); ++i)
+        {
+            output.append(mListPoints.get(i).mVelocity + ",");
+        }
+
+        SmartDashboard.putString(SmartDashboardNames.sSIMPLE_IDEAL_PATH, output.toString());
     }
 
     public double calculate(double aCurrPosition)
@@ -49,26 +77,19 @@ public class SimplePathFollower
         double a_term = mKa * point.mAcceleration;
         double output = p_term + d_term + v_term + a_term;
 
-        DecimalFormat df = new DecimalFormat("#.000");
-        System.out.println("" +
-                "Current: " + df.format(aCurrPosition) + ", " +
-                "Desired: " + df.format(point.mPosition) + ", " +
-                "p: " + df.format(p_term) + ", " +
-                "d: " + df.format(d_term) + ", " +
-                "v: " + df.format(v_term) + ", " +
-                "a: " + df.format(a_term) + ", " +
-                "output: " + output);
+        double velocity = (aCurrPosition - mLastPosition) / point.mTime;
 
-        // System.out.println(
-        // "kp = " + mKp + ", " +
-        // "kd = " + mKd + ", " +
-        // "kv = " + mKv + ", " +
-        // "ka = " + mKa);
+        System.out.println("i = " + mPathIndex + ", cur = " + aCurrPosition + ", " + mLastPosition + ", " + velocity);
+
+        String point_info = mPathIndex + "," + velocity;
+
+        SmartDashboard.putString(SmartDashboardNames.sSIMPLE_PATH_POINT_INFO, point_info);
 
         mLastError = error;
+        mLastPosition = aCurrPosition;
         mPathIndex++;
 
-        return p_term + v_term;
+        return output;
     }
 
     public boolean isFinished()
