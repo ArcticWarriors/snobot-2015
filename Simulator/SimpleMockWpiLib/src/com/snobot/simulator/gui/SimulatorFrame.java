@@ -10,7 +10,6 @@ import com.snobot.simulator.RobotStateSingleton;
 
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 
 public class SimulatorFrame extends JFrame 
@@ -51,12 +50,10 @@ public class SimulatorFrame extends JFrame
 	
 	public void start(final RobotBase aRobot)
 	{
-		final Scheduler scheduler = Scheduler.getInstance();
 		RobotStateSingleton.get().addLoopListener(new RobotStateSingleton.LoopListener() {
 			
 			@Override
 			public void looped() {
-				scheduler.run();
 				mBasicPanel.update();
 				mEnablePanel.setTime(Timer.getMatchTime());
 			}
