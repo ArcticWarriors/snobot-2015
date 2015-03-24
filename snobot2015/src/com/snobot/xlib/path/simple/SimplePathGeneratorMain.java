@@ -8,6 +8,14 @@ import com.snobot.xlib.path.SimplePathPoint;
 
 public class SimplePathGeneratorMain
 {
+
+    private static final double sDEFAULT_DRIVE_VEL = 2 * 12;
+    private static final double sDEFAULT_DRIVE_ACCEL = 5 * 12;
+
+    private static final double sDEFAULT_TURN_VEL = 45;
+    private static final double sDEFAULT_TURN_ACCEL = 200;
+    
+    
     private class SimplePathGeneratorConfig
     {
         String mName;
@@ -70,47 +78,47 @@ public class SimplePathGeneratorMain
     // /////////////////////////////////
     private SimplePathGeneratorConfig genTurnPositive90(double dt)
     {
-        double max_vel = 50;
-        double max_accel = 200;
+        double max_vel = sDEFAULT_TURN_VEL;
+        double max_accel = sDEFAULT_TURN_ACCEL;
         double position = 90;
 
-        return new SimplePathGeneratorConfig("TurnPositive90", max_vel * 12, max_accel * 12, position * 12, dt);
+        return new SimplePathGeneratorConfig("TurnPositive90", max_vel, max_accel, position, dt);
     }
 
     private SimplePathGeneratorConfig genDriveForwardsLandmarkToAutoZone(double dt)
     {
-        double max_vel = 2;
-        double max_accel = 20;
-        double position = 8;
+        double max_vel   = sDEFAULT_DRIVE_VEL;
+        double max_accel = sDEFAULT_DRIVE_ACCEL;
+        double position = 8 * 12;
 
-        return new SimplePathGeneratorConfig("DriveForwardsLandmarkToAutoZone", max_vel * 12, max_accel * 12, position * 12, dt);
+        return new SimplePathGeneratorConfig("DriveForwardsLandmarkToAutoZone", max_vel, max_accel, position, dt);
     }
 
     private SimplePathGeneratorConfig genDriveBackwardsLandmarkToAutoZone(double dt)
     {
-        double max_vel = -2;
-        double max_accel = -20;
-        double position = -8;
+        double max_vel   = -sDEFAULT_DRIVE_VEL;
+        double max_accel = -sDEFAULT_DRIVE_ACCEL;
+        double position = -8 * 12;
 
-        return new SimplePathGeneratorConfig("DriveBackwardsLandmarkToAutoZone", max_vel * 12, max_accel * 12, position * 12, dt);
-    }
-
-    private SimplePathGeneratorConfig genBackupOffDatTote(double dt)
-    {
-        double max_vel = -5;
-        double max_accel = -20;
-        double position = -2.5;
-
-        return new SimplePathGeneratorConfig("BackupOffDatTote", max_vel * 12, max_accel * 12, position * 12, dt);
+        return new SimplePathGeneratorConfig("DriveBackwardsLandmarkToAutoZone", max_vel, max_accel, position, dt);
     }
 
     private SimplePathGeneratorConfig genStartingIntoAuto(double dt)
     {
-        double max_vel = 2;
-        double max_accel = 20;
-        double position = 8;
+        double max_vel   = sDEFAULT_DRIVE_VEL;
+        double max_accel = sDEFAULT_DRIVE_ACCEL;
+        double position = 8 * 12;
 
-        return new SimplePathGeneratorConfig("StartingIntoAuto", max_vel * 12, max_accel * 12, position * 12, dt);
+        return new SimplePathGeneratorConfig("StartingIntoAuto", max_vel, max_accel, position, dt);
+    }
+
+    private SimplePathGeneratorConfig genBackupOffDatTote(double dt)
+    {
+        double max_vel = -5 * 12;
+        double max_accel = -20 * 12;
+        double position = -2.5 * 12;
+
+        return new SimplePathGeneratorConfig("BackupOffDatTote", max_vel, max_accel, position, dt);
     }
 
     public SimplePathGeneratorMain()

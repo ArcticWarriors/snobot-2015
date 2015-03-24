@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
     path_files = []
     plot_pattern = "*"
-    plot_pattern = "*Dat*"
+    plot_pattern = "*"
 
     path_dir = r"../snobot2015/resources/paths/"
 
