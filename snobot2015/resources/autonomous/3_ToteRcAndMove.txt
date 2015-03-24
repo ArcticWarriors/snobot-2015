@@ -7,6 +7,6 @@ ClawGrab true 3
 
 MoveClaw false 3
 ClawGrab false 3
-SimplePathRotate TestDrive90Degrees.csv
-SimplePathDrive TestDriveAutoZone.csv
-#SimplePathDrive TestDrive90Degrees.csv 
+SimplePathRotate TurnPositive90.csv
+SimplePathDrive StartingIntoAuto.csv
+#SimplePathDrive TurnPositive90.csv 

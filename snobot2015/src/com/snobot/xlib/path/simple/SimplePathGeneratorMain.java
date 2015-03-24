@@ -26,6 +26,9 @@ public class SimplePathGeneratorMain
         }
     }
 
+    // /////////////////////////////////
+    // Test Files
+    // /////////////////////////////////
     private SimplePathGeneratorConfig genTestDriveStraight(double dt)
     {
         double max_vel = 4;
@@ -44,50 +47,52 @@ public class SimplePathGeneratorMain
         return new SimplePathGeneratorConfig("TestDriveSlowStraight", max_vel * 12, max_accel * 12, position * 12, dt);
     }
 
-    private SimplePathGeneratorConfig genTestDriveTurn90(double dt)
+    private SimplePathGeneratorConfig genTestTurn90Slow(double dt)
     {
-        double max_vel = 3.5;
-        double max_accel = 20;
-        double position = 1;
+        double max_vel = 20;
+        double max_accel = 600;
+        double position = 90;
 
-        return new SimplePathGeneratorConfig("TestDrive90Degrees", max_vel * 12, max_accel * 12, position * 12, dt);
+        return new SimplePathGeneratorConfig("TestTurn90Slow", max_vel, max_accel, position, dt);
     }
 
-    private SimplePathGeneratorConfig genTestDriveAutoZone(double dt)
+    private SimplePathGeneratorConfig genTestTurn90Fast(double dt)
+    {
+        double max_vel = 180;
+        double max_accel = 600;
+        double position = 90;
+
+        return new SimplePathGeneratorConfig("TestTurn90", max_vel, max_accel, position, dt);
+    }
+
+    // /////////////////////////////////
+    // Tactical Files
+    // /////////////////////////////////
+    private SimplePathGeneratorConfig genTurnPositive90(double dt)
+    {
+        double max_vel = 50;
+        double max_accel = 200;
+        double position = 90;
+
+        return new SimplePathGeneratorConfig("TurnPositive90", max_vel * 12, max_accel * 12, position * 12, dt);
+    }
+
+    private SimplePathGeneratorConfig genDriveForwardsLandmarkToAutoZone(double dt)
     {
         double max_vel = 2;
         double max_accel = 20;
         double position = 8;
 
-        return new SimplePathGeneratorConfig("TestDriveAutoZone", max_vel * 12, max_accel * 12, position * 12, dt);
+        return new SimplePathGeneratorConfig("DriveForwardsLandmarkToAutoZone", max_vel * 12, max_accel * 12, position * 12, dt);
     }
 
-    private SimplePathGeneratorConfig genTestDriveCenterStep(double dt)
+    private SimplePathGeneratorConfig genDriveBackwardsLandmarkToAutoZone(double dt)
     {
-        double max_vel = 5;
-        double max_accel = 20;
-        double position = 19;
-
-        return new SimplePathGeneratorConfig("TestDriveCenterStep", max_vel * 12, max_accel * 12, position * 12, dt);
-    }
-
-    private SimplePathGeneratorConfig genTestDriveAutoZoneFromStep(double dt)
-    {
-        double max_vel = -4;
+        double max_vel = -2;
         double max_accel = -20;
         double position = -8;
 
-        return new SimplePathGeneratorConfig("TestDriveAutoZoneFromStep", max_vel * 12, max_accel * 12, position * 12, dt);
-
-    }
-
-    private SimplePathGeneratorConfig genContainerDistance(double dt)
-    {
-        double max_vel = 1;
-        double max_accel = 5;
-        double position = 1;
-
-        return new SimplePathGeneratorConfig("ContainerPath", max_vel * 12, max_accel * 12, position * 12, dt);
+        return new SimplePathGeneratorConfig("DriveBackwardsLandmarkToAutoZone", max_vel * 12, max_accel * 12, position * 12, dt);
     }
 
     private SimplePathGeneratorConfig genBackupOffDatTote(double dt)
@@ -97,6 +102,15 @@ public class SimplePathGeneratorMain
         double position = -2.5;
 
         return new SimplePathGeneratorConfig("BackupOffDatTote", max_vel * 12, max_accel * 12, position * 12, dt);
+    }
+
+    private SimplePathGeneratorConfig genStartingIntoAuto(double dt)
+    {
+        double max_vel = 2;
+        double max_accel = 20;
+        double position = 8;
+
+        return new SimplePathGeneratorConfig("StartingIntoAuto", max_vel * 12, max_accel * 12, position * 12, dt);
     }
 
     public SimplePathGeneratorMain()
@@ -113,14 +127,14 @@ public class SimplePathGeneratorMain
 
         configs.add(genTestDriveStraight(dt));
         configs.add(genTestDriveStraightSlow(dt));
-        configs.add(genTestDriveAutoZone(dt));
-        configs.add(genTestDriveTurn90(dt));
-        configs.add(genTestDriveCenterStep(dt));
-        configs.add(genContainerDistance(dt));
+        configs.add(genTestTurn90Slow(dt));
+        configs.add(genTestTurn90Fast(dt));
+
+        configs.add(genDriveForwardsLandmarkToAutoZone(dt));
+        configs.add(genDriveBackwardsLandmarkToAutoZone(dt));
+        configs.add(genTurnPositive90(dt));
         configs.add(genBackupOffDatTote(dt));
-        configs.add(genTestDriveAutoZoneFromStep(dt));
-        configs.add(new SimplePathGeneratorConfig("TestTurn90", 180, 600, 90, dt));
-        configs.add(new SimplePathGeneratorConfig("TestTurn90Slow", 20, 600, 90, dt));
+        configs.add(genStartingIntoAuto(dt));
 
         SimplePathGenerator gen = new SimplePathGenerator();
         SimplePathSerializer serializer = new SimplePathSerializer();

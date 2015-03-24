@@ -1,7 +1,7 @@
 SmartStack 0 
 SmartStack 2
-SimplePathRotate TestTurn90Slow.csv
-SimplePathDrive TestDriveAutoZone.csv
+SimplePathRotate TurnPositive90.csv
+SimplePathDrive StartingIntoAuto.csv
 SmartStack 0
-SimplePathRotate TestTurn90Slow.csv
+SimplePathRotate TurnPositive90.csv
 

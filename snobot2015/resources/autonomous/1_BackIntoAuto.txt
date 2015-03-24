@@ -1,2 +1,2 @@
-SimplePathDrive TestDriveAutoZone.csv
-SimplePathRotate TestTurn90Slow.csv 
+SimplePathDrive DriveBackwardsLandmarkToAutoZone.csv
+SimplePathRotate TurnPositive90.csv 
