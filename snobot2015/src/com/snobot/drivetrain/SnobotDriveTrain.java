@@ -84,7 +84,25 @@ public class SnobotDriveTrain implements IDriveTrain
         
         if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
         {
-            mRobotDrive.tankDrive(mDriverJoystick.getLeftY(), mDriverJoystick.getRightY(), true);
+            double left = mDriverJoystick.getLeftY();
+            double right = mDriverJoystick.getRightY();
+
+            // Tone it down
+            left *= 1.0;
+            right *= 1.0;
+
+            if (mDriverJoystick.getDriveForward())
+            {
+                mRobotDrive.tankDrive(0.5, 0.5);
+            }
+            else if (mDriverJoystick.getDriveBackward())
+            {
+                mRobotDrive.tankDrive(-0.5, -0.5);
+            }
+            else
+            {
+                mRobotDrive.tankDrive(left, right, true);
+            }
         }
         // else if (IDriverJoystick.DriveMode.Arcade ==
         // mDriverJoystick.getDriveMode())

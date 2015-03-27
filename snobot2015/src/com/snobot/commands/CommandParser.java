@@ -164,13 +164,19 @@ public class CommandParser
                 String path = pathsDir + "/" + args.get(1);
                 SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
                 List<SimplePathPoint> points = mSimpleDeserializer.deserialize(path);
+                double hackFactor = 1;
+
+                if (args.size() >= 3)
+                {
+                    hackFactor = Double.parseDouble(args.get(2));
+                }
 
                 if (points.isEmpty())
                 {
                     addError("Could not read SimplePoint path at '" + path + "'");
                 }
 
-                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
+                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points, hackFactor);
 
                 break;
             }
@@ -211,6 +217,12 @@ public class CommandParser
             {
                 newCommand = new ThreeToteStackCommand(mSnobot.getSnobotStacker(), Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
                         Double.parseDouble(args.get(3)), Double.parseDouble(args.get(4)));
+
+                break;
+            }
+            case ConfigurationNames.sRAKE_COMMAND:
+            {
+                newCommand = new RakeCommand(mSnobot.getRake(), Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)));
 
                 break;
             }

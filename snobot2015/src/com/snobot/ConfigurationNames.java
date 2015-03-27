@@ -132,6 +132,7 @@ public class ConfigurationNames
     public static final String sSTRAIGHT_SIMPLE_COMMAND = "SimplePathDrive";
     public static final String sDRIVE_SPLINE_COMMAND = "DriveSplineCommand";
     public static final String sTHREE_TOTE_STACK_COMMAND = "ThreeToteStackCommand";
+    public static final String sRAKE_COMMAND = "RakeCommand";
     
     // ////////////////////////////////
     // Preference Wrapper Functions //

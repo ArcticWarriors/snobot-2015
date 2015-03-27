@@ -12,7 +12,7 @@ public class SimplePathGeneratorMain
     private static final double sDEFAULT_DRIVE_VEL = 2 * 12;
     private static final double sDEFAULT_DRIVE_ACCEL = 5 * 12;
 
-    private static final double sDEFAULT_TURN_VEL = 45;
+    private static final double sDEFAULT_TURN_VEL = 60;
     private static final double sDEFAULT_TURN_ACCEL = 200;
     
     
@@ -78,11 +78,20 @@ public class SimplePathGeneratorMain
     // /////////////////////////////////
     private SimplePathGeneratorConfig genTurnPositive90(double dt)
     {
-        double max_vel = sDEFAULT_TURN_VEL;
+        double max_vel = 45;
         double max_accel = sDEFAULT_TURN_ACCEL;
         double position = 90;
 
         return new SimplePathGeneratorConfig("TurnPositive90", max_vel, max_accel, position, dt);
+    }
+
+    private SimplePathGeneratorConfig genTurnPositive90NoTote(double dt)
+    {
+        double max_vel = sDEFAULT_TURN_VEL;
+        double max_accel = sDEFAULT_TURN_ACCEL;
+        double position = 90;
+
+        return new SimplePathGeneratorConfig("TurnPositive90NoTote", max_vel, max_accel, position, dt);
     }
 
     private SimplePathGeneratorConfig genDriveForwardsLandmarkToAutoZone(double dt)
@@ -121,6 +130,15 @@ public class SimplePathGeneratorMain
         return new SimplePathGeneratorConfig("BackupOffDatTote", max_vel, max_accel, position, dt);
     }
 
+    private SimplePathGeneratorConfig genBackupOffDatContainer(double dt)
+    {
+        double max_vel = -5 * 12;
+        double max_accel = -20 * 12;
+        double position = -4 * 12;
+
+        return new SimplePathGeneratorConfig("BackupOffDatContainer", max_vel, max_accel, position, dt);
+    }
+
     public SimplePathGeneratorMain()
     {
         double dt = .02;
@@ -143,6 +161,8 @@ public class SimplePathGeneratorMain
         configs.add(genTurnPositive90(dt));
         configs.add(genBackupOffDatTote(dt));
         configs.add(genStartingIntoAuto(dt));
+        configs.add(genTurnPositive90NoTote(dt));
+        configs.add(genBackupOffDatContainer(dt));
 
         SimplePathGenerator gen = new SimplePathGenerator();
         SimplePathSerializer serializer = new SimplePathSerializer();

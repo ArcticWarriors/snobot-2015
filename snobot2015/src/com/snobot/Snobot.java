@@ -40,6 +40,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -206,7 +207,7 @@ public class Snobot extends IterativeRobot
         ////////////////////////////////////////
         mUpperLimitSwitch = new DigitalInput(stacker_upper_limit_sw);
         mLowerLimitSwitch = new DigitalInput(stacker_lower_limit_sw);
-        mStackerMotor = new Talon(stacker_motor_port);
+        mStackerMotor = new VictorSP(stacker_motor_port);
         mStackerPot = new AnalogInput(stacker_pot_port);
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerPot);
 
@@ -433,6 +434,11 @@ public class Snobot extends IterativeRobot
     public IClaw getSnobotClaw()
     {
         return this.mClaw;
+    }
+
+    public IRake getRake()
+    {
+        return this.mRake;
     }
     
 

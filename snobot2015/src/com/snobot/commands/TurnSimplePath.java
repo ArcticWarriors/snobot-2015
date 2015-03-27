@@ -17,17 +17,21 @@ public class TurnSimplePath extends Command
     private List<SimplePathPoint> mListPoints;
     private SimplePathFollower mSimplePathFollower;
     private double mStartingDegrees;
+    private double mHackFactor;
     
-    public TurnSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, List<SimplePathPoint> aListPoints)
+    public TurnSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, List<SimplePathPoint> aListPoints, double aHackFactor)
     {
         mDrivetrain = aDrivetrain;
         mSnobotPosition = aSnobotPosition;
         mListPoints = aListPoints;
+        mHackFactor = aHackFactor;
 
-        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KP, 0);
+        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KP, 0.005);
         double kD = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KD, 0);
-        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KV, 0.002);
-        double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KA, 0);
+        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KV, 0.0053);
+        double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KA, 0.00174);
+
+        kVelocity *= mHackFactor;
 
         mSimplePathFollower = new SimplePathFollower(mListPoints, kP, kD, kVelocity, kAccel);
     }

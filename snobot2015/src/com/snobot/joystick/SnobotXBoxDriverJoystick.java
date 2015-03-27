@@ -140,4 +140,18 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     {
         return mDriveMode;
     }
+
+    @Override
+    public boolean getDriveForward()
+    {
+        // TODO Auto-generated method stub
+        return mXBoxStick.getRawButton(XboxButtonMap.Y_BUTTON);
+    }
+
+    @Override
+    public boolean getDriveBackward()
+    {
+        // TODO Auto-generated method stub
+        return mXBoxStick.getRawButton(XboxButtonMap.A_BUTTON);
+    }
 }

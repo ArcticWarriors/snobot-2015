@@ -18,7 +18,6 @@ public class SnobotRake implements IRake {
     private Logger mLogger;
     private double mRakeValueIn;
     private double mRakeValueOut;
-    private double mMotorSpeed;
 
     /**
      * Constructs a SnobotRake object
@@ -47,7 +46,6 @@ public class SnobotRake implements IRake {
     @Override
     public void update() {
         mLimitSwitchPressed = !mLimitSwitch.get();
-        mMotorSpeed = mOperatorJoystick.getMoveRake();
 
         mRakeValueOut = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRAKE_JOYSTICK_VALUE_UP, -.2);
         mRakeValueIn = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRAKE_JOYSTICK_VALUE_DOWN, .2);
@@ -58,21 +56,23 @@ public class SnobotRake implements IRake {
     @Override
     public void control() {
 
+        mRakeMotor.set(mOperatorJoystick.getMoveRake());
+
         // System.out.println("Speed : " + mMotorSpeed + ", limit = " +
         // mLimitSwitchPressed);
-        if (mMotorSpeed > mRakeValueOut)
-        {
-            moveRakeOut();
-        }
-        // If i want to move the rake in and the limit witch isn't pressed
-        else if (mMotorSpeed < mRakeValueIn && !mLimitSwitchPressed)
-        {
-            moveRakeIn();
-        }
-        else
-        {
-            stop();
-        }
+        // if (mMotorSpeed > mRakeValueOut)
+        // {
+        // moveRakeOut();
+        // }
+        // // If i want to move the rake in and the limit witch isn't pressed
+        // else if (mMotorSpeed < mRakeValueIn && !mLimitSwitchPressed)
+        // {
+        // moveRakeIn();
+        // }
+        // else
+        // {
+        // stop();
+        // }
     }
 
     @Override
@@ -105,12 +105,12 @@ public class SnobotRake implements IRake {
 
     @Override
     public void moveRakeOut() {
-        mRakeMotor.set(-mMotorSpeed);
+        mRakeMotor.set(-1);
     }
 
     @Override
     public void moveRakeIn() {
-        mRakeMotor.set(-mMotorSpeed);
+        mRakeMotor.set(1);
     }
 
 }

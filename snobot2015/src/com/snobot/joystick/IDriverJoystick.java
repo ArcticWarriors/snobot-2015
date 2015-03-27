@@ -57,4 +57,8 @@ public interface IDriverJoystick extends ISubsystem
      */
     DriveMode getDriveMode();
 
+    boolean getDriveForward();
+
+    boolean getDriveBackward();
+
 }

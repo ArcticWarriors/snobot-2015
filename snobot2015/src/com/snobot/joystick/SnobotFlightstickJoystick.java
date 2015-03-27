@@ -141,4 +141,18 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         return mDriveMode;
     }
 
+    @Override
+    public boolean getDriveForward()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean getDriveBackward()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }
