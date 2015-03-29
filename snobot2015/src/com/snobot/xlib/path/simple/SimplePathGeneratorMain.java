@@ -116,7 +116,7 @@ public class SimplePathGeneratorMain
     {
         double max_vel   = sDEFAULT_DRIVE_VEL;
         double max_accel = sDEFAULT_DRIVE_ACCEL;
-        double position = 8 * 12;
+        double position = 10 * 12;
 
         return new SimplePathGeneratorConfig("StartingIntoAuto", max_vel, max_accel, position, dt);
     }
@@ -134,9 +134,18 @@ public class SimplePathGeneratorMain
     {
         double max_vel = -5 * 12;
         double max_accel = -20 * 12;
-        double position = -4 * 12;
+        double position = -6.5 * 12;
 
         return new SimplePathGeneratorConfig("BackupOffDatContainer", max_vel, max_accel, position, dt);
+    }
+
+    private SimplePathGeneratorConfig genGrabContainer(double dt)
+    {
+        double max_vel = -5 * 12;
+        double max_accel = -20 * 12;
+        double position = -17;
+
+        return new SimplePathGeneratorConfig("GrabContainer", max_vel, max_accel, position, dt);
     }
 
     public SimplePathGeneratorMain()
@@ -163,6 +172,7 @@ public class SimplePathGeneratorMain
         configs.add(genStartingIntoAuto(dt));
         configs.add(genTurnPositive90NoTote(dt));
         configs.add(genBackupOffDatContainer(dt));
+        configs.add(genGrabContainer(dt));
 
         SimplePathGenerator gen = new SimplePathGenerator();
         SimplePathSerializer serializer = new SimplePathSerializer();

@@ -1,7 +1,21 @@
 SmartStack 0 
 SmartStack 2
-SimplePathRotate TurnPositive90.csv
+
+
+
+DriveRotateSmart 90
+
 SimplePathDrive StartingIntoAuto.csv
+DriveRotateSmart 90
 SmartStack 0
-SimplePathRotate TurnPositive90.csv
+SimplePathDrive BackupOffDatTote.csv
+
+
+
+
+
+
+
+
+
 

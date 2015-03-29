@@ -222,7 +222,8 @@ public class CommandParser
             }
             case ConfigurationNames.sRAKE_COMMAND:
             {
-                newCommand = new RakeCommand(mSnobot.getRake(), Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)));
+                boolean goDown = Boolean.parseBoolean(args.get(2));
+                newCommand = new RakeCommand(mSnobot.getRake(), Double.parseDouble(args.get(1)), goDown);
 
                 break;
             }

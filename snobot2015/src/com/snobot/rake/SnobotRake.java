@@ -56,7 +56,17 @@ public class SnobotRake implements IRake {
     @Override
     public void control() {
 
-        mRakeMotor.set(mOperatorJoystick.getMoveRake());
+        double speed = mOperatorJoystick.getMoveRake();
+
+        if (mLimitSwitchPressed && speed > 0)
+        {
+            mRakeMotor.set(0);
+            System.out.println("STOPPING RAKE");
+        }
+        else
+        {
+            mRakeMotor.set(speed);
+        }
 
         // System.out.println("Speed : " + mMotorSpeed + ", limit = " +
         // mLimitSwitchPressed);

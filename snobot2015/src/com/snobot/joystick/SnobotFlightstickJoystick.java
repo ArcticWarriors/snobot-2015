@@ -155,4 +155,11 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         return false;
     }
 
+    @Override
+    public boolean isSmarturDriving()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }
