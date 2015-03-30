@@ -43,9 +43,6 @@
 	    <jar destfile="${dist.jar}" update="false">
 	        <fileset dir="${build.dir}" includes="**/*.class"/>
 	        <fileset dir="${src.dir}" includes="**/*.png **/*.jpg"/>
-	      <zipgroupfileset dir="${build.jars}">
-	        <include name="**/*.jar" />
-	      </zipgroupfileset>
 	    </jar>
 	  </target>
 
