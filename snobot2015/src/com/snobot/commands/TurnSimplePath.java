@@ -2,7 +2,7 @@ package com.snobot.commands;
 
 import java.util.List;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.path.SimplePathPoint;
@@ -26,10 +26,10 @@ public class TurnSimplePath extends Command
         mListPoints = aListPoints;
         mHackFactor = aHackFactor;
 
-        double kP = ConfigurationNames.sTURN_PATH_KP.getValue();
-        double kD = ConfigurationNames.sTURN_PATH_KD.getValue();
-        double kVelocity = ConfigurationNames.sTURN_PATH_KV.getValue();
-        double kAccel = ConfigurationNames.sTURN_PATH_KA.getValue();
+        double kP = Properties2015.sTURN_PATH_KP.getValue();
+        double kD = Properties2015.sTURN_PATH_KD.getValue();
+        double kVelocity = Properties2015.sTURN_PATH_KV.getValue();
+        double kAccel = Properties2015.sTURN_PATH_KA.getValue();
 
         kVelocity *= mHackFactor;
 

@@ -1,6 +1,6 @@
 package com.snobot.stacker;
 
-import com.snobot.ISubsystem;
+import com.snobot.xlib.ISubsystem;
 
 /**
  * Main interface for stacker subsystem

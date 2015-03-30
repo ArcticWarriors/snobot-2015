@@ -1,6 +1,6 @@
 package com.snobot.joystick;
 
-import com.snobot.ISubsystem;
+import com.snobot.xlib.ISubsystem;
 
 /**
  * Main interface for Driver Joystick

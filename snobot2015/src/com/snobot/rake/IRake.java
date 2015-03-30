@@ -1,6 +1,6 @@
 package com.snobot.rake;
 
-import com.snobot.ISubsystem;
+import com.snobot.xlib.ISubsystem;
 
 /**
  * 

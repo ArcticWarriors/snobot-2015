@@ -1,6 +1,6 @@
 package com.snobot.joystick;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.logger.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -52,7 +52,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void update()
     {
-        if (mRightFlightStick.getRawButton(ConfigurationNames.sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK.getValue()))
+        if (mRightFlightStick.getRawButton(Properties2015.sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK.getValue()))
         {
             mDriveMode = DriveMode.Tank;
         }
@@ -63,8 +63,8 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         // mDriveMode = DriveMode.Arcade;
         // }
         
-        mTankLeftYAxis = mLeftFlightStick.getRawAxis(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS.getValue());
-        mTankRightYAxis = mRightFlightStick.getRawAxis(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS.getValue());
+        mTankLeftYAxis = mLeftFlightStick.getRawAxis(Properties2015.sFLIGHTSTICKS_Y_AXIS.getValue());
+        mTankRightYAxis = mRightFlightStick.getRawAxis(Properties2015.sFLIGHTSTICKS_Y_AXIS.getValue());
         // mArcadeLeftSpeed =
         // mLeftFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS,
         // 1));

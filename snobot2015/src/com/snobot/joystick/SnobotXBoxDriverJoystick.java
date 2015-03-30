@@ -1,7 +1,7 @@
 package com.snobot.joystick;
 
-import com.snobot.XboxButtonMap;
 import com.snobot.logger.Logger;
+import com.snobot.xlib.XboxButtonMap;
 
 import edu.wpi.first.wpilibj.Joystick;
 

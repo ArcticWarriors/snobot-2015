@@ -29,13 +29,14 @@ import com.snobot.rake.IRake;
 import com.snobot.rake.SnobotRake;
 import com.snobot.stacker.IStacker;
 import com.snobot.stacker.SnobotStacker;
+import com.snobot.xlib.ASnobot;
+import com.snobot.xlib.ISubsystem;
 import com.snobot.xlib.PropertyManager;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
-import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -43,7 +44,6 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -57,7 +57,7 @@ import edu.wpi.first.wpilibj.tables.ITableListener;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Snobot extends IterativeRobot
+public class Snobot extends ASnobot
 {
 
     // IO
@@ -99,13 +99,10 @@ public class Snobot extends IterativeRobot
     private AnalogInput mTransducer;
     private AnalogInput mStackerPot;
 
-    // Vector of iSubsystems for group actions
-    private ArrayList<ISubsystem> mSubsystems;
-
-    private SimpleDateFormat sdf;
-    private Command mAutonCommand;
+    SimpleDateFormat sdf;
+    Command mAutonCommand;
     private SendableChooser mAutonChooser;
-    private PowerDistributionPanel mPowerDistributionPanel;
+    PowerDistributionPanel mPowerDistributionPanel;
     private CommandParser mParser;
 
    
@@ -132,33 +129,33 @@ public class Snobot extends IterativeRobot
 
 
         //Joysticks
-    	int operator_joystick_port 	= ConfigurationNames.sOPERATOR_JOYSTICK_PORT.getValue();
-    	int driver_joystick_1_port 	= ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT.getValue();
-    	int driver_joystick_2_port 	= ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT.getValue();
+    	int operator_joystick_port 	= Properties2015.sOPERATOR_JOYSTICK_PORT.getValue();
+    	int driver_joystick_1_port 	= Properties2015.sDRIVER_FLIGHTSTICK_1_PORT.getValue();
+    	int driver_joystick_2_port 	= Properties2015.sDRIVER_FLIGHTSTICK_2_PORT.getValue();
     	
     	//PWM
-    	int left_drive_motor_port 	= ConfigurationNames.sDRIVE_MOTOR_LEFT_1.getValue();
-    	int right_drive_motor_port 	= ConfigurationNames.sDRIVE_MOTOR_RIGHT_1.getValue();
-        int stacker_motor_port 		= ConfigurationNames.sSTACKER_MOTOR.getValue();
-        int rake_motor_port         = ConfigurationNames.sRAKE_MOTOR.getValue();
+    	int left_drive_motor_port 	= Properties2015.sDRIVE_MOTOR_LEFT_1.getValue();
+    	int right_drive_motor_port 	= Properties2015.sDRIVE_MOTOR_RIGHT_1.getValue();
+        int stacker_motor_port 		= Properties2015.sSTACKER_MOTOR.getValue();
+        int rake_motor_port         = Properties2015.sRAKE_MOTOR.getValue();
         
         //Digital IO
-    	int left_drive_enc_a 		= ConfigurationNames.sLEFT_DRIVE_ENC_A.getValue();
-    	int left_drive_enc_b 		= ConfigurationNames.sLEFT_DRIVE_ENC_B.getValue();
-    	int right_drive_enc_a 		= ConfigurationNames.sRIGHT_DRIVE_ENC_A.getValue();
-    	int right_drive_enc_b 		= ConfigurationNames.sRIGHT_DRIVE_ENC_B.getValue();
-        int stacker_upper_limit_sw 	= ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH.getValue();
-        int stacker_lower_limit_sw 	= ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH.getValue();
-        int rake_limit_switch_port = ConfigurationNames.sRAKE_MOTOR_LS.getValue();
+    	int left_drive_enc_a 		= Properties2015.sLEFT_DRIVE_ENC_A.getValue();
+    	int left_drive_enc_b 		= Properties2015.sLEFT_DRIVE_ENC_B.getValue();
+    	int right_drive_enc_a 		= Properties2015.sRIGHT_DRIVE_ENC_A.getValue();
+    	int right_drive_enc_b 		= Properties2015.sRIGHT_DRIVE_ENC_B.getValue();
+        int stacker_upper_limit_sw 	= Properties2015.sSTACKER_UPPER_LIMIT_SWITCH.getValue();
+        int stacker_lower_limit_sw 	= Properties2015.sSTACKER_LOWER_LIMIT_SWITCH.getValue();
+        int rake_limit_switch_port = Properties2015.sRAKE_MOTOR_LS.getValue();
         
         //Analog
-        int transducer_port         = ConfigurationNames.sTRANSDUCER.getValue();
-        int stacker_pot_port 		= ConfigurationNames.sSTACKER_POT.getValue();
-        int gyro_port               = ConfigurationNames.sGYRO_SENSOR.getValue();
+        int transducer_port         = Properties2015.sTRANSDUCER.getValue();
+        int stacker_pot_port 		= Properties2015.sSTACKER_POT.getValue();
+        int gyro_port               = Properties2015.sGYRO_SENSOR.getValue();
         
         //Solenoid
-        int claw_solenoid_port = ConfigurationNames.sCLAW_HAND_SOLENOID.getValue();
-        int arm_solenoid_port = ConfigurationNames.sCLAW_ARM_SOLENOID.getValue();
+        int claw_solenoid_port = Properties2015.sCLAW_HAND_SOLENOID.getValue();
+        int arm_solenoid_port = Properties2015.sCLAW_ARM_SOLENOID.getValue();
 
         String joystickType = SmartDashboardNames.sJOYSTICK_MODE_XBOX;
         
@@ -170,7 +167,7 @@ public class Snobot extends IterativeRobot
         sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = sdf.format(new Date());
         mLogger = new Logger(headerDate);
-        
+
         ////////////////////////////////////////
         // User Interface
         ////////////////////////////////////////
@@ -261,8 +258,32 @@ public class Snobot extends IterativeRobot
 
         readFile();
     }
+
+    @Override
+    public void autonomousInit()
+    {
+        readFile();
+
+        if (mAutonCommand != null)
+        {
+            mAutonCommand.start();
+        }
+        else
+        {
+            System.out.println("Couldn't start auton command because it was null");
+        }
+    }
+
+    @Override
+    public void teleopInit()
+    {
+        if (mAutonCommand != null)
+        {
+            mAutonCommand.cancel();
+        }
+    }
     
-    private void readFile()
+    void readFile()
     {
         if (mAutonChooser.getSelected() != null)
         {
@@ -303,115 +324,6 @@ public class Snobot extends IterativeRobot
                 saveModeListener, true);
     }
 
-    @Override
-    public void autonomousInit()
-    {
-        readFile();
-
-        if(mAutonCommand != null)
-        {
-            mAutonCommand.start();
-        }
-        else
-        {
-            System.out.println("Couldn't start auton command because it was null");
-        }
-    }
-
-    /**
-     * This function is called periodically during autonomous
-     */
-    @Override
-    public void autonomousPeriodic()
-    {
-        Scheduler.getInstance().run();
-
-        update();
-        updateSmartDashboard();
-        updateLog();
-        
-    }
-
-    /**
-     * This function is called periodically during operator control
-     */
-    @Override
-    public void teleopPeriodic()
-    {
-        update();
-        control();
-        updateSmartDashboard();
-        updateLog();
-    }
-    
-    @Override
-    public void disabledInit()
-    {
-        PropertyManager.saveIfUpdated();
-    }
-    
-    private void update()
-    {
-        for (ISubsystem iSubsystem : mSubsystems)
-        {
-            iSubsystem.update();
-
-        }
-    }
-    
-    private void control()
-    {
-        for (ISubsystem iSubsystem : mSubsystems)
-        {
-            iSubsystem.control();
-        }
-    }
-    
-    private void updateSmartDashboard()
-    {
-        for (ISubsystem iSubsystem : mSubsystems)
-        {
-            iSubsystem.updateSmartDashboard();
-        }
-    }
-    
-    private void updateLog()
-    {
-        String logDate = sdf.format(new Date());
-        if (mLogger.logNow())
-        {
-            mLogger.startLogEntry(logDate);
-            
-            mLogger.updateLogger(mPowerDistributionPanel.getVoltage());
-            mLogger.updateLogger(mPowerDistributionPanel.getTotalCurrent());
-             
-            for (ISubsystem iSubsystem : mSubsystems)
-            {
-                iSubsystem.updateLog();
-            }
-
-            mLogger.endLogger();
-        }
-    }
-
-    /**
-     * This function is called periodically during test mode
-     */
-    @Override
-    public void testPeriodic()
-    {
-
-    }
-
-    @Override
-    public void teleopInit()
-    {
-        if(mAutonCommand != null)
-        {
-            mAutonCommand.cancel();
-        }
-    }
-
     public IDriveTrain getDriveTrain()
     {
         return this.mDriveTrain;
@@ -442,8 +354,8 @@ public class Snobot extends IterativeRobot
     {
         mAutonChooser = new SendableChooser();
         
-        File autonDr = new File(ConfigurationNames.sAUTON_DIR.getValue());
-        String autonIgnoreFilter = ConfigurationNames.sAUTON_IGNORE_STRING.getValue();
+        File autonDr = new File(Properties2015.sAUTON_DIR.getValue());
+        String autonIgnoreFilter = Properties2015.sAUTON_IGNORE_STRING.getValue();
 
         System.out.println("Reading auton files from directory " + autonDr.getAbsolutePath());
         System.out.println(" Using filter : \"" + autonIgnoreFilter + "\"");
@@ -490,7 +402,7 @@ public class Snobot extends IterativeRobot
         public FileVisitResult preVisitDirectory(Path aDir, BasicFileAttributes aAttrs) throws IOException
         {
             Path dirName = aDir.getFileName();
-            if (dirName.startsWith(ConfigurationNames.sAUTON_IGNORE_STRING.getValue()))
+            if (dirName.startsWith(Properties2015.sAUTON_IGNORE_STRING.getValue()))
             {
                 System.out.println(" Skipping directory: " + dirName);
                 return FileVisitResult.SKIP_SUBTREE;
@@ -502,4 +414,25 @@ public class Snobot extends IterativeRobot
             }
         }
     }
+
+    @Override
+    public void updateLog()
+    {
+        String logDate = sdf.format(new Date());
+        if (mLogger.logNow())
+        {
+            mLogger.startLogEntry(logDate);
+
+            mLogger.updateLogger(mPowerDistributionPanel.getVoltage());
+            mLogger.updateLogger(mPowerDistributionPanel.getTotalCurrent());
+
+            for (ISubsystem iSubsystem : mSubsystems)
+            {
+                iSubsystem.updateLog();
+            }
+
+            mLogger.endLogger();
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.snobot.drivetrain;
 
-import com.snobot.ISubsystem;
+import com.snobot.xlib.ISubsystem;
 
 /**
  * Main Drive Train interface.

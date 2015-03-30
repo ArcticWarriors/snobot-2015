@@ -1,9 +1,9 @@
 package com.snobot.position;
 
-import com.snobot.ISubsystem;
 import com.snobot.SmartDashboardNames;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.logger.Logger;
+import com.snobot.xlib.ISubsystem;
 
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

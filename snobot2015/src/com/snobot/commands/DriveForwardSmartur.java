@@ -1,6 +1,6 @@
 package com.snobot.commands;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.InDeadbandHelper;
@@ -41,10 +41,10 @@ public class DriveForwardSmartur extends Command
     protected void execute()
     {
         mError = mDesiredDistance - (mPosition.getTotalDistance() - mStartingDistance);
-        mSpeed = mError * ConfigurationNames.sDRIVE_FORWARD_KP_VALUE.getValue();
+        mSpeed = mError * Properties2015.sDRIVE_FORWARD_KP_VALUE.getValue();
         mDriveTrain.setMotorSpeed(mSpeed, mSpeed);
         
-        boolean is_in_range = Math.abs(mError) < ConfigurationNames.sDRIVE_FORWARD_MIN_ERROR.getValue();
+        boolean is_in_range = Math.abs(mError) < Properties2015.sDRIVE_FORWARD_MIN_ERROR.getValue();
 
         
         mFinished = mDbHelper.isFinished(is_in_range);

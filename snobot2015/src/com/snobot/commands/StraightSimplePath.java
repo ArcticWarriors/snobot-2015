@@ -2,7 +2,7 @@ package com.snobot.commands;
 
 import java.util.List;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.path.SimplePathPoint;
@@ -24,10 +24,10 @@ public class StraightSimplePath extends Command
         mSnobotPosition = aSnobotPosition;
         mListPoints = aListPoints;
 
-        double kP = ConfigurationNames.sDRIVE_PATH_KP.getValue();
-        double kD = ConfigurationNames.sDRIVE_PATH_KD.getValue();
-        double kVelocity = ConfigurationNames.sDRIVE_PATH_KV.getValue();
-        double kAccel = ConfigurationNames.sDRIVE_PATH_KA.getValue();
+        double kP = Properties2015.sDRIVE_PATH_KP.getValue();
+        double kD = Properties2015.sDRIVE_PATH_KD.getValue();
+        double kVelocity = Properties2015.sDRIVE_PATH_KV.getValue();
+        double kAccel = Properties2015.sDRIVE_PATH_KA.getValue();
 
         mSimplePathFollower = new SimplePathFollower(mListPoints, kP, kD, kVelocity, kAccel);
     }

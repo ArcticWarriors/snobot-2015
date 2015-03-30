@@ -1,6 +1,6 @@
 package com.snobot.commands;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.InDeadbandHelper;
@@ -50,10 +50,10 @@ public class DriveRotateSmartur extends Command
         // TODO Determine which parameter should be set to negative (rotate left
         // or rotate right)
         mError = (mDesiredDegree - mPosition.getSnobotDegrees());
-        mSpeed = mError * ConfigurationNames.sDRIVE_ROTATE_KP_VALUE.getValue();
+        mSpeed = mError * Properties2015.sDRIVE_ROTATE_KP_VALUE.getValue();
         mDriveTrain.setMotorSpeed(mSpeed, -mSpeed);
 
-        boolean is_in_range = (Math.abs(mError) < ConfigurationNames.sDRIVE_ROTATE_MIN_ERROR.getValue());
+        boolean is_in_range = (Math.abs(mError) < Properties2015.sDRIVE_ROTATE_MIN_ERROR.getValue());
         mFinished = mDbHelper.isFinished(is_in_range);
 
         System.out.println("DRS: error: " + mError + ", speed=" + mSpeed);

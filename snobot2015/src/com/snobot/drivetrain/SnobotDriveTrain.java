@@ -1,6 +1,6 @@
 package com.snobot.drivetrain;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
 import com.snobot.joystick.IDriverJoystick;
 import com.snobot.logger.Logger;
@@ -136,8 +136,8 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void rereadPreferences()
     {
-        mEncoderLeft.setDistancePerPulse(ConfigurationNames.sLEFT_ENC_DPP.getValue());
-        mEncoderRight.setDistancePerPulse(ConfigurationNames.sRIGHT_ENC_DPP.getValue());
+        mEncoderLeft.setDistancePerPulse(Properties2015.sLEFT_ENC_DPP.getValue());
+        mEncoderRight.setDistancePerPulse(Properties2015.sRIGHT_ENC_DPP.getValue());
     }
 
     @Override

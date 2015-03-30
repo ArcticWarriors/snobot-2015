@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 
 /**
  * Class for logger
@@ -44,8 +44,8 @@ public class Logger
     public void init()
     {
 
-        mConfigLogCount = ConfigurationNames.sLOG_COUNT.getValue();
-        mLogFilePath = ConfigurationNames.sLOG_FILE_PATH.getValue();
+        mConfigLogCount = Properties2015.sLOG_COUNT.getValue();
+        mLogFilePath = Properties2015.sLOG_FILE_PATH.getValue();
         mCurrentLogCount = 0;
 
         try

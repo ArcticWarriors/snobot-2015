@@ -1,4 +1,4 @@
-package com.snobot;
+package com.snobot.xlib;
 /**
  * Button Map for Xbox controller.
  * When calling buttons or axis on an Xbox, use this class.

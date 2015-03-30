@@ -1,6 +1,6 @@
 package com.snobot.claw;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
@@ -130,7 +130,7 @@ public class SnobotClaw implements IClaw
     public void rereadPreferences()
     {
 
-        mAirPressureRangeMin = ConfigurationNames.sAIR_PRESSURE_RANGE_MIN.getValue();
+        mAirPressureRangeMin = Properties2015.sAIR_PRESSURE_RANGE_MIN.getValue();
     }
 
     @Override

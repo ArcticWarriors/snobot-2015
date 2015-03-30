@@ -3,6 +3,7 @@ package com.snobot;
 import com.snobot.xlib.PropertyManager.DoubleProperty;
 import com.snobot.xlib.PropertyManager.IntegerProperty;
 import com.snobot.xlib.PropertyManager.StringProperty;
+import com.snobot.xlib.XboxButtonMap;
 
 /**
  * This is the maps of the ports.
@@ -10,26 +11,8 @@ import com.snobot.xlib.PropertyManager.StringProperty;
  * @author jbnol_000
  *
  */
-public class ConfigurationNames
+public class Properties2015
 {
-
-    // // Joysticks
-    // IntegerProperty sOPERATOR_JOYSTICK_PORT = new
-    // IntegerProperty("OperatorJoystickPort");
-    // IntegerProperty sDRIVER_FLIGHTSTICK_1_PORT = new
-    // IntegerProperty("DriverFlightstick1Port");
-    // IntegerProperty sDRIVER_FLIGHTSTICK_2_PORT = new
-    // IntegerProperty("DriverFlightstick2Port");
-    //
-    // // Flightsticks Control
-    // IntegerProperty sFLIGHTSTICKS_Y_AXIS = new
-    // IntegerProperty("FlightsticksYAxis");
-    // IntegerProperty sFLIGHTSTICKS_X_AXIS = new
-    // IntegerProperty("FlighsticksXAxis");
-    // IntegerProperty sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK = new
-    // IntegerProperty("FlighstickButtonSwitchToTank");
-    // IntegerProperty sFLIGHTSTICKS_BUTTON_SWITCH_TO_ARCADE = new
-    // IntegerProperty("FlightstickButtonSwitchToArcade");
 
     // Joysticks
     public static final IntegerProperty sOPERATOR_JOYSTICK_PORT = new IntegerProperty("OperatorJoystickPort", 1);

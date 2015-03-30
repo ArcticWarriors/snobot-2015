@@ -2,7 +2,7 @@ package com.snobot.commands;
 
 import java.text.DecimalFormat;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.Utilities;
@@ -26,12 +26,12 @@ public class TrajectoryPathCommand extends Command
         mDrivetrain = aDrivetrain;
         mSnobotPosition = aSnobotPosition;
 
-        double kP = ConfigurationNames.sDRIVE_PATH_KP.getValue();
-        double kD = ConfigurationNames.sDRIVE_PATH_KD.getValue();
-        double kVelocity = ConfigurationNames.sDRIVE_PATH_KV.getValue();
-        double kAccel = ConfigurationNames.sDRIVE_PATH_KA.getValue();
+        double kP = Properties2015.sDRIVE_PATH_KP.getValue();
+        double kD = Properties2015.sDRIVE_PATH_KD.getValue();
+        double kVelocity = Properties2015.sDRIVE_PATH_KV.getValue();
+        double kAccel = Properties2015.sDRIVE_PATH_KA.getValue();
 
-        mKTurn = ConfigurationNames.sSPLINE_K_TURN.getValue();
+        mKTurn = Properties2015.sSPLINE_K_TURN.getValue();
 
         followerLeft.configure(kP, 0, kD, kVelocity, kAccel);
         followerRight.configure(kP, 0, kD, kVelocity, kAccel);

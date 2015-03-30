@@ -1,6 +1,6 @@
 package com.snobot.operatorjoystick;
 
-import com.snobot.ISubsystem;
+import com.snobot.xlib.ISubsystem;
 
 /**
  * Used by SnobotOperatorJoystick to monitor State of operator joy stick

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
 import com.snobot.Snobot;
 import com.snobot.commands.raw.DriveForward;
@@ -67,7 +67,7 @@ public class CommandParser
      */
     private void commandParser(CommandGroup aGroup, String aLine)
     {
-        String pathsDir = ConfigurationNames.sPATH_DIR.getValue();
+        String pathsDir = Properties2015.sPATH_DIR.getValue();
         aLine = aLine.trim();
         if(aLine.isEmpty() || aLine.startsWith("#"))
         {
