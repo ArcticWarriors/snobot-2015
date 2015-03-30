@@ -21,33 +21,33 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
     public Snobot2015Simulator()
     {
         EncoderWrapper rightEncoder = SensorActuatorRegistry.get().getEncoder(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_A, 1), 
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 1));
+                ConfigurationNames.sRIGHT_DRIVE_ENC_A.getValue(), 
+                ConfigurationNames.sRIGHT_DRIVE_ENC_B.getValue());
         
         EncoderWrapper leftEncoder = SensorActuatorRegistry.get().getEncoder(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 1), 
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_B, 1));
+                ConfigurationNames.sLEFT_DRIVE_ENC_A.getValue(), 
+                ConfigurationNames.sLEFT_DRIVE_ENC_B.getValue());
         
         AnalogWrapper stackerPot = SensorActuatorRegistry.get().getAnalog().get(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_POT, 1));
+                ConfigurationNames.sSTACKER_POT.getValue());
 
         SpeedControllerWrapper rightDriveMotor = SensorActuatorRegistry.get().getSpeedControllers().get(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1));
+                ConfigurationNames.sDRIVE_MOTOR_RIGHT_1.getValue());
         
         SpeedControllerWrapper leftDriveMotor = SensorActuatorRegistry.get().getSpeedControllers().get(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1, 1));
+                ConfigurationNames.sDRIVE_MOTOR_LEFT_1.getValue());
         
         SpeedControllerWrapper stackerMotor = SensorActuatorRegistry.get().getSpeedControllers().get(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR, 1));
+                ConfigurationNames.sSTACKER_MOTOR.getValue());
 
         AnalogWrapper gyroChannel = SensorActuatorRegistry.get().getAnalog().get(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 1));
+                ConfigurationNames.sGYRO_SENSOR.getValue());
         
         DigitalSourceWrapper lowerStackerLimit = SensorActuatorRegistry.get().getDigitalSources().get(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 1));
+                ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH.getValue());
         
         DigitalSourceWrapper upperStackerLimit = SensorActuatorRegistry.get().getDigitalSources().get(
-                ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 2));
+                ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH.getValue());
        
 
         mRightDriveEnc = new LinearEncoderCalculator(rightDriveMotor, rightEncoder);

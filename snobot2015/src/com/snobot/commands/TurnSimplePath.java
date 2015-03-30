@@ -26,10 +26,10 @@ public class TurnSimplePath extends Command
         mListPoints = aListPoints;
         mHackFactor = aHackFactor;
 
-        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KP, 0.005);
-        double kD = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KD, 0);
-        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KV, 0.0053);
-        double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sTURN_PATH_KA, 0.00174);
+        double kP = ConfigurationNames.sTURN_PATH_KP.getValue();
+        double kD = ConfigurationNames.sTURN_PATH_KD.getValue();
+        double kVelocity = ConfigurationNames.sTURN_PATH_KV.getValue();
+        double kAccel = ConfigurationNames.sTURN_PATH_KA.getValue();
 
         kVelocity *= mHackFactor;
 

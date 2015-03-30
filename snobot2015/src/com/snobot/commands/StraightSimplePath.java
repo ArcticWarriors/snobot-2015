@@ -8,7 +8,6 @@ import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.path.SimplePathPoint;
 import com.snobot.xlib.path.simple.SimplePathFollower;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class StraightSimplePath extends Command
@@ -25,10 +24,10 @@ public class StraightSimplePath extends Command
         mSnobotPosition = aSnobotPosition;
         mListPoints = aListPoints;
 
-        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KP, 0.0174);
-        double kD = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KD, 0);
-        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KV, .009);
-        double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KA, 0.0037);
+        double kP = ConfigurationNames.sDRIVE_PATH_KP.getValue();
+        double kD = ConfigurationNames.sDRIVE_PATH_KD.getValue();
+        double kVelocity = ConfigurationNames.sDRIVE_PATH_KV.getValue();
+        double kAccel = ConfigurationNames.sDRIVE_PATH_KA.getValue();
 
         mSimplePathFollower = new SimplePathFollower(mListPoints, kP, kD, kVelocity, kAccel);
     }
@@ -38,29 +37,18 @@ public class StraightSimplePath extends Command
     {
         mSimplePathFollower.init();
         mStartingDistance = mSnobotPosition.getTotalDistance();
-        t.start();
-        
     }
-
-    private double tempLastTime = 0;
-    private Timer t = new Timer();
 
     @Override
     protected void execute()
     {
-        double time = t.get();
-        // System.out.println("DT = " + (time - tempLastTime));
-
         double motorPower = mSimplePathFollower.calculate(mSnobotPosition.getTotalDistance() - mStartingDistance);
         mDrivetrain.setMotorSpeed(motorPower, motorPower);
-        
-        tempLastTime = time;
     }
 
     @Override
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
         return mSimplePathFollower.isFinished();
     }
 

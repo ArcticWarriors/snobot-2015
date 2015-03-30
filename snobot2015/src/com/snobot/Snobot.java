@@ -29,6 +29,7 @@ import com.snobot.rake.IRake;
 import com.snobot.rake.SnobotRake;
 import com.snobot.stacker.IStacker;
 import com.snobot.stacker.SnobotStacker;
+import com.snobot.xlib.PropertyManager;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -131,38 +132,38 @@ public class Snobot extends IterativeRobot
 
 
         //Joysticks
-    	int operator_joystick_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sOPERATOR_JOYSTICK_PORT,    1);
-    	int driver_joystick_1_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT, 0);
-    	int driver_joystick_2_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT, 2);
+    	int operator_joystick_port 	= ConfigurationNames.sOPERATOR_JOYSTICK_PORT.getValue();
+    	int driver_joystick_1_port 	= ConfigurationNames.sDRIVER_FLIGHTSTICK_1_PORT.getValue();
+    	int driver_joystick_2_port 	= ConfigurationNames.sDRIVER_FLIGHTSTICK_2_PORT.getValue();
     	
     	//PWM
-    	int left_drive_motor_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_LEFT_1,  0);
-    	int right_drive_motor_port 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sDRIVE_MOTOR_RIGHT_1, 1);
-        int stacker_motor_port 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_MOTOR,       2);
-        int rake_motor_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRAKE_MOTOR, 4);
+    	int left_drive_motor_port 	= ConfigurationNames.sDRIVE_MOTOR_LEFT_1.getValue();
+    	int right_drive_motor_port 	= ConfigurationNames.sDRIVE_MOTOR_RIGHT_1.getValue();
+        int stacker_motor_port 		= ConfigurationNames.sSTACKER_MOTOR.getValue();
+        int rake_motor_port         = ConfigurationNames.sRAKE_MOTOR.getValue();
         
         //Digital IO
-    	int left_drive_enc_a 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_A, 7);
-    	int left_drive_enc_b 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLEFT_DRIVE_ENC_B, 8);
-    	int right_drive_enc_a 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_A, 5);
-    	int right_drive_enc_b 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRIGHT_DRIVE_ENC_B, 6);
-        int stacker_upper_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH, 1);
-        int stacker_lower_limit_sw 	= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH, 2);
-        int rake_limit_switch_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sRAKE_MOTOR_LS, 0);
+    	int left_drive_enc_a 		= ConfigurationNames.sLEFT_DRIVE_ENC_A.getValue();
+    	int left_drive_enc_b 		= ConfigurationNames.sLEFT_DRIVE_ENC_B.getValue();
+    	int right_drive_enc_a 		= ConfigurationNames.sRIGHT_DRIVE_ENC_A.getValue();
+    	int right_drive_enc_b 		= ConfigurationNames.sRIGHT_DRIVE_ENC_B.getValue();
+        int stacker_upper_limit_sw 	= ConfigurationNames.sSTACKER_UPPER_LIMIT_SWITCH.getValue();
+        int stacker_lower_limit_sw 	= ConfigurationNames.sSTACKER_LOWER_LIMIT_SWITCH.getValue();
+        int rake_limit_switch_port = ConfigurationNames.sRAKE_MOTOR_LS.getValue();
         
         //Analog
-        int transducer_port         = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sTRANSDUCER, 2);
-        int stacker_pot_port 		= ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sSTACKER_POT, 1);
-        int gyro_port               = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sGYRO_SENSOR, 0);
+        int transducer_port         = ConfigurationNames.sTRANSDUCER.getValue();
+        int stacker_pot_port 		= ConfigurationNames.sSTACKER_POT.getValue();
+        int gyro_port               = ConfigurationNames.sGYRO_SENSOR.getValue();
         
         //Solenoid
-        int claw_solenoid_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sCLAW_HAND_SOLENOID, 2);
-        int arm_solenoid_port = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sCLAW_ARM_SOLENOID, 1);
+        int claw_solenoid_port = ConfigurationNames.sCLAW_HAND_SOLENOID.getValue();
+        int arm_solenoid_port = ConfigurationNames.sCLAW_ARM_SOLENOID.getValue();
 
-        String joystickType = ConfigurationNames.getOrSetPropertyString(SmartDashboardNames.sJOYSTICK_MODE, SmartDashboardNames.sJOYSTICK_MODE_XBOX);
+        String joystickType = SmartDashboardNames.sJOYSTICK_MODE_XBOX;
         
         //Save these port mappings before you try to start the robot in case there are conflicts
-        ConfigurationNames.saveIfUpdated();
+        PropertyManager.saveIfUpdated();
     	
         mPowerDistributionPanel = new PowerDistributionPanel();
         
@@ -256,7 +257,7 @@ public class Snobot extends IterativeRobot
         }
 
         //Now all the preferences should be loaded, make sure they are all saved
-        ConfigurationNames.saveIfUpdated();
+        PropertyManager.saveIfUpdated();
 
         readFile();
     }
@@ -305,17 +306,12 @@ public class Snobot extends IterativeRobot
     @Override
     public void autonomousInit()
     {
-        String auton_text = SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "THIS WILL BREAK IT");
-        // mAutonCommand = mParser.parseAutonString(auton_text);
-
-        // TODO This will break "send only" from the widget
-
         readFile();
 
-    	if(mAutonCommand != null)
-    	{
-    	    mAutonCommand.start();
-    	}
+        if(mAutonCommand != null)
+        {
+            mAutonCommand.start();
+        }
         else
         {
             System.out.println("Couldn't start auton command because it was null");
@@ -351,7 +347,7 @@ public class Snobot extends IterativeRobot
     @Override
     public void disabledInit()
     {
-        ConfigurationNames.saveIfUpdated();
+        PropertyManager.saveIfUpdated();
     }
     
     private void update()
@@ -446,8 +442,8 @@ public class Snobot extends IterativeRobot
     {
         mAutonChooser = new SendableChooser();
         
-        File autonDr = new File(ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_DIR, ConfigurationNames.sDEFAULT_AUTON_DIR));
-        String autonIgnoreFilter = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "");
+        File autonDr = new File(ConfigurationNames.sAUTON_DIR.getValue());
+        String autonIgnoreFilter = ConfigurationNames.sAUTON_IGNORE_STRING.getValue();
 
         System.out.println("Reading auton files from directory " + autonDr.getAbsolutePath());
         System.out.println(" Using filter : \"" + autonIgnoreFilter + "\"");
@@ -494,7 +490,7 @@ public class Snobot extends IterativeRobot
         public FileVisitResult preVisitDirectory(Path aDir, BasicFileAttributes aAttrs) throws IOException
         {
             Path dirName = aDir.getFileName();
-            if (dirName.startsWith(ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_IGNORE_STRING, "")))
+            if (dirName.startsWith(ConfigurationNames.sAUTON_IGNORE_STRING.getValue()))
             {
                 System.out.println(" Skipping directory: " + dirName);
                 return FileVisitResult.SKIP_SUBTREE;

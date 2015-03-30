@@ -1,6 +1,5 @@
         package com.snobot.commands.raw;
 
-import com.snobot.ConfigurationNames;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 
@@ -38,7 +37,6 @@ public class DriveForward extends Command
      */
     public DriveForward(double aDistance, double aSpeed, double aTolerance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
-        super(ConfigurationNames.sDRIVE_FORWARD_COMMAND);
         mDesiredDistance = aDistance;
         mSpeed = aSpeed;
         mTolerance = aTolerance;

@@ -1,13 +1,11 @@
 package com.snobot.commands;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 import com.snobot.ConfigurationNames;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.Utilities;
-import com.snobot.xlib.path.SimplePathPoint;
 import com.snobot.xlib.path.spline.TrajectoryFollower;
 import com.team254.lib.trajectory.Path;
 
@@ -17,7 +15,6 @@ public class TrajectoryPathCommand extends Command
 {
     private IDriveTrain mDrivetrain;
     private SnobotPosition mSnobotPosition;
-    private List<SimplePathPoint> mListPoints;
     private TrajectoryFollower followerLeft = new TrajectoryFollower("left");
     private TrajectoryFollower followerRight = new TrajectoryFollower("right");
     private double mStartingLeftDistance;
@@ -29,12 +26,12 @@ public class TrajectoryPathCommand extends Command
         mDrivetrain = aDrivetrain;
         mSnobotPosition = aSnobotPosition;
 
-        double kP = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KP, 0);
-        double kD = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KD, 0);
-        double kVelocity = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KV, .012);
-        double kAccel = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_PATH_KA, 0);
+        double kP = ConfigurationNames.sDRIVE_PATH_KP.getValue();
+        double kD = ConfigurationNames.sDRIVE_PATH_KD.getValue();
+        double kVelocity = ConfigurationNames.sDRIVE_PATH_KV.getValue();
+        double kAccel = ConfigurationNames.sDRIVE_PATH_KA.getValue();
 
-        mKTurn = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sSPLINE_K_TURN, 0.04);
+        mKTurn = ConfigurationNames.sSPLINE_K_TURN.getValue();
 
         followerLeft.configure(kP, 0, kD, kVelocity, kAccel);
         followerRight.configure(kP, 0, kD, kVelocity, kAccel);

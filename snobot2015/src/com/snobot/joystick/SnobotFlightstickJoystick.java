@@ -52,7 +52,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void update()
     {
-        if (mRightFlightStick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK, 4)))
+        if (mRightFlightStick.getRawButton(ConfigurationNames.sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK.getValue()))
         {
             mDriveMode = DriveMode.Tank;
         }
@@ -63,8 +63,8 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         // mDriveMode = DriveMode.Arcade;
         // }
         
-        mTankLeftYAxis = mLeftFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS, 1));
-        mTankRightYAxis = mRightFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS, 1));
+        mTankLeftYAxis = mLeftFlightStick.getRawAxis(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS.getValue());
+        mTankRightYAxis = mRightFlightStick.getRawAxis(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS.getValue());
         // mArcadeLeftSpeed =
         // mLeftFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS,
         // 1));

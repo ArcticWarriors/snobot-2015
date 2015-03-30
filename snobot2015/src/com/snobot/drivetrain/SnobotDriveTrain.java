@@ -136,8 +136,8 @@ public class SnobotDriveTrain implements IDriveTrain
     @Override
     public void rereadPreferences()
     {
-        mEncoderLeft.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sLEFT_ENC_DPP, -0.0389483932));
-        mEncoderRight.setDistancePerPulse(ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRIGHT_ENC_DPP, 0.0389483932));
+        mEncoderLeft.setDistancePerPulse(ConfigurationNames.sLEFT_ENC_DPP.getValue());
+        mEncoderRight.setDistancePerPulse(ConfigurationNames.sRIGHT_ENC_DPP.getValue());
     }
 
     @Override

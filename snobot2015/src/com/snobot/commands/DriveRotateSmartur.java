@@ -50,10 +50,10 @@ public class DriveRotateSmartur extends Command
         // TODO Determine which parameter should be set to negative (rotate left
         // or rotate right)
         mError = (mDesiredDegree - mPosition.getSnobotDegrees());
-        mSpeed = mError * ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_ROTATE_KP_VALUE, 0.01);
+        mSpeed = mError * ConfigurationNames.sDRIVE_ROTATE_KP_VALUE.getValue();
         mDriveTrain.setMotorSpeed(mSpeed, -mSpeed);
 
-        boolean is_in_range = (Math.abs(mError) < ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sDRIVE_ROTATE_MIN_ERROR, 2));
+        boolean is_in_range = (Math.abs(mError) < ConfigurationNames.sDRIVE_ROTATE_MIN_ERROR.getValue());
         mFinished = mDbHelper.isFinished(is_in_range);
 
         System.out.println("DRS: error: " + mError + ", speed=" + mSpeed);

@@ -1,6 +1,5 @@
 package com.snobot.rake;
 
-import com.snobot.ConfigurationNames;
 import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
@@ -16,8 +15,6 @@ public class SnobotRake implements IRake {
     private DigitalInput mLimitSwitch;
     private boolean mLimitSwitchPressed;
     private Logger mLogger;
-    private double mRakeValueIn;
-    private double mRakeValueOut;
 
     /**
      * Constructs a SnobotRake object
@@ -36,7 +33,8 @@ public class SnobotRake implements IRake {
     }
 
     @Override
-    public void init() {
+    public void init()
+    {
         stop();
         mLogger.addHeader("LimitSwitchDepressed");
         mLogger.addHeader("RakeMotor");
@@ -44,17 +42,14 @@ public class SnobotRake implements IRake {
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
         mLimitSwitchPressed = !mLimitSwitch.get();
-
-        mRakeValueOut = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRAKE_JOYSTICK_VALUE_UP, -.2);
-        mRakeValueIn = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sRAKE_JOYSTICK_VALUE_DOWN, .2);
-
-
     }
 
     @Override
-    public void control() {
+    public void control()
+    {
 
         double speed = mOperatorJoystick.getMoveRake();
 
@@ -67,40 +62,25 @@ public class SnobotRake implements IRake {
         {
             mRakeMotor.set(speed);
         }
-
-        // System.out.println("Speed : " + mMotorSpeed + ", limit = " +
-        // mLimitSwitchPressed);
-        // if (mMotorSpeed > mRakeValueOut)
-        // {
-        // moveRakeOut();
-        // }
-        // // If i want to move the rake in and the limit witch isn't pressed
-        // else if (mMotorSpeed < mRakeValueIn && !mLimitSwitchPressed)
-        // {
-        // moveRakeIn();
-        // }
-        // else
-        // {
-        // stop();
-        // }
     }
 
     @Override
-    public void rereadPreferences() {
+    public void rereadPreferences()
+    {
     }
 
     @Override
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard()
+    {
 
         SmartDashboard.putBoolean(SmartDashboardNames.sLIMIT_SWITCH_DEPRESSED, mLimitSwitchPressed);
         SmartDashboard.putNumber(SmartDashboardNames.sRAKE_MOTOR, mRakeMotor.get());
-        SmartDashboard.putNumber(SmartDashboardNames.sRAKE_JOYSTICK_VALUE_UP, mRakeValueOut);
-        SmartDashboard.putNumber(SmartDashboardNames.sRAKE_JOYSTICK_VALUE_DOWN, mRakeValueIn);
 
     }
 
     @Override
-    public void updateLog() {
+    public void updateLog()
+    {
 
 
         mLogger.updateLogger(mLimitSwitchPressed);
@@ -108,18 +88,21 @@ public class SnobotRake implements IRake {
     }
 
     @Override
-    public void stop() {
+    public void stop()
+    {
 
         mRakeMotor.set(0);
     }
 
     @Override
-    public void moveRakeOut() {
+    public void moveRakeOut()
+    {
         mRakeMotor.set(-1);
     }
 
     @Override
-    public void moveRakeIn() {
+    public void moveRakeIn()
+    {
         mRakeMotor.set(1);
     }
 

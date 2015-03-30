@@ -130,7 +130,7 @@ public class SnobotClaw implements IClaw
     public void rereadPreferences()
     {
 
-        mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAIR_PRESSURE_RANGE_MIN, 60);
+        mAirPressureRangeMin = ConfigurationNames.sAIR_PRESSURE_RANGE_MIN.getValue();
     }
 
     @Override

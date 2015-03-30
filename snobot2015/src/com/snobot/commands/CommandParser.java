@@ -32,6 +32,24 @@ public class CommandParser
     private Snobot mSnobot;
     private String mErrorText;
     private boolean mSuccess;
+
+    // Autonomous Commands
+    public static final String sSET_POSITION_COMMAND = "SetPosition";
+    public static final String sDRIVE_FORWARD_COMMAND = "DriveForward";
+    public static final String sDRIVE_FORWARD_SMARTER_COMMAND = "DriveForwardSmart";
+    public static final String sDRIVE_ROTATE_COMMAND = "DriveRotate";
+    public static final String sDRIVE_ROTATE_SMARTER_COMMAND = "DriveRotateSmart";
+    public static final String sRAW_STACK_COMMAND = "RawStack";
+    public static final String sCLAW_GRAB_COMMAND = "ClawGrab";
+    public static final String sMOVE_CLAW_COMMAND = "MoveClaw";
+    public static final String sSMART_STACK_COMMAND = "SmartStack";
+    public static final String sRAW_DRIVE_COMMAND = "RawDrive";
+    public static final String sRAW_ROTATE_COMMAND = "RawRotate";
+    public static final String sTURN_SIMPLE_COMMAND = "SimplePathRotate";
+    public static final String sSTRAIGHT_SIMPLE_COMMAND = "SimplePathDrive";
+    public static final String sDRIVE_SPLINE_COMMAND = "DriveSplineCommand";
+    public static final String sTHREE_TOTE_STACK_COMMAND = "ThreeToteStackCommand";
+    public static final String sRAKE_COMMAND = "RakeCommand";
     
     public CommandParser(Snobot aSnobot)
     {
@@ -49,7 +67,7 @@ public class CommandParser
      */
     private void commandParser(CommandGroup aGroup, String aLine)
     {
-        String pathsDir = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sPATH_DIR, ConfigurationNames.sDEFAULT_PATH_DIR);
+        String pathsDir = ConfigurationNames.sPATH_DIR.getValue();
         aLine = aLine.trim();
         if(aLine.isEmpty() || aLine.startsWith("#"))
         {
@@ -85,13 +103,13 @@ public class CommandParser
             {
             
             // Not really a command, but a special case
-            case ConfigurationNames.sSET_POSITION_COMMAND:
+            case sSET_POSITION_COMMAND:
                 mSnobot.getPositioner().setPosition(
                         Double.parseDouble(args.get(1)),
                         Double.parseDouble(args.get(2)),
                         Double.parseDouble(args.get(3)));
                 break;
-            case ConfigurationNames.sDRIVE_FORWARD_COMMAND:
+            case sDRIVE_FORWARD_COMMAND:
                 newCommand = new DriveForward(
                         Double.parseDouble(args.get(1)), 
                         Double.parseDouble(args.get(2)), 
@@ -100,14 +118,14 @@ public class CommandParser
                         mSnobot.getPositioner());
                 break;
                 
-            case ConfigurationNames.sDRIVE_FORWARD_SMARTER_COMMAND:
+            case sDRIVE_FORWARD_SMARTER_COMMAND:
                 newCommand = new DriveForwardSmartur(
                         Double.parseDouble(args.get(1)), 
                         mSnobot.getDriveTrain(),
                         mSnobot.getPositioner());
                 break;
 
-            case ConfigurationNames.sDRIVE_ROTATE_COMMAND:
+            case sDRIVE_ROTATE_COMMAND:
                 newCommand = new DriveRotate(
                         Double.parseDouble(args.get(1)), 
                         Double.parseDouble(args.get(2)), 
@@ -116,50 +134,50 @@ public class CommandParser
                         mSnobot.getPositioner());
                 break;
 
-            case ConfigurationNames.sRAW_DRIVE_COMMAND:
+            case sRAW_DRIVE_COMMAND:
                 newCommand = new RawDriveFoward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
                         mSnobot.getDriveTrain());
                 break;
 
-            case ConfigurationNames.sRAW_ROTATE_COMMAND:
+            case sRAW_ROTATE_COMMAND:
                 newCommand = new RawRotateCommand(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
                         mSnobot.getDriveTrain());
                 break;
 
-            case ConfigurationNames.sDRIVE_ROTATE_SMARTER_COMMAND:
+            case sDRIVE_ROTATE_SMARTER_COMMAND:
                 newCommand = new DriveRotateSmartur(
                         Double.parseDouble(args.get(1)), 
                         mSnobot.getDriveTrain(), 
                         mSnobot.getPositioner());
                 break;
 
-            case ConfigurationNames.sRAW_STACK_COMMAND:
+            case sRAW_STACK_COMMAND:
                 newCommand = new RawStack(
                         Double.parseDouble(args.get(1)),
                         Boolean.parseBoolean(args.get(2)),
                         mSnobot.getSnobotStacker());
                 break;
                 
-            case ConfigurationNames.sCLAW_GRAB_COMMAND:
+            case sCLAW_GRAB_COMMAND:
                     newCommand = new ClawGrab(
                         Boolean.parseBoolean(args.get(1)), 
                         Double.parseDouble(args.get(2)), 
                         mSnobot.getSnobotClaw());
                 break;
                 
-            case ConfigurationNames.sMOVE_CLAW_COMMAND:
+            case sMOVE_CLAW_COMMAND:
                 newCommand = new MoveClaw(
                         Boolean.parseBoolean(args.get(1)),
                         Double.parseDouble(args.get(2)),
                         mSnobot.getSnobotClaw());
                 break;
                 
-            case ConfigurationNames.sSMART_STACK_COMMAND:
+            case sSMART_STACK_COMMAND:
                 newCommand = new SmartStack(
                         Integer.parseInt(args.get(1)),
                         mSnobot.getSnobotStacker());
                 break;
-            case ConfigurationNames.sTURN_SIMPLE_COMMAND:
+            case sTURN_SIMPLE_COMMAND:
             {
                 String path = pathsDir + "/" + args.get(1);
                 SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
@@ -180,7 +198,7 @@ public class CommandParser
 
                 break;
             }
-            case ConfigurationNames.sSTRAIGHT_SIMPLE_COMMAND:
+            case sSTRAIGHT_SIMPLE_COMMAND:
             {
                 String path = pathsDir + "/" + args.get(1);
                 SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
@@ -195,7 +213,7 @@ public class CommandParser
 
                 break;
             }
-            case ConfigurationNames.sDRIVE_SPLINE_COMMAND:
+            case sDRIVE_SPLINE_COMMAND:
             {
                 String path = pathsDir + "/" + args.get(1);
                 TextFileDeserializer mSimpleDeserializer = new TextFileDeserializer();
@@ -213,14 +231,14 @@ public class CommandParser
 
                 break;
             }
-            case ConfigurationNames.sTHREE_TOTE_STACK_COMMAND:
+            case sTHREE_TOTE_STACK_COMMAND:
             {
                 newCommand = new ThreeToteStackCommand(mSnobot.getSnobotStacker(), Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
                         Double.parseDouble(args.get(3)), Double.parseDouble(args.get(4)));
 
                 break;
             }
-            case ConfigurationNames.sRAKE_COMMAND:
+            case sRAKE_COMMAND:
             {
                 boolean goDown = Boolean.parseBoolean(args.get(2));
                 newCommand = new RakeCommand(mSnobot.getRake(), Double.parseDouble(args.get(1)), goDown);
