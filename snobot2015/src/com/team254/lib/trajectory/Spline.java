@@ -13,11 +13,13 @@ public class Spline
 
     public enum Type
     {
-        // Cubic spline where positions and first derivatives (angle) constraints will
+        // Cubic spline where positions and first derivatives (angle)
+        // constraints will
         // be met but second derivatives may be discontinuous.
         CubicHermite,
 
-        // Quintic spline where positions and first derivatives (angle) constraints
+        // Quintic spline where positions and first derivatives (angle)
+        // constraints
         // will be met, and all second derivatives at knots = 0.
         QuinticHermite,
     }
@@ -49,15 +51,12 @@ public class Spline
         return Math.abs(x - y) < 1E-6;
     }
 
-    public static boolean reticulateSplines(Waypoint start,
-            Waypoint goal, Spline result, Type type)
+    public static boolean reticulateSplines(Waypoint start, Waypoint goal, Spline result, Type type)
     {
-        return reticulateSplines(start.x, start.y, start.theta, goal.x, goal.y,
-                goal.theta, result, type);
+        return reticulateSplines(start.x, start.y, start.theta, goal.x, goal.y, goal.theta, result, type);
     }
 
-    public static boolean reticulateSplines(double x0, double y0, double theta0,
-            double x1, double y1, double theta1, Spline result, Type type)
+    public static boolean reticulateSplines(double x0, double y0, double theta0, double x1, double y1, double theta1, Spline result, Type type)
     {
         System.out.println("Reticulating splines...");
         result.type_ = type;
@@ -72,23 +71,20 @@ public class Spline
         }
         result.knot_distance_ = x1_hat;
         result.theta_offset_ = Math.atan2(y1 - y0, x1 - x0);
-        double theta0_hat = Utilities.getDifferenceInAngleRadians(
-                result.theta_offset_, theta0);
-        double theta1_hat = Utilities.getDifferenceInAngleRadians(
-                result.theta_offset_, theta1);
+        double theta0_hat = Utilities.getDifferenceInAngleRadians(result.theta_offset_, theta0);
+        double theta1_hat = Utilities.getDifferenceInAngleRadians(result.theta_offset_, theta1);
         // We cannot handle vertical slopes in our rotated, translated basis.
-        // This would mean the user wants to end up 90 degrees off of the straight
+        // This would mean the user wants to end up 90 degrees off of the
+        // straight
         // line between p0 and p1.
-        if (almostEqual(Math.abs(theta0_hat), Math.PI / 2)
-                || almostEqual(Math.abs(theta1_hat), Math.PI / 2))
+        if (almostEqual(Math.abs(theta0_hat), Math.PI / 2) || almostEqual(Math.abs(theta1_hat), Math.PI / 2))
         {
             return false;
         }
-        // We also cannot handle the case that the end angle is facing towards the
+        // We also cannot handle the case that the end angle is facing towards
+        // the
         // start angle (total turn > 90 degrees).
-        if (Math.abs(Utilities.getDifferenceInAngleRadians(theta0_hat,
-                theta1_hat))
-        >= Math.PI / 2)
+        if (Math.abs(Utilities.getDifferenceInAngleRadians(theta0_hat, theta1_hat)) >= Math.PI / 2)
         {
             return false;
         }
@@ -167,8 +163,7 @@ public class Spline
         double interpolated = t;
         if (arc_length != last_arc_length)
         {
-            interpolated += ((distance - last_arc_length)
-                    / (arc_length - last_arc_length) - 1) / (double) kNumSamples;
+            interpolated += ((distance - last_arc_length) / (arc_length - last_arc_length) - 1) / (double) kNumSamples;
         }
         return interpolated;
     }
@@ -179,8 +174,7 @@ public class Spline
 
         percentage = Math.max(Math.min(percentage, 1), 0);
         double x_hat = percentage * knot_distance_;
-        double y_hat = (a_ * x_hat + b_) * x_hat * x_hat * x_hat * x_hat
-                + c_ * x_hat * x_hat * x_hat + d_ * x_hat * x_hat + e_ * x_hat;
+        double y_hat = (a_ * x_hat + b_) * x_hat * x_hat * x_hat * x_hat + c_ * x_hat * x_hat * x_hat + d_ * x_hat * x_hat + e_ * x_hat;
 
         double cos_theta = Math.cos(theta_offset_);
         double sin_theta = Math.sin(theta_offset_);
@@ -194,8 +188,7 @@ public class Spline
     {
         percentage = Math.max(Math.min(percentage, 1), 0);
         double x_hat = percentage * knot_distance_;
-        double y_hat = (a_ * x_hat + b_) * x_hat * x_hat * x_hat * x_hat
-                + c_ * x_hat * x_hat * x_hat + d_ * x_hat * x_hat + e_ * x_hat;
+        double y_hat = (a_ * x_hat + b_) * x_hat * x_hat * x_hat * x_hat + c_ * x_hat * x_hat * x_hat + d_ * x_hat * x_hat + e_ * x_hat;
 
         double cos_theta = Math.cos(theta_offset_);
         double sin_theta = Math.sin(theta_offset_);
@@ -209,8 +202,7 @@ public class Spline
         percentage = Math.max(Math.min(percentage, 1), 0);
 
         double x_hat = percentage * knot_distance_;
-        double yp_hat = (5 * a_ * x_hat + 4 * b_) * x_hat * x_hat * x_hat + 3 * c_ * x_hat * x_hat
-                + 2 * d_ * x_hat + e_;
+        double yp_hat = (5 * a_ * x_hat + 4 * b_) * x_hat * x_hat * x_hat + 3 * c_ * x_hat * x_hat + 2 * d_ * x_hat + e_;
 
         return yp_hat;
     }
@@ -227,15 +219,13 @@ public class Spline
 
     public double angleAt(double percentage)
     {
-        double angle = Utilities.boundAngle0to2PiRadians(
-                Math.atan(derivativeAt(percentage)) + theta_offset_);
+        double angle = Utilities.boundAngle0to2PiRadians(Math.atan(derivativeAt(percentage)) + theta_offset_);
         return angle;
     }
 
     public double angleChangeAt(double percentage)
     {
-        return Utilities.boundAngleNegPiToPiRadians(
-                Math.atan(secondDerivativeAt(percentage)));
+        return Utilities.boundAngleNegPiToPiRadians(Math.atan(secondDerivativeAt(percentage)));
     }
 
     public String toString()

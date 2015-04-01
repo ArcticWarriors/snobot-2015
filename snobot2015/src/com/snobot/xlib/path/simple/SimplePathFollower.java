@@ -22,11 +22,7 @@ public class SimplePathFollower
 
     private double mLastPosition;
 
-    public SimplePathFollower(List<SimplePathPoint> aPath,
-            double aKp,
-            double aKd,
-            double aKv,
-            double aKa)
+    public SimplePathFollower(List<SimplePathPoint> aPath, double aKp, double aKd, double aKv, double aKa)
     {
         mKp = aKp;
         mKd = aKd;
@@ -79,14 +75,9 @@ public class SimplePathFollower
         // ", " + mLastPosition + ", " + velocity);
 
         DecimalFormat df = new DecimalFormat("#.000");
-        System.out.println("" +
-                "Current: " + df.format(aCurrPosition) + ", " +
-                "Desired: " + df.format(point.mPosition) + ", " +
-                "p: " + df.format(p_term) + ", " +
-                "d: " + df.format(d_term) + ", " +
-                "v: " + df.format(v_term) + ", " +
-                "a: " + df.format(a_term) + ", " +
-                "output: " + output);
+        System.out.println("" + "Current: " + df.format(aCurrPosition) + ", " + "Desired: " + df.format(point.mPosition) + ", " + "p: "
+                + df.format(p_term) + ", " + "d: " + df.format(d_term) + ", " + "v: " + df.format(v_term) + ", " + "a: " + df.format(a_term) + ", "
+                + "output: " + output);
 
         String point_info = mPathIndex + "," + IdealPlotSerializer.serializePathPoint(actual_point);
         SmartDashboard.putString(SmartDashboardNames.sSIMPLE_PATH_POINT_INFO, point_info);

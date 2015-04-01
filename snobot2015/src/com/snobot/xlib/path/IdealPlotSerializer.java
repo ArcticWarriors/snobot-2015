@@ -9,9 +9,9 @@ public class IdealPlotSerializer
 
     private IdealPlotSerializer()
     {
-        
+
     }
-    
+
     public static List<SimplePathPoint> deserializePath(String aString)
     {
         List<SimplePathPoint> points = new ArrayList<SimplePathPoint>();

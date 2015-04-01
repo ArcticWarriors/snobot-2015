@@ -32,20 +32,15 @@ public class SnobotDriveTrain implements IDriveTrain
     private double mRightEncDistance;
     private double mLeftEncDistance;
 
-    
-    
     /**
      * Takes 2 speed controllers and joy stick arguments
      * 
-     * @param aSpeedControllerLeft
-     *            Argument for left Speed Controller
-     * @param aSpeedControllerRight
-     *            Argument for right Speed Controller
-     * @param aDriverJoystick
-     *            Argument Driver Joy stick
+     * @param aSpeedControllerLeft Argument for left Speed Controller
+     * @param aSpeedControllerRight Argument for right Speed Controller
+     * @param aDriverJoystick Argument Driver Joy stick
      */
     public SnobotDriveTrain(SpeedController aSpeedControllerLeft, SpeedController aSpeedControllerRight, IDriverJoystick aDriverJoystick,
-             Encoder aEncoderLeft, Encoder aEncoderRight, Logger aLogger)
+            Encoder aEncoderLeft, Encoder aEncoderRight, Logger aLogger)
     {
         mSpeedControllerLeft = aSpeedControllerLeft;
         mSpeedControllerRight = aSpeedControllerRight;
@@ -54,10 +49,12 @@ public class SnobotDriveTrain implements IDriveTrain
         mDefaultMeasure = UnitOfMeasure.Feet;
         mEncoderLeft = aEncoderLeft;
         mEncoderRight = aEncoderRight;
-        mLogger=aLogger;
-        
-        mRobotDrive.setSafetyEnabled(false); // TODO - PJ - probably not the safest thing for competition....
-        mEncoderLeft.setReverseDirection(true); // TODO PJ - is this totally useless?
+        mLogger = aLogger;
+
+        mRobotDrive.setSafetyEnabled(false); // TODO - PJ - probably not the
+                                             // safest thing for competition....
+        mEncoderLeft.setReverseDirection(true); // TODO PJ - is this totally
+                                                // useless?
     }
 
     @Override
@@ -72,16 +69,16 @@ public class SnobotDriveTrain implements IDriveTrain
     public void update()
     {
         mRightEncDistance = mEncoderLeft.getDistance();
-        mLeftEncDistance = mEncoderRight.getDistance(); 
+        mLeftEncDistance = mEncoderRight.getDistance();
         mSpeedControllerLeft.get();
         mSpeedControllerRight.get();
-        
+
     }
 
     @Override
     public void control()
     {
-        
+
         if (IDriverJoystick.DriveMode.Tank == mDriverJoystick.getDriveMode())
         {
             double left = mDriverJoystick.getLeftY();
@@ -189,7 +186,7 @@ public class SnobotDriveTrain implements IDriveTrain
         mDefaultMeasure = aMeasure;
 
     }
-    
+
     public void resetEncoders()
     {
         this.mEncoderLeft.reset();

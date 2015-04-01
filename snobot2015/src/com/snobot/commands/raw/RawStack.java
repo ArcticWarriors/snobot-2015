@@ -43,7 +43,7 @@ public class RawStack extends Command
     @Override
     protected void initialize()
     {
-    	mTimer.start();
+        mTimer.start();
     }
 
     @Override

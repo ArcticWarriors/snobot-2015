@@ -7,6 +7,7 @@ import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.path.SimplePathPoint;
 import com.snobot.xlib.path.simple.SimplePathFollower;
+import com.snobot.xlib.path.simple.SimplePathGenerator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -18,7 +19,12 @@ public class TurnSimplePath extends Command
     private SimplePathFollower mSimplePathFollower;
     private double mStartingDegrees;
     private double mHackFactor;
-    
+
+    public TurnSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, double aMaxVelocity, double aMaxAccel, double aPosition, double aDt)
+    {
+        this(aDrivetrain, aSnobotPosition, new SimplePathGenerator().generate(aMaxVelocity, aMaxAccel, aPosition, aDt), 1);
+    }
+
     public TurnSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, List<SimplePathPoint> aListPoints, double aHackFactor)
     {
         mDrivetrain = aDrivetrain;
@@ -35,27 +41,26 @@ public class TurnSimplePath extends Command
 
         mSimplePathFollower = new SimplePathFollower(mListPoints, kP, kD, kVelocity, kAccel);
     }
-    
+
     @Override
     protected void initialize()
     {
         mSimplePathFollower.init();
         mStartingDegrees = mSnobotPosition.getSnobotDegrees();
-        
+
     }
 
     @Override
     protected void execute()
     {
         double motorPower = mSimplePathFollower.calculate(mSnobotPosition.getSnobotDegrees() - mStartingDegrees);
-        mDrivetrain.setMotorSpeed(motorPower,-motorPower);
-        
+        mDrivetrain.setMotorSpeed(motorPower, -motorPower);
+
     }
 
     @Override
     protected boolean isFinished()
     {
-        // TODO Auto-generated method stub
         return mSimplePathFollower.isFinished();
     }
 
@@ -63,7 +68,7 @@ public class TurnSimplePath extends Command
     protected void end()
     {
         mDrivetrain.stop();
-        
+
     }
 
     @Override
@@ -71,5 +76,5 @@ public class TurnSimplePath extends Command
     {
 
     }
-    
+
 }

@@ -66,14 +66,9 @@ public class TrajectoryFollower
             double output = p_term + d_term + v_term + a_term;
 
             DecimalFormat df = new DecimalFormat("#.000");
-            System.out.println(name + " - " +
-                    "Current: " + df.format(distance_so_far) + ", " +
-                    "Desired: " + df.format(segment.pos) + ", " +
-                    "p: " + df.format(p_term) + ", " +
-                    "d: " + df.format(d_term) + ", " +
-                    "v: " + df.format(v_term) + ", " +
-                    "a: " + df.format(a_term) + ", " +
-                    "output: " + output);
+            System.out.println(name + " - " + "Current: " + df.format(distance_so_far) + ", " + "Desired: " + df.format(segment.pos) + ", " + "p: "
+                    + df.format(p_term) + ", " + "d: " + df.format(d_term) + ", " + "v: " + df.format(v_term) + ", " + "a: " + df.format(a_term)
+                    + ", " + "output: " + output);
 
             last_error_ = error;
             current_heading = segment.heading;

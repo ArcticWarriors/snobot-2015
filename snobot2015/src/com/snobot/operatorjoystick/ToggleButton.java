@@ -1,6 +1,5 @@
 package com.snobot.operatorjoystick;
 
-
 public class ToggleButton
 {
     private boolean mSwitchState;

@@ -17,18 +17,17 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     private Joystick mRightFlightStick;
     private DriveMode mDriveMode;
     private Logger mLogger;
-    
+
     private double mTankLeftYAxis;
     private double mTankRightYAxis;
     private double mArcadeLeftSpeed;
     private double mArcadeRightRotation;
+
     /**
      * Constructor for Flight Stick
      * 
-     * @param aLeftFlightStick
-     *            Argument for Left Flight Stick
-     * @param aRightFlightStick
-     *            Argument for Right Flight Stick
+     * @param aLeftFlightStick Argument for Left Flight Stick
+     * @param aRightFlightStick Argument for Right Flight Stick
      */
     public SnobotFlightstickJoystick(Joystick aLeftFlightStick, Joystick aRightFlightStick, Logger aLogger)
     {
@@ -62,7 +61,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         // {
         // mDriveMode = DriveMode.Arcade;
         // }
-        
+
         mTankLeftYAxis = mLeftFlightStick.getRawAxis(Properties2015.sFLIGHTSTICKS_Y_AXIS.getValue());
         mTankRightYAxis = mRightFlightStick.getRawAxis(Properties2015.sFLIGHTSTICKS_Y_AXIS.getValue());
         // mArcadeLeftSpeed =
@@ -102,7 +101,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
 
         // Angle of the Joy stick (for arcade drive)
         // mLogger.updateLogger(mArcadeRightRotation);
-        
+
         mLogger.updateLogger(getDriveMode().toString());
     }
 

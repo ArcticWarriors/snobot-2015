@@ -39,7 +39,7 @@ public interface IOperatorJoystick extends ISubsystem
      * 
      * @return True if claw is open else false
      */
-    
+
     boolean getClawDown();
 
     /**
@@ -52,9 +52,9 @@ public interface IOperatorJoystick extends ISubsystem
     /**
      * Perform initialization.
      */
-    
+
     public boolean getClawClose();
-    
+
     /**
      * Asks if rake up button is pressed.
      * 
@@ -63,10 +63,10 @@ public interface IOperatorJoystick extends ISubsystem
     public double getMoveRake();
 
     /**
-     * Perform initialization 
+     * Perform initialization
      * 
      */
-    
+
     public boolean getMoveToFloor();
 
     /**
@@ -91,11 +91,12 @@ public interface IOperatorJoystick extends ISubsystem
      * @return
      */
 
-    public double getJoystickValue ();
+    public double getJoystickValue();
+
     /**
      * Gets value of Joystick to set as stacker speed
      */
-    
+
     @Override
     void init();
 

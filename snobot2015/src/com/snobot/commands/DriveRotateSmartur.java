@@ -23,6 +23,7 @@ public class DriveRotateSmartur extends Command
 
     /**
      * Creates DriveRotate command object
+     * 
      * @param aDegree -Degree specified to turn to
      * @param aDriveTrain -SnobotDriveTrain class
      * @param aPosition -SnobotPosition class
@@ -34,7 +35,7 @@ public class DriveRotateSmartur extends Command
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
         mFinished = false;
-        
+
         mDbHelper = new InDeadbandHelper(5);
     }
 
@@ -68,7 +69,7 @@ public class DriveRotateSmartur extends Command
     @Override
     protected void interrupted()
     {
-        
+
     }
 
     @Override

@@ -78,16 +78,15 @@ public class Snobot extends ASnobot
     private SpeedController mDriveRight1;
     private SpeedController mStackerMotor;
     private SpeedController mRakeMotor;
-    
 
-    //Digital Inputs
+    // Digital Inputs
     private DigitalInput mUpperLimitSwitch;
     private DigitalInput mLowerLimitSwitch;
     private Encoder mEncoderLeft;
     private Encoder mEncoderRight;
     private DigitalInput mRakeLimitSwitch;
-    
-    //Analog Inputs
+
+    // Analog Inputs
     private Gyro mGyroSensor;
     private AnalogInput mTransducer;
     private AnalogInput mStackerPot;
@@ -98,8 +97,6 @@ public class Snobot extends ASnobot
     private PowerDistributionPanel mPowerDistributionPanel;
     private CommandParser mParser;
 
-   
-    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -120,53 +117,53 @@ public class Snobot extends ASnobot
             server.startAutomaticCapture(camera);
         }
 
+        // Joysticks
+        int operator_joystick_port = Properties2015.sOPERATOR_JOYSTICK_PORT.getValue();
+        int driver_joystick_1_port = Properties2015.sDRIVER_FLIGHTSTICK_1_PORT.getValue();
+        int driver_joystick_2_port = Properties2015.sDRIVER_FLIGHTSTICK_2_PORT.getValue();
 
-        //Joysticks
-    	int operator_joystick_port 	= Properties2015.sOPERATOR_JOYSTICK_PORT.getValue();
-    	int driver_joystick_1_port 	= Properties2015.sDRIVER_FLIGHTSTICK_1_PORT.getValue();
-    	int driver_joystick_2_port 	= Properties2015.sDRIVER_FLIGHTSTICK_2_PORT.getValue();
-    	
-    	//PWM
-    	int left_drive_motor_port 	= Properties2015.sDRIVE_MOTOR_LEFT_1.getValue();
-    	int right_drive_motor_port 	= Properties2015.sDRIVE_MOTOR_RIGHT_1.getValue();
-        int stacker_motor_port 		= Properties2015.sSTACKER_MOTOR.getValue();
-        int rake_motor_port         = Properties2015.sRAKE_MOTOR.getValue();
-        
-        //Digital IO
-    	int left_drive_enc_a 		= Properties2015.sLEFT_DRIVE_ENC_A.getValue();
-    	int left_drive_enc_b 		= Properties2015.sLEFT_DRIVE_ENC_B.getValue();
-    	int right_drive_enc_a 		= Properties2015.sRIGHT_DRIVE_ENC_A.getValue();
-    	int right_drive_enc_b 		= Properties2015.sRIGHT_DRIVE_ENC_B.getValue();
-        int stacker_upper_limit_sw 	= Properties2015.sSTACKER_UPPER_LIMIT_SWITCH.getValue();
-        int stacker_lower_limit_sw 	= Properties2015.sSTACKER_LOWER_LIMIT_SWITCH.getValue();
+        // PWM
+        int left_drive_motor_port = Properties2015.sDRIVE_MOTOR_LEFT_1.getValue();
+        int right_drive_motor_port = Properties2015.sDRIVE_MOTOR_RIGHT_1.getValue();
+        int stacker_motor_port = Properties2015.sSTACKER_MOTOR.getValue();
+        int rake_motor_port = Properties2015.sRAKE_MOTOR.getValue();
+
+        // Digital IO
+        int left_drive_enc_a = Properties2015.sLEFT_DRIVE_ENC_A.getValue();
+        int left_drive_enc_b = Properties2015.sLEFT_DRIVE_ENC_B.getValue();
+        int right_drive_enc_a = Properties2015.sRIGHT_DRIVE_ENC_A.getValue();
+        int right_drive_enc_b = Properties2015.sRIGHT_DRIVE_ENC_B.getValue();
+        int stacker_upper_limit_sw = Properties2015.sSTACKER_UPPER_LIMIT_SWITCH.getValue();
+        int stacker_lower_limit_sw = Properties2015.sSTACKER_LOWER_LIMIT_SWITCH.getValue();
         int rake_limit_switch_port = Properties2015.sRAKE_MOTOR_LS.getValue();
-        
-        //Analog
-        int transducer_port         = Properties2015.sTRANSDUCER.getValue();
-        int stacker_pot_port 		= Properties2015.sSTACKER_POT.getValue();
-        int gyro_port               = Properties2015.sGYRO_SENSOR.getValue();
-        
-        //Solenoid
+
+        // Analog
+        int transducer_port = Properties2015.sTRANSDUCER.getValue();
+        int stacker_pot_port = Properties2015.sSTACKER_POT.getValue();
+        int gyro_port = Properties2015.sGYRO_SENSOR.getValue();
+
+        // Solenoid
         int claw_solenoid_port = Properties2015.sCLAW_HAND_SOLENOID.getValue();
         int arm_solenoid_port = Properties2015.sCLAW_ARM_SOLENOID.getValue();
 
         String joystickType = SmartDashboardNames.sJOYSTICK_MODE_XBOX;
-        
-        //Save these port mappings before you try to start the robot in case there are conflicts
+
+        // Save these port mappings before you try to start the robot in case
+        // there are conflicts
         PropertyManager.saveIfUpdated();
-    	
+
         mPowerDistributionPanel = new PowerDistributionPanel();
-        
+
         mLogDateFormat = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
         String headerDate = mLogDateFormat.format(new Date());
         mLogger = new Logger(headerDate);
 
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         // User Interface
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         mRawOperatorJoystick = new Joystick(operator_joystick_port);
         mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
-        
+
         if (joystickType.equals(SmartDashboardNames.sJOYSTICK_MODE_XBOX))
         {
             mRawDriverJoystickPrimary = new Joystick(driver_joystick_1_port);
@@ -178,52 +175,52 @@ public class Snobot extends ASnobot
             mRawDriverJoystickSecondary = new Joystick(driver_joystick_2_port);
             mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
         }
-        
-        //Rake
+
+        // Rake
         mRakeMotor = new Talon(rake_motor_port);
         mRakeLimitSwitch = new DigitalInput(rake_limit_switch_port);
         mRake = new SnobotRake(mRakeMotor, mOperatorJoystick, mRakeLimitSwitch, mLogger);
 
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         // Drivetrain
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         mDriveLeft1 = new Talon(left_drive_motor_port);
         mDriveRight1 = new Talon(right_drive_motor_port);
         mEncoderLeft = new Encoder(left_drive_enc_a, left_drive_enc_b);
         mEncoderRight = new Encoder(right_drive_enc_a, right_drive_enc_b);
         mDriveTrain = new SnobotDriveTrain(mDriveLeft1, mDriveRight1, mDriverJoystick, mEncoderLeft, mEncoderRight, mLogger);
-        
-        ////////////////////////////////////////
+
+        // //////////////////////////////////////
         // Stacker
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         mUpperLimitSwitch = new DigitalInput(stacker_upper_limit_sw);
         mLowerLimitSwitch = new DigitalInput(stacker_lower_limit_sw);
         mStackerMotor = new VictorSP(stacker_motor_port);
         mStackerPot = new AnalogInput(stacker_pot_port);
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerPot);
 
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         // Claw
-        ////////////////////////////////////////
-        mClawHandSolenoid = new Solenoid (claw_solenoid_port);
-        mClawArmSolenoid = new Solenoid (arm_solenoid_port);
+        // //////////////////////////////////////
+        mClawHandSolenoid = new Solenoid(claw_solenoid_port);
+        mClawArmSolenoid = new Solenoid(arm_solenoid_port);
         mTransducer = new AnalogInput(transducer_port);
-        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer, mClawHandSolenoid, mClawArmSolenoid );
+        mClaw = new SnobotClaw(mOperatorJoystick, mLogger, mTransducer, mClawHandSolenoid, mClawArmSolenoid);
 
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         // Positioning
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         mGyroSensor = new Gyro(gyro_port);
         mPositioner = new SnobotPosition(mGyroSensor, mDriveTrain, mLogger);
 
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         // Auton Parser
-        ////////////////////////////////////////
+        // //////////////////////////////////////
         mParser = new CommandParser(this);
         readAutoFiles();
         addSmartDashboardListeners();
-        
-        //Finish setup
+
+        // Finish setup
         mSubsystems = new ArrayList<ISubsystem>();
         mSubsystems.add(mOperatorJoystick);
         mSubsystems.add(mDriverJoystick);
@@ -236,7 +233,8 @@ public class Snobot extends ASnobot
         init();
         rereadPreferences();
 
-        //Now all the preferences should be loaded, make sure they are all saved
+        // Now all the preferences should be loaded, make sure they are all
+        // saved
         PropertyManager.saveIfUpdated();
 
         readFile();
@@ -275,7 +273,7 @@ public class Snobot extends ASnobot
             mAutonCommand.cancel();
         }
     }
-    
+
     void readFile()
     {
         if (mAutonChooser.getSelected() != null)
@@ -290,25 +288,28 @@ public class Snobot extends ASnobot
 
     private void addSmartDashboardListeners()
     {
-        mAutonChooser.getTable().addTableListener(new ITableListener() {
-            
+        mAutonChooser.getTable().addTableListener(new ITableListener()
+        {
+
             @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
+            {
                 readFile();
             }
         });
 
-        ITableListener saveModeListener = new ITableListener() {
-            
+        ITableListener saveModeListener = new ITableListener()
+        {
+
             @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
+            {
 
                 mParser.saveAutonMode();
                 readFile();
             }
         };
-        NetworkTable.getTable("SmartDashboard").addTableListener(SmartDashboardNames.sSD_COMMAND_TEXT, 
-                saveModeListener, true);
+        NetworkTable.getTable("SmartDashboard").addTableListener(SmartDashboardNames.sSD_COMMAND_TEXT, saveModeListener, true);
     }
 
     public IDriveTrain getDriveTrain()
@@ -321,11 +322,11 @@ public class Snobot extends ASnobot
         return this.mPositioner;
     }
 
-    public IStacker getSnobotStacker() 
+    public IStacker getSnobotStacker()
     {
         return this.mStacker;
     }
-    
+
     public IClaw getSnobotClaw()
     {
         return this.mClaw;
@@ -335,14 +336,12 @@ public class Snobot extends ASnobot
     {
         return this.mRake;
     }
-    
 
     private void readAutoFiles()
     {
         mAutonChooser = mParser.loadAutonFiles(Properties2015.sAUTON_DIR.getValue(), Properties2015.sAUTON_IGNORE_STRING.getValue());
-        SmartDashboard.putData("mAutonChooser", mAutonChooser );
+        SmartDashboard.putData("mAutonChooser", mAutonChooser);
     }
-
 
     @Override
     public void updateLog()

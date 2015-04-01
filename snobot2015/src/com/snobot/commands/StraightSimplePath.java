@@ -7,6 +7,7 @@ import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.path.SimplePathPoint;
 import com.snobot.xlib.path.simple.SimplePathFollower;
+import com.snobot.xlib.path.simple.SimplePathGenerator;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -17,7 +18,13 @@ public class StraightSimplePath extends Command
     private List<SimplePathPoint> mListPoints;
     private SimplePathFollower mSimplePathFollower;
     private double mStartingDistance;
-    
+
+    public StraightSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, double aMaxVelocity, double aMaxAccel, double aPosition,
+            double aDt)
+    {
+        this(aDrivetrain, aSnobotPosition, new SimplePathGenerator().generate(aMaxVelocity, aMaxAccel, aPosition, aDt));
+    }
+
     public StraightSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, List<SimplePathPoint> aListPoints)
     {
         mDrivetrain = aDrivetrain;
@@ -31,7 +38,7 @@ public class StraightSimplePath extends Command
 
         mSimplePathFollower = new SimplePathFollower(mListPoints, kP, kD, kVelocity, kAccel);
     }
-    
+
     @Override
     protected void initialize()
     {
@@ -56,7 +63,7 @@ public class StraightSimplePath extends Command
     protected void end()
     {
         mDrivetrain.stop();
-        
+
     }
 
     @Override
@@ -64,5 +71,5 @@ public class StraightSimplePath extends Command
     {
 
     }
-    
+
 }

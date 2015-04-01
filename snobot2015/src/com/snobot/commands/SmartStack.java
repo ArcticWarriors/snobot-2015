@@ -9,7 +9,6 @@ public class SmartStack extends Command
     private boolean mFinished;
     private int mStackCommandIndex;
     private final IStacker mSnobotStacker;
-   
 
     public SmartStack(int aStackCommandIndex, IStacker aSnobotStacker)
     {
@@ -26,7 +25,7 @@ public class SmartStack extends Command
     @Override
     protected void execute()
     {
-        
+
         switch (mStackCommandIndex)
         {
         case 0:
@@ -49,7 +48,7 @@ public class SmartStack extends Command
             mSnobotStacker.stop();
             mFinished = true;
         }
-        
+
             System.out.println("Stack index=" + mStackCommandIndex + ", finished=" + mFinished);
         }
     }
@@ -70,7 +69,7 @@ public class SmartStack extends Command
     protected boolean isFinished()
     {
         return mFinished;
-      
+
     }
 
 }

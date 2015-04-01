@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Implementation of a Trajectory using arrays as the underlying storage mechanism.
+ * Implementation of a Trajectory using arrays as the underlying storage
+ * mechanism.
  *
  * @author Jared341
  */

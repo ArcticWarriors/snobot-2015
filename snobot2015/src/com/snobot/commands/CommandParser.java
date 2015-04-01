@@ -45,7 +45,7 @@ public class CommandParser extends ACommandParser
     public static final String sDRIVE_SPLINE_COMMAND = "DriveSplineCommand";
     public static final String sTHREE_TOTE_STACK_COMMAND = "ThreeToteStackCommand";
     public static final String sRAKE_COMMAND = "RakeCommand";
-    
+
     public CommandParser(Snobot aSnobot)
     {
         super(sDELIMITER, sCOMMENT_START);
@@ -61,86 +61,56 @@ public class CommandParser extends ACommandParser
 
         String pathsDir = Properties2015.sPATH_DIR.getValue();
 
-
         try
         {
             switch (commandName)
             {
-            
+
             // Not really a command, but a special case
             case sSET_POSITION_COMMAND:
-                mSnobot.getPositioner().setPosition(
-                        Double.parseDouble(args.get(1)),
-                        Double.parseDouble(args.get(2)),
-                        Double.parseDouble(args.get(3)));
+                mSnobot.getPositioner()
+                        .setPosition(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)));
                 break;
             case sDRIVE_FORWARD_COMMAND:
-                newCommand = new DriveForward(
-                        Double.parseDouble(args.get(1)), 
-                        Double.parseDouble(args.get(2)), 
-                        Double.parseDouble(args.get(3)),
-                        mSnobot.getDriveTrain(),
-                        mSnobot.getPositioner());
+                newCommand = new DriveForward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)),
+                        mSnobot.getDriveTrain(), mSnobot.getPositioner());
                 break;
-                
+
             case sDRIVE_FORWARD_SMARTER_COMMAND:
-                newCommand = new DriveForwardSmartur(
-                        Double.parseDouble(args.get(1)), 
-                        mSnobot.getDriveTrain(),
-                        mSnobot.getPositioner());
+                newCommand = new DriveForwardSmartur(Double.parseDouble(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
                 break;
 
             case sDRIVE_ROTATE_COMMAND:
-                newCommand = new DriveRotate(
-                        Double.parseDouble(args.get(1)), 
-                        Double.parseDouble(args.get(2)), 
-                        Double.parseDouble(args.get(3)),
-                        mSnobot.getDriveTrain(), 
-                        mSnobot.getPositioner());
+                newCommand = new DriveRotate(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)),
+                        mSnobot.getDriveTrain(), mSnobot.getPositioner());
                 break;
 
             case sRAW_DRIVE_COMMAND:
-                newCommand = new RawDriveFoward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
-                        mSnobot.getDriveTrain());
+                newCommand = new RawDriveFoward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getDriveTrain());
                 break;
 
             case sRAW_ROTATE_COMMAND:
-                newCommand = new RawRotateCommand(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
-                        mSnobot.getDriveTrain());
+                newCommand = new RawRotateCommand(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getDriveTrain());
                 break;
 
             case sDRIVE_ROTATE_SMARTER_COMMAND:
-                newCommand = new DriveRotateSmartur(
-                        Double.parseDouble(args.get(1)), 
-                        mSnobot.getDriveTrain(), 
-                        mSnobot.getPositioner());
+                newCommand = new DriveRotateSmartur(Double.parseDouble(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
                 break;
 
             case sRAW_STACK_COMMAND:
-                newCommand = new RawStack(
-                        Double.parseDouble(args.get(1)),
-                        Boolean.parseBoolean(args.get(2)),
-                        mSnobot.getSnobotStacker());
+                newCommand = new RawStack(Double.parseDouble(args.get(1)), Boolean.parseBoolean(args.get(2)), mSnobot.getSnobotStacker());
                 break;
-                
+
             case sCLAW_GRAB_COMMAND:
-                    newCommand = new ClawGrab(
-                        Boolean.parseBoolean(args.get(1)), 
-                        Double.parseDouble(args.get(2)), 
-                        mSnobot.getSnobotClaw());
+                newCommand = new ClawGrab(Boolean.parseBoolean(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getSnobotClaw());
                 break;
-                
+
             case sMOVE_CLAW_COMMAND:
-                newCommand = new MoveClaw(
-                        Boolean.parseBoolean(args.get(1)),
-                        Double.parseDouble(args.get(2)),
-                        mSnobot.getSnobotClaw());
+                newCommand = new MoveClaw(Boolean.parseBoolean(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getSnobotClaw());
                 break;
-                
+
             case sSMART_STACK_COMMAND:
-                newCommand = new SmartStack(
-                        Integer.parseInt(args.get(1)),
-                        mSnobot.getSnobotStacker());
+                newCommand = new SmartStack(Integer.parseInt(args.get(1)), mSnobot.getSnobotStacker());
                 break;
             case sTURN_SIMPLE_COMMAND:
             {
@@ -192,7 +162,6 @@ public class CommandParser extends ACommandParser
                 {
                     newCommand = new TrajectoryPathCommand(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
                 }
-
 
                 break;
             }
@@ -252,7 +221,7 @@ public class CommandParser extends ACommandParser
     {
         String new_text = SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "");
         String filename = SmartDashboard.getString(SmartDashboardNames.sAUTON_FILENAME, "auton_file.txt");
-        
+
         try
         {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));

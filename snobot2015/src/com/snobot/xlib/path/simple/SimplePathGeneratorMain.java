@@ -14,8 +14,7 @@ public class SimplePathGeneratorMain
 
     private static final double sDEFAULT_TURN_VEL = 60;
     private static final double sDEFAULT_TURN_ACCEL = 200;
-    
-    
+
     private class SimplePathGeneratorConfig
     {
         String mName;
@@ -96,7 +95,7 @@ public class SimplePathGeneratorMain
 
     private SimplePathGeneratorConfig genDriveForwardsLandmarkToAutoZone(double dt)
     {
-        double max_vel   = sDEFAULT_DRIVE_VEL;
+        double max_vel = sDEFAULT_DRIVE_VEL;
         double max_accel = sDEFAULT_DRIVE_ACCEL;
         double position = 8 * 12;
 
@@ -105,7 +104,7 @@ public class SimplePathGeneratorMain
 
     private SimplePathGeneratorConfig genDriveBackwardsLandmarkToAutoZone(double dt)
     {
-        double max_vel   = -sDEFAULT_DRIVE_VEL;
+        double max_vel = -sDEFAULT_DRIVE_VEL;
         double max_accel = -sDEFAULT_DRIVE_ACCEL;
         double position = -8 * 12;
 
@@ -114,7 +113,7 @@ public class SimplePathGeneratorMain
 
     private SimplePathGeneratorConfig genStartingIntoAuto(double dt)
     {
-        double max_vel   = sDEFAULT_DRIVE_VEL;
+        double max_vel = sDEFAULT_DRIVE_VEL;
         double max_accel = sDEFAULT_DRIVE_ACCEL;
         double position = 10 * 12;
 
@@ -182,12 +181,12 @@ public class SimplePathGeneratorMain
             File out_path = new File(directory + config.mName + ".csv");
             System.out.println("Generating path : " + out_path.getAbsolutePath());
 
-            List<SimplePathPoint> points = gen.generate(
-                    config.mMaxVelocity, config.mMaxAcceleration, config.mEndpoint, config.mDt);
+            List<SimplePathPoint> points = gen.generate(config.mMaxVelocity, config.mMaxAcceleration, config.mEndpoint, config.mDt);
             serializer.write(points, out_path.getPath());
         }
 
     }
+
     public static void main(String[] args)
     {
         new SimplePathGeneratorMain();

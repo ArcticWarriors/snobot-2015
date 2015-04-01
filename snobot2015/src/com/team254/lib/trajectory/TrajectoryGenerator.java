@@ -1,6 +1,5 @@
 package com.team254.lib.trajectory;
 
-
 /**
  * Factory class for creating Trajectories.
  *
@@ -20,8 +19,10 @@ public class TrajectoryGenerator
 
     public enum Strategy
     {
-        // Move from the start to the goal at a constant velocity. Acceleration and
-        // jerk limits are ignored, and start and goal vel are ignored (since the
+        // Move from the start to the goal at a constant velocity. Acceleration
+        // and
+        // jerk limits are ignored, and start and goal vel are ignored (since
+        // the
         // velocity at all times will be max_vel).
         StepStrategy,
 
@@ -29,8 +30,10 @@ public class TrajectoryGenerator
         // Jerk limits are ignored.
         TrapezoidalStrategy,
 
-        // Move from the start tot he goal with a S-curve speed profile. All limits
-        // are obeyed, but only point-to-point moves (start_vel = goal_vel = 0) are
+        // Move from the start tot he goal with a S-curve speed profile. All
+        // limits
+        // are obeyed, but only point-to-point moves (start_vel = goal_vel = 0)
+        // are
         // currently supported.
         SCurvesStrategy,
 
@@ -40,38 +43,27 @@ public class TrajectoryGenerator
 
     public enum IntegrationMethod
     {
-        RectangularIntegration,
-        TrapezoidalIntegration,
+        RectangularIntegration, TrapezoidalIntegration,
     }
 
     /**
      * Generate a trajectory from a start state to a goal state.
      *
-     * Read the notes on each of the Strategies defined above, as certain arguments are ignored for some strategies.
+     * Read the notes on each of the Strategies defined above, as certain
+     * arguments are ignored for some strategies.
      *
-     * @param config
-     *            Definition of constraints and sampling rate (WARNING: Some may be ignored)
-     * @param strategy
-     *            Which generator to use
-     * @param start_vel
-     *            The starting velocity (WARNING: May be ignored)
-     * @param start_heading
-     *            The starting heading
-     * @param goal_pos
-     *            The goal position
-     * @param goal_vel
-     *            The goal velocity (WARNING: May be ignored)
-     * @param goal_heading
-     *            The goal heading
-     * @return A Trajectory that satisfies the relevant constraints and end conditions.
+     * @param config Definition of constraints and sampling rate (WARNING: Some
+     *            may be ignored)
+     * @param strategy Which generator to use
+     * @param start_vel The starting velocity (WARNING: May be ignored)
+     * @param start_heading The starting heading
+     * @param goal_pos The goal position
+     * @param goal_vel The goal velocity (WARNING: May be ignored)
+     * @param goal_heading The goal heading
+     * @return A Trajectory that satisfies the relevant constraints and end
+     *         conditions.
      */
-    public static Trajectory generate(
-            Config config,
-            Strategy strategy,
-            double start_vel,
-            double start_heading,
-            double goal_pos,
-            double goal_vel,
+    public static Trajectory generate(Config config, Strategy strategy, double start_vel, double start_heading, double goal_pos, double goal_vel,
             double goal_heading)
     {
         // Choose an automatic strategy.
@@ -103,9 +95,7 @@ public class TrajectoryGenerator
         double total_heading_change = goal_heading - start_heading;
         for (int i = 0; i < traj.size(); ++i)
         {
-            traj.get(i).heading = start_heading + total_heading_change
-                    * (traj.get(i).pos)
-                    / traj.get(traj.size() - 1).pos;
+            traj.get(i).heading = start_heading + total_heading_change * (traj.get(i).pos) / traj.get(traj.size() - 1).pos;
         }
 
         return traj;
@@ -119,8 +109,7 @@ public class TrajectoryGenerator
         // This is due to discretization and avoids a strange final
         // velocity.
         int time = (int) (Math.floor(impulse));
-        return secondOrderFilter(1, 1, config.dt, config.max_vel,
-                config.max_vel, impulse, time, IntegrationMethod.TrapezoidalIntegration);
+        return secondOrderFilter(1, 1, config.dt, config.max_vel, config.max_vel, impulse, time, IntegrationMethod.TrapezoidalIntegration);
     }
 
     private static Trajectory generateWithTrapezoidal(Config config, double start_vel, double goal_vel, double goal_pos)
@@ -130,60 +119,41 @@ public class TrajectoryGenerator
         double start_discount = .5 * start_vel * start_vel / config.max_acc;
         double end_discount = .5 * goal_vel * goal_vel / config.max_acc;
 
-        double adjusted_max_vel = Math.min(config.max_vel,
-                Math.sqrt(config.max_acc * goal_pos - start_discount
-                        - end_discount));
+        double adjusted_max_vel = Math.min(config.max_vel, Math.sqrt(config.max_acc * goal_pos - start_discount - end_discount));
         double t_rampup = (adjusted_max_vel - start_vel) / config.max_acc;
-        double x_rampup = start_vel * t_rampup + .5 * config.max_acc
-                * t_rampup * t_rampup;
+        double x_rampup = start_vel * t_rampup + .5 * config.max_acc * t_rampup * t_rampup;
         double t_rampdown = (adjusted_max_vel - goal_vel) / config.max_acc;
-        double x_rampdown = adjusted_max_vel * t_rampdown - .5
-                * config.max_acc * t_rampdown * t_rampdown;
+        double x_rampdown = adjusted_max_vel * t_rampdown - .5 * config.max_acc * t_rampdown * t_rampdown;
         double x_cruise = goal_pos - x_rampdown - x_rampup;
 
         // The +.5 is to round to nearest
-        int time = (int) ((t_rampup + t_rampdown + x_cruise
-                / adjusted_max_vel) / config.dt + .5);
+        int time = (int) ((t_rampup + t_rampdown + x_cruise / adjusted_max_vel) / config.dt + .5);
 
         // Compute the length of the linear filters and impulse.
-        int f1_length = (int) Math.ceil((adjusted_max_vel
-                / config.max_acc) / config.dt);
-        double impulse = (goal_pos / adjusted_max_vel) / config.dt
-                - start_vel / config.max_acc / config.dt
-                + start_discount + end_discount;
-        return secondOrderFilter(f1_length, 1, config.dt, start_vel,
-                adjusted_max_vel, impulse, time, IntegrationMethod.TrapezoidalIntegration);
+        int f1_length = (int) Math.ceil((adjusted_max_vel / config.max_acc) / config.dt);
+        double impulse = (goal_pos / adjusted_max_vel) / config.dt - start_vel / config.max_acc / config.dt + start_discount + end_discount;
+        return secondOrderFilter(f1_length, 1, config.dt, start_vel, adjusted_max_vel, impulse, time, IntegrationMethod.TrapezoidalIntegration);
     }
 
     private static Trajectory generateWithSCurves(Config config, double goal_pos)
     {
         // How fast can we go given maximum acceleration and deceleration?
-        double adjusted_max_vel = Math.min(config.max_vel,
-                (-config.max_acc * config.max_acc + Math.sqrt(config.max_acc
-                        * config.max_acc * config.max_acc * config.max_acc
-                        + 4 * config.max_jerk * config.max_jerk * config.max_acc
-                        * goal_pos)) / (2 * config.max_jerk));
+        double adjusted_max_vel = Math.min(
+                config.max_vel,
+                (-config.max_acc * config.max_acc + Math.sqrt(config.max_acc * config.max_acc * config.max_acc * config.max_acc + 4 * config.max_jerk
+                        * config.max_jerk * config.max_acc * goal_pos))
+                        / (2 * config.max_jerk));
 
         // Compute the length of the linear filters and impulse.
-        int f1_length = (int) Math.ceil((adjusted_max_vel
-                / config.max_acc) / config.dt);
-        int f2_length = (int) Math.ceil((config.max_acc
-                / config.max_jerk) / config.dt);
+        int f1_length = (int) Math.ceil((adjusted_max_vel / config.max_acc) / config.dt);
+        int f2_length = (int) Math.ceil((config.max_acc / config.max_jerk) / config.dt);
         double impulse = (goal_pos / adjusted_max_vel) / config.dt;
         int time = (int) (Math.ceil(f1_length + f2_length + impulse));
-        return secondOrderFilter(f1_length, f2_length, config.dt, 0,
-                adjusted_max_vel, impulse, time, IntegrationMethod.TrapezoidalIntegration);
+        return secondOrderFilter(f1_length, f2_length, config.dt, 0, adjusted_max_vel, impulse, time, IntegrationMethod.TrapezoidalIntegration);
     }
 
-    private static Trajectory secondOrderFilter(
-            int f1_length,
-            int f2_length,
-            double dt,
-            double start_vel,
-            double max_vel,
-            double total_impulse,
-            int length,
-            IntegrationMethod integration)
+    private static Trajectory secondOrderFilter(int f1_length, int f2_length, double dt, double start_vel, double max_vel, double total_impulse,
+            int length, IntegrationMethod integration)
     {
         if (length <= 0)
         {
@@ -253,8 +223,7 @@ public class TrajectoryGenerator
             }
             else if (integration == IntegrationMethod.TrapezoidalIntegration)
             {
-                traj.get(i).pos = (last.vel
-                        + traj.get(i).vel) / 2.0 * dt + last.pos;
+                traj.get(i).pos = (last.vel + traj.get(i).vel) / 2.0 * dt + last.pos;
             }
             traj.get(i).x = traj.get(i).pos;
             traj.get(i).y = 0;
@@ -271,8 +240,7 @@ public class TrajectoryGenerator
         return traj;
     }
 
-    public static Strategy chooseStrategy(double start_vel, double goal_vel,
-            double max_vel)
+    public static Strategy chooseStrategy(double start_vel, double goal_vel, double max_vel)
     {
         Strategy strategy;
         if (start_vel == goal_vel && start_vel == max_vel)

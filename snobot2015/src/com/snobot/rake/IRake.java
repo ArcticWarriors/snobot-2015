@@ -9,7 +9,8 @@ import com.snobot.xlib.ISubsystem;
  * @author jbnol_000
  *
  */
-public interface IRake extends ISubsystem {
+public interface IRake extends ISubsystem
+{
 
     /**
      * Moves the rake down.

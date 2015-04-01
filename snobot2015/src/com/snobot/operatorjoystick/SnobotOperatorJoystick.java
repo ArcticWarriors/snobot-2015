@@ -23,7 +23,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     private double mXBOXStackerJoystickDown;
     private ToggleButton mClawArmButton;
     private ToggleButton mClawHandButton;
-    
+
     private boolean mIsHandOpen;
     private boolean mIsArmUp;
 
@@ -39,8 +39,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Constructs a SnobotOperatorJoystick object
      * 
-     * @param aOperatorJoystick
-     *            Argument for operator Joystick
+     * @param aOperatorJoystick Argument for operator Joystick
      */
     public SnobotOperatorJoystick(Joystick aOperatorJoystick)
     {
@@ -52,15 +51,15 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     @Override
     public boolean getStackerUp()
     {
-       return mStackerJoystickDirection >= mXBOXStackerJoystickUp;
+        return mStackerJoystickDirection >= mXBOXStackerJoystickUp;
     }
 
     @Override
     public boolean getStackerDown()
     {
-       return mStackerJoystickDirection <= mXBOXStackerJoystickDown;
+        return mStackerJoystickDirection <= mXBOXStackerJoystickDown;
     }
-    
+
     @Override
     public boolean getClawUp()
     {
@@ -72,21 +71,18 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     {
         return !mIsArmUp;
     }
-    
 
     @Override
     public boolean getClawOpen()
     {
         return mIsHandOpen;
     }
-    
+
     @Override
     public boolean getClawClose()
     {
         return !mIsHandOpen;
     }
-
-
 
     @Override
     public double getMoveRake()
@@ -136,10 +132,10 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     public void update()
     {
 
-        //Thresholds
-        mXBOXStackerJoystickUp = Properties2015.sXBOX_JOYSTICK_STACKER_UP.getValue();
-        mXBOXStackerJoystickDown = Properties2015.sXBOX_JOYSTICK_STACKER_DOWN.getValue();
-        
+        // Thresholds
+        mXBOXStackerJoystickUp = Properties2015.sSTACKER_UP_DEADBAND.getValue();
+        mXBOXStackerJoystickDown = Properties2015.sSTACKER_DOWN_DEADBAND.getValue();
+
         // Buttons
         mXBOXButtonMoveClawArm = Properties2015.sXBOX_BUTTON_CLAW_OPEN.getValue();
         mXBOXButtonMoveClawHand = Properties2015.sXBOX_BUTTON_CLAW_CLOSE.getValue();

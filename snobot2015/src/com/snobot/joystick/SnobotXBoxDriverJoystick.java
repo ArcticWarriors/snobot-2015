@@ -20,14 +20,14 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     private double mTankRightYAxis;
     private double mArcadeLeftSpeed;
     private double mArcadeRightRotation;
-    
+
     private int mTankMode;
     private int mArcadeMode;
+
     /**
      * Constructor for xBox Joy stick
      * 
-     * @param aXBoxStick
-     *            Argument for xBox Stick
+     * @param aXBoxStick Argument for xBox Stick
      */
     public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger)
     {
@@ -45,26 +45,27 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         // mLogger.addHeader("Arcade Mode: Right X Axis");
         mLogger.addHeader("Drive Mode");
         mDriveMode = DriveMode.Tank;
-        
+
         rereadPreferences();
     }
 
     @Override
     public void update()
     {
-//        if (mXBoxStick.getRawButton(mTankMode))
-//        {
-//            mDriveMode = DriveMode.Tank;
-//        }
+        // if (mXBoxStick.getRawButton(mTankMode))
+        // {
+        // mDriveMode = DriveMode.Tank;
+        // }
         // else if (mXBoxStick.getRawButton(mArcadeMode))
         // {
         // mDriveMode = DriveMode.Arcade;
         // }
-        
+
         mTankLeftYAxis = -mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         mTankRightYAxis = -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
         // mArcadeLeftSpeed = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
-        // mArcadeRightRotation = -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
+        // mArcadeRightRotation =
+        // -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
     }
 
     @Override
@@ -102,7 +103,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
 
         // Angle of the Joy stick (for arcade drive)
         // mLogger.updateLogger(mArcadeRightRotation);
-        
+
         mLogger.updateLogger(getDriveMode().toString());
     }
 

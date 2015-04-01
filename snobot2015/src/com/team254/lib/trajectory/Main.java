@@ -50,8 +50,7 @@ public class Main
     private static void generate(TrajectoryGenerator.Config config, List<Waypoint> p, String directory, String path_name, double kWheelbaseWidth)
     {
 
-        Path path = PathGenerator.makePath(p, config,
-                kWheelbaseWidth, path_name);
+        Path path = PathGenerator.makePath(p, config, kWheelbaseWidth, path_name);
 
         // Outputs to the directory supplied as the first argument.
         TextFileSerializer js = new TextFileSerializer();

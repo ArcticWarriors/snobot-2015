@@ -15,19 +15,19 @@ import com.snobot.Properties2015;
 
 public class Logger
 {
-    //Current Date and Time
+    // Current Date and Time
     private String mLogDate;
-    
-    //File Writer
+
+    // File Writer
     private FileWriter mLogWriter;
-    
-    //A count that increases every teleop cycle
+
+    // A count that increases every teleop cycle
     private int mCurrentLogCount;
-    
-    //A count that is used to indicate when to log (set by preferences)
+
+    // A count that is used to indicate when to log (set by preferences)
     private int mConfigLogCount;
-    
-    //File Path set by preferences
+
+    // File Path set by preferences
     private String mLogFilePath;
 
     public Logger(String aLogDate)
@@ -51,7 +51,7 @@ public class Logger
         try
         {
             File dir = new File(mLogFilePath);
-            if(!dir.exists())
+            if (!dir.exists())
             {
                 dir.mkdirs();
             }
@@ -174,7 +174,7 @@ public class Logger
      */
     public void updateLogger(double aEntry)
     {
-       updateLogger("" + aEntry);
+        updateLogger("" + aEntry);
     }
 
     /**
@@ -184,7 +184,7 @@ public class Logger
      */
     public void updateLogger(boolean aEntry)
     {
-        //Convert boolean to a number, then log
+        // Convert boolean to a number, then log
         updateLogger(aEntry ? 1 : 0);
 
     }

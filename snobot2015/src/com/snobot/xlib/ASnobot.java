@@ -22,11 +22,11 @@ public abstract class ASnobot extends IterativeRobot implements ISubsystem
     public void autonomousPeriodic()
     {
         Scheduler.getInstance().run();
-    
+
         update();
         updateSmartDashboard();
         updateLog();
-        
+
     }
 
     /**
@@ -53,7 +53,7 @@ public abstract class ASnobot extends IterativeRobot implements ISubsystem
         for (ISubsystem iSubsystem : mSubsystems)
         {
             iSubsystem.update();
-    
+
         }
     }
 
@@ -108,7 +108,7 @@ public abstract class ASnobot extends IterativeRobot implements ISubsystem
     @Override
     public void testPeriodic()
     {
-    
+
     }
 
 }

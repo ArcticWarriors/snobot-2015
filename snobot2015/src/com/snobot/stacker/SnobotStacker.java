@@ -27,7 +27,7 @@ public class SnobotStacker implements IStacker
         Coop(Properties2015.sSTACKER_COOP_HEIGHT);
 
         private DoubleProperty mHeight;
-        
+
         StackerHeights(DoubleProperty aHeight)
         {
             mHeight = aHeight;
@@ -58,8 +58,7 @@ public class SnobotStacker implements IStacker
     /**
      * Constructs a SnobotStacker object
      * 
-     * @param aOperatorJoystick
-     *            Argument of operator joy stick
+     * @param aOperatorJoystick Argument of operator joy stick
      */
     public SnobotStacker(IOperatorJoystick aOperatorJoystick, SpeedController aStackerMotor, DigitalInput aUpperLimitSwitch,
             DigitalInput aLowerLimitSwitch, Logger aLogger, AnalogInput aStackerEncoder)
@@ -78,7 +77,7 @@ public class SnobotStacker implements IStacker
 
         if (mUpperLimitSwitchState)
         {
-//            System.out.println("Move Stacker Up Stopped :)");
+            // System.out.println("Move Stacker Up Stopped :)");
             stop();
             return false;
         }
@@ -89,7 +88,8 @@ public class SnobotStacker implements IStacker
             {
                 safeSpeed = mStackerLimitSpeedUp;
             }
-            // System.out.println("Move Stacker Up Moving :) safe speed = " + safeSpeed + "... " + mStackerLimitSpeedUp);
+            // System.out.println("Move Stacker Up Moving :) safe speed = " +
+            // safeSpeed + "... " + mStackerLimitSpeedUp);
 
             setElevatorSpeed(safeSpeed);
             return true;
@@ -106,7 +106,7 @@ public class SnobotStacker implements IStacker
 
         if (mLowerLimitSwitchState)
         {
-//            System.out.println("Move Stacker Down Stopped :)");
+            // System.out.println("Move Stacker Down Stopped :)");
             stop();
             return false;
         }
@@ -117,7 +117,8 @@ public class SnobotStacker implements IStacker
             {
                 safeSpeed = mStackerLimitSpeedDown;
             }
-//            System.out.println("Move Stacker Down Moving :) safe speed = " + safeSpeed + "... " + mStackerLimitSpeedDown);
+            // System.out.println("Move Stacker Down Moving :) safe speed = " +
+            // safeSpeed + "... " + mStackerLimitSpeedDown);
             setElevatorSpeed(safeSpeed);
             return true;
         }
@@ -125,12 +126,12 @@ public class SnobotStacker implements IStacker
          * Assuming Physical Limit Switch will stop stacker at limit
          */
     }
-    
+
     public boolean moveStackerToGround()
     {
         return moveStackerToHeight(StackerHeights.Floor);
     }
-    
+
     public boolean moveStackerToScoringPlatform()
     {
         return moveStackerToHeight(StackerHeights.ScoringPlatform);
@@ -139,7 +140,7 @@ public class SnobotStacker implements IStacker
     public boolean moveStackerToOneStack()
     {
         return moveStackerToHeight(StackerHeights.OneTote);
-    } 
+    }
 
     public boolean moveStackerToCoopHeight()
     {
@@ -154,7 +155,8 @@ public class SnobotStacker implements IStacker
         double kp = Properties2015.sSTACKER_KP.getValue();
         double pid_speed = error * kp;
 
-//        System.out.println("Current Hieght: " + current_height + " , error: " + error + " , Stacker Speed: " + pid_speed);
+        // System.out.println("Current Hieght: " + current_height + " , error: "
+        // + error + " , Stacker Speed: " + pid_speed);
 
         if (Math.abs(error) < mStackerStackingMargin)
         {
@@ -182,8 +184,8 @@ public class SnobotStacker implements IStacker
         mLogger.addHeader("LowerLimitSwitchState");
         mLogger.addHeader("StackerEncoderDistance");
         mLogger.addHeader("StackerMotorValue");
-        
-        rereadPreferences ();
+
+        rereadPreferences();
     }
 
     @Override
@@ -202,7 +204,8 @@ public class SnobotStacker implements IStacker
         double pot_ipv = max_stacker_height / pot_diff;
         mStackerHeight = max_stacker_height - ((pot_voltage - pot_top_min) * pot_ipv);
 
-        // System.out.println("Pot Voltage: " + pot_voltage + ", diff=" + pot_diff + ", Stacker Height: " + mStackerHeight);
+        // System.out.println("Pot Voltage: " + pot_voltage + ", diff=" +
+        // pot_diff + ", Stacker Height: " + mStackerHeight);
 
     }
 

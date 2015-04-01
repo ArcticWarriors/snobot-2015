@@ -1,6 +1,5 @@
 package com.team254.lib.trajectory;
 
-
 /**
  * Base class for an autonomous path.
  * 

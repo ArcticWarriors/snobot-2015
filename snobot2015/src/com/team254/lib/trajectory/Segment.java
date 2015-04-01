@@ -9,8 +9,7 @@ public class Segment
     {
     }
 
-    public Segment(double pos, double vel, double acc, double jerk,
-            double heading, double dt, double x, double y)
+    public Segment(double pos, double vel, double acc, double jerk, double heading, double dt, double x, double y)
     {
         this.pos = pos;
         this.vel = vel;
@@ -36,7 +35,6 @@ public class Segment
 
     public String toString()
     {
-        return "pos: " + pos + "; vel: " + vel + "; acc: " + acc + "; jerk: "
-                + jerk + "; heading: " + heading;
+        return "pos: " + pos + "; vel: " + vel + "; acc: " + acc + "; jerk: " + jerk + "; heading: " + heading;
     }
 }

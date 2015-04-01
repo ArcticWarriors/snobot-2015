@@ -37,7 +37,7 @@ public class SnobotPosition implements ISubsystem
      * Distance traveled by Snobot since last update
      */
     private double mDeltaDistance;
-    
+
     /**
      * The total distance saved from the previous update
      */
@@ -63,16 +63,11 @@ public class SnobotPosition implements ISubsystem
     /**
      * Constructs a SnobotPosition object
      * 
-     * @param aPositionX
-     *            Snobot's initial position on the X-axis
-     * @param aPositionY
-     *            Snobot's initial position on the Y-axis
-     * @param aRadianRotation
-     *            Snobot's initial orientation
-     * @param aGryroSensor
-     *            Gyro object to calculate orientation
-     * @param aDefaultMeasure
-     *            Measure that is to be used by default
+     * @param aPositionX Snobot's initial position on the X-axis
+     * @param aPositionY Snobot's initial position on the Y-axis
+     * @param aRadianRotation Snobot's initial orientation
+     * @param aGryroSensor Gyro object to calculate orientation
+     * @param aDefaultMeasure Measure that is to be used by default
      */
     public SnobotPosition(Gyro aGyroSensor, IDriveTrain aDriveTrain, Logger aLogger)
     {
@@ -97,7 +92,7 @@ public class SnobotPosition implements ISubsystem
         this.mLogger.addHeader("Traveled");
 
     }
-    
+
     /**
      * Gives Logger entries: X-position, Y-position, Degrees, Distance
      */
@@ -148,13 +143,13 @@ public class SnobotPosition implements ISubsystem
      */
     public void update()
     {
-    	double total_distance = this.calculateDistanceTraveled();
-    	this.mDeltaDistance = total_distance - mLastDistance;
-    	
+        double total_distance = this.calculateDistanceTraveled();
+        this.mDeltaDistance = total_distance - mLastDistance;
+
         this.mRadianRotation = this.calculateDirection();
         this.mPositionX += Math.sin(this.mRadianRotation) * this.mDeltaDistance;
         this.mPositionY += Math.cos(this.mRadianRotation) * this.mDeltaDistance;
-        
+
         mLastDistance = total_distance;
     }
 
@@ -233,8 +228,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Sets Snobot's X-position
      * 
-     * @param aXPosition
-     *            Snobot's new X-position
+     * @param aXPosition Snobot's new X-position
      */
     public void setSnobotXPosition(double aXPosition)
     {
@@ -244,8 +238,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Sets Snobot's Y-position
      * 
-     * @param aYPosition
-     *            Snobot's new Y-position
+     * @param aYPosition Snobot's new Y-position
      */
     public void setSnobotYPosition(double aYPosition)
     {
@@ -255,8 +248,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Sets Snobot's orientation
      * 
-     * @param aDegrees
-     *            Snobot's new orientation in degrees
+     * @param aDegrees Snobot's new orientation in degrees
      */
     public void setSnobotDegreeRotation(double aDegrees)
     {
@@ -265,24 +257,28 @@ public class SnobotPosition implements ISubsystem
     }
 
     @Override
-    public void control() {
+    public void control()
+    {
     }
 
     @Override
-    public void rereadPreferences() {
+    public void rereadPreferences()
+    {
     }
 
     @Override
-    public void updateSmartDashboard() {
+    public void updateSmartDashboard()
+    {
         // TODO Perhaps these could be changed to graphical representations
         SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_HEADING, this.getSnobotDegrees());
         SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_X_POSITION, this.mPositionX);
         SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_Y_POSITION, this.mPositionY);
         SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_INSTANT_VELOCITY, this.mDeltaDistance);
-        
+
     }
 
     @Override
-    public void stop() {
+    public void stop()
+    {
     }
 }

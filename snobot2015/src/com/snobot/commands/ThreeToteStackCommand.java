@@ -17,13 +17,7 @@ public class ThreeToteStackCommand extends Command
 
     private enum Steps_e
     {
-        ScoopFirst,
-        RaiseOne,
-        ScoopSecond,
-        RaiseTwo,
-        ScoopThird,
-        RaiseThree,
-        DropEm,
+        ScoopFirst, RaiseOne, ScoopSecond, RaiseTwo, ScoopThird, RaiseThree, DropEm,
 
         Finished
     }

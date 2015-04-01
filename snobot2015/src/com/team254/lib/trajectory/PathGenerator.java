@@ -14,40 +14,33 @@ public class PathGenerator
     /**
      * Generate a path for autonomous driving.
      * 
-     * @param waypoints
-     *            The waypoints to drive to (FOR THE "GO LEFT" CASE!!!!)
-     * @param config
-     *            Trajectory config.
-     * @param wheelbase_width
-     *            Wheelbase separation; units must be consistent with config and waypoints.
-     * @param name
-     *            The name of the new path. THIS MUST BE A VALID JAVA CLASS NAME
+     * @param waypoints The waypoints to drive to (FOR THE "GO LEFT" CASE!!!!)
+     * @param config Trajectory config.
+     * @param wheelbase_width Wheelbase separation; units must be consistent
+     *            with config and waypoints.
+     * @param name The name of the new path. THIS MUST BE A VALID JAVA CLASS
+     *            NAME
      * @return The path.
      */
-    public static Path makePath(List<Waypoint> waypoints,
-            TrajectoryGenerator.Config config, double wheelbase_width,
-            String name)
+    public static Path makePath(List<Waypoint> waypoints, TrajectoryGenerator.Config config, double wheelbase_width, String name)
     {
-        return new Path(name,
-                generateLeftAndRightFromSeq(waypoints, config, wheelbase_width));
+        return new Path(name, generateLeftAndRightFromSeq(waypoints, config, wheelbase_width));
     }
 
-    static Trajectory.Pair generateLeftAndRightFromSeq(List<Waypoint> path,
-            TrajectoryGenerator.Config config, double wheelbase_width)
+    static Trajectory.Pair generateLeftAndRightFromSeq(List<Waypoint> path, TrajectoryGenerator.Config config, double wheelbase_width)
     {
-        return makeLeftAndRightTrajectories(generateFromPath(path, config),
-                wheelbase_width);
+        return makeLeftAndRightTrajectories(generateFromPath(path, config), wheelbase_width);
     }
 
-    static Trajectory generateFromPath(List<Waypoint> path,
-            TrajectoryGenerator.Config config)
+    static Trajectory generateFromPath(List<Waypoint> path, TrajectoryGenerator.Config config)
     {
         if (path.size() < 2)
         {
             return null;
         }
 
-        // Compute the total length of the path by creating splines for each pair
+        // Compute the total length of the path by creating splines for each
+        // pair
         // of waypoints.
         Spline[] splines = new Spline[path.size() - 1];
         double[] spline_lengths = new double[splines.length];
@@ -55,8 +48,7 @@ public class PathGenerator
         for (int i = 0; i < splines.length; ++i)
         {
             splines[i] = new Spline();
-            if (!Spline.reticulateSplines(path.get(i),
-                    path.get(i + 1), splines[i], Spline.Type.QuinticHermite))
+            if (!Spline.reticulateSplines(path.get(i), path.get(i + 1), splines[i], Spline.Type.QuinticHermite))
             {
                 return null;
             }
@@ -65,9 +57,8 @@ public class PathGenerator
         }
 
         // Generate a smooth trajectory over the total distance.
-        Trajectory traj = TrajectoryGenerator.generate(config,
-                TrajectoryGenerator.Strategy.SCurvesStrategy, 0.0, path.get(0).theta,
-                total_distance, 0.0, path.get(0).theta);
+        Trajectory traj = TrajectoryGenerator.generate(config, TrajectoryGenerator.Strategy.SCurvesStrategy, 0.0, path.get(0).theta, total_distance,
+                0.0, path.get(0).theta);
 
         // Assign headings based on the splines.
         int cur_spline = 0;
@@ -83,8 +74,7 @@ public class PathGenerator
                 double cur_pos_relative = cur_pos - cur_spline_start_pos;
                 if (cur_pos_relative <= spline_lengths[cur_spline])
                 {
-                    double percentage = splines[cur_spline].getPercentageForDistance(
-                            cur_pos_relative);
+                    double percentage = splines[cur_spline].getPercentageForDistance(cur_pos_relative);
                     traj.get(i).heading = splines[cur_spline].angleAt(percentage);
                     double[] coords = splines[cur_spline].getXandY(percentage);
                     traj.get(i).x = coords[0];
@@ -114,14 +104,12 @@ public class PathGenerator
     /**
      * Generate left and right wheel trajectories from a reference.
      *
-     * @param input
-     *            The reference trajectory.
-     * @param wheelbase_width
-     *            The center-to-center distance between the left and right sides.
+     * @param input The reference trajectory.
+     * @param wheelbase_width The center-to-center distance between the left and
+     *            right sides.
      * @return [0] is left, [1] is right
      */
-    static Trajectory.Pair makeLeftAndRightTrajectories(Trajectory input,
-            double wheelbase_width)
+    static Trajectory.Pair makeLeftAndRightTrajectories(Trajectory input, double wheelbase_width)
     {
         Trajectory[] output = new Trajectory[2];
         output[0] = input.copy();
@@ -163,10 +151,7 @@ public class PathGenerator
     {
         if (previous != null)
         {
-            double dist = Math.sqrt((s_right.x - previous.x)
-                    * (s_right.x - previous.x)
-                    + (s_right.y - previous.y)
-                    * (s_right.y - previous.y));
+            double dist = Math.sqrt((s_right.x - previous.x) * (s_right.x - previous.x) + (s_right.y - previous.y) * (s_right.y - previous.y));
             s_right.pos = previous.pos + dist;
             s_right.vel = dist / s_right.dt;
             s_right.acc = (s_right.vel - previous.vel) / s_right.dt;

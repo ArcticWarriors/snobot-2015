@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class SnobotRake implements IRake {
+public class SnobotRake implements IRake
+{
 
     private SpeedController mRakeMotor;
     private IOperatorJoystick mOperatorJoystick;
@@ -21,11 +22,11 @@ public class SnobotRake implements IRake {
      * 
      * @param aRakeMotor
      * @param aOperatorJoystick
-     * @param aLimitSwitch
-     *            Argument of operator Rake Motor, Operator Joystick, Limit
-     *            Switch
+     * @param aLimitSwitch Argument of operator Rake Motor, Operator Joystick,
+     *            Limit Switch
      */
-    public SnobotRake(SpeedController aRakeMotor, IOperatorJoystick aOperatorJoystick, DigitalInput aLimitSwitch, Logger aLogger) {
+    public SnobotRake(SpeedController aRakeMotor, IOperatorJoystick aOperatorJoystick, DigitalInput aLimitSwitch, Logger aLogger)
+    {
         mRakeMotor = aRakeMotor;
         mOperatorJoystick = aOperatorJoystick;
         mLimitSwitch = aLimitSwitch;
@@ -81,7 +82,6 @@ public class SnobotRake implements IRake {
     @Override
     public void updateLog()
     {
-
 
         mLogger.updateLogger(mLimitSwitchPressed);
         mLogger.updateLogger(mRakeMotor.get());

@@ -47,7 +47,6 @@ public class SimplePathGenerator
             output.add(new SimplePathPoint(3, aDt, aPosition, 0, 0));
         }
 
-
         return output;
     }
 

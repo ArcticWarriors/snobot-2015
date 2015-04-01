@@ -1,4 +1,4 @@
-        package com.snobot.commands.raw;
+package com.snobot.commands.raw;
 
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
@@ -26,14 +26,10 @@ public class DriveForward extends Command
     /**
      * Creates DriveForward Command object
      * 
-     * @param aDistance
-     *            -Distance desired to drive
-     * @param aSpeed
-     *            -Speed to set motors to
-     * @param aDriveTrain
-     *            -SnobotDriveTrain class
-     * @param aPosition
-     *            -SnobotPosition class
+     * @param aDistance -Distance desired to drive
+     * @param aSpeed -Speed to set motors to
+     * @param aDriveTrain -SnobotDriveTrain class
+     * @param aPosition -SnobotPosition class
      */
     public DriveForward(double aDistance, double aSpeed, double aTolerance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
@@ -42,15 +38,15 @@ public class DriveForward extends Command
         mTolerance = aTolerance;
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
-        mFinished=false;
+        mFinished = false;
     }
 
     @Override
     protected void initialize()
     {
-    	mStartingDistance  = mPosition.getTotalDistance();
+        mStartingDistance = mPosition.getTotalDistance();
     }
-    
+
     @Override
     /**
      * Sets motors to desired speed until the distance specified has been traveled
@@ -71,7 +67,7 @@ public class DriveForward extends Command
         {
             mFinished = true;
         }
-        
+
         System.out.println(mPosition.getTotalDistance());
     }
 
@@ -84,13 +80,13 @@ public class DriveForward extends Command
     @Override
     protected void interrupted()
     {
-    	//nothing to do
+        // nothing to do
     }
 
     @Override
     protected boolean isFinished()
     {
-    	return mFinished;
+        return mFinished;
     }
 
 }
