@@ -1,13 +1,9 @@
 package com.snobot.commands;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
@@ -17,21 +13,20 @@ import com.snobot.commands.raw.DriveRotate;
 import com.snobot.commands.raw.RawDriveFoward;
 import com.snobot.commands.raw.RawRotateCommand;
 import com.snobot.commands.raw.RawStack;
+import com.snobot.xlib.ACommandParser;
 import com.snobot.xlib.path.SimplePathPoint;
 import com.snobot.xlib.path.simple.SimplePathDeserializer;
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.io.TextFileDeserializer;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class CommandParser
+public class CommandParser extends ACommandParser
 {
     private static final String sDELIMITER = " ";
+    private static final String sCOMMENT_START = "#";
     private Snobot mSnobot;
-    private String mErrorText;
-    private boolean mSuccess;
 
     // Autonomous Commands
     public static final String sSET_POSITION_COMMAND = "SetPosition";
@@ -53,49 +48,19 @@ public class CommandParser
     
     public CommandParser(Snobot aSnobot)
     {
+        super(sDELIMITER, sCOMMENT_START);
         mSnobot = aSnobot;
-        mErrorText = "";
-        mSuccess = false;
 
     }
 
-    /**
-     * Interprets a line as a Command and adds it to mCommands
-     * 
-     * @param aLine
-     *            Line of text
-     */
-    private void commandParser(CommandGroup aGroup, String aLine)
+    protected Command parseCommand(List<String> args)
     {
-        String pathsDir = Properties2015.sPATH_DIR.getValue();
-        aLine = aLine.trim();
-        if(aLine.isEmpty() || aLine.startsWith("#"))
-        {
-            return;
-        }
-        
-        StringTokenizer tokenizer = new StringTokenizer(aLine, sDELIMITER);
-
-        List<String> args = new ArrayList<>();
-
-        while (tokenizer.hasMoreElements())
-        {
-            args.add(tokenizer.nextToken());
-        }
-
-        Command newCommand = null;
         String commandName = args.get(0);
 
-        boolean isParallel;
-        if (commandName.startsWith("&"))
-        {
-            isParallel = true;
-            commandName = commandName.substring(1);
-        }
-        else
-        {
-            isParallel = false;
-        }
+        Command newCommand = null;
+
+        String pathsDir = Properties2015.sPATH_DIR.getValue();
+
 
         try
         {
@@ -259,42 +224,11 @@ public class CommandParser
             addError("Unknown exception has occured parsing: " + commandName + ".  " + e.getMessage());
             e.printStackTrace();
         }
-        
-        
-        if (newCommand==null)
-        {
-            mSuccess = false;
-        }
-        else if (isParallel)
-        {
-            aGroup.addParallel(newCommand);
-        }
-        else
-        {
-            aGroup.addSequential(newCommand);
-        }
-    }
-    
-    private CommandGroup createNewCommandGroup(String aName)
-    {
-        return new CommandGroup(aName)
-        {
-            @Override
-            protected void end()
-            {
-                System.out.println("Command group finished!");
-            }
-        };
+
+        return newCommand;
     }
 
-    private void addError(String aError)
-    {
-        // Put the '#' so we can pretend like the error text is a comment
-        mErrorText += "# " + aError + "\n";
-        mSuccess = false;
-    }
-
-    private void publishParsingResults(String aCommandString)
+    protected void publishParsingResults(String aCommandString)
     {
         if (!mErrorText.isEmpty())
         {
@@ -306,64 +240,12 @@ public class CommandParser
         SmartDashboard.putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, mSuccess);
     }
 
-    private void initReading()
+    protected void initReading()
     {
-        mSuccess = true;
-        mErrorText = "";
+        super.initReading();
 
         mSnobot.getPositioner().setPosition(0, 0, 0);
         SmartDashboard.putString(SmartDashboardNames.sSIMPLE_IDEAL_PATH, "");
-    }
-
-    public CommandGroup readFile(String aFilePath)
-    {
-        initReading();
-
-        CommandGroup output = createNewCommandGroup(aFilePath);
-
-        SmartDashboard.putString(SmartDashboardNames.sAUTON_FILENAME, aFilePath);
-
-        String fileContents = "";
-        
-        try
-        {
-            BufferedReader br = new BufferedReader(new FileReader(aFilePath));
-            
-            String line;
-            while((line = br.readLine()) != null)
-            {
-                this.commandParser(output, line);
-                fileContents += line + "\n";
-            }
-            
-            
-            br.close();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        
-        publishParsingResults(fileContents);
-
-        return output;
-    }
-
-    public CommandGroup parseAutonString(String aAutonString)
-    {
-        initReading();
-
-        CommandGroup output = createNewCommandGroup("From String");
-        StringTokenizer tokenizer = new StringTokenizer(aAutonString, "\n");
-
-        while (tokenizer.hasMoreElements())
-        {
-            this.commandParser(output, tokenizer.nextToken());
-        }
-
-        publishParsingResults(aAutonString);
-
-        return output;
     }
 
     public void saveAutonMode()

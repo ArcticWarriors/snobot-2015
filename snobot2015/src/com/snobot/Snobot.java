@@ -1,17 +1,8 @@
 package com.snobot;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.snobot.claw.IClaw;
 import com.snobot.claw.SnobotClaw;
@@ -114,8 +105,6 @@ public class Snobot extends ASnobot
     @Override
     public void robotInit()
     {
-        SmartDashboard.putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
-
         // USBCamera camera = new USBCamera("cam0");
         // camera.setFPS(5);
         // camera.setBrightness(10);
@@ -242,16 +231,10 @@ public class Snobot extends ASnobot
 
         // TODO Combine for loops
         mLogger.init();
-        for (ISubsystem iSubsystem : mSubsystems)
-        {
-            iSubsystem.init();
-        }
+        init();
         mLogger.endHeader();
 
-        for (ISubsystem iSubsystem : mSubsystems)
-        {
-            iSubsystem.rereadPreferences();
-        }
+        rereadPreferences();
 
         //Now all the preferences should be loaded, make sure they are all saved
         PropertyManager.saveIfUpdated();
@@ -309,15 +292,9 @@ public class Snobot extends ASnobot
             
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
-                if (SmartDashboard.getBoolean(SmartDashboardNames.sSAVE_REQUEST, false))
-                {
-                    mParser.saveAutonMode();
-                    readFile();
-                }
-                else
-                {
-                    mAutonCommand = mParser.parseAutonString(SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT));
-                }
+
+                mParser.saveAutonMode();
+                readFile();
             }
         };
         NetworkTable.getTable("SmartDashboard").addTableListener(SmartDashboardNames.sSD_COMMAND_TEXT, 
@@ -352,68 +329,10 @@ public class Snobot extends ASnobot
 
     private void readAutoFiles()
     {
-        mAutonChooser = new SendableChooser();
-        
-        File autonDr = new File(Properties2015.sAUTON_DIR.getValue());
-        String autonIgnoreFilter = Properties2015.sAUTON_IGNORE_STRING.getValue();
-
-        System.out.println("Reading auton files from directory " + autonDr.getAbsolutePath());
-        System.out.println(" Using filter : \"" + autonIgnoreFilter + "\"");
-
-
-        try
-        {
-            SnobotAutonCrawler fileProcessor = new SnobotAutonCrawler();
-            Files.walkFileTree(Paths.get(autonDr.toURI()), fileProcessor);
-
-            for (Path p : fileProcessor.mPaths)
-            {
-                mAutonChooser.addObject(p.getFileName().toString(), p.toString());
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        
+        mAutonChooser = mParser.loadAutonFiles(Properties2015.sAUTON_DIR.getValue(), Properties2015.sAUTON_IGNORE_STRING.getValue());
         SmartDashboard.putData("mAutonChooser", mAutonChooser );
-
     }
 
-    private static final class SnobotAutonCrawler extends SimpleFileVisitor<Path>
-    {
-        private List<Path> mPaths;
-
-        public SnobotAutonCrawler()
-        {
-            mPaths = new ArrayList<Path>();
-        }
-
-        @Override
-        public FileVisitResult visitFile(Path aFile, BasicFileAttributes aAttrs) throws IOException
-        {
-            System.out.println("  Keeping file " + aFile);
-            mPaths.add(aFile);
-
-            return FileVisitResult.CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult preVisitDirectory(Path aDir, BasicFileAttributes aAttrs) throws IOException
-        {
-            Path dirName = aDir.getFileName();
-            if (dirName.startsWith(Properties2015.sAUTON_IGNORE_STRING.getValue()))
-            {
-                System.out.println(" Skipping directory: " + dirName);
-                return FileVisitResult.SKIP_SUBTREE;
-            }
-            else
-            {
-                System.out.println(" Processing directory: " + dirName);
-                return FileVisitResult.CONTINUE;
-            }
-        }
-    }
 
     @Override
     public void updateLog()
