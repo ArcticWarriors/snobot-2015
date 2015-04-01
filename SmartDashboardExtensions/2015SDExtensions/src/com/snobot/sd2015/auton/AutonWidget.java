@@ -1,12 +1,10 @@
 package com.snobot.sd2015.auton;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.snobot.sd2015.config.SmartDashboardNames;
-import com.snobot.sd2015.config.WidgetConfiguration;
 
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
 import edu.wpi.first.smartdashboard.properties.Property;
@@ -21,33 +19,20 @@ public class AutonWidget extends StaticWidget
     private AutonPanel mPanel;
     
     public AutonWidget() {
-        this.setLayout(new BorderLayout());
         mPanel = new AutonPanel();
-
-        Robot.getTable().putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, false);
-
-        this.add(mPanel, BorderLayout.CENTER);
-        this.setPreferredSize(new Dimension(WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_X, WidgetConfiguration.TEXT_AREA_WIDGET_SIZE_Y));
         
-        mPanel.addSendListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_REQUEST, false);
-                Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
-            }
-        });
-        
+        setLayout(new BorderLayout());
+        add(mPanel, BorderLayout.CENTER);
+
         mPanel.addSaveListener(new ActionListener() {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_REQUEST, true);
                 Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
             }
         });
         
-        ITableListener radioListener = new ITableListener()
+        ITableListener textUpdatedListener = new ITableListener()
         {
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
@@ -62,8 +47,8 @@ public class AutonWidget extends StaticWidget
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) 
             {
-                boolean hasError = Robot.getTable().getBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON);
-                System.out.println("Has error=" + hasError);
+                boolean parseSuccess = Robot.getTable().getBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON);
+                mPanel.setParseSuccess(parseSuccess);
             }
         };
 
@@ -77,7 +62,7 @@ public class AutonWidget extends StaticWidget
             }
         };
 
-        Robot.getTable().addTableListener(SmartDashboardNames.sROBOT_COMMAND_TEXT, radioListener, true);
+        Robot.getTable().addTableListener(SmartDashboardNames.sROBOT_COMMAND_TEXT, textUpdatedListener, true);
         Robot.getTable().addTableListener(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, errorListener, true);
         Robot.getTable().addTableListener(SmartDashboardNames.sAUTON_FILENAME, filenameListener, true);
         

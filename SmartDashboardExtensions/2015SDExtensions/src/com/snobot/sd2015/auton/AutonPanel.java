@@ -2,6 +2,7 @@ package com.snobot.sd2015.auton;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 
@@ -9,88 +10,33 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.SwingUtilities;
-
-import com.snobot.sd2015.config.SmartDashboardNames;
-
-import edu.wpi.first.smartdashboard.robot.Robot;
-import edu.wpi.first.wpilibj.tables.ITable;
-import edu.wpi.first.wpilibj.tables.ITableListener;
 
 public class AutonPanel extends JPanel {
 
-    private JButton mSendButton;
     private JButton mSaveButton;
-    private JPanel mButtonPanel;
-    private JPanel mBoolPanel;
-    private JPanel mButtonsAndBool;
     private JTextArea mTextArea;
+    private JPanel mBoolPanel;
     
-    // Graphics mColorMe;
-
     public AutonPanel()
-    {     
+    {
+        setPreferredSize(new Dimension(300, 150));
+        setLayout(new BorderLayout());
         
-        mTextArea = new JTextArea();
-        mButtonPanel = new JPanel();
-        mBoolPanel = new JPanel();
-        mButtonsAndBool = new JPanel();
+        mTextArea = new JTextArea("No auton received");
         mSaveButton = new JButton("Send & Save");
-        mSendButton = new JButton("Send");
-
-        // mColorMe = mBoolPanel.getGraphics();
+        mBoolPanel = new JPanel();
+        JPanel buttonAndSuccesPanel = new JPanel();
 
         JScrollPane pane = new JScrollPane();
         pane.setViewportView(mTextArea);
         
-        mButtonPanel.setLayout(new GridLayout(1, 2));
-        mButtonsAndBool.setLayout(new GridLayout(2, 1));
-        this.setLayout(new BorderLayout());
-        
-        mButtonPanel.add(mSendButton);
-        mButtonPanel.add(mSaveButton);
-        
-        mButtonsAndBool.add(mButtonPanel);
-        mButtonsAndBool.add(mBoolPanel);
+        buttonAndSuccesPanel.setLayout(new GridLayout(2, 1));
+        buttonAndSuccesPanel.add(mSaveButton);
+        buttonAndSuccesPanel.add(mBoolPanel);
 
         this.add(pane, BorderLayout.CENTER);
-        this.add(mButtonsAndBool, BorderLayout.SOUTH);
-        
-        this.setVisible(true);
-
-        ITableListener parseListener = new ITableListener() {
-
-            @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) {
-                if (Robot.getTable().getBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, true)) {
-                    System.out.println("GREEN!");
-
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            mBoolPanel.setBackground(Color.GREEN);
-                        }
-                    });
-
-                }
-                else {
-                    System.out.println("RED!");
-
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            mBoolPanel.setBackground(Color.RED);
-                        }
-                    });
-                }
-            }
-
-        };
-
-        Robot.getTable().addTableListener(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, parseListener, true);
-    }
-    
-    public void addSendListener(ActionListener aListener)
-    {
-        mSendButton.addActionListener(aListener);
+        this.add(buttonAndSuccesPanel, BorderLayout.SOUTH);
+        setParseSuccess(false);
     }
     
     public void addSaveListener(ActionListener aListener)
@@ -101,5 +47,17 @@ public class AutonPanel extends JPanel {
     public JTextArea getTextArea()
     {
         return this.mTextArea;
+    }
+
+    public void setParseSuccess(boolean parseSuccess)
+    {
+        if (parseSuccess)
+        {
+            mBoolPanel.setBackground(Color.GREEN);
+        }
+        else
+        {
+            mBoolPanel.setBackground(Color.RED);
+        }
     }
 }

@@ -57,6 +57,7 @@ public abstract class ACommandParser
             @Override
             protected void end()
             {
+                super.end();
                 System.out.println("Command group finished!");
             }
         };

@@ -25,6 +25,7 @@ import com.snobot.xlib.ISubsystem;
 import com.snobot.xlib.PropertyManager;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
@@ -40,6 +41,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
+import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -90,10 +92,10 @@ public class Snobot extends ASnobot
     private AnalogInput mTransducer;
     private AnalogInput mStackerPot;
 
-    SimpleDateFormat sdf;
-    Command mAutonCommand;
+    private SimpleDateFormat mLogDateFormat;
+    private Command mAutonCommand;
     private SendableChooser mAutonChooser;
-    PowerDistributionPanel mPowerDistributionPanel;
+    private PowerDistributionPanel mPowerDistributionPanel;
     private CommandParser mParser;
 
    
@@ -105,16 +107,18 @@ public class Snobot extends ASnobot
     @Override
     public void robotInit()
     {
-        // USBCamera camera = new USBCamera("cam0");
-        // camera.setFPS(5);
-        // camera.setBrightness(10);
-        // camera.setExposureManual(50);
-        //
-        // CameraServer server = CameraServer.getInstance();
-        // server.setQuality(10);
-        // server.setSize(2);
-        // server.startAutomaticCapture(camera);
+        if (Properties2015.sUSE_CAMERA.getValue() == 1)
+        {
+            USBCamera camera = new USBCamera("cam0");
+            camera.setFPS(5);
+            camera.setBrightness(10);
+            camera.setExposureManual(50);
 
+            CameraServer server = CameraServer.getInstance();
+            server.setQuality(10);
+            server.setSize(2);
+            server.startAutomaticCapture(camera);
+        }
 
 
         //Joysticks
@@ -153,8 +157,8 @@ public class Snobot extends ASnobot
     	
         mPowerDistributionPanel = new PowerDistributionPanel();
         
-        sdf = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
-        String headerDate = sdf.format(new Date());
+        mLogDateFormat = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
+        String headerDate = mLogDateFormat.format(new Date());
         mLogger = new Logger(headerDate);
 
         ////////////////////////////////////////
@@ -229,17 +233,23 @@ public class Snobot extends ASnobot
         mSubsystems.add(mPositioner);
         mSubsystems.add(mRake);
 
-        // TODO Combine for loops
-        mLogger.init();
         init();
-        mLogger.endHeader();
-
         rereadPreferences();
 
         //Now all the preferences should be loaded, make sure they are all saved
         PropertyManager.saveIfUpdated();
 
         readFile();
+    }
+
+    @Override
+    public void init()
+    {
+        mLogger.init();
+        mLogger.addHeader("Voltage");
+        mLogger.addHeader("TotalCurrent");
+        super.init();
+        mLogger.endHeader();
     }
 
     @Override
@@ -337,7 +347,7 @@ public class Snobot extends ASnobot
     @Override
     public void updateLog()
     {
-        String logDate = sdf.format(new Date());
+        String logDate = mLogDateFormat.format(new Date());
         if (mLogger.logNow())
         {
             mLogger.startLogEntry(logDate);

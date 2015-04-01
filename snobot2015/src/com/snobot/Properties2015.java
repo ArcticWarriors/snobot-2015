@@ -95,6 +95,8 @@ public class Properties2015
 
     public static final IntegerProperty sMOVE_RAKE = new IntegerProperty("MoveRake", XboxButtonMap.RIGHT_Y_AXIS);
 
+    public static final IntegerProperty sUSE_CAMERA = new IntegerProperty("UseCamera", 0);
+
     // Logger
     public static final IntegerProperty sLOG_COUNT = new IntegerProperty("LogCount", 25);
     public static final StringProperty sLOG_FILE_PATH = new StringProperty("LogFilePath", "logs/");

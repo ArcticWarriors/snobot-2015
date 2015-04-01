@@ -8,6 +8,7 @@ public class AutonStandalone {
     public static void main(String[] args)
     {
         JFrame frame = new JFrame("Test Auton");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         AutonPanel panel = new AutonPanel();
         

@@ -1,4 +1,4 @@
-&DriveSplineCommand 3ToteStraight.csv
+DriveSplineCommand 3ToteStraight.csv
 ThreeToteStackCommand 2.8 6 9 13
 
 #Back it up

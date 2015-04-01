@@ -57,7 +57,7 @@ public class Logger
             }
             mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
 
-            mLogWriter.write("Date and Time,Voltage,TotalCurrent");
+            mLogWriter.write("Date and Time");
 
         }
         catch (IOException e)
