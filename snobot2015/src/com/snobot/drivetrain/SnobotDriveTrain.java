@@ -28,7 +28,6 @@ public class SnobotDriveTrain implements IDriveTrain
     private Encoder mEncoderRight;
 
     private Logger mLogger;
-    private UnitOfMeasure mDefaultMeasure;
     private double mRightEncDistance;
     private double mLeftEncDistance;
 
@@ -49,7 +48,6 @@ public class SnobotDriveTrain implements IDriveTrain
         mSpeedControllerRight = aSpeedControllerRight;
         mDriverJoystick = aDriverJoystick;
         mRobotDrive = new RobotDrive(mSpeedControllerLeft, mSpeedControllerRight);
-        mDefaultMeasure = UnitOfMeasure.Feet;
         mEncoderLeft = aEncoderLeft;
         mEncoderRight = aEncoderRight;
         mLogger = aLogger;
@@ -181,13 +179,6 @@ public class SnobotDriveTrain implements IDriveTrain
     public double calculateDistanceLeft()
     {
         return mRightEncDistance;
-    }
-
-    @Override
-    public void setDefaultMeasure(UnitOfMeasure aMeasure)
-    {
-        mDefaultMeasure = aMeasure;
-
     }
 
     public void resetEncoders()

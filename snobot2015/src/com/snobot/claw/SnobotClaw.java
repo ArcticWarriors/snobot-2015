@@ -84,13 +84,9 @@ public class SnobotClaw implements IClaw
     @Override
     public void update()
     {
-        // TODO Figure out the actual air pressure and set the rumble. Change
-        // for practice Robot...
-        // mRobotAirPressure = ((33.125 * mTransducer.getVoltage()) - 16.821);
-        //
-        // mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
-        // System.out.println("Voltage: " + mTransducer.getVoltage());
+        mRobotAirPressure = ((33.125 * mTransducer.getVoltage()) - 16.821);
 
+        mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
     }
 
     @Override

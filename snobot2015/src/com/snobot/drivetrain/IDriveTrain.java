@@ -21,16 +21,9 @@ public interface IDriveTrain extends ISubsystem
      */
     public void setMotorSpeed(double aLeft, double aRight);
 
-    public void setDefaultMeasure(UnitOfMeasure aMeasure);
-
     public double calculateDistanceRight();
 
     public double calculateDistanceLeft();
 
     public void resetEncoders();
-
-    public enum UnitOfMeasure
-    {
-        Feet, Meters, Inches, Centimeters
-    }
 }

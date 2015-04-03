@@ -24,7 +24,6 @@ public class PositionerWidget extends StaticWidget
         @Override
         public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
         {
-            boolean aClawArmState = Boolean.parseBoolean(arg2.toString());
             mPanel.setRobotPosition(Robot.getTable().getNumber(SmartDashboardNames.sSNOBOT_X_POSITION, 0),
                     Robot.getTable().getNumber(SmartDashboardNames.sSNOBOT_Y_POSITION, 0),
                     Robot.getTable().getNumber(SmartDashboardNames.sSNOBOT_HEADING, 0));

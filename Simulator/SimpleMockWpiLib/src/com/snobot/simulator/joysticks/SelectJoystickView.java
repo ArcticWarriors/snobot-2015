@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.TransferHandler;
 import javax.swing.event.TableModelEvent;
@@ -122,6 +121,7 @@ public class SelectJoystickView extends JPanel
     private class ReorderableTableModel extends DefaultTableModel implements Reorderable
     {
 
+        @SuppressWarnings("unchecked")
         @Override
         public void reorder(int fromIndex, int toIndex)
         {
@@ -159,7 +159,7 @@ public class SelectJoystickView extends JPanel
         {
             public void tableChanged(TableModelEvent e)
             {
-                if (e.getType() == e.UPDATE)
+                if (e.getType() == TableModelEvent.UPDATE)
                 {
                     notifyJoysticksReordered();
                 }

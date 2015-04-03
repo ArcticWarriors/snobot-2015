@@ -99,7 +99,7 @@ public class Main
         config.max_jerk = 40.0 * 12;
         config.max_vel = 1.6 * 12;
 
-        double end_x = 20 * 12;
+        // double end_x = 20 * 12;
 
         List<Waypoint> p = new ArrayList<Waypoint>();
         p.add(new Waypoint(0, 0, 0));

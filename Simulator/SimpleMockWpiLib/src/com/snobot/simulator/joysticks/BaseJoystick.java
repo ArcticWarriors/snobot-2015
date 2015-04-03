@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.java.games.input.Component;
-import net.java.games.input.Controller;
 import net.java.games.input.Component.Identifier;
+import net.java.games.input.Controller;
 
 public class BaseJoystick implements IMockJoystick
 {

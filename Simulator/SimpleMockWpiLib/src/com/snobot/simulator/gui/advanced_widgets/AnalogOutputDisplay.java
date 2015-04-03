@@ -1,6 +1,5 @@
 package com.snobot.simulator.gui.advanced_widgets;
 
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.Map;
@@ -10,8 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import com.snobot.simulator.AnalogWrapper;
-import com.snobot.simulator.RelayWrapper;
-import com.snobot.simulator.SpeedControllerWrapper;
 import com.snobot.simulator.gui.Util;
 
 public class AnalogOutputDisplay extends BaseWidgetDisplay<AnalogWrapper>

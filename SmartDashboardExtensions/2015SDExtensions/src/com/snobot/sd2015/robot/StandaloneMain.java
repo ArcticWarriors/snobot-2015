@@ -26,8 +26,6 @@ public class StandaloneMain
             public void keyPressed(KeyEvent arg0)
             {
 
-                double shooterSpeedIncrement = .5;
-
                 if (arg0.getKeyChar() == 'a')
                 {
                     mDrawerPanel.setClawOpen(!mDrawerPanel.isClawOpen());

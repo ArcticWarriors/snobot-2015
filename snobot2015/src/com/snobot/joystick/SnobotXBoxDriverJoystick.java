@@ -20,9 +20,6 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     private double mArcadeLeftSpeed;
     private double mArcadeRightRotation;
 
-    private int mTankMode;
-    private int mArcadeMode;
-
     /**
      * Constructor for xBox Joy stick
      * 

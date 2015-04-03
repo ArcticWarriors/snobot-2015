@@ -16,8 +16,6 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     private double mStackerJoystickDirection;
     private int mStackerJoystickAxis1;
     private int mXBOXButtonMoveClawArm;
-    private int mXBOXButtonRakeUp;
-    private int mXBOXButtonRakeDown;
     private int mXBOXButtonMoveClawHand;
     private double mXBOXStackerJoystickUp;
     private double mXBOXStackerJoystickDown;
