@@ -5,16 +5,14 @@ import com.snobot.simulator.DigitalSourceWrapper;
 import com.snobot.simulator.EncoderWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
 import com.snobot.simulator.SpeedControllerWrapper;
-import com.snobot.simulator.sim.DistanceCalculator;
 import com.snobot.simulator.sim.ISimulatorContainer;
-import com.snobot.simulator.sim.LinearEncoderCalculator;
 import com.snobot.simulator.sim.TankDriveGyroSimulator;
 
 public class Snobot2015Simulator implements ISimulatorContainer  {
 
-    private LinearEncoderCalculator mRightDriveEnc;
-    private LinearEncoderCalculator mLeftDriveEnc;
-    private StackerSimulator mStackerSimulator;
+    // private LinearEncoderCalculator mRightDriveEnc;
+    // private LinearEncoderCalculator mLeftDriveEnc;
+    private StackerPotSim mPotWrapper;
     
     private TankDriveGyroSimulator mGyroSim;
     
@@ -48,22 +46,24 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
         
         DigitalSourceWrapper upperStackerLimit = SensorActuatorRegistry.get().getDigitalSources().get(
                 Properties2015.sSTACKER_UPPER_LIMIT_SWITCH.getValue());
-       
 
-        mRightDriveEnc = new LinearEncoderCalculator(rightDriveMotor, rightEncoder);
-        mLeftDriveEnc = new LinearEncoderCalculator(leftDriveMotor, leftEncoder);
-
-        DistanceCalculator pot_wrapper = new StackerPotSim(stackerPot);
-        mStackerSimulator = new StackerSimulator (
-                stackerMotor, upperStackerLimit, lowerStackerLimit, pot_wrapper);
-
-        double inches_per_sec = 7 * 12;
-        double driveKp = -inches_per_sec / 124.125;
+        double drivetrainSpeed = -2.9 * 12;
         
-        mLeftDriveEnc.setSimulatorParams(driveKp);
-        mRightDriveEnc.setSimulatorParams(driveKp);
-        mStackerSimulator.setSimulatorParams(-1);
-        
+        rightDriveMotor.setMotorParameters(drivetrainSpeed);
+        leftDriveMotor.setMotorParameters(drivetrainSpeed);
+        stackerMotor.setMotorParameters(-6 * 12);
+
+        rightDriveMotor.setName("LeftDrive");
+        leftDriveMotor.setName("RightDrive");
+        stackerMotor.setName("Stacker");
+
+        rightEncoder.setSpeedController(rightDriveMotor);
+        leftEncoder.setSpeedController(leftDriveMotor);
+
+        upperStackerLimit.set(true);
+        lowerStackerLimit.set(true);
+
+        mPotWrapper = new StackerPotSim(stackerPot, stackerMotor);
         
         mGyroSim = new TankDriveGyroSimulator(leftEncoder, rightEncoder, gyroChannel);
 
@@ -72,10 +72,10 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
 
     @Override
     public void looped() {
-        mRightDriveEnc.update();
-        mLeftDriveEnc.update();
+        // mRightDriveEnc.update();
+        // mLeftDriveEnc.update();
         mGyroSim.update();
-        mStackerSimulator.update();
+        mPotWrapper.update();
     }
 
     @Override

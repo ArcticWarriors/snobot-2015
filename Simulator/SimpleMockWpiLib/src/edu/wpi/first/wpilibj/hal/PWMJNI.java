@@ -18,7 +18,7 @@ public class PWMJNI extends DIOJNI {
 	public static boolean allocatePWMChannel(ByteBuffer digital_port_pointer, IntBuffer status)
     {
 		int port = digital_port_pointer.get(0);
-		SpeedControllerWrapper wrapper = new SpeedControllerWrapper();
+        SpeedControllerWrapper wrapper = new SpeedControllerWrapper(port);
 		SensorActuatorRegistry.get().register(wrapper, port);
 		return true;
     }

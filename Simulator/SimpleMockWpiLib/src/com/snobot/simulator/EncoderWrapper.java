@@ -1,38 +1,46 @@
 package com.snobot.simulator;
 
-import com.snobot.simulator.sim.DistanceCalculator;
 
-public class EncoderWrapper implements DistanceCalculator
+public class EncoderWrapper
 {
+    private SpeedControllerWrapper mSpeedController;
 	
-	private double distance_traveled = 0;
-	private double distance_per_tick =  1 / 255.0;
-
-    public void addDistance(double aDistance)
-    {
-		distance_traveled += aDistance;
-	}
-	
-	public double getDistance()
-	{
-		return distance_traveled;
-	}
+    private double distance_per_tick = 1 / 255.0;
 	
 	public double getDecodedDistance()
 	{
-		return getDistance() / 4.0;
+        if (mSpeedController == null)
+        {
+            return 0;
+        }
+        return mSpeedController.getPosition() / 4.0;
 	}
 
-	public int getRaw() {
-		return (int) (distance_traveled / distance_per_tick);
+    public int getRaw()
+    {
+        if (mSpeedController == null)
+        {
+            return 0;
+        }
+        return (int) (mSpeedController.getPosition() / distance_per_tick);
 	}
 
-	public void reset() {
-		distance_traveled = 0;
+    public void reset()
+    {
+        if (mSpeedController != null)
+        {
+            mSpeedController.resetDistance();
+        }
 	}
 
-	public void setDistancePerTick(double aDPT) {
+    public void setDistancePerTick(double aDPT)
+    {
 		distance_per_tick = aDPT;
 	}
+
+    public void setSpeedController(SpeedControllerWrapper rightDriveMotor)
+    {
+        mSpeedController = rightDriveMotor;
+    }
 
 }

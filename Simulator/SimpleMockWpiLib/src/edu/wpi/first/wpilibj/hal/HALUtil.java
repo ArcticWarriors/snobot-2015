@@ -7,7 +7,6 @@ import com.snobot.simulator.RobotStateSingleton;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
 
 public class HALUtil extends JNIWrapper {
 	public static final int NULL_PARAMETER = -1005;
@@ -23,7 +22,7 @@ public class HALUtil extends JNIWrapper {
 	//public static final int SEMAPHORE_Q_PRIORITY = 0x01;
 	
 
-    private static final double __sWAIT_TIME = .02;
+    public static final double __sWAIT_TIME = .02;
     private static float __sMatchTime = 0;
 
 	public static ByteBuffer initializeMutexNormal()

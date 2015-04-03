@@ -1,35 +1,25 @@
 package com.snobot;
 
 import com.snobot.simulator.AnalogWrapper;
-import com.snobot.simulator.sim.DistanceCalculator;
+import com.snobot.simulator.SpeedControllerWrapper;
 
-public class StackerPotSim implements DistanceCalculator
+public class StackerPotSim
 {
     private AnalogWrapper mWrapper;
-    private double mDistance;
+    private SpeedControllerWrapper mSpeedController;
 
-    public StackerPotSim(AnalogWrapper aWrapper)
+    public StackerPotSim(AnalogWrapper aWrapper, SpeedControllerWrapper aSpeedController)
     {
         mWrapper = aWrapper;
-        mDistance = 0;
+        mSpeedController = aSpeedController;
     }
 
-    // TODO replace numbers with constants
-    @Override
-    public void addDistance(double distance_travelled)
+    public void update()
     {
-        mDistance += distance_travelled;
-
         double ipv = 24 / 1.3769505;
-        double voltage = 3.596190 - (mDistance - 24) / ipv;
+        double voltage = 3.596190 - (mSpeedController.getPosition() - 24) / ipv;
 
         mWrapper.setVoltage(voltage);
-    }
-
-    @Override
-    public double getDistance()
-    {
-        return mDistance;
     }
 
 }
