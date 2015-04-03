@@ -40,9 +40,9 @@ public class SpeedControllerWrapper extends ASensorWrapper
         mVelocity = mMaxSpeed * mVoltagePercent;
         mPosition += mVelocity * HALUtil.__sWAIT_TIME;
 
-        // if (mMotorName.equals("LeftDrive"))
+        // if (mName.equals("LeftDrive"))
         // {
-        // System.out.println("Speed: " + speed + ", Position: " + mPosition + ", Velocity: " + mVelocity);
+        // System.out.println("Speed: " + speed + ", Velocity: " + mVelocity + ", Position: " + mPosition);
         // }
     }
 
