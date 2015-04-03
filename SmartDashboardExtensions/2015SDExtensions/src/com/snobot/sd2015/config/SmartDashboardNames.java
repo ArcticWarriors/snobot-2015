@@ -54,5 +54,7 @@ public class SmartDashboardNames
     // Path Widget stuff
     public static final String sSIMPLE_PATH_POINT_INFO = "CurrentPathInfo";
     public static final String sSIMPLE_IDEAL_PATH = "IdealPath";
+    public static final String sSPINE_IDEAL = "IdealSpline";
+    public static final String sSPLINE_POINT = "CurrentSplinePoint";
 
 }
