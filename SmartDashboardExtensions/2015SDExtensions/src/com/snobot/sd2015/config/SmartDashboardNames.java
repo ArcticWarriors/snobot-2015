@@ -49,6 +49,7 @@ public class SmartDashboardNames
     public static final String sSD_COMMAND_TEXT = "SD Command text";
     public static final String sSUCCESFULLY_PARSED_AUTON = "Parsed Command";
     public static final String sAUTON_FILENAME = "Auton Filename";
+    public static final String sSAVE_AUTON = "Save Auton";
 
     // Path Widget stuff
     public static final String sSIMPLE_PATH_POINT_INFO = "CurrentPathInfo";

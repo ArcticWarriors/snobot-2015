@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import com.snobot.sd2015.config.SmartDashboardNames;
 
 import edu.wpi.first.smartdashboard.gui.StaticWidget;
@@ -29,14 +32,42 @@ public class AutonWidget extends StaticWidget
             @Override
             public void actionPerformed(ActionEvent e) {
                 Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
+                Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_AUTON, true);
             }
         });
         
+        mPanel.addTextChangedListener(new DocumentListener()
+        {
+            private void onChange()
+            {
+                Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_AUTON, false);
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e)
+            {
+                onChange();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e)
+            {
+                onChange();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e)
+            {
+                onChange();
+            }
+        });
+
         ITableListener textUpdatedListener = new ITableListener()
         {
             @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
             {
+                Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_AUTON, false);
                 mPanel.getTextArea().setText(Robot.getTable().getString(SmartDashboardNames.sROBOT_COMMAND_TEXT));
                 
             }

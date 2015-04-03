@@ -222,6 +222,10 @@ public class CommandParser extends ACommandParser
         String new_text = SmartDashboard.getString(SmartDashboardNames.sSD_COMMAND_TEXT, "");
         String filename = SmartDashboard.getString(SmartDashboardNames.sAUTON_FILENAME, "auton_file.txt");
 
+        System.out.println("*****************************************");
+        System.out.println("Saving auton mode");
+        System.out.println("*****************************************");
+
         try
         {
             BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));

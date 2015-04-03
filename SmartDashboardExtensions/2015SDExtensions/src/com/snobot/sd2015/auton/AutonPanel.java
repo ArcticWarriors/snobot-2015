@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.event.DocumentListener;
 
 public class AutonPanel extends JPanel {
 
@@ -59,5 +60,10 @@ public class AutonPanel extends JPanel {
         {
             mBoolPanel.setBackground(Color.RED);
         }
+    }
+
+    public void addTextChangedListener(DocumentListener aListener)
+    {
+        mTextArea.getDocument().addDocumentListener(aListener);
     }
 }

@@ -218,7 +218,6 @@ public class Snobot extends ASnobot
         // //////////////////////////////////////
         mParser = new CommandParser(this);
         readAutoFiles();
-        addSmartDashboardListeners();
 
         // Finish setup
         mSubsystems = new ArrayList<ISubsystem>();
@@ -238,6 +237,8 @@ public class Snobot extends ASnobot
         PropertyManager.saveIfUpdated();
 
         readFile();
+
+        addSmartDashboardListeners();
     }
 
     @Override
@@ -305,11 +306,14 @@ public class Snobot extends ASnobot
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
             {
 
-                mParser.saveAutonMode();
-                readFile();
+                if (SmartDashboard.getBoolean(SmartDashboardNames.sSAVE_AUTON))
+                {
+                    mParser.saveAutonMode();
+                    readFile();
+                }
             }
         };
-        NetworkTable.getTable("SmartDashboard").addTableListener(SmartDashboardNames.sSD_COMMAND_TEXT, saveModeListener, true);
+        NetworkTable.getTable("SmartDashboard").addTableListener(SmartDashboardNames.sSAVE_AUTON, saveModeListener, true);
     }
 
     public IDriveTrain getDriveTrain()
