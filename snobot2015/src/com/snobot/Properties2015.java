@@ -125,6 +125,6 @@ public class Properties2015
     public static final DoubleProperty sDRIVE_PATH_KD = new DoubleProperty("DrivePathKD", 0);
     public static final DoubleProperty sDRIVE_PATH_KV = new DoubleProperty("DrivePathKVel", .009);
     public static final DoubleProperty sDRIVE_PATH_KA = new DoubleProperty("DrivePathKAccel", 0.0037);
-    public static final DoubleProperty sSPLINE_K_TURN = new DoubleProperty("SplineKTurn", .02);
+    public static final DoubleProperty sSPLINE_K_TURN = new DoubleProperty("SplineKTurn", .017);
 
 }
