@@ -48,7 +48,7 @@ public class Main
             "\n";
 
     private String class_name = "com.snobot.Snobot";
-    private String simulator_classname = "com.snobot.Snobot2015Simulator";
+    private String simulator_classname = "";
     private String simulator_config = "";
     private RobotBase simulated_robot;
 
@@ -98,6 +98,8 @@ public class Main
             Preferences.__SetFileName(class_name + "_preferences.ini");
             simulated_robot = (RobotBase) Class.forName(class_name).newInstance();
 
+            System.out.println("Simulator : " + simulator_classname);
+
             if (simulator_classname != null && !simulator_classname.isEmpty())
             {
                 final ISimulatorContainer simulator = (ISimulatorContainer) Class.forName(simulator_classname).newInstance();
@@ -113,6 +115,12 @@ public class Main
                 });
 
                 simulator.setConfigFile(simulator_config);
+            }
+            else
+            {
+                System.out.println("**********************************************************************************");
+                System.out.println("WARNING: Simulator class name was not set up.  Will use default, simple simulation");
+                System.out.println("**********************************************************************************");
             }
         }
         catch (RuntimeException e)
