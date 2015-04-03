@@ -23,8 +23,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public abstract class ACommandParser
 {
-    private final String mDelimiter;
-    private final String mCommentStart;
+    protected final String mDelimiter;
+    protected final String mCommentStart;
 
     protected String mErrorText;
     protected boolean mSuccess;
@@ -68,8 +68,9 @@ public abstract class ACommandParser
      * 
      * @param aLine
      *            Line of text
+     * @param b
      */
-    protected void parseLine(CommandGroup aGroup, String aLine)
+    protected void parseLine(CommandGroup aGroup, String aLine, boolean aAddParallel)
     {
         aLine = aLine.trim();
         if (aLine.isEmpty() || aLine.startsWith(mCommentStart))
@@ -94,8 +95,34 @@ public abstract class ACommandParser
         }
         else
         {
-            aGroup.addSequential(newCommand);
+            if (aAddParallel)
+            {
+                aGroup.addParallel(newCommand);
+            }
+            else
+            {
+                aGroup.addSequential(newCommand);
+            }
         }
+    }
+
+    protected CommandGroup parseParallelCommand(List<String> args)
+    {
+        String parallel_line = "";
+        for (int i = 1; i < args.size(); ++i)
+        {
+            parallel_line += args.get(i) + " ";
+        }
+
+        String[] split_commands = parallel_line.split("\\|");
+        CommandGroup parallelCommands = new CommandGroup();
+
+        for (String this_line : split_commands)
+        {
+            parseLine(parallelCommands, this_line, true);
+        }
+
+        return parallelCommands;
     }
 
     public CommandGroup readFile(String aFilePath)
@@ -115,7 +142,7 @@ public abstract class ACommandParser
             String line;
             while ((line = br.readLine()) != null)
             {
-                this.parseLine(output, line);
+                this.parseLine(output, line, false);
                 fileContents += line + "\n";
             }
 

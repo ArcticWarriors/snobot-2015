@@ -20,6 +20,7 @@ import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.io.TextFileDeserializer;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CommandParser extends ACommandParser
@@ -45,6 +46,8 @@ public class CommandParser extends ACommandParser
     public static final String sDRIVE_SPLINE_COMMAND = "DriveSplineCommand";
     public static final String sTHREE_TOTE_STACK_COMMAND = "ThreeToteStackCommand";
     public static final String sRAKE_COMMAND = "RakeCommand";
+    public static final String sPARALLEL_COMMAND = "Parallel";
+    public static final String sWAIT_COMMAND = "Wait";
 
     public CommandParser(Snobot aSnobot)
     {
@@ -180,6 +183,15 @@ public class CommandParser extends ACommandParser
 
                 break;
             }
+            case sPARALLEL_COMMAND:
+            {
+                newCommand = parseParallelCommand(args);
+                break;
+            }
+            case sWAIT_COMMAND:
+                double time = Double.parseDouble(args.get(1));
+                newCommand = new WaitCommand(time);
+                break;
             default:
                 addError("Unknown command name: " + commandName);
                 break;
