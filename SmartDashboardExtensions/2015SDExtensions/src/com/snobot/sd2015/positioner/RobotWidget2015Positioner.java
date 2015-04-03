@@ -23,15 +23,18 @@ public class RobotWidget2015Positioner extends JPanel
     private double mRobotY;
     private double mRobotHeading;
 
-    public RobotWidget2015Positioner() {
+    public RobotWidget2015Positioner()
+    {
 
         mFieldImage = readFieldImage("field.png");
         mRobotImage = readFieldImage("robot_edited.png");
 
-        if (mFieldImage != null) {
+        if (mFieldImage != null)
+        {
             setPreferredSize(new Dimension(mFieldImage.getWidth(), mFieldImage.getHeight()));
         }
-        if (mRobotImage != null){
+        if (mRobotImage != null)
+        {
             setPreferredSize(new Dimension(mRobotImage.getWidth(), mRobotImage.getHeight()));
         }
         updateScale();
@@ -43,7 +46,8 @@ public class RobotWidget2015Positioner extends JPanel
     private static final double ROBOT_WIDTH_INCH = 27.5;
     private static final double ROBOT_HEIGHT_INCH = 58.5;
 
-    public void updateScale() {
+    public void updateScale()
+    {
         int width = this.getWidth();
         int height = this.getHeight();
 
@@ -52,38 +56,46 @@ public class RobotWidget2015Positioner extends JPanel
 
         System.out.println("Update scale : " + width + ", " + height + ", ws = " + widthScale + ", hs = " + heightScale);
 
-        if (widthScale < heightScale) {
+        if (widthScale < heightScale)
+        {
             mScale = widthScale;
         }
-        else if (widthScale > heightScale) {
+        else if (widthScale > heightScale)
+        {
             mScale = heightScale;
         }
 
         repaint();
     }
 
-    private BufferedImage readFieldImage(String aFilename) {
+    private BufferedImage readFieldImage(String aFilename)
+    {
 
         BufferedImage output = null;
         // String filename = "field.png";
-        try {
+        try
+        {
             InputStream in = getClass().getResourceAsStream(aFilename);
 
             // Image exists
-            if (in != null) {
+            if (in != null)
+            {
                 output = ImageIO.read(in);
 
-                if (output == null) {
+                if (output == null)
+                {
                     System.out.println("Could not open image file : " + aFilename);
                 }
 
                 updateScale();
             }
-            else {
+            else
+            {
                 System.out.println("Could not find image file : '/2015SDExtensions/src/com/snobot" + "/sd/robot/positioner/field.png'");
             }
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             ex.printStackTrace();
             System.err.println(ex);
         }
@@ -91,16 +103,19 @@ public class RobotWidget2015Positioner extends JPanel
         return output;
     }
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g)
+    {
         super.paint(g);
 
-        if (mFieldImage != null) {
+        if (mFieldImage != null)
+        {
             g.drawImage(mFieldImage, 0, 0, (int) (FIELD_WIDTH_INCH * mScale), (int) (FIELD_HEIGHT_INCH * mScale), null);
             g.drawImage(mRobotImage, (int) mRobotX, (int) mRobotY, (int) (ROBOT_WIDTH_INCH * mScale), (int) (ROBOT_HEIGHT_INCH * mScale), null);
         }
     }
 
-    public void setRobotPosition(double aRobotX, double aRobotY, double aRobotHeading) {
+    public void setRobotPosition(double aRobotX, double aRobotY, double aRobotHeading)
+    {
         mRobotX = aRobotX;
         mRobotY = aRobotY;
         mRobotHeading = aRobotHeading;

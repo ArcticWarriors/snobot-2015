@@ -8,13 +8,13 @@ import edu.wpi.first.smartdashboard.gui.StaticWidget;
  */
 public abstract class AutoUpdateWidget extends StaticWidget
 {
-	private static final long serialVersionUID = -5324757383577336302L;
+    private static final long serialVersionUID = -5324757383577336302L;
 
     private final BGThread mBgThread;
     private final long mUpdateMs;
 
     protected final boolean mDebug;
-    
+
     public AutoUpdateWidget(boolean aDebug, long update_ms)
     {
         mDebug = aDebug;

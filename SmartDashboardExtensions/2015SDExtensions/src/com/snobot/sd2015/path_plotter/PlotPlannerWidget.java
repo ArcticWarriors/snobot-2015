@@ -62,7 +62,6 @@ public class PlotPlannerWidget extends AutoUpdateWidget
     {
         String point_info = Robot.getTable().getString(SmartDashboardNames.sSIMPLE_PATH_POINT_INFO, "");
 
-
         StringTokenizer tokenizer = new StringTokenizer(point_info, ",");
 
         if (tokenizer.hasMoreElements())

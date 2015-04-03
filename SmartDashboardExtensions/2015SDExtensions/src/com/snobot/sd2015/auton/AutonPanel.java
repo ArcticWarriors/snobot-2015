@@ -12,17 +12,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentListener;
 
-public class AutonPanel extends JPanel {
+public class AutonPanel extends JPanel
+{
 
     private JButton mSaveButton;
     private JTextArea mTextArea;
     private JPanel mBoolPanel;
-    
+
     public AutonPanel()
     {
         setPreferredSize(new Dimension(300, 150));
         setLayout(new BorderLayout());
-        
+
         mTextArea = new JTextArea("No auton received");
         mSaveButton = new JButton("Send & Save");
         mBoolPanel = new JPanel();
@@ -30,7 +31,7 @@ public class AutonPanel extends JPanel {
 
         JScrollPane pane = new JScrollPane();
         pane.setViewportView(mTextArea);
-        
+
         buttonAndSuccesPanel.setLayout(new GridLayout(2, 1));
         buttonAndSuccesPanel.add(mSaveButton);
         buttonAndSuccesPanel.add(mBoolPanel);
@@ -39,12 +40,12 @@ public class AutonPanel extends JPanel {
         this.add(buttonAndSuccesPanel, BorderLayout.SOUTH);
         setParseSuccess(false);
     }
-    
+
     public void addSaveListener(ActionListener aListener)
     {
         mSaveButton.addActionListener(aListener);
     }
-    
+
     public JTextArea getTextArea()
     {
         return this.mTextArea;

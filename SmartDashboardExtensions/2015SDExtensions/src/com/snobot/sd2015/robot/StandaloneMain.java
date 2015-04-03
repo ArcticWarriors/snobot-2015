@@ -8,39 +8,39 @@ import javax.swing.JFrame;
 public class StandaloneMain
 {
     static double height = 0;
+
     public static void main(String[] args)
     {
         final RobotDrawer2015 mDrawerPanel = new RobotDrawer2015();
-        
+
         JFrame frame = new JFrame();
-        
+
         frame.setVisible(true);
         frame.setContentPane(mDrawerPanel);
         frame.pack();
-        
-
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.addKeyListener(new KeyAdapter() 
+        frame.addKeyListener(new KeyAdapter()
         {
             @Override
-            public void keyPressed(KeyEvent arg0) {
-                
+            public void keyPressed(KeyEvent arg0)
+            {
+
                 double shooterSpeedIncrement = .5;
-                
-                if(arg0.getKeyChar() == 'a')
+
+                if (arg0.getKeyChar() == 'a')
                 {
                     mDrawerPanel.setClawOpen(!mDrawerPanel.isClawOpen());
                 }
-                else if(arg0.getKeyChar() == 's')
+                else if (arg0.getKeyChar() == 's')
                 {
                     mDrawerPanel.setClawUp(!mDrawerPanel.isClawUp());
                 }
-                else if(arg0.getKeyChar() == 'w')
+                else if (arg0.getKeyChar() == 'w')
                 {
                     mDrawerPanel.setUpperLimitSwtich(!mDrawerPanel.isUpperLimitSwitch());
                 }
-                else if(arg0.getKeyChar() == 'd')
+                else if (arg0.getKeyChar() == 'd')
                 {
                     mDrawerPanel.setLowerLimitSwitch(!mDrawerPanel.isLowerLimitSwitch());
                 }
@@ -54,19 +54,17 @@ public class StandaloneMain
                     height -= 0.05;
                     mDrawerPanel.setStackerHeight(height);
                 }
-                
 
-                System.out.println("State: " + 
-                        "Claw Open: " + mDrawerPanel.isClawOpen() + ", " + 
-                        "Claw up: " + mDrawerPanel.isClawUp() + ", " + 
-                        "Stacker Height: " + mDrawerPanel.getStackerHeight() + ", " + 
-                        "Upper LS: " + mDrawerPanel.isUpperLimitSwitch() + ", " + 
+                System.out.println("State: " +
+                        "Claw Open: " + mDrawerPanel.isClawOpen() + ", " +
+                        "Claw up: " + mDrawerPanel.isClawUp() + ", " +
+                        "Stacker Height: " + mDrawerPanel.getStackerHeight() + ", " +
+                        "Upper LS: " + mDrawerPanel.isUpperLimitSwitch() + ", " +
                         "Lower LS: " + mDrawerPanel.isLowerLimitSwitch());
-                
+
                 mDrawerPanel.repaint();
             }
         });
-        
-        
+
     }
 }

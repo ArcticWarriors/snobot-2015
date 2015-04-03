@@ -8,7 +8,6 @@ import javax.swing.JFrame;
 public class StandaloneMain
 {
 
-
     public static void main(String[] args)
     {
         JFrame frame = new JFrame();
@@ -22,9 +21,11 @@ public class StandaloneMain
         frame.pack();
         frame.setVisible(true);
 
-        frame.addComponentListener(new ComponentAdapter() {
+        frame.addComponentListener(new ComponentAdapter()
+        {
             @Override
-            public void componentResized(ComponentEvent arg0) {
+            public void componentResized(ComponentEvent arg0)
+            {
                 panel.updateScale();
             }
         });

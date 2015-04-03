@@ -20,22 +20,25 @@ public class AutonWidget extends StaticWidget
     public static final String NAME = "2015 Auton Widget";
 
     private AutonPanel mPanel;
-    
-    public AutonWidget() {
+
+    public AutonWidget()
+    {
         mPanel = new AutonPanel();
-        
+
         setLayout(new BorderLayout());
         add(mPanel, BorderLayout.CENTER);
 
-        mPanel.addSaveListener(new ActionListener() {
-            
+        mPanel.addSaveListener(new ActionListener()
+        {
+
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 Robot.getTable().putString(SmartDashboardNames.sSD_COMMAND_TEXT, mPanel.getTextArea().getText());
                 Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_AUTON, true);
             }
         });
-        
+
         mPanel.addTextChangedListener(new DocumentListener()
         {
             private void onChange()
@@ -69,14 +72,14 @@ public class AutonWidget extends StaticWidget
             {
                 Robot.getTable().putBoolean(SmartDashboardNames.sSAVE_AUTON, false);
                 mPanel.getTextArea().setText(Robot.getTable().getString(SmartDashboardNames.sROBOT_COMMAND_TEXT));
-                
+
             }
         };
-        
+
         ITableListener errorListener = new ITableListener()
         {
             @Override
-            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3) 
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
             {
                 boolean parseSuccess = Robot.getTable().getBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON);
                 mPanel.setParseSuccess(parseSuccess);
@@ -96,17 +99,19 @@ public class AutonWidget extends StaticWidget
         Robot.getTable().addTableListener(SmartDashboardNames.sROBOT_COMMAND_TEXT, textUpdatedListener, true);
         Robot.getTable().addTableListener(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, errorListener, true);
         Robot.getTable().addTableListener(SmartDashboardNames.sAUTON_FILENAME, filenameListener, true);
-        
+
         this.setVisible(true);
     }
 
     @Override
-    public void propertyChanged(Property arg0) {
+    public void propertyChanged(Property arg0)
+    {
         // Nothing to do
     }
 
     @Override
-    public void init() {
+    public void init()
+    {
         // Nothing to do
     }
 
