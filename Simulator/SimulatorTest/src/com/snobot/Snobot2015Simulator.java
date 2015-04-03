@@ -70,7 +70,7 @@ public class Snobot2015Simulator implements ISimulatorContainer  {
         rakeMotor.setName("Rake");
         gyroChannel.setName("Gyro");
 
-        double drivetrainSpeed = -2.9 * 12;
+        double drivetrainSpeed = -3.8 * 12;
         
         rightDriveMotor.setMotorParameters(drivetrainSpeed);
         leftDriveMotor.setMotorParameters(drivetrainSpeed);

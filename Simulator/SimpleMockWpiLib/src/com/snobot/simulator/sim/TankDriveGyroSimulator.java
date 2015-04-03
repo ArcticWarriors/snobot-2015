@@ -26,7 +26,9 @@ public class TankDriveGyroSimulator implements ISimulatorUpdater
 
         mIsSetup = mLeftEncoder != null && mRightEncoder != null && mGyroPort != null;
 
-        mKP = 22.0 / 12.0;
+        // TODO I have no idea what this black magic number means
+        // mKP = 22.0 / 12.0;
+        mKP = 110.0 / 12.0;
 
         if (!mIsSetup)
         {
