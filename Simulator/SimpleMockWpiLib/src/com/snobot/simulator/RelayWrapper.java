@@ -2,45 +2,50 @@ package com.snobot.simulator;
 
 import edu.wpi.first.wpilibj.Relay.Value;
 
-public class RelayWrapper 
+public class RelayWrapper
 {
-	private boolean forwards;
-	private boolean reverse;
+    private boolean forwards;
+    private boolean reverse;
 
-	public Value get() {
+    public Value get()
+    {
 
-		if(forwards && !reverse)
-		{
-			return Value.kForward;
-		}
-		else if(!forwards && reverse)
-		{
-			return Value.kReverse;
-		}
-		else if(forwards && reverse)
-		{
-			return Value.kOn;
-		}
-		else
-		{
-			return Value.kOff;
-		}
-	}
+        if (forwards && !reverse)
+        {
+            return Value.kForward;
+        }
+        else if (!forwards && reverse)
+        {
+            return Value.kReverse;
+        }
+        else if (forwards && reverse)
+        {
+            return Value.kOn;
+        }
+        else
+        {
+            return Value.kOff;
+        }
+    }
 
-	public void setRelayForwards(boolean b) {
-		forwards = b;
-	}
+    public void setRelayForwards(boolean b)
+    {
+        forwards = b;
+    }
 
-	public void setRelayReverse(boolean b) {
-		reverse = b;
-	}
+    public void setRelayReverse(boolean b)
+    {
+        reverse = b;
+    }
 
-	public boolean getRelayForwards() {
-		return forwards;
-	}
+    public boolean getRelayForwards()
+    {
+        return forwards;
+    }
 
-	public boolean getRelayReverse() {
-		return reverse;
-	}
+    public boolean getRelayReverse()
+    {
+        return reverse;
+    }
 
 }

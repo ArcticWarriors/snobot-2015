@@ -1,25 +1,28 @@
 package com.snobot.simulator;
 
-public class AnalogWrapper {
+public class AnalogWrapper
+{
 
-	private double mVoltage;
-	private double mAccumulator;
+    private double mVoltage;
+    private double mAccumulator;
 
-	public void setVoltage(double aVoltage)
-	{
-		mVoltage = aVoltage;
-	}
-	
-	public double getVoltage()
-	{
-		return mVoltage;
-	}
+    public void setVoltage(double aVoltage)
+    {
+        mVoltage = aVoltage;
+    }
 
-	public void setAccumulator(double aValue) {
-		mAccumulator = aValue;
-	}
+    public double getVoltage()
+    {
+        return mVoltage;
+    }
 
-	public double getAccumulator() {
-		return mAccumulator;
-	}
+    public void setAccumulator(double aValue)
+    {
+        mAccumulator = aValue;
+    }
+
+    public double getAccumulator()
+    {
+        return mAccumulator;
+    }
 }

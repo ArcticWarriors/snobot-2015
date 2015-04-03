@@ -46,7 +46,6 @@ public class MotorCurvePlot extends JPanel
         leftSeries.addSeries(mPowerCurve);
         leftSeries.addSeries(mEfficiency);
 
-
         mChart = ChartFactory.createXYLineChart(
                 "No Title",
                 "Load (N-m)",
@@ -110,7 +109,7 @@ public class MotorCurvePlot extends JPanel
 
         double speedSlope = (0 - aParams.mFreeSpeed_RPM) / aParams.mStallTorque_NM;
         double currentSlope = (aParams.mStallCurrent_Amp - aParams.mFreeCurrent_Amp) / aParams.mStallTorque_NM;
-        
+
         for (double torque = 0; torque < aParams.mStallTorque_NM; torque += .01)
         {
             double speed = torque * speedSlope + aParams.mFreeSpeed_RPM;

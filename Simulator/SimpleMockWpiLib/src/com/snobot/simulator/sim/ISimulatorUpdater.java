@@ -1,6 +1,7 @@
 package com.snobot.simulator.sim;
 
-public interface ISimulatorUpdater {
+public interface ISimulatorUpdater
+{
 
-	public abstract void update();
+    public abstract void update();
 }

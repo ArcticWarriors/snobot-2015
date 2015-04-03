@@ -1,4 +1,5 @@
 package com.snobot.simulator;
+
 public class MotorParameters
 {
     public String mMotorName;
@@ -23,7 +24,6 @@ public class MotorParameters
         mFreeCurrent_Amp = aFreeCurrent_Amp;
         mPower_Watt = mFreeSpeed_RPM / 2 * (1 / 60.0 * 2 * Math.PI) * mStallTorque_NM / 2;
     }
-
 
     @Override
     public String toString()
@@ -272,4 +272,3 @@ public class MotorParameters
         }
     }
 }
-

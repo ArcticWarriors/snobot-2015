@@ -1,66 +1,72 @@
 package com.snobot.simulator.joysticks;
 
-public class NullJoystick implements IMockJoystick 
+public class NullJoystick implements IMockJoystick
 {
-	private static final int sNUM_BUTTONS = 10;
-	private static final int sNUM_AXIS = 6;
+    private static final int sNUM_BUTTONS = 10;
+    private static final int sNUM_AXIS = 6;
 
-	private short[] mAxis;
-	private short[] mPov;
-	
-	public NullJoystick()
-	{
-		mAxis = new short[sNUM_BUTTONS];
-		mPov = new short[0];
-	}
+    private short[] mAxis;
+    private short[] mPov;
 
-//	@Override
-//	public boolean getRawButton(int aIndex) {
-//		return false;
-//	}
-//
-//	@Override
-//	public double getRawAxis(int aIndex) {
-//		return 0;
-//	}
-//
-//	@Override
-//	public double getX() {
-//		return 0;
-//	}
-//
-//	@Override
-//	public double getY() {
-//		return 0;
-//	}
+    public NullJoystick()
+    {
+        mAxis = new short[sNUM_BUTTONS];
+        mPov = new short[0];
+    }
 
-	@Override
-	public int getAxisCount() {
-		return sNUM_AXIS;
-	}
+    // @Override
+    // public boolean getRawButton(int aIndex) {
+    // return false;
+    // }
+    //
+    // @Override
+    // public double getRawAxis(int aIndex) {
+    // return 0;
+    // }
+    //
+    // @Override
+    // public double getX() {
+    // return 0;
+    // }
+    //
+    // @Override
+    // public double getY() {
+    // return 0;
+    // }
 
-	@Override
-	public int getButtonCount() {
-		return sNUM_BUTTONS;
-	}
+    @Override
+    public int getAxisCount()
+    {
+        return sNUM_AXIS;
+    }
 
-	@Override
-	public void setRumble(short s) {
-	}
+    @Override
+    public int getButtonCount()
+    {
+        return sNUM_BUTTONS;
+    }
 
-	@Override
-	public short[] getAxisValues() {
-		return mAxis;
-	}
+    @Override
+    public void setRumble(short s)
+    {
+    }
 
-	@Override
-	public short[] getPovValues() {
-		return mPov;
-	}
+    @Override
+    public short[] getAxisValues()
+    {
+        return mAxis;
+    }
 
-	@Override
-	public int getButtonMask() {
-		return 0;
-	}
+    @Override
+    public short[] getPovValues()
+    {
+        return mPov;
+    }
+
+    @Override
+    public int getButtonMask()
+    {
+        return 0;
+    }
 
 }

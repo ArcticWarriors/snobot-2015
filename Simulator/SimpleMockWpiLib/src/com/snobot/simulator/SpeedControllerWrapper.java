@@ -10,13 +10,13 @@ public class SpeedControllerWrapper
     private double mMaxSpeed;
     private double mVelocity;
     private double mPosition;
-	
+
     public SpeedControllerWrapper(int index)
-	{
+    {
         mVoltagePercent = 0;
         mMaxSpeed = 1;
         mMotorName = "Motor " + index;
-	}
+    }
 
     public void setMotorParameters(double aMaxSpeed)
     {
@@ -26,7 +26,7 @@ public class SpeedControllerWrapper
     public double get()
     {
         return mVoltagePercent;
-	}
+    }
 
     public void set(double speed)
     {
@@ -39,7 +39,7 @@ public class SpeedControllerWrapper
         {
             System.out.println("Speed: " + speed + ", Position: " + mPosition + ", Velocity: " + mVelocity);
         }
-	}
+    }
 
     public double getPosition()
     {

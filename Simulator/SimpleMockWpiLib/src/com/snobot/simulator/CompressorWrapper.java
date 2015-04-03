@@ -1,8 +1,8 @@
 package com.snobot.simulator;
 
-public class CompressorWrapper 
+public class CompressorWrapper
 {
 
-	protected double mAirPressure;
-	protected double mChargeRate;
+    protected double mAirPressure;
+    protected double mChargeRate;
 }

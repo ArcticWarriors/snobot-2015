@@ -1,17 +1,18 @@
 package com.snobot.simulator.joysticks;
 
-public interface IMockJoystick {
+public interface IMockJoystick
+{
 
-	int getAxisCount();
+    int getAxisCount();
 
-	int getButtonCount();
+    int getButtonCount();
 
-	void setRumble(short s);
-	
-	short[] getAxisValues();
+    void setRumble(short s);
 
-	short[] getPovValues();
+    short[] getAxisValues();
 
-	int getButtonMask();
+    short[] getPovValues();
+
+    int getButtonMask();
 
 }
