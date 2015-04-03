@@ -87,6 +87,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Gives Logger headers for entries: X-position, Y-position, Degrees, Distance
      */
+    @Override
     public void init()
     {
         this.mLogger.addHeader("X-position");
@@ -99,6 +100,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Gives Logger entries: X-position, Y-position, Degrees, Distance
      */
+    @Override
     public void updateLog()
     {
         this.mLogger.updateLogger(mPositionX);
@@ -143,6 +145,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Updates member variables with numbers calculated via object methods
      */
+    @Override
     public void update()
     {
         double total_distance = this.calculateDistanceTraveled();

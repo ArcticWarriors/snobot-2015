@@ -21,6 +21,7 @@ public class TextFileSerializer implements IPathSerializer
      *            The path to serialize.
      * @return A string representation.
      */
+    @Override
     public String serialize(Path path)
     {
         Trajectory left = path.getLeftWheelTrajectory();

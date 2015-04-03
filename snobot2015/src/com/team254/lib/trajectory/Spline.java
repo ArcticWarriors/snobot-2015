@@ -163,7 +163,7 @@ public class Spline
         double interpolated = t;
         if (arc_length != last_arc_length)
         {
-            interpolated += ((distance - last_arc_length) / (arc_length - last_arc_length) - 1) / (double) kNumSamples;
+            interpolated += ((distance - last_arc_length) / (arc_length - last_arc_length) - 1) / kNumSamples;
         }
         return interpolated;
     }
@@ -228,6 +228,7 @@ public class Spline
         return Utilities.boundAngleNegPiToPiRadians(Math.atan(secondDerivativeAt(percentage)));
     }
 
+    @Override
     public String toString()
     {
         return "a=" + a_ + "; b=" + b_ + "; c=" + c_ + "; d=" + d_ + "; e=" + e_;

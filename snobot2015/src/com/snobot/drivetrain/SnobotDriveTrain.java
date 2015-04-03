@@ -181,6 +181,7 @@ public class SnobotDriveTrain implements IDriveTrain
         return mRightEncDistance;
     }
 
+    @Override
     public void resetEncoders()
     {
         this.mEncoderLeft.reset();

@@ -31,6 +31,7 @@ public class AnalogOutputDisplay extends BaseWidgetDisplay<AnalogWrapper>
             repaint();
         }
 
+        @Override
         public void paint(Graphics g)
         {
             g.clearRect(0, 0, getWidth(), getHeight());
@@ -45,6 +46,7 @@ public class AnalogOutputDisplay extends BaseWidgetDisplay<AnalogWrapper>
         setBorder(new TitledBorder("Analog"));
     }
 
+    @Override
     public void update(Map<Integer, AnalogWrapper> aMap)
     {
         for (Entry<Integer, AnalogWrapper> pair : aMap.entrySet())

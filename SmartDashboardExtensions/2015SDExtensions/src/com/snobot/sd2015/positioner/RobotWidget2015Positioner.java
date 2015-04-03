@@ -103,6 +103,7 @@ public class RobotWidget2015Positioner extends JPanel
         return output;
     }
 
+    @Override
     public void paint(Graphics g)
     {
         super.paint(g);

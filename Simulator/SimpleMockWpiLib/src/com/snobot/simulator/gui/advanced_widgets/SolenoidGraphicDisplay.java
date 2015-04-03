@@ -35,6 +35,7 @@ public class SolenoidGraphicDisplay extends BaseWidgetDisplay<SolenoidWrapper>
             repaint();
         }
 
+        @Override
         public void paint(Graphics g)
         {
             g.clearRect(0, 0, getWidth(), getHeight());
@@ -63,6 +64,7 @@ public class SolenoidGraphicDisplay extends BaseWidgetDisplay<SolenoidWrapper>
         setBorder(new TitledBorder("Solenoid"));
     }
 
+    @Override
     public void update(Map<Integer, SolenoidWrapper> aMap)
     {
         for (Entry<Integer, SolenoidWrapper> pair : aMap.entrySet())

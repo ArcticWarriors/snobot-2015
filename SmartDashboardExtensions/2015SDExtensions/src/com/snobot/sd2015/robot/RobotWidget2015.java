@@ -32,6 +32,7 @@ public class RobotWidget2015 extends StaticWidget
         addClawListener();
     }
 
+    @Override
     public void init()
     {
         addComponentListener(new ComponentAdapter()

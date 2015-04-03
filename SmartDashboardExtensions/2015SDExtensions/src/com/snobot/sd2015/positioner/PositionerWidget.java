@@ -42,6 +42,7 @@ public class PositionerWidget extends StaticWidget
         Robot.getTable().addTableListener(SmartDashboardNames.sSNOBOT_HEADING, mPositionListener, true);
     }
 
+    @Override
     public void init()
     {
         addComponentListener(new ComponentAdapter()

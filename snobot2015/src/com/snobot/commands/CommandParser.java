@@ -53,6 +53,7 @@ public class CommandParser extends ACommandParser
 
     }
 
+    @Override
     protected Command parseCommand(List<String> args)
     {
         String commandName = args.get(0);
@@ -197,6 +198,7 @@ public class CommandParser extends ACommandParser
         return newCommand;
     }
 
+    @Override
     protected void publishParsingResults(String aCommandString)
     {
         if (!mErrorText.isEmpty())
@@ -209,6 +211,7 @@ public class CommandParser extends ACommandParser
         SmartDashboard.putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, mSuccess);
     }
 
+    @Override
     protected void initReading()
     {
         super.initReading();

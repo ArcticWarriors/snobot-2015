@@ -1,4 +1,4 @@
-package com.snobot.operatorjoystick;
+package com.snobot.xlib;
 
 public class ToggleButton
 {

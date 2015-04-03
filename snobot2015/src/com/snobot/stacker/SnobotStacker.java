@@ -128,16 +128,19 @@ public class SnobotStacker implements IStacker
          */
     }
 
+    @Override
     public boolean moveStackerToGround()
     {
         return moveStackerToHeight(StackerHeights.Floor);
     }
 
+    @Override
     public boolean moveStackerToScoringPlatform()
     {
         return moveStackerToHeight(StackerHeights.ScoringPlatform);
     }
 
+    @Override
     public boolean moveStackerToOneStack()
     {
         return moveStackerToHeight(StackerHeights.OneTote);

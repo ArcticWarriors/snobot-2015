@@ -26,6 +26,7 @@ public class EnablePanel extends JPanel
         mAutonButton.addActionListener(aListener);
     }
 
+    @Override
     public boolean isEnabled()
     {
         return mEnableButton.isSelected();

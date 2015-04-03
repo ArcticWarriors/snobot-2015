@@ -61,7 +61,7 @@ public class TankDriveGyroSimulator implements ISimulatorUpdater
                 rightDist *= -1;
             }
 
-            mAngle = (double) (leftDist - rightDist) / (double) (3.14159 * mKP) * (180.0);
+            mAngle = (leftDist - rightDist) / (3.14159 * mKP) * (180.0);
 
             mGyroPort.setAccumulator(mAngle); // multiply by volts per degree second
             // System.out.println("SIMULATOR : angle=" + mAngle + ", right=" + rightDist + ", left=" + leftDist);

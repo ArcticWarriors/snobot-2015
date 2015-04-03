@@ -50,6 +50,7 @@ public class TextFileDeserializer implements IPathDeserializer
         return new Path();
     }
 
+    @Override
     public Path deserialize(String serialized)
     {
         StringTokenizer tokenizer = new StringTokenizer(serialized, "\n");

@@ -33,6 +33,7 @@ public class Segment
         y = to_copy.y;
     }
 
+    @Override
     public String toString()
     {
         return "pos: " + pos + "; vel: " + vel + "; acc: " + acc + "; jerk: " + jerk + "; heading: " + heading;

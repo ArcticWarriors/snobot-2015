@@ -1,6 +1,7 @@
 package com.snobot.operatorjoystick;
 
 import com.snobot.Properties2015;
+import com.snobot.xlib.ToggleButton;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.RumbleType;
@@ -89,16 +90,19 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         return mMoveRake;
     }
 
+    @Override
     public boolean getMoveToFloor()
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);
     }
 
+    @Override
     public boolean getMoveToScoring()
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToScoringButton);
     }
 
+    @Override
     public boolean getMoveToOneStack()
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToOneStackButton);

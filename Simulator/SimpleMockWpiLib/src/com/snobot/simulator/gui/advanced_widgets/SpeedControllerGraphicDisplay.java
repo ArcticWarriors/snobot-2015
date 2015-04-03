@@ -30,6 +30,7 @@ public class SpeedControllerGraphicDisplay extends BaseWidgetDisplay<SpeedContro
             repaint();
         }
 
+        @Override
         public void paint(Graphics g)
         {
             g.clearRect(0, 0, getWidth(), getHeight());
@@ -44,6 +45,7 @@ public class SpeedControllerGraphicDisplay extends BaseWidgetDisplay<SpeedContro
         setBorder(new TitledBorder("Speed Controllers"));
     }
 
+    @Override
     public void update(Map<Integer, SpeedControllerWrapper> aMap)
     {
         for (Entry<Integer, SpeedControllerWrapper> pair : aMap.entrySet())

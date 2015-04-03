@@ -30,6 +30,7 @@ public class DigitalSourceGraphicDisplay extends BaseWidgetDisplay<DigitalSource
             repaint();
         }
 
+        @Override
         public void paint(Graphics g)
         {
             g.clearRect(0, 0, getWidth(), getHeight());
@@ -44,6 +45,7 @@ public class DigitalSourceGraphicDisplay extends BaseWidgetDisplay<DigitalSource
         setBorder(new TitledBorder("Digital IO"));
     }
 
+    @Override
     public void update(Map<Integer, DigitalSourceWrapper> aMap)
     {
         for (Entry<Integer, DigitalSourceWrapper> pair : aMap.entrySet())

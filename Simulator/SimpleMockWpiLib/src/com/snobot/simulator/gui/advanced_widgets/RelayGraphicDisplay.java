@@ -33,6 +33,7 @@ public class RelayGraphicDisplay extends BaseWidgetDisplay<RelayWrapper>
             repaint();
         }
 
+        @Override
         public void paint(Graphics g)
         {
             g.clearRect(0, 0, getWidth(), getHeight());
@@ -67,6 +68,7 @@ public class RelayGraphicDisplay extends BaseWidgetDisplay<RelayWrapper>
         setBorder(new TitledBorder("Relay"));
     }
 
+    @Override
     public void update(Map<Integer, RelayWrapper> aMap)
     {
         for (Entry<Integer, RelayWrapper> pair : aMap.entrySet())

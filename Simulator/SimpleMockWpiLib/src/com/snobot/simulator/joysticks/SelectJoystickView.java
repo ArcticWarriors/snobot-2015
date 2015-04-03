@@ -157,6 +157,7 @@ public class SelectJoystickView extends JPanel
 
         mJoystickTable.getModel().addTableModelListener(new TableModelListener()
         {
+            @Override
             public void tableChanged(TableModelEvent e)
             {
                 if (e.getType() == TableModelEvent.UPDATE)
