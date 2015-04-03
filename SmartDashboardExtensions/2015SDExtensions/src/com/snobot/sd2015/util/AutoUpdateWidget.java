@@ -46,6 +46,7 @@ public abstract class AutoUpdateWidget extends StaticWidget
                 }
                 catch (Exception ex)
                 {
+                    ex.printStackTrace();
                 }
             }
 

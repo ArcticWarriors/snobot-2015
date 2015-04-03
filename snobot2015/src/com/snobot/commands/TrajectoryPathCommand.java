@@ -1,15 +1,22 @@
 package com.snobot.commands;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.snobot.Properties2015;
+import com.snobot.SmartDashboardNames;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 import com.snobot.xlib.Utilities;
 import com.snobot.xlib.path.spline.TrajectoryFollower;
+import com.team254.lib.trajectory.IdealSplineSerializer;
 import com.team254.lib.trajectory.Path;
+import com.team254.lib.trajectory.SplineSegment;
+import com.team254.lib.trajectory.Trajectory;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TrajectoryPathCommand extends Command
 {
@@ -17,14 +24,19 @@ public class TrajectoryPathCommand extends Command
     private SnobotPosition mSnobotPosition;
     private TrajectoryFollower followerLeft = new TrajectoryFollower("left");
     private TrajectoryFollower followerRight = new TrajectoryFollower("right");
+    private Path mPath;
     private double mStartingLeftDistance;
     private double mStartingRightDistance;
     private double mKTurn;
+
+    private double mLastLeftDistance;
+    private double mLastRightDistance;
 
     public TrajectoryPathCommand(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, Path aPath)
     {
         mDrivetrain = aDrivetrain;
         mSnobotPosition = aSnobotPosition;
+        mPath = aPath;
 
         double kP = Properties2015.sDRIVE_PATH_KP.getValue();
         double kD = Properties2015.sDRIVE_PATH_KD.getValue();
@@ -48,6 +60,8 @@ public class TrajectoryPathCommand extends Command
     {
         mStartingLeftDistance = mDrivetrain.calculateDistanceLeft();
         mStartingRightDistance = mDrivetrain.calculateDistanceRight();
+
+        sendIdealPath();
     }
 
     @Override
@@ -74,6 +88,19 @@ public class TrajectoryPathCommand extends Command
 
         mDrivetrain.setMotorSpeed(speedLeft + turn, speedRight - turn);
 
+        SplineSegment segment = new SplineSegment();
+        segment.left_pos = distanceL;
+        segment.left_vel = (distanceL - mLastLeftDistance) / .02;
+        segment.right_pos = distanceR;
+        segment.right_vel = (distanceR - mLastRightDistance) / .02;
+        segment.heading = observedHeading;
+
+        String point_info = followerLeft.getCurrentSegment() + "," + IdealSplineSerializer.serializePathPoint(segment);
+
+        SmartDashboard.putString(SmartDashboardNames.sSPLINE_POINT, point_info);
+
+        mLastLeftDistance = distanceL;
+        mLastRightDistance = distanceR;
     }
 
     @Override
@@ -93,6 +120,28 @@ public class TrajectoryPathCommand extends Command
     protected void interrupted()
     {
 
+    }
+
+    private void sendIdealPath()
+    {
+        List<SplineSegment> segments = new ArrayList<SplineSegment>();
+
+        Trajectory left = mPath.getLeftWheelTrajectory();
+        Trajectory right = mPath.getRightWheelTrajectory();
+
+        for (int i = 0; i < left.size(); ++i)
+        {
+            SplineSegment segment = new SplineSegment();
+            segment.left_pos = left.get(i).pos;
+            segment.left_vel = left.get(i).vel;
+            segment.right_pos = right.get(i).pos;
+            segment.right_vel = right.get(i).vel;
+            segment.heading = right.get(i).heading;
+
+            segments.add(segment);
+        }
+
+        SmartDashboard.putString(SmartDashboardNames.sSPINE_IDEAL, IdealSplineSerializer.serializePath(segments));
     }
 
 }

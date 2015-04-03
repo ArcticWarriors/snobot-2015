@@ -75,7 +75,8 @@ public class SplinePlannerWidget extends AutoUpdateWidget
 
             if (index > mLastIndex)
             {
-                mPanel.setPoint(index, IdealSplineSerializer.deserializePathPoint(tokenizer));
+                SplineSegment segment = IdealSplineSerializer.deserializePathPoint(tokenizer);
+                mPanel.setPoint(index, segment);
             }
 
             mLastIndex = index;

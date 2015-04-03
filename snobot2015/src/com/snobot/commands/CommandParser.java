@@ -230,6 +230,7 @@ public class CommandParser extends ACommandParser
 
         mSnobot.getPositioner().setPosition(0, 0, 0);
         SmartDashboard.putString(SmartDashboardNames.sSIMPLE_IDEAL_PATH, "");
+        SmartDashboard.putString(SmartDashboardNames.sSPINE_IDEAL, "");
     }
 
     public void saveAutonMode()

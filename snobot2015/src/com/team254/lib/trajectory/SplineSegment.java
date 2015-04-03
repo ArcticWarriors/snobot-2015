@@ -1,4 +1,4 @@
-package com.snobot.sd2015.spline_plotter;
+package com.team254.lib.trajectory;
 
 public class SplineSegment
 {
@@ -21,12 +21,4 @@ public class SplineSegment
         this.right_vel = right_vel;
         this.heading = heading;
     }
-
-    @Override
-    public String toString()
-    {
-        return "SplineSegment [left_pos=" + left_pos + ", left_vel=" + left_vel + ", right_pos=" + right_pos + ", right_vel=" + right_vel
-                + ", heading=" + heading + "]";
-    }
-
 }
