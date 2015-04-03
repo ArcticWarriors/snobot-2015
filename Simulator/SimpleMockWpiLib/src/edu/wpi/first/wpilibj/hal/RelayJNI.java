@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.snobot.simulator.RelayWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
-import com.snobot.simulator.SpeedControllerWrapper;
 
 public class RelayJNI extends DIOJNI {
 	
@@ -19,7 +18,7 @@ public class RelayJNI extends DIOJNI {
 		
 		if(!relays.containsKey(port))
 		{
-			relays.put(port, new RelayWrapper());
+            relays.put(port, new RelayWrapper(port));
 		}
 		
 		return relays.get(port);

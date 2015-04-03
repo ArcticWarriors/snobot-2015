@@ -2,9 +2,8 @@ package com.snobot.simulator;
 
 import edu.wpi.first.wpilibj.hal.HALUtil;
 
-public class SpeedControllerWrapper
+public class SpeedControllerWrapper extends ASensorWrapper
 {
-    private String mMotorName;
 
     private double mVoltagePercent;
     private double mMaxSpeed;
@@ -13,14 +12,20 @@ public class SpeedControllerWrapper
 
     public SpeedControllerWrapper(int index)
     {
+        super("Speed Controller " + index);
         mVoltagePercent = 0;
         mMaxSpeed = 1;
-        mMotorName = "Motor " + index;
+    }
+
+    public void setMotorParameters(MotorParameters aParams, double rpmToDistance, double aMass)
+    {
+        setMotorParameters(1);
     }
 
     public void setMotorParameters(double aMaxSpeed)
     {
         mMaxSpeed = aMaxSpeed;
+        System.out.println(mName + ": Max Speed=" + mMaxSpeed);
     }
 
     public double get()
@@ -35,10 +40,10 @@ public class SpeedControllerWrapper
         mVelocity = mMaxSpeed * mVoltagePercent;
         mPosition += mVelocity * HALUtil.__sWAIT_TIME;
 
-        if (mMotorName.equals("LeftDrive"))
-        {
-            System.out.println("Speed: " + speed + ", Position: " + mPosition + ", Velocity: " + mVelocity);
-        }
+        // if (mMotorName.equals("LeftDrive"))
+        // {
+        // System.out.println("Speed: " + speed + ", Position: " + mPosition + ", Velocity: " + mVelocity);
+        // }
     }
 
     public double getPosition()
@@ -49,10 +54,5 @@ public class SpeedControllerWrapper
     public void resetDistance()
     {
         mPosition = 0;
-    }
-
-    public void setName(String aName)
-    {
-        mMotorName = aName;
     }
 }

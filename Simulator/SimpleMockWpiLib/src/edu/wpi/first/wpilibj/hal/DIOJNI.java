@@ -1,11 +1,10 @@
 package edu.wpi.first.wpilibj.hal;
 
-import java.nio.IntBuffer;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 import com.snobot.simulator.DigitalSourceWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
-import com.snobot.simulator.SpeedControllerWrapper;
 
 public class DIOJNI extends JNIWrapper {
 	
@@ -23,7 +22,7 @@ public class DIOJNI extends JNIWrapper {
 	public static byte allocateDIO(ByteBuffer digital_port_pointer, byte input, IntBuffer status)
     {
 		int pin = digital_port_pointer.get(0);
-		DigitalSourceWrapper wrapper = new DigitalSourceWrapper();
+        DigitalSourceWrapper wrapper = new DigitalSourceWrapper(pin);
 		SensorActuatorRegistry.get().register(wrapper, pin);
 		
 		return 0;

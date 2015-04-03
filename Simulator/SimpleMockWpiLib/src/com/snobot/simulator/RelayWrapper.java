@@ -2,10 +2,16 @@ package com.snobot.simulator;
 
 import edu.wpi.first.wpilibj.Relay.Value;
 
-public class RelayWrapper
+public class RelayWrapper extends ASensorWrapper
 {
+
     private boolean forwards;
     private boolean reverse;
+
+    public RelayWrapper(int aPort)
+    {
+        super("Relay " + aPort);
+    }
 
     public Value get()
     {

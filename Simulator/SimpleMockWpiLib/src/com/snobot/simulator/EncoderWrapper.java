@@ -1,7 +1,12 @@
 package com.snobot.simulator;
 
-public class EncoderWrapper
+public class EncoderWrapper extends ASensorWrapper
 {
+    public EncoderWrapper(int aIndexA, int aIndexB)
+    {
+        super("Encoder (" + aIndexA + ", " + aIndexB + ")");
+    }
+
     private SpeedControllerWrapper mSpeedController;
 
     private double distance_per_tick = 1 / 255.0;

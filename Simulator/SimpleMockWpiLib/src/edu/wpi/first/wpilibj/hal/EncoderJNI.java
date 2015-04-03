@@ -1,12 +1,11 @@
 package edu.wpi.first.wpilibj.hal;
 
-import java.nio.IntBuffer;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 import com.snobot.simulator.EncoderPair;
 import com.snobot.simulator.EncoderWrapper;
 import com.snobot.simulator.SensorActuatorRegistry;
-import com.snobot.simulator.SolenoidWrapper;
 
 public class EncoderJNI extends JNIWrapper {
 
@@ -26,7 +25,7 @@ public class EncoderJNI extends JNIWrapper {
 		buffer.put((byte) port_a_pin);
 		buffer.put((byte) port_b_pin);
 		
-		EncoderWrapper wrapper = new EncoderWrapper();
+        EncoderWrapper wrapper = new EncoderWrapper(port_a_pin, port_b_pin);
 		EncoderPair ports = new EncoderPair(port_a_pin, port_b_pin);
 		SensorActuatorRegistry.get().register(wrapper, ports);
 		

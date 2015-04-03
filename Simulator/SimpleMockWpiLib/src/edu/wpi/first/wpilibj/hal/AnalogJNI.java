@@ -33,7 +33,7 @@ public class AnalogJNI extends JNIWrapper {
 	public static ByteBuffer initializeAnalogInputPort(ByteBuffer port_pointer, IntBuffer status)
     {
 		int port = port_pointer.get(0);
-		AnalogWrapper wrapper = new AnalogWrapper();
+        AnalogWrapper wrapper = new AnalogWrapper(port);
 		SensorActuatorRegistry.get().register(wrapper, port);
 		
 		return port_pointer;
@@ -41,7 +41,7 @@ public class AnalogJNI extends JNIWrapper {
 	public static ByteBuffer initializeAnalogOutputPort(ByteBuffer port_pointer, IntBuffer status)
     {
 		int port = port_pointer.get(0);
-		AnalogWrapper wrapper = new AnalogWrapper();
+        AnalogWrapper wrapper = new AnalogWrapper(port);
 		SensorActuatorRegistry.get().register(wrapper, port);
 		
 		return port_pointer;

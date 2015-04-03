@@ -1,12 +1,13 @@
 package com.snobot.simulator;
 
-public class DigitalSourceWrapper
+public class DigitalSourceWrapper extends ASensorWrapper
 {
 
     private boolean mState;
 
-    public DigitalSourceWrapper()
+    public DigitalSourceWrapper(int index)
     {
+        super("Digital Source" + index);
         mState = false;
     }
 

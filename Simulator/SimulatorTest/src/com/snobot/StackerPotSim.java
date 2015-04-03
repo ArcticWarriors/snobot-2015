@@ -8,16 +8,31 @@ public class StackerPotSim
     private AnalogWrapper mWrapper;
     private SpeedControllerWrapper mSpeedController;
 
+    private double mThrow;
+    private double mMaxVoltage;
+    private double mMinVoltage;
+
     public StackerPotSim(AnalogWrapper aWrapper, SpeedControllerWrapper aSpeedController)
     {
         mWrapper = aWrapper;
         mSpeedController = aSpeedController;
+
+        mThrow = mMaxVoltage = mMinVoltage = 1;
+        // setParameters(24.0, 3.596190, 4.9731405);
+    }
+
+    public void setParameters(double aThrow, double aMaxVoltage, double aMinVoltage)
+    {
+        mThrow = aThrow;
+        mMaxVoltage = aMaxVoltage;
+        mMinVoltage = aMinVoltage;
     }
 
     public void update()
     {
-        double ipv = 24 / 1.3769505;
-        double voltage = 3.596190 - (mSpeedController.getPosition() - 24) / ipv;
+        double voltage_diff = mMinVoltage - mMaxVoltage;
+        double ipv = mThrow / voltage_diff;
+        double voltage = mMaxVoltage - (mSpeedController.getPosition() - mThrow) / ipv;
 
         mWrapper.setVoltage(voltage);
     }

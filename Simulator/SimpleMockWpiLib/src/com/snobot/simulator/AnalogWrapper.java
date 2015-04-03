@@ -1,7 +1,12 @@
 package com.snobot.simulator;
 
-public class AnalogWrapper
+public class AnalogWrapper extends ASensorWrapper
 {
+
+    public AnalogWrapper(int aIndex)
+    {
+        super("Analog " + aIndex);
+    }
 
     private double mVoltage;
     private double mAccumulator;

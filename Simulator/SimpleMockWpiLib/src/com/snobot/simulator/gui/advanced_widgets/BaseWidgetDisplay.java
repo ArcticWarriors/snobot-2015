@@ -9,7 +9,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public abstract class BaseWidgetDisplay<ItemType> extends JPanel
+import com.snobot.simulator.ASensorWrapper;
+
+public abstract class BaseWidgetDisplay<ItemType extends ASensorWrapper> extends JPanel
 {
 
     protected Map<Integer, Container> mWidgetMap = new HashMap<>();
@@ -25,7 +27,7 @@ public abstract class BaseWidgetDisplay<ItemType> extends JPanel
             mWidgetMap.put(pair.getKey(), panelPair);
 
             JPanel panel = new JPanel();
-            panel.add(new JLabel("" + pair.getKey()));
+            panel.add(new JLabel("" + pair.getValue().getName()));
             panel.add(panelPair);
 
             add(panel);

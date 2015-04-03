@@ -1,12 +1,13 @@
 package com.snobot.simulator;
 
-public class SolenoidWrapper
+public class SolenoidWrapper extends ASensorWrapper
 {
 
     private boolean mState;
 
-    public SolenoidWrapper()
+    public SolenoidWrapper(int aIndex)
     {
+        super("Solenoid " + aIndex);
         mState = false;
     }
 
