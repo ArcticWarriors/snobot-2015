@@ -22,8 +22,8 @@ public class SnobotRake implements IRake
      * 
      * @param aRakeMotor
      * @param aOperatorJoystick
-     * @param aLimitSwitch Argument of operator Rake Motor, Operator Joystick,
-     *            Limit Switch
+     * @param aLimitSwitch
+     *            Argument of operator Rake Motor, Operator Joystick, Limit Switch
      */
     public SnobotRake(SpeedController aRakeMotor, IOperatorJoystick aOperatorJoystick, DigitalInput aLimitSwitch, Logger aLogger)
     {

@@ -35,9 +35,12 @@ public class SnobotDriveTrain implements IDriveTrain
     /**
      * Takes 2 speed controllers and joy stick arguments
      * 
-     * @param aSpeedControllerLeft Argument for left Speed Controller
-     * @param aSpeedControllerRight Argument for right Speed Controller
-     * @param aDriverJoystick Argument Driver Joy stick
+     * @param aSpeedControllerLeft
+     *            Argument for left Speed Controller
+     * @param aSpeedControllerRight
+     *            Argument for right Speed Controller
+     * @param aDriverJoystick
+     *            Argument Driver Joy stick
      */
     public SnobotDriveTrain(SpeedController aSpeedControllerLeft, SpeedController aSpeedControllerRight, IDriverJoystick aDriverJoystick,
             Encoder aEncoderLeft, Encoder aEncoderRight, Logger aLogger)

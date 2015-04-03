@@ -9,8 +9,7 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Calculates Snobot's current position and orientation with the side of the
- * field opposite drivers defined as north
+ * Calculates Snobot's current position and orientation with the side of the field opposite drivers defined as north
  * 
  * @author Alec
  *
@@ -63,11 +62,16 @@ public class SnobotPosition implements ISubsystem
     /**
      * Constructs a SnobotPosition object
      * 
-     * @param aPositionX Snobot's initial position on the X-axis
-     * @param aPositionY Snobot's initial position on the Y-axis
-     * @param aRadianRotation Snobot's initial orientation
-     * @param aGryroSensor Gyro object to calculate orientation
-     * @param aDefaultMeasure Measure that is to be used by default
+     * @param aPositionX
+     *            Snobot's initial position on the X-axis
+     * @param aPositionY
+     *            Snobot's initial position on the Y-axis
+     * @param aRadianRotation
+     *            Snobot's initial orientation
+     * @param aGryroSensor
+     *            Gyro object to calculate orientation
+     * @param aDefaultMeasure
+     *            Measure that is to be used by default
      */
     public SnobotPosition(Gyro aGyroSensor, IDriveTrain aDriveTrain, Logger aLogger)
     {
@@ -81,8 +85,7 @@ public class SnobotPosition implements ISubsystem
     }
 
     /**
-     * Gives Logger headers for entries: X-position, Y-position, Degrees,
-     * Distance
+     * Gives Logger headers for entries: X-position, Y-position, Degrees, Distance
      */
     public void init()
     {
@@ -125,8 +128,7 @@ public class SnobotPosition implements ISubsystem
     }
 
     /**
-     * Calculates the distance traveled by Snobot as the average of the
-     * left/right distances
+     * Calculates the distance traveled by Snobot as the average of the left/right distances
      * 
      * @return The distance traveled by Snobot since last update
      */
@@ -228,7 +230,8 @@ public class SnobotPosition implements ISubsystem
     /**
      * Sets Snobot's X-position
      * 
-     * @param aXPosition Snobot's new X-position
+     * @param aXPosition
+     *            Snobot's new X-position
      */
     public void setSnobotXPosition(double aXPosition)
     {
@@ -238,7 +241,8 @@ public class SnobotPosition implements ISubsystem
     /**
      * Sets Snobot's Y-position
      * 
-     * @param aYPosition Snobot's new Y-position
+     * @param aYPosition
+     *            Snobot's new Y-position
      */
     public void setSnobotYPosition(double aYPosition)
     {
@@ -248,7 +252,8 @@ public class SnobotPosition implements ISubsystem
     /**
      * Sets Snobot's orientation
      * 
-     * @param aDegrees Snobot's new orientation in degrees
+     * @param aDegrees
+     *            Snobot's new orientation in degrees
      */
     public void setSnobotDegreeRotation(double aDegrees)
     {

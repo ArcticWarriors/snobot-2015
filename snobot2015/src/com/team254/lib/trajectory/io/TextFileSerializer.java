@@ -13,12 +13,12 @@ public class TextFileSerializer implements IPathSerializer
 {
 
     /**
-     * Format: PathName NumSegments LeftSegment1 ... LeftSegmentN RightSegment1
-     * ... RightSegmentN
+     * Format: PathName NumSegments LeftSegment1 ... LeftSegmentN RightSegment1 ... RightSegmentN
      * 
      * Each segment is in the format: pos vel acc jerk heading dt x y
      * 
-     * @param path The path to serialize.
+     * @param path
+     *            The path to serialize.
      * @return A string representation.
      */
     public String serialize(Path path)

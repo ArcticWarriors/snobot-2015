@@ -49,19 +49,23 @@ public class TrajectoryGenerator
     /**
      * Generate a trajectory from a start state to a goal state.
      *
-     * Read the notes on each of the Strategies defined above, as certain
-     * arguments are ignored for some strategies.
+     * Read the notes on each of the Strategies defined above, as certain arguments are ignored for some strategies.
      *
-     * @param config Definition of constraints and sampling rate (WARNING: Some
-     *            may be ignored)
-     * @param strategy Which generator to use
-     * @param start_vel The starting velocity (WARNING: May be ignored)
-     * @param start_heading The starting heading
-     * @param goal_pos The goal position
-     * @param goal_vel The goal velocity (WARNING: May be ignored)
-     * @param goal_heading The goal heading
-     * @return A Trajectory that satisfies the relevant constraints and end
-     *         conditions.
+     * @param config
+     *            Definition of constraints and sampling rate (WARNING: Some may be ignored)
+     * @param strategy
+     *            Which generator to use
+     * @param start_vel
+     *            The starting velocity (WARNING: May be ignored)
+     * @param start_heading
+     *            The starting heading
+     * @param goal_pos
+     *            The goal position
+     * @param goal_vel
+     *            The goal velocity (WARNING: May be ignored)
+     * @param goal_heading
+     *            The goal heading
+     * @return A Trajectory that satisfies the relevant constraints and end conditions.
      */
     public static Trajectory generate(Config config, Strategy strategy, double start_vel, double start_heading, double goal_pos, double goal_vel,
             double goal_heading)

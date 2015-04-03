@@ -1,8 +1,7 @@
 package com.snobot.xlib;
 
 /**
- * This class holds a bunch of static methods and variables needed for
- * mathematics
+ * This class holds a bunch of static methods and variables needed for mathematics
  */
 public class Utilities
 {

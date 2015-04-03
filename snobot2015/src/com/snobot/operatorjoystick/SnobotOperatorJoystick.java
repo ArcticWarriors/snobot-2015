@@ -39,7 +39,8 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Constructs a SnobotOperatorJoystick object
      * 
-     * @param aOperatorJoystick Argument for operator Joystick
+     * @param aOperatorJoystick
+     *            Argument for operator Joystick
      */
     public SnobotOperatorJoystick(Joystick aOperatorJoystick)
     {

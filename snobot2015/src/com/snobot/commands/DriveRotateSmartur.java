@@ -24,9 +24,12 @@ public class DriveRotateSmartur extends Command
     /**
      * Creates DriveRotate command object
      * 
-     * @param aDegree -Degree specified to turn to
-     * @param aDriveTrain -SnobotDriveTrain class
-     * @param aPosition -SnobotPosition class
+     * @param aDegree
+     *            -Degree specified to turn to
+     * @param aDriveTrain
+     *            -SnobotDriveTrain class
+     * @param aPosition
+     *            -SnobotPosition class
      */
     public DriveRotateSmartur(double aDegree, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {

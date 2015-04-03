@@ -58,7 +58,8 @@ public class SnobotStacker implements IStacker
     /**
      * Constructs a SnobotStacker object
      * 
-     * @param aOperatorJoystick Argument of operator joy stick
+     * @param aOperatorJoystick
+     *            Argument of operator joy stick
      */
     public SnobotStacker(IOperatorJoystick aOperatorJoystick, SpeedController aStackerMotor, DigitalInput aUpperLimitSwitch,
             DigitalInput aLowerLimitSwitch, Logger aLogger, AnalogInput aStackerEncoder)

@@ -6,8 +6,7 @@ import com.snobot.logger.Logger;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Implements Driver Joystick Interface Sets up Snobot Flight Stick for Driver
- * Ayush/Ammar
+ * Implements Driver Joystick Interface Sets up Snobot Flight Stick for Driver Ayush/Ammar
  *
  */
 public class SnobotFlightstickJoystick implements IDriverJoystick
@@ -26,8 +25,10 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     /**
      * Constructor for Flight Stick
      * 
-     * @param aLeftFlightStick Argument for Left Flight Stick
-     * @param aRightFlightStick Argument for Right Flight Stick
+     * @param aLeftFlightStick
+     *            Argument for Left Flight Stick
+     * @param aRightFlightStick
+     *            Argument for Right Flight Stick
      */
     public SnobotFlightstickJoystick(Joystick aLeftFlightStick, Joystick aRightFlightStick, Logger aLogger)
     {

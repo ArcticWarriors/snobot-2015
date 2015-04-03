@@ -6,8 +6,7 @@ import com.snobot.xlib.XboxButtonMap;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Implements Driver Joy stick Interface Sets up Snobot xBox Joy stick for
- * Driver Ayush/Ammar
+ * Implements Driver Joy stick Interface Sets up Snobot xBox Joy stick for Driver Ayush/Ammar
  */
 public class SnobotXBoxDriverJoystick implements IDriverJoystick
 {
@@ -27,7 +26,8 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     /**
      * Constructor for xBox Joy stick
      * 
-     * @param aXBoxStick Argument for xBox Stick
+     * @param aXBoxStick
+     *            Argument for xBox Stick
      */
     public SnobotXBoxDriverJoystick(Joystick aXBoxStick, Logger aLogger)
     {

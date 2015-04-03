@@ -66,7 +66,8 @@ public abstract class ACommandParser
     /**
      * Interprets a line as a Command and adds it to mCommands
      * 
-     * @param aLine Line of text
+     * @param aLine
+     *            Line of text
      */
     protected void parseLine(CommandGroup aGroup, String aLine)
     {

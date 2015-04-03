@@ -26,10 +26,14 @@ public class DriveForward extends Command
     /**
      * Creates DriveForward Command object
      * 
-     * @param aDistance -Distance desired to drive
-     * @param aSpeed -Speed to set motors to
-     * @param aDriveTrain -SnobotDriveTrain class
-     * @param aPosition -SnobotPosition class
+     * @param aDistance
+     *            -Distance desired to drive
+     * @param aSpeed
+     *            -Speed to set motors to
+     * @param aDriveTrain
+     *            -SnobotDriveTrain class
+     * @param aPosition
+     *            -SnobotPosition class
      */
     public DriveForward(double aDistance, double aSpeed, double aTolerance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {

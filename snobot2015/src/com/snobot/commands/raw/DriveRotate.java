@@ -22,10 +22,14 @@ public class DriveRotate extends Command
     /**
      * Creates DriveRotate command object
      * 
-     * @param aDegree -Degree specified to turn to
-     * @param aSpeed -Speed specified to turn at
-     * @param aDriveTrain -SnobotDriveTrain class
-     * @param aPosition -SnobotPosition class
+     * @param aDegree
+     *            -Degree specified to turn to
+     * @param aSpeed
+     *            -Speed specified to turn at
+     * @param aDriveTrain
+     *            -SnobotDriveTrain class
+     * @param aPosition
+     *            -SnobotPosition class
      */
     public DriveRotate(double aDegree, double aSpeed, double aTolerance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
