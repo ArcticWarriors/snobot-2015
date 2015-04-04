@@ -1,6 +1,8 @@
 package com.snobot.simulator.gui.advanced_widgets;
 
 import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -18,19 +20,29 @@ public abstract class BaseWidgetDisplay<ItemType extends ASensorWrapper> extends
 
     public BaseWidgetDisplay(Map<Integer, ItemType> aMap)
     {
+    	setLayout(new GridBagLayout());
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+//        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+    	int i = 0;
         for (Entry<Integer, ItemType> pair : aMap.entrySet())
         {
+        	GridBagConstraints gc = new GridBagConstraints();
+        	gc.gridy = i;
+        	
             Container panelPair = createWidget(pair);
             mWidgetMap.put(pair.getKey(), panelPair);
 
-            JPanel panel = new JPanel();
-            panel.add(new JLabel("" + pair.getValue().getName()));
-            panel.add(panelPair);
+//            JPanel panel = new JPanel();
+            
+            gc.gridx = 0;
+            add(new JLabel("" + pair.getValue().getName()), gc);
 
-            add(panel);
+            gc.gridx = 1;
+            add(panelPair, gc);
+
+//            add(panel);
+            ++i;
         }
     }
 
