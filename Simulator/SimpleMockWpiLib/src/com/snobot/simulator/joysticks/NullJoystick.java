@@ -11,7 +11,7 @@ public class NullJoystick implements IMockJoystick
     public NullJoystick()
     {
         mAxis = new short[sNUM_BUTTONS];
-        mPov = new short[0];
+        mPov = new short[4];
     }
 
     // @Override

@@ -3,26 +3,18 @@ package edu.wpi.first.wpilibj;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.RawData;
 import com.ni.vision.VisionException;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.vision.USBCamera;
 
 //replicates CameraServer.cpp in java lib
@@ -135,7 +127,7 @@ public class CameraServer {
         }
 
         if (buffer.limit() - index - 1 <= 2) {
-            throw new VisionException("data size of flattened image is less than 2. Try another camera! ");
+            // throw new VisionException("data size of flattened image is less than 2. Try another camera! ");
         }
 
         setImageData(data, index);
