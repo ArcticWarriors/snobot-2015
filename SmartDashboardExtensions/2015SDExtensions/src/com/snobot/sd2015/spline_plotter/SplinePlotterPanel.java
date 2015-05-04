@@ -1,5 +1,8 @@
 package com.snobot.sd2015.spline_plotter;
 
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +16,30 @@ public class SplinePlotterPanel extends JPanel
 
     public SplinePlotterPanel()
     {
+        setLayout(new GridBagLayout());
+        
         mLeftWheelPlotter = new SplineWheelPlotter("Left Wheel");
         mRightWheelPlotter = new SplineWheelPlotter("Right Wheel");
         mHeadingPlotter = new HeadingPlotter("Heading");
+        
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
 
-        add(mLeftWheelPlotter);
-        add(mRightWheelPlotter);
-        add(mHeadingPlotter);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(mLeftWheelPlotter, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        add(mRightWheelPlotter, gbc);
+        
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        add(mHeadingPlotter, gbc);
+        
     }
 
     public void setPath(List<SplineSegment> path_points)

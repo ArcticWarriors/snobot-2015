@@ -1,40 +1,59 @@
 package com.snobot.simulator.joysticks;
 
 import java.util.Arrays;
+import java.util.List;
 
 import net.java.games.input.Component.Identifier;
+import net.java.games.input.Controller;
+import net.java.games.input.Controller.Type;
+import net.java.games.input.ControllerEnvironment;
 
-public class KeyboardJoystick extends GamepadJoystick
+public class KeyboardJoystick extends BaseJoystick
 {
 
-    private static final Identifier[] sAXIS = new Identifier[]
-    {
-            Identifier.Key.W,
-            Identifier.Key.A,
-            Identifier.Key.S,
-            Identifier.Key.D,
-            Identifier.Key.I,
-            Identifier.Key.J,
-            Identifier.Key.K,
-            Identifier.Key.L
-    };
-
-    private static final Identifier[] sBUTTONS = new Identifier[]
-    {
-            Identifier.Key._0,
-            Identifier.Key._1,
-            Identifier.Key._2,
-            Identifier.Key._3,
-            Identifier.Key._4,
-            Identifier.Key._5,
-            Identifier.Key._6,
-            Identifier.Key._7,
-            Identifier.Key._8,
-            Identifier.Key._9
-    };
+    private final static List<Type> acceptableTypes = Arrays.asList(Type.KEYBOARD);
 
     public KeyboardJoystick()
     {
-        super("Standard PS/2 Keyboard", Arrays.asList(sAXIS), Arrays.asList(sBUTTONS));
+        super(acceptableTypes.toString());
+
+        ControllerEnvironment ce = ControllerEnvironment.getDefaultEnvironment();
+
+        Controller[] cs = ce.getControllers();
+        for (int i = 0; i < cs.length; i++)
+        {
+            if (acceptableTypes.contains(cs[i].getType()))
+            {
+                mController = cs[i];
+            }
+        }
+
+        if (mController != null)
+        {
+
+			mAxis.add(Identifier.Key.W);
+			mAxis.add(Identifier.Key.A);
+			mAxis.add(Identifier.Key.S);
+			mAxis.add(Identifier.Key.D);
+			mAxis.add(Identifier.Key.I);
+			mAxis.add(Identifier.Key.J);
+			mAxis.add(Identifier.Key.K);
+			mAxis.add(Identifier.Key.L);
+			  
+			
+			mButtons.add(Identifier.Key._0);
+			mButtons.add(Identifier.Key._1);
+			mButtons.add(Identifier.Key._2);
+			mButtons.add(Identifier.Key._3);
+			mButtons.add(Identifier.Key._4);
+			mButtons.add(Identifier.Key._5);
+			mButtons.add(Identifier.Key._6);
+			mButtons.add(Identifier.Key._7);
+			mButtons.add(Identifier.Key._8);
+			mButtons.add(Identifier.Key._9);
+        }
+
+        mAxisValues = new short[mAxis.size()];
+        mPovValues = new short[0];
     }
 }
