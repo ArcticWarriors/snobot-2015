@@ -10,15 +10,19 @@ import com.snobot.auton_gen.model.CommandConfig.CommandArgs;
 
 public class GenerateCommandSkeletons
 {
+    private final String mTemplateFile;
 
-    public void generateCommand(String aDefaultDumpDir, List<CommandConfig> aConfig)
+    public GenerateCommandSkeletons(String aTemplate)
     {
-        
-        String the_package = "test.test";
+        mTemplateFile = aTemplate;
+    }
+
+    public void generateCommand(String aDumpDir, String aPackage, List<CommandConfig> aConfig)
+    {
         
         for (CommandConfig config : aConfig)
         {
-            writeSingleConfig(aDefaultDumpDir, the_package, config);
+            writeSingleConfig(aDumpDir, aPackage, config);
         }
     }
 
@@ -71,7 +75,7 @@ public class GenerateCommandSkeletons
 
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader("templates/java_cmd_skelteton.template"));
+            BufferedReader br = new BufferedReader(new FileReader(mTemplateFile));
 
             String line;
 

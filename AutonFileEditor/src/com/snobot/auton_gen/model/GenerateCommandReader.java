@@ -10,13 +10,15 @@ import com.snobot.auton_gen.model.CommandConfig.CommandArgs;
 
 public class GenerateCommandReader
 {
+    private final String mTemplateFile;
 
-    public void generateCommand(String aDefaultDumpDir, List<CommandConfig> aConfig)
+    public GenerateCommandReader(String aTemplate)
     {
+        mTemplateFile = aTemplate;
+    }
 
-        String the_package = "test.test";
-        String outDir = aDefaultDumpDir;
-
+    public void generateCommand(String aDumpDir, String aPackage, List<CommandConfig> aConfig)
+    {
         String command_name_constants = "";
         String command_cases = "";
 
@@ -37,13 +39,13 @@ public class GenerateCommandReader
         }
 
         String template = readTemplate();
-        template = template.replace("{{ package }}", the_package);
+        template = template.replace("{{ package }}", aPackage);
         template = template.replace("{{ command_name_constants }}", command_name_constants);
         template = template.replace("{{ command_cases }}", command_cases);
 
         try
         {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(outDir + "/CommandParser.java"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(aDumpDir + "/CommandParser.java"));
 
             bw.write(template);
             bw.close();
@@ -114,7 +116,7 @@ public class GenerateCommandReader
 
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader("templates/java_command_reader.template"));
+            BufferedReader br = new BufferedReader(new FileReader(mTemplateFile));
 
             String line;
 

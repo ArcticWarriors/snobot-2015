@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
@@ -26,6 +27,8 @@ import org.yaml.snakeyaml.Yaml;
 
 import com.snobot.auton_gen.model.CommandConfig;
 import com.snobot.auton_gen.model.CommandFileReader;
+import com.snobot.auton_gen.model.GenerateCommandReader;
+import com.snobot.auton_gen.model.GenerateCommandSkeletons;
 
 public class AutoGenFrame extends JFrame
 {
@@ -41,6 +44,10 @@ public class AutoGenFrame extends JFrame
 
     private String mAvailableCommandsFile;
     private String mAutonFileDirectory;
+    private String mGenDirectory;
+    private String mGenPackageDirectory;
+    private String mCommandReaderTemplate;
+    private String mCommandSkeletonTemplate;
 
     private List<CommandConfig> mAvailableCommands;
     private String mActiveFileName;
@@ -59,6 +66,10 @@ public class AutoGenFrame extends JFrame
         loadProperties();
 
         mAvailableCommands = readAvailableCommands(mAvailableCommandsFile);
+        mGenDirectory = "C:\\Users\\PJ\\GitHub\\2015teams\\snobot2015\\AutonFileEditor\\src\\test\\test";
+        mGenPackageDirectory = "test.test";
+        mCommandReaderTemplate = "templates/java_command_reader.template";
+        mCommandSkeletonTemplate = "templates/java_cmd_skelteton.template";
 
         if (!mActiveFileName.isEmpty())
         {
@@ -94,7 +105,7 @@ public class AutoGenFrame extends JFrame
         int w = Integer.parseInt(mProperties.getProperty(sLEFT_FRAME_WIDTH, "" + 300));
         int h = Integer.parseInt(mProperties.getProperty(sLEFT_FRAME_HEIGHT, "" + 300));
 
-        setBounds(x, y, 630, 300);
+        setBounds(x, y, w, h);
     }
 
     private void saveProperties()
@@ -188,7 +199,7 @@ public class AutoGenFrame extends JFrame
         menuBar.add(mnEdit);
 
         JMenuItem mntmAddCommandType = new JMenuItem("Add Command Type");
-        mnEdit.add(mntmAddCommandType);
+//        mnEdit.add(mntmAddCommandType);
 
         JMenuItem mntmGenCommandReader = new JMenuItem("Gen Command Reader");
         mnEdit.add(mntmGenCommandReader);
@@ -212,7 +223,7 @@ public class AutoGenFrame extends JFrame
                 }
                 else
                 {
-                    saveAutonFile();
+                    saveAutonFile(new File(mActiveFileName));
                 }
             }
         });
@@ -245,7 +256,10 @@ public class AutoGenFrame extends JFrame
         {
             public void actionPerformed(ActionEvent arg0)
             {
-                System.out.println("Gen Command Reader");
+                new GenerateCommandReader(mCommandReaderTemplate).generateCommand(mGenDirectory, mGenPackageDirectory,
+                        mAvailableCommands);
+
+                JOptionPane.showMessageDialog(AutoGenFrame.this, "CommandParser generation succesful!");
             }
         });
 
@@ -253,7 +267,10 @@ public class AutoGenFrame extends JFrame
         {
             public void actionPerformed(ActionEvent arg0)
             {
-                System.out.println("Gen Command Skeletons");
+                new GenerateCommandSkeletons(mCommandSkeletonTemplate).generateCommand(mGenDirectory, mGenPackageDirectory,
+                        mAvailableCommands);
+
+                JOptionPane.showMessageDialog(AutoGenFrame.this, "Command skeleton generation succesful!");
             }
         });
         
@@ -325,17 +342,18 @@ public class AutoGenFrame extends JFrame
         {
             File file = chooser.getSelectedFile();
 
-            mAutonFileDirectory = file.getParent();
-            mActiveFileName = file.getAbsolutePath();
-            onFileChanged();
-
-            saveAutonFile();
+            saveAutonFile(file);
         }
 
     }
 
-    private void saveAutonFile()
+    private void saveAutonFile(File aFile)
     {
+        JOptionPane.showMessageDialog(AutoGenFrame.this, "NOT IMPLEMENTED YET");
+
+        // mAutonFileDirectory = file.getParent();
+        // mActiveFileName = file.getAbsolutePath();
+        // onFileChanged();
     }
 
     private void onFileChanged()
