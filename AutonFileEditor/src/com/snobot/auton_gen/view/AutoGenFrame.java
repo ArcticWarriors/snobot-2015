@@ -1,5 +1,6 @@
 package com.snobot.auton_gen.view;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -97,7 +98,7 @@ public class AutoGenFrame extends JFrame
             }
         }
 
-        mAvailableCommandsFile = mProperties.getProperty(sAVAILABLE_COMMANDS_FILE_PROP, "test.yml");
+        mAvailableCommandsFile = mProperties.getProperty(sAVAILABLE_COMMANDS_FILE_PROP, "174Commands.yml");
         mAutonFileDirectory = mProperties.getProperty(sAUTON_DIR_PROP, ".");
         mActiveFileName = mProperties.getProperty(sACTIVE_FILE_PROP, "");
         int x = Integer.parseInt(mProperties.getProperty(sLEFT_FRAME_X, "" + 10));
@@ -199,7 +200,7 @@ public class AutoGenFrame extends JFrame
         menuBar.add(mnEdit);
 
         JMenuItem mntmAddCommandType = new JMenuItem("Add Command Type");
-//        mnEdit.add(mntmAddCommandType);
+        mnEdit.add(mntmAddCommandType);
 
         JMenuItem mntmGenCommandReader = new JMenuItem("Gen Command Reader");
         mnEdit.add(mntmGenCommandReader);
@@ -292,6 +293,7 @@ public class AutoGenFrame extends JFrame
     {
         AddAvailableCommandDialog dialog = new AddAvailableCommandDialog();
         dialog.setModal(true);
+        dialog.setSize(new Dimension(300, 400));
         dialog.setVisible(true);
 
         boolean okHit = dialog.wasOkHit();
@@ -299,6 +301,8 @@ public class AutoGenFrame extends JFrame
         if (okHit)
         {
             CommandConfig config = dialog.getCommandConfig();
+
+            System.out.println("config : " + config);
             mAvailableCommands.add(config);
             dumpAvailableCommands(mAvailableCommandsFile);
         }
