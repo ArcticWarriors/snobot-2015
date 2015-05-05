@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -23,7 +22,6 @@ public class AutonGenPanel extends JPanel
     private DefaultListModel<CommandConfig> mCommandListModel;
     private JList<CommandConfig> mCommandsList;
     private CommandEditorPanel mCommandEditorPanel;
-    private JTextField textField;
 
     public AutonGenPanel()
     {
@@ -82,9 +80,6 @@ public class AutonGenPanel extends JPanel
 
         JLabel lblCommands = new JLabel("Commands:");
 
-        textField = new JTextField();
-        textField.setColumns(10);
-
         JPanel panel = new JPanel();
 
         GroupLayout groupLayout = new GroupLayout(this);
@@ -92,38 +87,29 @@ public class AutonGenPanel extends JPanel
                 groupLayout.createParallelGroup(Alignment.LEADING)
                         .addGroup(groupLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-                                        .addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(mCommandsList, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
-                                        .addComponent(lblCommands, Alignment.LEADING)
-                                        .addComponent(textField, Alignment.LEADING))
-                                .addGap(18)
-                                .addComponent(mCommandEditorPanel, GroupLayout.PREFERRED_SIZE, 254, Short.MAX_VALUE)
+                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+                                        .addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addGroup(groupLayout.createSequentialGroup()
+                                                .addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+                                                        .addComponent(lblCommands)
+                                                        .addComponent(mCommandsList, GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE))
+                                                .addPreferredGap(ComponentPlacement.UNRELATED)
+                                                .addComponent(mCommandEditorPanel, GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)))
                                 .addContainerGap())
                 );
-        groupLayout
-                .setVerticalGroup(
-                groupLayout
-                        .createParallelGroup(Alignment.TRAILING)
-                        .addGroup(
-                                groupLayout
-                                        .createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(
-                                                groupLayout
-                                                        .createParallelGroup(Alignment.TRAILING)
-                                                        .addComponent(mCommandEditorPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
-                                                                GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        groupLayout.setVerticalGroup(
+                groupLayout.createParallelGroup(Alignment.TRAILING)
                         .addGroup(groupLayout.createSequentialGroup()
-                                                                        .addComponent(textField, GroupLayout.PREFERRED_SIZE,
-                                                                                GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                                                        .addPreferredGap(ComponentPlacement.RELATED)
-                                                                        .addComponent(lblCommands)
-                                                                        .addPreferredGap(ComponentPlacement.RELATED)
-                                                                        .addComponent(mCommandsList, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)))
-                                        .addPreferredGap(ComponentPlacement.RELATED)
-                                        .addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18))
+                                .addContainerGap()
+                                .addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+                                        .addComponent(mCommandEditorPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                        .addGroup(groupLayout.createSequentialGroup()
+                                                .addComponent(lblCommands)
+                                                .addPreferredGap(ComponentPlacement.RELATED)
+                                                .addComponent(mCommandsList, GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)))
+                                .addPreferredGap(ComponentPlacement.RELATED)
+                                .addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addGap(18))
                 );
         panel.setLayout(new GridLayout(0, 2, 0, 0));
 

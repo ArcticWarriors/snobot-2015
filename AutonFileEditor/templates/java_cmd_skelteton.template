@@ -1,0 +1,44 @@
+package {{ package }};
+
+import edu.wpi.first.wpilibj.command.Command;
+
+
+public class {{ class_name }} extends Command
+{
+{{ var_decl }}
+
+    public {{ class_name }}({{ constructor_args }})
+    {
+{{ var_init }}
+    }
+
+    @Override
+    protected void initialize()
+    {
+        //TODO implement your skeleton!
+    }
+
+    @Override
+    protected void execute()
+    {
+        //TODO implement your skeleton!
+    }
+
+    @Override
+    protected void end()
+    {
+        //TODO implement your skeleton!
+    }
+
+    @Override
+    protected void interrupted()
+    {
+        //TODO implement your skeleton!
+    }
+
+    @Override
+    protected boolean isFinished()
+    {
+        return false;
+    }
+}

@@ -34,6 +34,11 @@ public class AutoGenFrame extends JFrame
     private static final String sAVAILABLE_COMMANDS_FILE_PROP = "available_commands";
     private static final String sACTIVE_FILE_PROP = "active_file";
 
+    private static final String sLEFT_FRAME_X = "frame_x";
+    private static final String sLEFT_FRAME_Y = "frame_y";
+    private static final String sLEFT_FRAME_WIDTH = "frame_width";
+    private static final String sLEFT_FRAME_HEIGHT = "frame_height";
+
     private String mAvailableCommandsFile;
     private String mAutonFileDirectory;
 
@@ -49,6 +54,7 @@ public class AutoGenFrame extends JFrame
      */
     public AutoGenFrame()
     {
+
         initComponents();
         loadProperties();
 
@@ -83,6 +89,12 @@ public class AutoGenFrame extends JFrame
         mAvailableCommandsFile = mProperties.getProperty(sAVAILABLE_COMMANDS_FILE_PROP, "test.yml");
         mAutonFileDirectory = mProperties.getProperty(sAUTON_DIR_PROP, ".");
         mActiveFileName = mProperties.getProperty(sACTIVE_FILE_PROP, "");
+        int x = Integer.parseInt(mProperties.getProperty(sLEFT_FRAME_X, "" + 10));
+        int y = Integer.parseInt(mProperties.getProperty(sLEFT_FRAME_Y, "" + 10));
+        int w = Integer.parseInt(mProperties.getProperty(sLEFT_FRAME_WIDTH, "" + 300));
+        int h = Integer.parseInt(mProperties.getProperty(sLEFT_FRAME_HEIGHT, "" + 300));
+
+        setBounds(x, y, 630, 300);
     }
 
     private void saveProperties()
@@ -90,7 +102,16 @@ public class AutoGenFrame extends JFrame
         mProperties.setProperty(sAVAILABLE_COMMANDS_FILE_PROP, mAvailableCommandsFile);
         mProperties.setProperty(sAUTON_DIR_PROP, mAutonFileDirectory);
         mProperties.setProperty(sACTIVE_FILE_PROP, mActiveFileName);
-        System.out.println("Active : " + mActiveFileName);
+
+        int x = getLocation().x;
+        int y = getLocation().y;
+        int w = getSize().width;
+        int h = getSize().height;
+
+        mProperties.setProperty(sLEFT_FRAME_X, "" + x);
+        mProperties.setProperty(sLEFT_FRAME_Y, "" + y);
+        mProperties.setProperty(sLEFT_FRAME_WIDTH, "" + w);
+        mProperties.setProperty(sLEFT_FRAME_HEIGHT, "" + h);
 
         try
         {
@@ -248,8 +269,6 @@ public class AutoGenFrame extends JFrame
         contentPane = new AutonGenPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-        
-        pack();
     }
 
     private void addNewCommandType()

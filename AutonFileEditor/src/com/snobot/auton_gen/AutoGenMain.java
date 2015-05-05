@@ -20,7 +20,6 @@ public class AutoGenMain
                 {
                     AutoGenFrame frame = new AutoGenFrame();
                     frame.setVisible(true);
-                    frame.pack();
                 }
                 catch (Exception e)
                 {
