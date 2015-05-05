@@ -349,11 +349,22 @@ public class AutoGenFrame extends JFrame
 
     private void saveAutonFile(File aFile)
     {
-        JOptionPane.showMessageDialog(AutoGenFrame.this, "NOT IMPLEMENTED YET");
+        List<CommandConfig> commands = contentPane.getCommands();
 
-        // mAutonFileDirectory = file.getParent();
-        // mActiveFileName = file.getAbsolutePath();
-        // onFileChanged();
+        try
+        {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(aFile));
+
+            for (CommandConfig config : commands)
+            {
+                bw.write(config.toString().trim() + "\n");
+            }
+            bw.close();
+        }
+        catch (Exception e)
+        {
+
+        }
     }
 
     private void onFileChanged()

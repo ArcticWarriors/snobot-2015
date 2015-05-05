@@ -1,6 +1,9 @@
 package com.snobot.auton_gen.view;
 
 import java.awt.GridLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -26,6 +29,18 @@ public class AutonGenPanel extends JPanel
     public AutonGenPanel()
     {
         initComponents();
+
+        mCommandEditorPanel.addUpdateListener(new PropertyChangeListener()
+        {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt)
+            {
+                CommandConfig config = (CommandConfig) evt.getNewValue();
+                mCommandListModel.set(mCommandsList.getSelectedIndex(), config);
+                System.out.println("Updated... " + config);
+            }
+        });
     }
 
     private void onItemSelected(CommandConfig aItem)
@@ -133,5 +148,17 @@ public class AutonGenPanel extends JPanel
                 }
             }
         });
+    }
+
+    public List<CommandConfig> getCommands()
+    {
+        List<CommandConfig> output = new ArrayList<CommandConfig>();
+
+        for (int i = 0; i < mCommandListModel.getSize(); ++i)
+        {
+            output.add(mCommandListModel.get(i));
+        }
+
+        return output;
     }
 }

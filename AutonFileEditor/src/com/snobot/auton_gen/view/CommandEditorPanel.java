@@ -3,6 +3,12 @@ package com.snobot.auton_gen.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -10,14 +16,35 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.snobot.auton_gen.model.CommandConfig;
+import com.snobot.auton_gen.model.CommandConfig.CommandArgs;
+
 public class CommandEditorPanel extends JPanel
 {
+    private static final String sCOMMAND_UPDATED_PROP = "command_updated";
+
     private JLabel mCommandNameField;
     private JPanel mCommandArgsPanel;
     private int mArgCounter = 0;
 
+    private abstract class X
+    {
+        public abstract String getValue();
+
+        public abstract String getName();
+
+        public abstract String getType();
+    }
+
+    private List<X> mCommandArgs;
+
+    private PropertyChangeSupport mPropertyChange;
+
     public CommandEditorPanel()
     {
+        mPropertyChange = new PropertyChangeSupport(this);
+        mCommandArgs = new ArrayList<CommandEditorPanel.X>();
+
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.columnWidths = new int[]
         { 341, 0 };
@@ -72,26 +99,63 @@ public class CommandEditorPanel extends JPanel
         ++mArgCounter;
     }
 
+    private void getTextField(String name, String type, String aValue)
+    {
+        JTextField field = new JTextField(aValue);
+        TextFieldGetter getter = new TextFieldGetter(type, name, field);
+        mCommandArgs.add(getter);
+
+        getter.mField.addActionListener(new ActionListener()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                onUpdate();
+            }
+        });
+
+        addArg(name, field);
+    }
+
+    private void getCheckbox(String name, boolean aValue)
+    {
+        JCheckBox field = new JCheckBox();
+        field.setSelected(aValue);
+        CheckboxGetter getter = new CheckboxGetter(name, field);
+        mCommandArgs.add(getter);
+
+        getter.mField.addActionListener(new ActionListener()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                onUpdate();
+            }
+        });
+
+        addArg(name, field);
+    }
+
     public void addIntArg(String argName, int defaultValue)
     {
-        addArg(argName, new JTextField("" + defaultValue));
+        getTextField(argName, "int", "" + defaultValue);
     }
 
     public void addDoubleArg(String argName, double defaultValue)
     {
-        addArg(argName, new JTextField("" + defaultValue));
+        getTextField(argName, "double", "" + defaultValue);
     }
 
     public void addStringArg(String argName, String defaultValue)
     {
-        addArg(argName, new JTextField(defaultValue));
+        getTextField(argName, "String", defaultValue);
     }
 
     public void addBooleanArg(String argName, boolean defaultValue)
     {
-        JCheckBox box = new JCheckBox();
-        box.setSelected(defaultValue);
-        addArg(argName, box);
+        getCheckbox(argName, defaultValue);
     }
 
     public void setCommandName(String aCommandName)
@@ -103,6 +167,83 @@ public class CommandEditorPanel extends JPanel
     {
         mArgCounter = 0;
         mCommandArgsPanel.removeAll();
+        mCommandArgs.clear();
         repaint();
+    }
+
+    private void onUpdate()
+    {
+        CommandConfig output = new CommandConfig();
+
+        output.setCommandName(mCommandNameField.getText());
+
+        for (int i = 0; i < mCommandArgs.size(); ++i)
+        {
+            output.getCommandArgs()
+                    .add(new CommandArgs(mCommandArgs.get(i).getName(), mCommandArgs.get(i).getValue(), mCommandArgs.get(i).getType()));
+        }
+
+        mPropertyChange.firePropertyChange(sCOMMAND_UPDATED_PROP, null, output);
+    }
+
+    public void addUpdateListener(PropertyChangeListener aListener)
+    {
+        mPropertyChange.addPropertyChangeListener(sCOMMAND_UPDATED_PROP, aListener);
+    }
+
+    private class TextFieldGetter extends X
+    {
+        private JTextField mField;
+        private String mType;
+        private String mName;
+
+        public TextFieldGetter(String type, String name, JTextField aField)
+        {
+            mField = aField;
+            mType = type;
+            mName = name;
+        }
+
+        public String getValue()
+        {
+            return mField.getText();
+        }
+
+        public String getName()
+        {
+            return mName;
+        }
+
+        public String getType()
+        {
+            return mType;
+        }
+    }
+
+    private class CheckboxGetter extends X
+    {
+        private JCheckBox mField;
+        private String mName;
+
+        public CheckboxGetter(String name, JCheckBox aField)
+        {
+            mField = aField;
+            mName = name;
+        }
+
+        public String getValue()
+        {
+            return "" + mField.isSelected();
+        }
+
+        public String getName()
+        {
+            return mName;
+        }
+
+        public String getType()
+        {
+            return "boolean";
+        }
     }
 }
