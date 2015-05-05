@@ -66,8 +66,6 @@ public class AddAvailableCommandDialog extends JDialog
     {
         initComponents();
 
-        addArg();
-
         mWasOkHit = false;
     }
 

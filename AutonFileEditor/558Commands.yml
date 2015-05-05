@@ -1,0 +1,42 @@
+
+- !!com.snobot.auton_gen.model.CommandConfig
+  commandArgs:
+  - {argName: Timeout, type: double, value: '0'}
+  - {argName: Speed, type: double, value: '0'}
+  commandName: DriveRawCommand
+  
+- !!com.snobot.auton_gen.model.CommandConfig
+  commandArgs:
+  - {argName: Distance, type: double, value: '0'}
+  - {argName: Speed, type: double, value: '0'}
+  - {argName: Timeout, type: double, value: '0'}
+  commandName: Test Encoder Command
+  
+- !!com.snobot.auton_gen.model.CommandConfig
+  commandArgs:
+  - {argName: Angle, type: double, value: '0'}
+  - {argName: Speed, type: double, value: '0'}
+  - {argName: Timeout, type: double, value: '0'}
+  commandName: Turn Encoder Command
+  
+- !!com.snobot.auton_gen.model.CommandConfig
+  commandArgs:
+  - {argName: Close, type: boolean, value: 'false'}
+  commandName: Move Gripper Command
+  
+- !!com.snobot.auton_gen.model.CommandConfig
+  commandArgs:
+  - {argName: Timeout, type: double, value: '0'}
+  - {argName: Move Out, type: boolean, value: 'false'}
+  commandName: Move Whale Tail Command
+  
+- !!com.snobot.auton_gen.model.CommandConfig
+  commandArgs:
+  - {argName: Timeout, type: double, value: '0'}
+  - {argName: Speed, type: double, value: '0'}
+  commandName: Move Elevator Command
+  
+- !!com.snobot.auton_gen.model.CommandConfig
+  commandArgs:
+  - {argName: Timeout, type: double, value: '0'}
+  commandName: Do Nothing Command

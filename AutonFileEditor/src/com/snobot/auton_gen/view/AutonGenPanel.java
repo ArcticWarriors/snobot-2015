@@ -1,8 +1,10 @@
 package com.snobot.auton_gen.view;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +27,13 @@ public class AutonGenPanel extends JPanel
     private DefaultListModel<CommandConfig> mCommandListModel;
     private JList<CommandConfig> mCommandsList;
     private CommandEditorPanel mCommandEditorPanel;
+    private PropertyChangeSupport mChangeSupport;
+    private JButton btnAdd = new JButton("Add");
 
     public AutonGenPanel()
     {
         initComponents();
+        mChangeSupport = new PropertyChangeSupport(this);
 
         mCommandEditorPanel.addUpdateListener(new PropertyChangeListener()
         {
@@ -128,7 +133,6 @@ public class AutonGenPanel extends JPanel
                 );
         panel.setLayout(new GridLayout(0, 2, 0, 0));
 
-        JButton btnAdd = new JButton("Add");
         panel.add(btnAdd);
 
         JButton btnRemove = new JButton("Remove");
@@ -160,5 +164,15 @@ public class AutonGenPanel extends JPanel
         }
 
         return output;
+    }
+
+    public void addAddListener(ActionListener aListener)
+    {
+        btnAdd.addActionListener(aListener);
+    }
+
+    public void addCommand(CommandConfig aConfig)
+    {
+        mCommandListModel.addElement(aConfig);
     }
 }

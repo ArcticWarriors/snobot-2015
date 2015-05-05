@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -150,6 +151,11 @@ public class AutoGenFrame extends JFrame
             e.printStackTrace();
         }
 
+        if (configs == null)
+        {
+            configs = new ArrayList<CommandConfig>();
+        }
+
         return configs;
     }
 
@@ -211,7 +217,9 @@ public class AutoGenFrame extends JFrame
 
         mntmNew.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                System.out.println("New selected");
+                mActiveFileName = "";
+                contentPane.setCommands(new ArrayList<CommandConfig>());
+                onFileChanged();
             }
         });
         mntmSave.addActionListener(new ActionListener()
@@ -287,6 +295,16 @@ public class AutoGenFrame extends JFrame
         contentPane = new AutonGenPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
+
+        contentPane.addAddListener(new ActionListener()
+        {
+
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                handleAddCommand();
+            }
+        });
     }
 
     private void addNewCommandType()
@@ -294,6 +312,7 @@ public class AutoGenFrame extends JFrame
         AddAvailableCommandDialog dialog = new AddAvailableCommandDialog();
         dialog.setModal(true);
         dialog.setSize(new Dimension(300, 400));
+        dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
 
         boolean okHit = dialog.wasOkHit();
@@ -303,6 +322,7 @@ public class AutoGenFrame extends JFrame
             CommandConfig config = dialog.getCommandConfig();
 
             System.out.println("config : " + config);
+            System.out.println("config : " + mAvailableCommands);
             mAvailableCommands.add(config);
             dumpAvailableCommands(mAvailableCommandsFile);
         }
@@ -364,6 +384,10 @@ public class AutoGenFrame extends JFrame
                 bw.write(config.toString().trim() + "\n");
             }
             bw.close();
+
+            mAutonFileDirectory = aFile.getParent();
+            mActiveFileName = aFile.getAbsolutePath();
+            onFileChanged();
         }
         catch (Exception e)
         {
@@ -374,6 +398,46 @@ public class AutoGenFrame extends JFrame
     private void onFileChanged()
     {
         setTitle("Editing - " + mActiveFileName);
+    }
+
+    private void handleAddCommand()
+    {
+        AddArgDialog dialog = new AddArgDialog();
+        List<String> names = new ArrayList<String>();
+
+        for (int i = 0; i < mAvailableCommands.size(); ++i)
+        {
+            names.add(mAvailableCommands.get(i).getCommandName());
+        }
+
+        dialog.setCommandNames(names);
+        dialog.setModal(true);
+        dialog.setSize(new Dimension(300, 400));
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+
+        boolean okHit = dialog.wasOkHit();
+
+        if (okHit)
+        {
+
+            String x = dialog.getCommandName();
+
+            CommandConfig config = null;
+
+            for (int i = 0; i < mAvailableCommands.size(); ++i)
+            {
+                if (mAvailableCommands.get(i).getCommandName().equals(x))
+                {
+                    config = new CommandConfig(mAvailableCommands.get(i));
+                }
+            }
+
+            if (config != null)
+            {
+                contentPane.addCommand(config);
+            }
+        }
     }
 
 }
