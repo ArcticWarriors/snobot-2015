@@ -1,42 +1,46 @@
 
-- !!com.snobot.auton_gen.model.CommandConfig
-  commandArgs:
-  - {argName: Timeout, type: double, value: '0'}
-  - {argName: Speed, type: double, value: '0'}
-  commandName: DriveRawCommand
+- commandArgs: []
+  commandName: CloseGripperCommand
   
-- !!com.snobot.auton_gen.model.CommandConfig
-  commandArgs:
+- commandArgs:
+  - {argName: Timeout, type: double, value: '0'}
+  commandName: DoNothingCommand
+  
+- commandArgs:
+  - {argName: Timeout, type: double, value: '0'}
+  commandName: DriveBackwardsCommand
+  
+- commandArgs:
+  - {argName: Timeout, type: double, value: '0'}
+  commandName: DriveForwardCommand
+  
+- commandArgs:
+  - {argName: Timeout, type: double, value: '0'}
+  commandName: RaiseElevatorCommand
+  
+- commandArgs: []
+  commandName: StopElevatorCommand
+  
+- commandArgs:
   - {argName: Distance, type: double, value: '0'}
   - {argName: Speed, type: double, value: '0'}
   - {argName: Timeout, type: double, value: '0'}
-  commandName: Test Encoder Command
+  commandName: TestEncoderCommand
   
-- !!com.snobot.auton_gen.model.CommandConfig
-  commandArgs:
+- commandArgs:
   - {argName: Angle, type: double, value: '0'}
   - {argName: Speed, type: double, value: '0'}
   - {argName: Timeout, type: double, value: '0'}
-  commandName: Turn Encoder Command
+  commandName: TurnEncoderCommand
   
-- !!com.snobot.auton_gen.model.CommandConfig
-  commandArgs:
-  - {argName: Close, type: boolean, value: 'false'}
-  commandName: Move Gripper Command
+- commandArgs: []
+  commandName: WhaleTailFinsOutCommand
   
-- !!com.snobot.auton_gen.model.CommandConfig
-  commandArgs:
+- commandArgs:
   - {argName: Timeout, type: double, value: '0'}
-  - {argName: Move Out, type: boolean, value: 'false'}
-  commandName: Move Whale Tail Command
+  commandName: WhaleTailInCommand
   
-- !!com.snobot.auton_gen.model.CommandConfig
-  commandArgs:
+- commandArgs:
   - {argName: Timeout, type: double, value: '0'}
-  - {argName: Speed, type: double, value: '0'}
-  commandName: Move Elevator Command
+  commandName: WhaleTailOutCommand
   
-- !!com.snobot.auton_gen.model.CommandConfig
-  commandArgs:
-  - {argName: Timeout, type: double, value: '0'}
-  commandName: Do Nothing Command
