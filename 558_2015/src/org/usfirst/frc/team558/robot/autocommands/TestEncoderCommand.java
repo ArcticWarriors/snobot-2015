@@ -11,6 +11,7 @@ public class TestEncoderCommand extends Command {
 
 	private double distance;
 	private double speed;
+	private double time;
 	
 	
     public TestEncoderCommand(double distance, double speed, double time) {
@@ -18,6 +19,7 @@ public class TestEncoderCommand extends Command {
         requires(Robot.drivetrain);
         this.distance = distance;
         this.speed = speed;
+        this.time = time;
         
         setTimeout(time);
         

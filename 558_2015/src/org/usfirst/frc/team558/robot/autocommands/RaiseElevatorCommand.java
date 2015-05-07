@@ -7,13 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class MoveWhaleTailCommand extends Command {
+public class RaiseElevatorCommand extends Command {
 
-    public MoveWhaleTailCommand(double time) {
+    public RaiseElevatorCommand(double a) {
         // Use requires() here to declare subsystem dependencies
-
-        requires(Robot.gripper);
-        setTimeout(time);
+    	setTimeout(a);
+        requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +21,7 @@ public class MoveWhaleTailCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.gripper.WhaleTailIn();
+    	Robot.elevator.SetElevatorMotors(-.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,6 +31,9 @@ public class MoveWhaleTailCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.elevator.SetElevatorMotors(0);
+    	
+    
     }
 
     // Called when another command which requires one or more of the same

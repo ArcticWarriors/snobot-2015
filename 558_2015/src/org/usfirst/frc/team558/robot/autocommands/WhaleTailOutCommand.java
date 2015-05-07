@@ -1,18 +1,21 @@
 package org.usfirst.frc.team558.robot.autocommands;
 
-import org.usfirst.frc.team558.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team558.robot.*;
 
 /**
  *
  */
-public class MoveGripperCommand extends Command {
+public class WhaleTailOutCommand extends Command {
 
-    public MoveGripperCommand() {
+	private double time;
+	
+    public WhaleTailOutCommand(double time) {
         // Use requires() here to declare subsystem dependencies
-    	setTimeout(1);
+    	
+    	this.time = time;
         requires(Robot.gripper);
+        setTimeout(time);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +24,7 @@ public class MoveGripperCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.gripper.GripperIn();
+    	Robot.gripper.WhaleTailOut();
     }
 
     // Make this return true when this Command no longer needs to run execute()

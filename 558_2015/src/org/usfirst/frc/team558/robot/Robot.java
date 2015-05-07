@@ -1,22 +1,18 @@
 
 package org.usfirst.frc.team558.robot;
 
-import org.usfirst.frc.team558.robot.autocommands.DoNothingCommand;
-import org.usfirst.frc.team558.robot.subsystems.DriveTrainSubsystem;
-import org.usfirst.frc.team558.robot.subsystems.ElevatorSubsystem;
-import org.usfirst.frc.team558.robot.subsystems.GripperSubsystem;
-import org.usfirst.frc.team558.robot.subsystems.ToteGripperSubsystem;
-
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.Image;
-
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.CameraServer;
+import org.usfirst.frc.team558.robot.*;
+import org.usfirst.frc.team558.robot.subsystems.*;
+import org.usfirst.frc.team558.robot.autocommands.*;
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 
 public class Robot extends IterativeRobot {
@@ -64,12 +60,12 @@ public class Robot extends IterativeRobot {
 		
         
 		autoChooser = new SendableChooser();
-        // autoChooser.addDefault("Staying Clean Quick", new WhaleTailAutoEncoderCommand());
-        // autoChooser.addObject("Riding Dirty Quick", new WhaleTailAutoDirtyCommand());
-        // autoChooser.addObject("Staying Clean Slow", new WhaleTailAutoCleanSlowCommand());
-        // autoChooser.addObject("Riding Dirty Slow", new WhaleTailAutoDirtySlowCommand());
-        // autoChooser.addObject("Do Nothing", new DoNothingCommand(1));
-        // autoChooser.addObject("Super Mega Ultra Fast Staying Clean Auto", new WhaleTailAutoSequentialArmDropCommand());
+		autoChooser.addDefault("Staying Clean Quick", new WhaleTailAutoEncoderCommand());
+		autoChooser.addObject("Riding Dirty Quick", new WhaleTailAutoDirtyCommand());
+		autoChooser.addObject("Staying Clean Slow", new WhaleTailAutoCleanSlowCommand());
+		autoChooser.addObject("Riding Dirty Slow", new WhaleTailAutoDirtySlowCommand());
+		autoChooser.addObject("Do Nothing", new DoNothingCommand(1));
+		autoChooser.addObject("Super Mega Ultra Fast Staying Clean Auto", new WhaleTailAutoSequentialArmDropCommand());
 		autoChooser.addObject("Helen Keller Auto", new DoNothingCommand(1));
 		
 		

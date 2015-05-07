@@ -1,0 +1,4 @@
+MoveGripperCommand true
+DriveRawCommand 1 .4
+MoveElevatorCommand 1.15 -.5
+DriveRawCommand .85 -.8

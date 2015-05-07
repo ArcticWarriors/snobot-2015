@@ -1,0 +1,6 @@
+
+MoveWhaleTailCommand 0.5 true
+TestEncoderCommand 50 -1.0 3
+MoveWhaleTailCommand 1.5 false
+TestEncoderCommand 22 .57 3
+DoNothingCommand 1

@@ -1,18 +1,17 @@
 package org.usfirst.frc.team558.robot.autocommands;
 
-import org.usfirst.frc.team558.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team558.robot.*;
 
 /**
  *
  */
-public class MoveElevatorCommand extends Command {
+public class WhaleTailFinsOutCommand extends Command {
 
-    public MoveElevatorCommand(double a) {
+    public WhaleTailFinsOutCommand() {
         // Use requires() here to declare subsystem dependencies
-    	setTimeout(a);
-        requires(Robot.elevator);
+        requires(Robot.gripper);
+        setTimeout(1);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +20,7 @@ public class MoveElevatorCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.elevator.SetElevatorMotors(-.5);
+    	Robot.gripper.WhaleTailFinsOut();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -31,9 +30,6 @@ public class MoveElevatorCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.elevator.SetElevatorMotors(0);
-    	
-    
     }
 
     // Called when another command which requires one or more of the same

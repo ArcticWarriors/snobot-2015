@@ -1,18 +1,17 @@
 package org.usfirst.frc.team558.robot.autocommands;
 
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team558.robot.Robot;
 
-import org.usfirst.frc.team558.robot.*;
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DriveRawCommand extends Command {
+public class StopElevatorCommand extends Command {
 
-    public DriveRawCommand(double a) {
+    public StopElevatorCommand() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.drivetrain);
-        setTimeout(a);
+        requires(Robot.elevator);
     }
 
     // Called just before this Command runs the first time
@@ -21,13 +20,12 @@ public class DriveRawCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.drive(0.4, 0.4);
-    	
+    	Robot.elevator.SetElevatorMotors(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isTimedOut();
+        return false;
     }
 
     // Called once after isFinished returns true
