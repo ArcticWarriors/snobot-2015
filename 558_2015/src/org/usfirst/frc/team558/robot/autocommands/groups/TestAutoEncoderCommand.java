@@ -4,26 +4,27 @@ import org.usfirst.frc.team558.robot.autocommands.TestEncoderCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-
 /**
  *
  */
-public class TestAutoEncoderCommand extends CommandGroup {
-    
-    public  TestAutoEncoderCommand() {
-    	
-    	addSequential(new TestEncoderCommand(.9 , .4, 3));
-    	addSequential(new TestEncoderCommand(9.5 , -.6, 3));
-    	
+public class TestAutoEncoderCommand extends CommandGroup
+{
+
+    public TestAutoEncoderCommand()
+    {
+
+        addSequential(new TestEncoderCommand(.9, .4, 3));
+        addSequential(new TestEncoderCommand(9.5, -.6, 3));
+
         // Add Commands here:
         // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
+        // addSequential(new Command2());
         // these will run in order.
 
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
+        // addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
 
         // A command group will require all of the subsystems that each member

@@ -12,27 +12,28 @@ import org.usfirst.frc.team558.robot.autocommands.RaiseElevatorCommand;
 /**
  *
  */
-public class AutoCommand extends CommandGroup {
-    
-    public  AutoCommand() {
-    	requires(Robot.drivetrain);
-    	requires(Robot.elevator);
-    	requires(Robot.gripper);
+public class AutoCommand extends CommandGroup
+{
+
+    public AutoCommand()
+    {
+        requires(Robot.drivetrain);
+        requires(Robot.elevator);
+        requires(Robot.gripper);
         // Add Commands here:
-    	
-    	
-    	addSequential(new CloseGripperCommand());
-    	addSequential(new DriveBackwardsCommand(1));
-    	addSequential(new RaiseElevatorCommand(1.15));
+
+        addSequential(new CloseGripperCommand());
+        addSequential(new DriveBackwardsCommand(1));
+        addSequential(new RaiseElevatorCommand(1.15));
         addSequential(new DriveForwardCommand(.85));
-        
-        //      addSequential(new Command2());
+
+        // addSequential(new Command2());
         // these will run in order.
 
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
+        // addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
 
         // A command group will require all of the subsystems that each member

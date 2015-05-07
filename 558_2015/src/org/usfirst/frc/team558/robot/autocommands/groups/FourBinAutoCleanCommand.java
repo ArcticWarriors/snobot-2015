@@ -12,39 +12,38 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class FourBinAutoCleanCommand extends CommandGroup {
-    
-    public  FourBinAutoCleanCommand() {
-    	requires(Robot.gripper);
-    	requires(Robot.drivetrain);
-    	requires(Robot.elevator);
-    	
-    	
-    	
-    	
-    	addSequential(new TestEncoderCommand(11 , .57, 3));
-    	addSequential(new WhaleTailOutCommand(2.5));
-    	addSequential(new TestEncoderCommand(50 , -1.0, 3));
-    	addSequential(new WhaleTailInCommand(1.5));
-    	addSequential(new TestEncoderCommand(22, .57, 3));
-    	addSequential(new DoNothingCommand(1));
-    	addSequential(new TurnEncoderCommand(50, .9, 3));
-    	addSequential(new DoNothingCommand(.5));
-    	addSequential(new TestEncoderCommand(60, .8, 3));
-    	addSequential(new DoNothingCommand(.5));
-    	addSequential(new TurnEncoderCommand(50, -.9, 3));
-    	addSequential(new DoNothingCommand(.5));
-    	addSequential(new TestEncoderCommand(30 , .8, 3));
-    	
+public class FourBinAutoCleanCommand extends CommandGroup
+{
+
+    public FourBinAutoCleanCommand()
+    {
+        requires(Robot.gripper);
+        requires(Robot.drivetrain);
+        requires(Robot.elevator);
+
+        addSequential(new TestEncoderCommand(11, .57, 3));
+        addSequential(new WhaleTailOutCommand(2.5));
+        addSequential(new TestEncoderCommand(50, -1.0, 3));
+        addSequential(new WhaleTailInCommand(1.5));
+        addSequential(new TestEncoderCommand(22, .57, 3));
+        addSequential(new DoNothingCommand(1));
+        addSequential(new TurnEncoderCommand(50, .9, 3));
+        addSequential(new DoNothingCommand(.5));
+        addSequential(new TestEncoderCommand(60, .8, 3));
+        addSequential(new DoNothingCommand(.5));
+        addSequential(new TurnEncoderCommand(50, -.9, 3));
+        addSequential(new DoNothingCommand(.5));
+        addSequential(new TestEncoderCommand(30, .8, 3));
+
         // Add Commands here:
         // e.g. addSequential(new Command1());
-        //      addSequential(new Command2());
+        // addSequential(new Command2());
         // these will run in order.
 
         // To run multiple commands at the same time,
         // use addParallel()
         // e.g. addParallel(new Command1());
-        //      addSequential(new Command2());
+        // addSequential(new Command2());
         // Command1 and Command2 will run in parallel.
 
         // A command group will require all of the subsystems that each member
