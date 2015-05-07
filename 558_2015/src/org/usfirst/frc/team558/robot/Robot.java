@@ -1,26 +1,25 @@
 
 package org.usfirst.frc.team558.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.CameraServer;
-
-import org.usfirst.frc.team558.robot.*;
-import org.usfirst.frc.team558.robot.subsystems.*;
-import org.usfirst.frc.team558.robot.autocommands.*;
-import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoCleanSlowCommand;
-import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoDirtyCommand;
-import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoDirtySlowCommand;
-import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoEncoderCommand;
-import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoSequentialArmDropCommand;
+import org.usfirst.frc.team558.robot.autocommands.CommandParser;
+import org.usfirst.frc.team558.robot.autocommands.DoNothingCommand;
+import org.usfirst.frc.team558.robot.subsystems.DriveTrainSubsystem;
+import org.usfirst.frc.team558.robot.subsystems.ElevatorSubsystem;
+import org.usfirst.frc.team558.robot.subsystems.GripperSubsystem;
+import org.usfirst.frc.team558.robot.subsystems.ToteGripperSubsystem;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.ITable;
+import edu.wpi.first.wpilibj.tables.ITableListener;
 
 
 public class Robot extends IterativeRobot {
@@ -41,6 +40,7 @@ public class Robot extends IterativeRobot {
 	public Command autonomousCommand;
 
 
+    private CommandParser mParser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -68,16 +68,20 @@ public class Robot extends IterativeRobot {
 		
         
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Staying Clean Quick", new WhaleTailAutoEncoderCommand());
-		autoChooser.addObject("Riding Dirty Quick", new WhaleTailAutoDirtyCommand());
-		autoChooser.addObject("Staying Clean Slow", new WhaleTailAutoCleanSlowCommand());
-		autoChooser.addObject("Riding Dirty Slow", new WhaleTailAutoDirtySlowCommand());
-		autoChooser.addObject("Do Nothing", new DoNothingCommand(1));
-		autoChooser.addObject("Super Mega Ultra Fast Staying Clean Auto", new WhaleTailAutoSequentialArmDropCommand());
-		autoChooser.addObject("Helen Keller Auto", new DoNothingCommand(1));
+        // autoChooser.addDefault("Staying Clean Quick", new WhaleTailAutoEncoderCommand());
+        // autoChooser.addObject("Riding Dirty Quick", new WhaleTailAutoDirtyCommand());
+        // autoChooser.addObject("Staying Clean Slow", new WhaleTailAutoCleanSlowCommand());
+        // autoChooser.addObject("Riding Dirty Slow", new WhaleTailAutoDirtySlowCommand());
+        // autoChooser.addObject("Do Nothing", new DoNothingCommand(1));
+        // autoChooser.addObject("Super Mega Ultra Fast Staying Clean Auto", new WhaleTailAutoSequentialArmDropCommand());
+        // autoChooser.addObject("Helen Keller Auto", new DoNothingCommand(1));
 		
 		
 		SmartDashboard.putData("Auto Mode", autoChooser);
+
+        addSmartDashboardListeners();
+        mParser = new CommandParser();
+        readAutoFiles();
 
     }
 	
@@ -87,7 +91,6 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
-    	autonomousCommand = (Command) autoChooser.getSelected();
     	
     	elevator.elevatorEncoder.reset();
         drivetrain.leftDriveEncoder.reset();
@@ -172,5 +175,37 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+    }
+
+    private void readAutoFiles()
+    {
+        autoChooser = mParser.loadAutonFiles("C:/Users/PJ/GitHub/2015teams/snobot2015/558_2015/resources/autonomous", "");
+        SmartDashboard.putData("Auto Mode", autoChooser);
+    }
+
+    void readFile()
+    {
+        if (autoChooser.getSelected() != null)
+        {
+            autonomousCommand = mParser.readFile(autoChooser.getSelected().toString());
+        }
+        else
+        {
+            autonomousCommand = new DoNothingCommand(1);
+        }
+    }
+
+    private void addSmartDashboardListeners()
+    {
+        autoChooser.getTable().addTableListener(new ITableListener()
+        {
+
+            @Override
+            public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
+            {
+                mParser.saveAutonMode();
+                readFile();
+            }
+        });
     }
 }

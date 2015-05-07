@@ -1,11 +1,15 @@
 package org.usfirst.frc.team558.robot.autocommands;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 
 import com.snobot.xlib.ACommandParser;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CommandParser extends ACommandParser
 {
@@ -172,6 +176,30 @@ public class CommandParser extends ACommandParser
             aCommandString += mErrorText;
         }
 
+        SmartDashboard.putString("Robot Command text", aCommandString);
+        SmartDashboard.putBoolean("Parsed Command", mSuccess);
+
         System.out.println(aCommandString);
+    }
+
+    public void saveAutonMode()
+    {
+        String new_text = SmartDashboard.getString("SD Command text", "");
+        String filename = SmartDashboard.getString("Auton Filename", "auton_file.txt");
+
+        System.out.println("*****************************************");
+        System.out.println("Saving auton mode");
+        System.out.println("*****************************************");
+
+        try
+        {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
+            bw.write(new_text);
+            bw.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }
