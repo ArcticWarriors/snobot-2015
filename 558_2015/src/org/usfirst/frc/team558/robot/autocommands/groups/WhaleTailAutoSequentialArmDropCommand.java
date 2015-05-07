@@ -1,30 +1,33 @@
-package org.usfirst.frc.team558.robot.autocommands;
+package org.usfirst.frc.team558.robot.autocommands.groups;
 
 import org.usfirst.frc.team558.robot.Robot;
-import org.usfirst.frc.team558.robot.autocommands.*;
+import org.usfirst.frc.team558.robot.autocommands.DoNothingCommand;
+import org.usfirst.frc.team558.robot.autocommands.TestEncoderCommand;
+import org.usfirst.frc.team558.robot.autocommands.WhaleTailInCommand;
+import org.usfirst.frc.team558.robot.autocommands.WhaleTailOutCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class WhaleTailAutoCommand extends CommandGroup {
+public class WhaleTailAutoSequentialArmDropCommand extends CommandGroup {
     
-	//Encoder Distance to Whale tail out 1.005
-	// Encoder distance to auto zone 7.315 - 12.335
-	
-    public  WhaleTailAutoCommand() {
+    public  WhaleTailAutoSequentialArmDropCommand() {
+    	
     	requires(Robot.gripper);
     	requires(Robot.drivetrain);
     	requires(Robot.elevator);
     	
-    	addSequential(new WhaleTailFinsOutCommand());
-    	addSequential(new DriveBackwardsCommand(0.65));
-    	addSequential(new WhaleTailOutCommand(2.5));
-    	addSequential(new DriveForwardCommand(0.7));
+    	//Test Improvement sequential breakup of driving and dropping arm
+    	//addSequential(new TestEncoderCommand(4.5 , .68, 3));
+    	addSequential(new WhaleTailOutCommand(.025));
+    	addSequential(new TestEncoderCommand(8.9 , .71, 3));
+    	addSequential(new DoNothingCommand(.66));
+    	addSequential(new TestEncoderCommand(50 , -1.0, 1));
     	addSequential(new WhaleTailInCommand(1.5));
-    	
-    	
+    	addSequential(new TestEncoderCommand(22, .57, 1));
+    	addSequential(new DoNothingCommand(1));  
     	
         // Add Commands here:
         // e.g. addSequential(new Command1());

@@ -6,11 +6,19 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CameraServer;
+
 import org.usfirst.frc.team558.robot.*;
 import org.usfirst.frc.team558.robot.subsystems.*;
 import org.usfirst.frc.team558.robot.autocommands.*;
+import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoCleanSlowCommand;
+import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoDirtyCommand;
+import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoDirtySlowCommand;
+import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoEncoderCommand;
+import org.usfirst.frc.team558.robot.autocommands.groups.WhaleTailAutoSequentialArmDropCommand;
+
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 

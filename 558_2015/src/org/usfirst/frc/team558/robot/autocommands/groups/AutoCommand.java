@@ -1,9 +1,13 @@
-package org.usfirst.frc.team558.robot.autocommands;
+package org.usfirst.frc.team558.robot.autocommands.groups;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
 import org.usfirst.frc.team558.robot.Robot;
+import org.usfirst.frc.team558.robot.autocommands.CloseGripperCommand;
+import org.usfirst.frc.team558.robot.autocommands.DriveBackwardsCommand;
+import org.usfirst.frc.team558.robot.autocommands.DriveForwardCommand;
+import org.usfirst.frc.team558.robot.autocommands.RaiseElevatorCommand;
 
 /**
  *

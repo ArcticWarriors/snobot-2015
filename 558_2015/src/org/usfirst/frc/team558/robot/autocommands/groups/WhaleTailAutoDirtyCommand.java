@@ -1,6 +1,11 @@
-package org.usfirst.frc.team558.robot.autocommands;
+package org.usfirst.frc.team558.robot.autocommands.groups;
 
 import org.usfirst.frc.team558.robot.Robot;
+import org.usfirst.frc.team558.robot.autocommands.DoNothingCommand;
+import org.usfirst.frc.team558.robot.autocommands.DriveBackwardsCommand;
+import org.usfirst.frc.team558.robot.autocommands.TestEncoderCommand;
+import org.usfirst.frc.team558.robot.autocommands.WhaleTailInCommand;
+import org.usfirst.frc.team558.robot.autocommands.WhaleTailOutCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

@@ -1,27 +1,40 @@
-package org.usfirst.frc.team558.robot.autocommands;
+package org.usfirst.frc.team558.robot.autocommands.groups;
 
 import org.usfirst.frc.team558.robot.Robot;
+import org.usfirst.frc.team558.robot.autocommands.DoNothingCommand;
+import org.usfirst.frc.team558.robot.autocommands.TestEncoderCommand;
+import org.usfirst.frc.team558.robot.autocommands.TurnEncoderCommand;
+import org.usfirst.frc.team558.robot.autocommands.WhaleTailInCommand;
+import org.usfirst.frc.team558.robot.autocommands.WhaleTailOutCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class WhaleTail25558DirtyCommand extends CommandGroup {
+public class FourBinAutoDirtyCommand extends CommandGroup {
     
-    public  WhaleTail25558DirtyCommand() {
+    public  FourBinAutoDirtyCommand() {
     	requires(Robot.gripper);
     	requires(Robot.drivetrain);
     	requires(Robot.elevator);
     	
-    	//Test Improvement sequential breakup of driving and dropping arm
-    	//addSequential(new TestEncoderCommand(4.5 , .68, 3));
-    	addSequential(new WhaleTailOutCommand(.5));
+    	
+    
+    	
+    	addSequential(new TestEncoderCommand(11 , .57, 3));
+    	addSequential(new WhaleTailOutCommand(2.5));
     	addSequential(new TestEncoderCommand(50 , -.85, 3));
     	addSequential(new WhaleTailInCommand(1.5));
     	addSequential(new TestEncoderCommand(22, .57, 3));
-    	addSequential(new DoNothingCommand(1));  
-    	
+    	addSequential(new DoNothingCommand(1));
+    	addSequential(new TurnEncoderCommand(50, -.9, 3));
+    	addSequential(new DoNothingCommand(.5));
+    	addSequential(new TestEncoderCommand(60, .8, 3));
+    	addSequential(new DoNothingCommand(.5));
+    	addSequential(new TurnEncoderCommand(50, .9, 3));
+    	addSequential(new DoNothingCommand(.5));
+    	addSequential(new TestEncoderCommand(30 , .8, 3));
     	
     	
         // Add Commands here:
