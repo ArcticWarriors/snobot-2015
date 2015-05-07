@@ -1,9 +1,9 @@
 
 
-MoveWhaleFinsCommand 1 true
-DriveRawCommand -0.25 .65
-MoveWhaleTailCommand 2.5 true
-DriveRawCommand 0.25 .7
-MoveWhaleTailCommand 1.5 false
+WhaleTailFinsOutCommand
+DriveBackwardsCommand 0.65
+WhaleTailOutCommand 2.5
+DriveForwardCommand 0.7
+WhaleTailInCommand 1.5
 
 

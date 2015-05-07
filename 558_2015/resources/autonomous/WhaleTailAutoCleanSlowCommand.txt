@@ -1,8 +1,8 @@
 
-TestEncoderCommand 9 -0.68 3
-DriveRawCommand 0.25 2.5
-MoveWhaleTailCommand 2.5 true
+TestEncoderCommand 9.0 .68 3
+DriveBackwardsCommand 2.5
+WhaleTailOutCommand 2.5
 TestEncoderCommand 50 -1.0 1
-MoveWhaleTailCommand 1.5 false
-TestEncoderCommand 22  -0.57 1
+WhaleTailInCommand 1.5
+TestEncoderCommand 22 .57 1
 DoNothingCommand 1

@@ -1,6 +1,6 @@
 
-MoveWhaleTailCommand 0.5 true
+WhaleTailOutCommand .5
 TestEncoderCommand 50 -1.0 3
-MoveWhaleTailCommand 1.5 false
+WhaleTailInCommand 1.5
 TestEncoderCommand 22 .57 3
 DoNothingCommand 1
