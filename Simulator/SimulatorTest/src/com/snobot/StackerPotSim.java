@@ -2,8 +2,9 @@ package com.snobot;
 
 import com.snobot.simulator.AnalogWrapper;
 import com.snobot.simulator.SpeedControllerWrapper;
+import com.snobot.simulator.sim.ISimulatorUpdater;
 
-public class StackerPotSim
+public class StackerPotSim implements ISimulatorUpdater
 {
     private AnalogWrapper mWrapper;
     private SpeedControllerWrapper mSpeedController;

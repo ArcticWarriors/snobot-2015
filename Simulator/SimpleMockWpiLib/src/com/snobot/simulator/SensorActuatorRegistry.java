@@ -14,6 +14,7 @@ public class SensorActuatorRegistry
     private Map<Integer, DigitalSourceWrapper> mDigitalInputMap = new HashMap<Integer, DigitalSourceWrapper>();
     private Map<Integer, AnalogWrapper> mAnalogMap = new HashMap<Integer, AnalogWrapper>();
     private Map<EncoderPair, EncoderWrapper> mEncoderMap = new HashMap<EncoderPair, EncoderWrapper>();
+    private CompressorWrapper mCompressor = new CompressorWrapper();
 
     private SensorActuatorRegistry()
     {
@@ -101,6 +102,11 @@ public class SensorActuatorRegistry
     public EncoderWrapper getEncoder(int aPortA, int aPortB)
     {
         return mEncoderMap.get(new EncoderPair(aPortA, aPortB));
+    }
+
+    public CompressorWrapper getCompressor()
+    {
+        return mCompressor;
     }
 
 }
