@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="Snobot SD Extensions" default="jar">
+<project name="2014 Snobot SD Extensions" default="jar">
   
 	<property file="build.properties"/>
 
