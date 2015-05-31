@@ -1,4 +1,0 @@
-CloseGripperCommand
-DriveBackwardsCommand 1
-RaiseElevatorCommand 1.15
-DriveForwardCommand .85
