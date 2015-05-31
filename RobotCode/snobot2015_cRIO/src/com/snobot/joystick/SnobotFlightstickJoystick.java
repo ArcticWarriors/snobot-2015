@@ -38,7 +38,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         mLogger = aLogger;
     }
 
-    @Override
+//    @Override
     public void init()
     {
         mLogger.addHeader("Tank Mode: Left Y Axis");
@@ -49,7 +49,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         mDriveMode = DriveMode.Tank;
     }
 
-    @Override
+//    @Override
     public void update()
     {
         if (mRightFlightStick.getRawButton(Properties2015.sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK.getValue()))
@@ -73,22 +73,22 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         // 0));
     }
 
-    @Override
+//    @Override
     public void control()
     {
     }
 
-    @Override
+//    @Override
     public void rereadPreferences()
     {
     }
 
-    @Override
+//    @Override
     public void updateSmartDashboard()
     {
     }
 
-    @Override
+//    @Override
     public void updateLog()
     {
         // Left Y Axis
@@ -106,56 +106,56 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
         mLogger.updateLogger(getDriveMode().toString());
     }
 
-    @Override
+//    @Override
     public void stop()
     {
     }
 
-    @Override
+//    @Override
     public double getLeftY()
     {
         return mTankLeftYAxis;
     }
 
-    @Override
+//    @Override
     public double getRightY()
     {
         return mTankRightYAxis;
     }
 
-    @Override
+//    @Override
     public double getSpeed()
     {
         return mArcadeLeftSpeed;
     }
 
-    @Override
+//    @Override
     public double getRotate()
     {
         return mArcadeRightRotation;
     }
 
-    @Override
+//    @Override
     public DriveMode getDriveMode()
     {
         return mDriveMode;
     }
 
-    @Override
+//    @Override
     public boolean getDriveForward()
     {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
+//    @Override
     public boolean getDriveBackward()
     {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
+//    @Override
     public boolean isSmarturDriving()
     {
         // TODO Auto-generated method stub

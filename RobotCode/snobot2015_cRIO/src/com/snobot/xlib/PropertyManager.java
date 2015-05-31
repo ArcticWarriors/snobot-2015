@@ -6,12 +6,12 @@ public class PropertyManager
 {
     private static boolean sPropertyAdded = false;
 
-    public static abstract class IProperty<Type>
+    public static class DoubleProperty
     {
         protected String mKey;
-        protected Type mDefault;
+        protected double mDefault;
 
-        public IProperty(String aKey, Type aDefault)
+        public DoubleProperty(String aKey, double aDefault)
         {
             mKey = aKey;
             mDefault = aDefault;
@@ -23,24 +23,8 @@ public class PropertyManager
             getValue();
         }
 
-        public abstract Type getValue();
-
-        public String getKey()
-        {
-            return mKey;
-        }
-    }
-
-    public static class DoubleProperty extends IProperty<Double>
-    {
-
-        public DoubleProperty(String aKey, double aDefault)
-        {
-            super(aKey, aDefault);
-        }
-
-        @Override
-        public Double getValue()
+    //    @Override
+        public double getValue()
         {
             if (Preferences.getInstance().containsKey(mKey))
             {
@@ -52,18 +36,32 @@ public class PropertyManager
             return mDefault;
         }
 
+        public String getKey()
+        {
+            return mKey;
+        }
+
     }
 
-    public static class IntegerProperty extends IProperty<Integer>
+    public static class IntegerProperty
     {
+        protected String mKey;
+        protected int mDefault;
 
         public IntegerProperty(String aKey, int aDefault)
         {
-            super(aKey, aDefault);
+            mKey = aKey;
+            mDefault = aDefault;
+
+            // Force a get-or-save operation. This will guarantee that
+            // all the properties are added in the order they get constructed,
+            // and that they will all immediately be written into the file
+            // rather than have a lazy-instantiation thing going on
+            getValue();
         }
 
-        @Override
-        public Integer getValue()
+    //    @Override
+        public int getValue()
         {
             if (Preferences.getInstance().containsKey(mKey))
             {
@@ -74,22 +72,31 @@ public class PropertyManager
             Preferences.getInstance().putInt(mKey, mDefault);
             return mDefault;
         }
+
+        public String getKey()
+        {
+            return mKey;
+        }
     }
 
-    public static class StringProperty extends IProperty<String>
+    public static class StringProperty
     {
-
-        public StringProperty(String aKey)
-        {
-            this(aKey, "");
-        }
+        protected String mKey;
+        protected String mDefault;
 
         public StringProperty(String aKey, String aDefault)
         {
-            super(aKey, aDefault);
-        }
+            mKey = aKey;
+            mDefault = aDefault;
 
-        @Override
+            // Force a get-or-save operation. This will guarantee that
+            // all the properties are added in the order they get constructed,
+            // and that they will all immediately be written into the file
+            // rather than have a lazy-instantiation thing going on
+            getValue();
+        }
+        
+    //    @Override
         public String getValue()
         {
             if (Preferences.getInstance().containsKey(mKey))
@@ -100,6 +107,11 @@ public class PropertyManager
             sPropertyAdded = true;
             Preferences.getInstance().putString(mKey, mDefault);
             return mDefault;
+        }
+
+        public String getKey()
+        {
+            return mKey;
         }
     }
 

@@ -47,73 +47,73 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         mClawHandButton = new ToggleButton(mXBOXButtonMoveClawHand);
     }
 
-    @Override
+//    @Override
     public boolean getStackerUp()
     {
         return mStackerJoystickDirection >= mXBOXStackerJoystickUp;
     }
 
-    @Override
+//    @Override
     public boolean getStackerDown()
     {
         return mStackerJoystickDirection <= mXBOXStackerJoystickDown;
     }
 
-    @Override
+//    @Override
     public boolean getClawUp()
     {
         return mIsArmUp;
     }
 
-    @Override
+//    @Override
     public boolean getClawDown()
     {
         return !mIsArmUp;
     }
 
-    @Override
+//    @Override
     public boolean getClawOpen()
     {
         return mIsHandOpen;
     }
 
-    @Override
+//    @Override
     public boolean getClawClose()
     {
         return !mIsHandOpen;
     }
 
-    @Override
+//    @Override
     public double getMoveRake()
     {
         return mMoveRake;
     }
 
-    @Override
+//    @Override
     public boolean getMoveToFloor()
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);
     }
 
-    @Override
+//    @Override
     public boolean getMoveToScoring()
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToScoringButton);
     }
 
-    @Override
+//    @Override
     public boolean getMoveToOneStack()
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToOneStackButton);
     }
 
-    @Override
+//    @Override
     public boolean getMoveToCoopHeight()
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToCoOpHeight);
     }
 
-    @Override
+//    @Override
     public double getJoystickValue()
     {
         return mStackerJoystickDirection;
@@ -122,7 +122,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Perform initialization.
      */
-    @Override
+//    @Override
     public void init()
     {
     }
@@ -130,7 +130,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Gathering and storing current sensor information. Ex. Motor Speed.
      */
-    @Override
+//    @Override
     public void update()
     {
 
@@ -160,7 +160,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Setting sensor and device states.
      */
-    @Override
+//    @Override
     public void control()
     {
 
@@ -169,7 +169,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Rereads and applies current preferences.
      */
-    @Override
+//    @Override
     public void rereadPreferences()
     {
 
@@ -178,7 +178,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Updates information that is sent to SmartDashboard Takes Enum argument
      */
-    @Override
+//    @Override
     public void updateSmartDashboard()
     {
 
@@ -187,7 +187,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Updates the logger.
      */
-    @Override
+//    @Override
     public void updateLog()
     {
 
@@ -196,14 +196,14 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     /**
      * Stops all sensors and motors
      */
-    @Override
+//    @Override
     public void stop()
     {
 
     }
 
-    @Override
-    public void setRumble(Boolean aRumbleOn)
+//    @Override
+    public void setRumble(boolean aRumbleOn)
     {
         //
         // float lRumbleMagnitude = 0;
@@ -216,7 +216,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
         // mOperatorJoystick.setRumble(RumbleType.kRightRumble, lRumbleMagnitude);
     }
 
-    @Override
+//    @Override
     public boolean getStackerToFloorButton()
     {
         return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);

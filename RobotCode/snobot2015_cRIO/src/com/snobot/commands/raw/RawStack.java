@@ -20,13 +20,13 @@ public class RawStack extends Command
         moveUp = aMoveUp;
     }
 
-    @Override
+//    @Override
     protected void end()
     {
         mSnobotStacker.stop();
     }
 
-    @Override
+//    @Override
     protected void execute()
     {
 
@@ -40,18 +40,18 @@ public class RawStack extends Command
         }
     }
 
-    @Override
+//    @Override
     protected void initialize()
     {
         mTimer.start();
     }
 
-    @Override
+//    @Override
     protected void interrupted()
     {
     }
 
-    @Override
+//    @Override
     protected boolean isFinished()
     {
         return (mTimer.get() >= mTimeout);

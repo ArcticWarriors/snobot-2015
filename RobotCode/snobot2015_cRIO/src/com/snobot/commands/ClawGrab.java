@@ -20,12 +20,12 @@ public class ClawGrab extends Command
         mTimer = new Timer();
     }
 
-    @Override
+//    @Override
     protected void end()
     {
     }
 
-    @Override
+//    @Override
     protected void execute()
     {
         // Actuates claw open/closed
@@ -39,18 +39,18 @@ public class ClawGrab extends Command
         }
     }
 
-    @Override
+//    @Override
     protected void initialize()
     {
         mTimer.start();
     }
 
-    @Override
+//    @Override
     protected void interrupted()
     {
     }
 
-    @Override
+//    @Override
     protected boolean isFinished()
     {
         return (mTimer.get() > mLiftSeconds);

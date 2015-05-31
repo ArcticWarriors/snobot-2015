@@ -42,13 +42,13 @@ public class DriveRotateSmartur extends Command
         mDbHelper = new InDeadbandHelper(5);
     }
 
-    @Override
+//    @Override
     protected void end()
     {
         mDriveTrain.stop();
     }
 
-    @Override
+//    @Override
     protected void execute()
     {
         // TODO Determine which parameter should be set to negative (rotate left
@@ -63,19 +63,19 @@ public class DriveRotateSmartur extends Command
         System.out.println("DRS: error: " + mError + ", speed=" + mSpeed);
     }
 
-    @Override
+//    @Override
     protected void initialize()
     {
         timeout.start();
     }
 
-    @Override
+//    @Override
     protected void interrupted()
     {
 
     }
 
-    @Override
+//    @Override
     protected boolean isFinished()
     {
         return mFinished || timeout.get() > 5;

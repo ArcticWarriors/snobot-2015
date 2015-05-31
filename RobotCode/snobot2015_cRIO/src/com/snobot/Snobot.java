@@ -1,8 +1,6 @@
 package com.snobot;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.Vector;
 
 import com.snobot.claw.IClaw;
 import com.snobot.claw.SnobotClaw;
@@ -21,7 +19,6 @@ import com.snobot.rake.SnobotRake;
 import com.snobot.stacker.IStacker;
 import com.snobot.stacker.SnobotStacker;
 import com.snobot.xlib.ASnobot;
-import com.snobot.xlib.ISubsystem;
 import com.snobot.xlib.PropertyManager;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -90,7 +87,6 @@ public class Snobot extends ASnobot
     private AnalogInput mTransducer;
     private AnalogInput mStackerPot;
 
-    private SimpleDateFormat mLogDateFormat;
     private Command mAutonCommand;
     private SendableChooser mAutonChooser;
     private PowerDistributionPanel mPowerDistributionPanel;
@@ -99,7 +95,7 @@ public class Snobot extends ASnobot
     /**
      * This function is run when the robot is first started up and should be used for any initialization code.
      */
-    @Override
+//    @Override
     public void robotInit()
     {
         if (Properties2015.sUSE_CAMERA.getValue() == 1)
@@ -152,8 +148,7 @@ public class Snobot extends ASnobot
 
         mPowerDistributionPanel = new PowerDistributionPanel();
 
-        mLogDateFormat = new SimpleDateFormat("yyyyMMdd_hhmmssSSS");
-        String headerDate = mLogDateFormat.format(new Date());
+        String headerDate = "log";
         mLogger = new Logger(headerDate);
 
         // //////////////////////////////////////
@@ -220,14 +215,14 @@ public class Snobot extends ASnobot
         readAutoFiles();
 
         // Finish setup
-        mSubsystems = new ArrayList<ISubsystem>();
-        mSubsystems.add(mOperatorJoystick);
-        mSubsystems.add(mDriverJoystick);
-        mSubsystems.add(mStacker);
-        mSubsystems.add(mClaw);
-        mSubsystems.add(mDriveTrain);
-        mSubsystems.add(mPositioner);
-        mSubsystems.add(mRake);
+        mSubsystems = new Vector();
+        mSubsystems.addElement(mOperatorJoystick);
+        mSubsystems.addElement(mDriverJoystick);
+        mSubsystems.addElement(mStacker);
+        mSubsystems.addElement(mClaw);
+        mSubsystems.addElement(mDriveTrain);
+        mSubsystems.addElement(mPositioner);
+        mSubsystems.addElement(mRake);
 
         init();
         rereadPreferences();
@@ -241,7 +236,7 @@ public class Snobot extends ASnobot
         addSmartDashboardListeners();
     }
 
-    @Override
+//    @Override
     public void init()
     {
         mLogger.init();
@@ -251,7 +246,7 @@ public class Snobot extends ASnobot
         mLogger.endHeader();
     }
 
-    @Override
+//    @Override
     public void autonomousInit()
     {
         readFile();
@@ -266,7 +261,7 @@ public class Snobot extends ASnobot
         }
     }
 
-    @Override
+//    @Override
     public void teleopInit()
     {
         if (mAutonCommand != null)
@@ -292,7 +287,7 @@ public class Snobot extends ASnobot
         mAutonChooser.getTable().addTableListener(new ITableListener()
         {
 
-            @Override
+        //    @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
             {
                 readFile();
@@ -302,7 +297,7 @@ public class Snobot extends ASnobot
         ITableListener saveModeListener = new ITableListener()
         {
 
-            @Override
+        //    @Override
             public void valueChanged(ITable arg0, String arg1, Object arg2, boolean arg3)
             {
 
@@ -347,24 +342,24 @@ public class Snobot extends ASnobot
         SmartDashboard.putData("mAutonChooser", mAutonChooser);
     }
 
-    @Override
+//    @Override
     public void updateLog()
     {
-        String logDate = mLogDateFormat.format(new Date());
-        if (mLogger.logNow())
-        {
-            mLogger.startLogEntry(logDate);
-
-            mLogger.updateLogger(mPowerDistributionPanel.getVoltage());
-            mLogger.updateLogger(mPowerDistributionPanel.getTotalCurrent());
-
-            for (ISubsystem iSubsystem : mSubsystems)
-            {
-                iSubsystem.updateLog();
-            }
-
-            mLogger.endLogger();
-        }
+//        String logDate = mLogDateFormat.format(new Date());
+//        if (mLogger.logNow())
+//        {
+//            mLogger.startLogEntry(logDate);
+//
+//            mLogger.updateLogger(mPowerDistributionPanel.getVoltage());
+//            mLogger.updateLogger(mPowerDistributionPanel.getTotalCurrent());
+//
+//            for (ISubsystem iSubsystem : mSubsystems)
+//            {
+//                iSubsystem.updateLog();
+//            }
+//
+//            mLogger.endLogger();
+//        }
     }
 
 }

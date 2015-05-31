@@ -1,9 +1,5 @@
 package com.snobot.commands;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.util.List;
 
 import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
@@ -14,14 +10,13 @@ import com.snobot.commands.raw.RawDriveFoward;
 import com.snobot.commands.raw.RawRotateCommand;
 import com.snobot.commands.raw.RawStack;
 import com.snobot.xlib.ACommandParser;
-import com.snobot.xlib.path.SimplePathPoint;
-import com.snobot.xlib.path.simple.SimplePathDeserializer;
-import com.team254.lib.trajectory.Path;
-import com.team254.lib.trajectory.io.TextFileDeserializer;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import fake_java.io.File;
+import fake_java.io.FileWriter;
+import java.util.Vector;
 
 public class CommandParser extends ACommandParser
 {
@@ -56,146 +51,16 @@ public class CommandParser extends ACommandParser
 
     }
 
-    @Override
-    protected Command parseCommand(List<String> args)
+//    @Override
+    protected Command parseCommand(Vector args)
     {
-        String commandName = args.get(0);
+        String commandName = (String) args.elementAt(0);
 
         Command newCommand = null;
 
-        String pathsDir = Properties2015.sPATH_DIR.getValue();
-
         try
         {
-            switch (commandName)
-            {
-
-            // Not really a command, but a special case
-            case sSET_POSITION_COMMAND:
-                mSnobot.getPositioner()
-                        .setPosition(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)));
-                break;
-            case sDRIVE_FORWARD_COMMAND:
-                newCommand = new DriveForward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)),
-                        mSnobot.getDriveTrain(), mSnobot.getPositioner());
-                break;
-
-            case sDRIVE_FORWARD_SMARTER_COMMAND:
-                newCommand = new DriveForwardSmartur(Double.parseDouble(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
-                break;
-
-            case sDRIVE_ROTATE_COMMAND:
-                newCommand = new DriveRotate(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)),
-                        mSnobot.getDriveTrain(), mSnobot.getPositioner());
-                break;
-
-            case sRAW_DRIVE_COMMAND:
-                newCommand = new RawDriveFoward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getDriveTrain());
-                break;
-
-            case sRAW_ROTATE_COMMAND:
-                newCommand = new RawRotateCommand(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getDriveTrain());
-                break;
-
-            case sDRIVE_ROTATE_SMARTER_COMMAND:
-                newCommand = new DriveRotateSmartur(Double.parseDouble(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
-                break;
-
-            case sRAW_STACK_COMMAND:
-                newCommand = new RawStack(Double.parseDouble(args.get(1)), Boolean.parseBoolean(args.get(2)), mSnobot.getSnobotStacker());
-                break;
-
-            case sCLAW_GRAB_COMMAND:
-                newCommand = new ClawGrab(Boolean.parseBoolean(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getSnobotClaw());
-                break;
-
-            case sMOVE_CLAW_COMMAND:
-                newCommand = new MoveClaw(Boolean.parseBoolean(args.get(1)), Double.parseDouble(args.get(2)), mSnobot.getSnobotClaw());
-                break;
-
-            case sSMART_STACK_COMMAND:
-                newCommand = new SmartStack(Integer.parseInt(args.get(1)), mSnobot.getSnobotStacker());
-                break;
-            case sTURN_SIMPLE_COMMAND:
-            {
-                String path = pathsDir + "/" + args.get(1);
-                SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
-                List<SimplePathPoint> points = mSimpleDeserializer.deserialize(path);
-                double hackFactor = 1;
-
-                if (args.size() >= 3)
-                {
-                    hackFactor = Double.parseDouble(args.get(2));
-                }
-
-                if (points.isEmpty())
-                {
-                    addError("Could not read SimplePoint path at '" + path + "'");
-                }
-
-                newCommand = new TurnSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points, hackFactor);
-
-                break;
-            }
-            case sSTRAIGHT_SIMPLE_COMMAND:
-            {
-                String path = pathsDir + "/" + args.get(1);
-                SimplePathDeserializer mSimpleDeserializer = new SimplePathDeserializer();
-                List<SimplePathPoint> points = mSimpleDeserializer.deserialize(path);
-
-                if (points.isEmpty())
-                {
-                    addError("Could not read SimplePoint path at '" + path + "'");
-                }
-
-                newCommand = new StraightSimplePath(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
-
-                break;
-            }
-            case sDRIVE_SPLINE_COMMAND:
-            {
-                String path = pathsDir + "/" + args.get(1);
-                TextFileDeserializer mSimpleDeserializer = new TextFileDeserializer();
-                Path points = mSimpleDeserializer.deserializeFromFile(path);
-
-                if (points.getPair() == null)
-                {
-                    addError("Could not read trajectory path at '" + path + "'");
-                }
-                else
-                {
-                    newCommand = new TrajectoryPathCommand(mSnobot.getDriveTrain(), mSnobot.getPositioner(), points);
-                }
-
-                break;
-            }
-            case sTHREE_TOTE_STACK_COMMAND:
-            {
-                newCommand = new ThreeToteStackCommand(mSnobot.getSnobotStacker(), Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
-                        Double.parseDouble(args.get(3)), Double.parseDouble(args.get(4)));
-
-                break;
-            }
-            case sRAKE_COMMAND:
-            {
-                boolean goDown = Boolean.parseBoolean(args.get(2));
-                newCommand = new RakeCommand(mSnobot.getRake(), Double.parseDouble(args.get(1)), goDown);
-
-                break;
-            }
-            case sPARALLEL_COMMAND:
-            {
-                newCommand = parseParallelCommand(args);
-                break;
-            }
-            case sWAIT_COMMAND:
-                double time = Double.parseDouble(args.get(1));
-                newCommand = new WaitCommand(time);
-                break;
-            default:
-                addError("Unknown command name: " + commandName);
-                break;
-            }
+ 
         }
         catch (IndexOutOfBoundsException e)
         {
@@ -210,10 +75,10 @@ public class CommandParser extends ACommandParser
         return newCommand;
     }
 
-    @Override
+//    @Override
     protected void publishParsingResults(String aCommandString)
     {
-        if (!mErrorText.isEmpty())
+        if (mErrorText.length() != 0)
         {
             aCommandString += "\n\n# There was an error parsing the commands...\n#\n";
             aCommandString += mErrorText;
@@ -223,7 +88,7 @@ public class CommandParser extends ACommandParser
         SmartDashboard.putBoolean(SmartDashboardNames.sSUCCESFULLY_PARSED_AUTON, mSuccess);
     }
 
-    @Override
+//    @Override
     protected void initReading()
     {
         super.initReading();
@@ -244,9 +109,6 @@ public class CommandParser extends ACommandParser
 
         try
         {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(filename)));
-            bw.write(new_text);
-            bw.close();
         }
         catch (Exception e)
         {

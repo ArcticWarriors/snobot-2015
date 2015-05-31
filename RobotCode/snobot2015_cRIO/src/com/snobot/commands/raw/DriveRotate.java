@@ -43,7 +43,7 @@ public class DriveRotate extends Command
         mFinished = false;
     }
 
-    @Override
+//    @Override
     protected void end()
     {
         mDriveTrain.stop();
@@ -52,7 +52,7 @@ public class DriveRotate extends Command
     /**
      * Turns right or left based on proximity to mDegree
      */
-    @Override
+//    @Override
     protected void execute()
     {
         System.out.println("Current = " + mPosition.getSnobotDegrees() + ", desired = " + mDegree + ", speed = " + mSpeed);
@@ -70,17 +70,17 @@ public class DriveRotate extends Command
         }
     }
 
-    @Override
+//    @Override
     protected void initialize()
     {
     }
 
-    @Override
+//    @Override
     protected void interrupted()
     {
     }
 
-    @Override
+//    @Override
     protected boolean isFinished()
     {
         return mFinished;

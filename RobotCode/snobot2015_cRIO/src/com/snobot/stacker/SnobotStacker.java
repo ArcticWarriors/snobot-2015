@@ -19,23 +19,31 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class SnobotStacker implements IStacker
 {
-    public enum StackerHeights
+    public static class StackerHeights
     {
-        Floor(Properties2015.sSTACKER_GROUND_HEIGHT),
-        ScoringPlatform(Properties2015.sSTACKER_SCORING_PLATFORM_HEIGHT),
-        OneTote(Properties2015.sSTACKER_ONE_STACK_HEIGHT),
-        Coop(Properties2015.sSTACKER_COOP_HEIGHT);
+//        Floor(Properties2015.sSTACKER_GROUND_HEIGHT),
+//        ScoringPlatform(Properties2015.sSTACKER_SCORING_PLATFORM_HEIGHT),
+//        OneTote(Properties2015.sSTACKER_ONE_STACK_HEIGHT),
+//        Coop(Properties2015.sSTACKER_COOP_HEIGHT);
+//
+//        private DoubleProperty mHeight;
+//
+//        StackerHeights(DoubleProperty aHeight)
+//        {
+//            mHeight = aHeight;
+//        }
+//
+//        public double getDesiredHeight()
+//        {
+//            return mHeight.getValue();
+//        }
+        private static StackerHeights Floor = new StackerHeights();
+        private static StackerHeights ScoringPlatform = new StackerHeights();
+        private static StackerHeights OneTote = new StackerHeights();
+        private static StackerHeights Coop = new StackerHeights();
 
-        private DoubleProperty mHeight;
-
-        StackerHeights(DoubleProperty aHeight)
-        {
-            mHeight = aHeight;
-        }
-
-        public double getDesiredHeight()
-        {
-            return mHeight.getValue();
+        private double getDesiredHeight() {
+            return 0;
         }
     }
 
@@ -72,7 +80,7 @@ public class SnobotStacker implements IStacker
         mStackerPotentiometer = aStackerEncoder;
     }
 
-    @Override
+//    @Override
     public boolean moveStackerUp()
     {
 
@@ -101,7 +109,7 @@ public class SnobotStacker implements IStacker
 
     }
 
-    @Override
+//    @Override
     public boolean moveStackerDown()
     {
 
@@ -128,19 +136,19 @@ public class SnobotStacker implements IStacker
          */
     }
 
-    @Override
+//    @Override
     public boolean moveStackerToGround()
     {
         return moveStackerToHeight(StackerHeights.Floor);
     }
 
-    @Override
+//    @Override
     public boolean moveStackerToScoringPlatform()
     {
         return moveStackerToHeight(StackerHeights.ScoringPlatform);
     }
 
-    @Override
+//    @Override
     public boolean moveStackerToOneStack()
     {
         return moveStackerToHeight(StackerHeights.OneTote);
@@ -180,7 +188,7 @@ public class SnobotStacker implements IStacker
 
     }
 
-    @Override
+//    @Override
     public void init()
     {
         stop();
@@ -192,7 +200,7 @@ public class SnobotStacker implements IStacker
         rereadPreferences();
     }
 
-    @Override
+//    @Override
     public void update()
     {
         mAdjustedStackerSpeed = mOperatorJoystick.getJoystickValue();
@@ -213,7 +221,7 @@ public class SnobotStacker implements IStacker
 
     }
 
-    @Override
+//    @Override
     public void control()
     {
         if (mOperatorJoystick.getStackerUp())
@@ -254,7 +262,7 @@ public class SnobotStacker implements IStacker
         return mStackerHeight;
     }
 
-    @Override
+//    @Override
     public void rereadPreferences()
     {
         mStackerStackingMargin = Properties2015.sSTACKER_STACKING_MARGIN.getValue();
@@ -263,7 +271,7 @@ public class SnobotStacker implements IStacker
         mStackerLimitSpeedDown = Properties2015.sSTACKER_LIMIT_SPEED_DOWN.getValue();
     }
 
-    @Override
+//    @Override
     public void updateSmartDashboard()
     {
         SmartDashboard.putBoolean(SmartDashboardNames.sUPPER_LIMIT_SWITCH_STATE, mUpperLimitSwitchState);
@@ -272,7 +280,7 @@ public class SnobotStacker implements IStacker
         SmartDashboard.putNumber(SmartDashboardNames.sSTACKER_MOTOR_VALUE, mStackerMotorValue);
     }
 
-    @Override
+//    @Override
     public void updateLog()
     {
 
@@ -283,7 +291,7 @@ public class SnobotStacker implements IStacker
 
     }
 
-    @Override
+//    @Override
     public void stop()
     {
         setElevatorSpeed(0);

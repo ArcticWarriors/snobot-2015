@@ -1,10 +1,11 @@
 package com.snobot.logger;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import com.snobot.Properties2015;
+
+import fake_java.io.File;
+import fake_java.io.FileWriter;
 
 /**
  * Class for logger
@@ -55,9 +56,9 @@ public class Logger
             {
                 dir.mkdirs();
             }
-            mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
+            // mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
 
-            mLogWriter.write("Date and Time");
+            // mLogWriter.write("Date and Time");
 
         }
         catch (IOException e)

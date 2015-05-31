@@ -87,7 +87,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Gives Logger headers for entries: X-position, Y-position, Degrees, Distance
      */
-    @Override
+//    @Override
     public void init()
     {
         this.mLogger.addHeader("X-position");
@@ -100,7 +100,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Gives Logger entries: X-position, Y-position, Degrees, Distance
      */
-    @Override
+//    @Override
     public void updateLog()
     {
         this.mLogger.updateLogger(mPositionX);
@@ -145,7 +145,7 @@ public class SnobotPosition implements ISubsystem
     /**
      * Updates member variables with numbers calculated via object methods
      */
-    @Override
+//    @Override
     public void update()
     {
         double total_distance = this.calculateDistanceTraveled();
@@ -264,17 +264,17 @@ public class SnobotPosition implements ISubsystem
         mGyroSensor.reset();
     }
 
-    @Override
+//    @Override
     public void control()
     {
     }
 
-    @Override
+//    @Override
     public void rereadPreferences()
     {
     }
 
-    @Override
+//    @Override
     public void updateSmartDashboard()
     {
         // TODO Perhaps these could be changed to graphical representations
@@ -285,7 +285,7 @@ public class SnobotPosition implements ISubsystem
 
     }
 
-    @Override
+//    @Override
     public void stop()
     {
     }

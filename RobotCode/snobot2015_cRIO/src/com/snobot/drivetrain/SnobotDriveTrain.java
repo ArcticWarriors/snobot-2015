@@ -58,7 +58,7 @@ public class SnobotDriveTrain implements IDriveTrain
                                                 // useless?
     }
 
-    @Override
+//    @Override
     public void init()
     {
         mLogger.addHeader("Left Drive Speed");
@@ -66,7 +66,7 @@ public class SnobotDriveTrain implements IDriveTrain
         rereadPreferences();
     }
 
-    @Override
+//    @Override
     public void update()
     {
         mRightEncDistance = mEncoderLeft.getDistance();
@@ -76,7 +76,7 @@ public class SnobotDriveTrain implements IDriveTrain
 
     }
 
-    @Override
+//    @Override
     public void control()
     {
 
@@ -131,14 +131,14 @@ public class SnobotDriveTrain implements IDriveTrain
 
     }
 
-    @Override
+//    @Override
     public void rereadPreferences()
     {
         mEncoderLeft.setDistancePerPulse(Properties2015.sLEFT_ENC_DPP.getValue());
         mEncoderRight.setDistancePerPulse(Properties2015.sRIGHT_ENC_DPP.getValue());
     }
 
-    @Override
+//    @Override
     public void updateSmartDashboard()
     {
         SmartDashboard.putNumber(SmartDashboardNames.sLEFT_DRIVE_SPEED, mSpeedControllerLeft.get());
@@ -149,39 +149,39 @@ public class SnobotDriveTrain implements IDriveTrain
         SmartDashboard.putNumber(SmartDashboardNames.sRIGHT_ENC_RAW, mEncoderRight.getRaw());
     }
 
-    @Override
+//    @Override
     public void updateLog()
     {
         mLogger.updateLogger(mSpeedControllerLeft.get());
         mLogger.updateLogger(mSpeedControllerRight.get());
     }
 
-    @Override
+//    @Override
     public void stop()
     {
         this.setMotorSpeed(0, 0);
 
     }
 
-    @Override
+//    @Override
     public void setMotorSpeed(double aLeft, double aRight)
     {
         mRobotDrive.setLeftRightMotorOutputs(aLeft, aRight);
     }
 
-    @Override
+//    @Override
     public double calculateDistanceRight()
     {
         return mLeftEncDistance;
     }
 
-    @Override
+//    @Override
     public double calculateDistanceLeft()
     {
         return mRightEncDistance;
     }
 
-    @Override
+//    @Override
     public void resetEncoders()
     {
         this.mEncoderLeft.reset();

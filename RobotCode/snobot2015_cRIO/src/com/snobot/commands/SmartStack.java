@@ -17,12 +17,12 @@ public class SmartStack extends Command
         mSnobotStacker = aSnobotStacker;
     }
 
-    @Override
+//    @Override
     protected void end()
     {
     }
 
-    @Override
+//    @Override
     protected void execute()
     {
 
@@ -53,19 +53,19 @@ public class SmartStack extends Command
         }
     }
 
-    @Override
+//    @Override
     protected void initialize()
     {
 
     }
 
-    @Override
+//    @Override
     protected void interrupted()
     {
         mSnobotStacker.stop();
     }
 
-    @Override
+//    @Override
     protected boolean isFinished()
     {
         return mFinished;

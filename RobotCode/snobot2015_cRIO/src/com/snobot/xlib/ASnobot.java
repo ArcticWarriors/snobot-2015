@@ -1,14 +1,13 @@
 package com.snobot.xlib;
 
-import java.util.ArrayList;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import java.util.Vector;
 
 public abstract class ASnobot extends IterativeRobot implements ISubsystem
 {
 
-    protected ArrayList<ISubsystem> mSubsystems;
+    protected Vector mSubsystems;
 
     public ASnobot()
     {
@@ -18,7 +17,7 @@ public abstract class ASnobot extends IterativeRobot implements ISubsystem
     /**
      * This function is called periodically during autonomous
      */
-    @Override
+//    @Override
     public void autonomousPeriodic()
     {
         Scheduler.getInstance().run();
@@ -32,7 +31,7 @@ public abstract class ASnobot extends IterativeRobot implements ISubsystem
     /**
      * This function is called periodically during operator control
      */
-    @Override
+//    @Override
     public void teleopPeriodic()
     {
         update();
@@ -41,63 +40,69 @@ public abstract class ASnobot extends IterativeRobot implements ISubsystem
         updateLog();
     }
 
-    @Override
+//    @Override
     public void disabledInit()
     {
         PropertyManager.saveIfUpdated();
     }
 
-    @Override
+//    @Override
     public void update()
     {
-        for (ISubsystem iSubsystem : mSubsystems)
+        for (int i = 0; i < mSubsystems.size(); ++ i)
         {
+            ISubsystem iSubsystem = (ISubsystem) mSubsystems.elementAt(i);
             iSubsystem.update();
 
         }
     }
 
-    @Override
+//    @Override
     public void control()
     {
-        for (ISubsystem iSubsystem : mSubsystems)
+        for (int i = 0; i < mSubsystems.size(); ++ i)
         {
+            ISubsystem iSubsystem = (ISubsystem) mSubsystems.elementAt(i);
             iSubsystem.control();
         }
     }
 
-    @Override
+//    @Override
     public void updateSmartDashboard()
     {
-        for (ISubsystem iSubsystem : mSubsystems)
+        for (int i = 0; i < mSubsystems.size(); ++ i)
         {
+            ISubsystem iSubsystem = (ISubsystem) mSubsystems.elementAt(i);
             iSubsystem.updateSmartDashboard();
         }
     }
 
-    @Override
+//    @Override
     public void init()
     {
-        for (ISubsystem iSubsystem : mSubsystems)
+        for (int i = 0; i < mSubsystems.size(); ++ i)
         {
+            ISubsystem iSubsystem = (ISubsystem) mSubsystems.elementAt(i);
             iSubsystem.init();
         }
     }
 
-    @Override
+//    @Override
     public void rereadPreferences()
     {
-        for (ISubsystem iSubsystem : mSubsystems)
+        for (int i = 0; i < mSubsystems.size(); ++ i)
         {
+            ISubsystem iSubsystem = (ISubsystem) mSubsystems.elementAt(i);
             iSubsystem.rereadPreferences();
         }
     }
 
-    @Override
+//    @Override
     public void stop()
     {
-        for (ISubsystem iSubsystem : mSubsystems)
+        for (int i = 0; i < mSubsystems.size(); ++ i)
         {
+            ISubsystem iSubsystem = (ISubsystem) mSubsystems.elementAt(i);
             iSubsystem.stop();
         }
     }
@@ -105,7 +110,7 @@ public abstract class ASnobot extends IterativeRobot implements ISubsystem
     /**
      * This function is called periodically during test mode
      */
-    @Override
+//    @Override
     public void testPeriodic()
     {
 

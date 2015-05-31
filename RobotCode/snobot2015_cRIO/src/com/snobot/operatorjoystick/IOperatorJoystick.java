@@ -97,50 +97,50 @@ public interface IOperatorJoystick extends ISubsystem
      * Gets value of Joystick to set as stacker speed
      */
 
-    @Override
+//    @Override
     void init();
 
     /**
      * Gathering and storing current sensor information. Ex. Motor Speed.
      */
-    @Override
+//    @Override
     void update();
 
     /**
      * Setting sensor and device states.
      */
-    @Override
+//    @Override
     void control();
 
     /**
      * Rereads and applies current preferences.
      */
-    @Override
+//    @Override
     void rereadPreferences();
 
     /**
      * Updates information that is sent to SmartDashboard Takes Enum argument
      */
-    @Override
+//    @Override
     void updateSmartDashboard();
 
     /**
      * Updates the logger.
      */
-    @Override
+//    @Override
     void updateLog();
 
     /**
      * Stops all sensors and motors
      */
-    @Override
+//    @Override
     void stop();
 
     /**
      * 
      * @return True if the controller should rumble and false if it should not
      */
-    void setRumble(Boolean aRumbleOn);
+    void setRumble(boolean aRumbleOn);
 
     public abstract boolean getMoveToCoopHeight();
 

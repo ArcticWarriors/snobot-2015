@@ -98,7 +98,7 @@ public class Main {
                 RobotStateSingleton.get().addLoopListener(new RobotStateSingleton.LoopListener()
                 {
 
-                    @Override
+                //    @Override
                     public void looped()
                     {
                         simulator.looped();
@@ -142,7 +142,7 @@ public class Main {
 	    	
 	        SwingUtilities.invokeLater(new Runnable() {
 				
-                @Override
+            //    @Override
 				public void run() {
 					
 			        try

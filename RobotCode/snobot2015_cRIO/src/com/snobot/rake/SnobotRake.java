@@ -33,7 +33,7 @@ public class SnobotRake implements IRake
         mLogger = aLogger;
     }
 
-    @Override
+//    @Override
     public void init()
     {
         stop();
@@ -42,13 +42,13 @@ public class SnobotRake implements IRake
         rereadPreferences();
     }
 
-    @Override
+//    @Override
     public void update()
     {
         mLimitSwitchPressed = !mLimitSwitch.get();
     }
 
-    @Override
+//    @Override
     public void control()
     {
 
@@ -65,12 +65,12 @@ public class SnobotRake implements IRake
         }
     }
 
-    @Override
+//    @Override
     public void rereadPreferences()
     {
     }
 
-    @Override
+//    @Override
     public void updateSmartDashboard()
     {
 
@@ -79,7 +79,7 @@ public class SnobotRake implements IRake
 
     }
 
-    @Override
+//    @Override
     public void updateLog()
     {
 
@@ -87,20 +87,20 @@ public class SnobotRake implements IRake
         mLogger.updateLogger(mRakeMotor.get());
     }
 
-    @Override
+//    @Override
     public void stop()
     {
 
         mRakeMotor.set(0);
     }
 
-    @Override
+//    @Override
     public void moveRakeOut()
     {
         mRakeMotor.set(-1);
     }
 
-    @Override
+//    @Override
     public void moveRakeIn()
     {
         mRakeMotor.set(1);

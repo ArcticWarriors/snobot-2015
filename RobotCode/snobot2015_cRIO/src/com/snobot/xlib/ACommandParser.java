@@ -1,18 +1,6 @@
 package com.snobot.xlib;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.Vector;
 
 import com.snobot.SmartDashboardNames;
 
@@ -20,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import fake_java.util.StringTokenizer;
 
 public abstract class ACommandParser
 {
@@ -54,7 +43,7 @@ public abstract class ACommandParser
     {
         return new CommandGroup(aName)
         {
-            @Override
+        //    @Override
             protected void end()
             {
                 super.end();
@@ -73,18 +62,18 @@ public abstract class ACommandParser
     protected void parseLine(CommandGroup aGroup, String aLine, boolean aAddParallel)
     {
         aLine = aLine.trim();
-        if (aLine.isEmpty() || aLine.startsWith(mCommentStart))
+        if (aLine.length() == 0 || aLine.startsWith(mCommentStart))
         {
             return;
         }
 
         StringTokenizer tokenizer = new StringTokenizer(aLine, mDelimiter);
 
-        List<String> args = new ArrayList<>();
+        Vector args = new Vector();
 
         while (tokenizer.hasMoreElements())
         {
-            args.add(tokenizer.nextToken());
+            args.addElement(tokenizer.nextToken());
         }
 
         Command newCommand = parseCommand(args);
@@ -106,21 +95,15 @@ public abstract class ACommandParser
         }
     }
 
-    protected CommandGroup parseParallelCommand(List<String> args)
+    protected CommandGroup parseParallelCommand(Vector args)
     {
         String parallel_line = "";
         for (int i = 1; i < args.size(); ++i)
         {
-            parallel_line += args.get(i) + " ";
+            parallel_line += args.elementAt(i) + " ";
         }
 
-        String[] split_commands = parallel_line.split("\\|");
         CommandGroup parallelCommands = new CommandGroup();
-
-        for (String this_line : split_commands)
-        {
-            parseLine(parallelCommands, this_line, true);
-        }
 
         return parallelCommands;
     }
@@ -137,16 +120,16 @@ public abstract class ACommandParser
 
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader(aFilePath));
-
-            String line;
-            while ((line = br.readLine()) != null)
-            {
-                this.parseLine(output, line, false);
-                fileContents += line + "\n";
-            }
-
-            br.close();
+            // BufferedReader br = new BufferedReader(new FileReader(aFilePath));
+            //
+            // String line;
+            // while ((line = br.readLine()) != null)
+            // {
+            // this.parseLine(output, line, false);
+            // fileContents += line + "\n";
+            // }
+            //
+            // br.close();
         }
         catch (Exception e)
         {
@@ -161,67 +144,13 @@ public abstract class ACommandParser
     public SendableChooser loadAutonFiles(String aDir, String aIgnoreString)
     {
         SendableChooser output = new SendableChooser();
-        File autonDr = new File(aDir);
 
-        System.out.println("Reading auton files from directory " + autonDr.getAbsolutePath());
-        System.out.println(" Using filter : \"" + aIgnoreString + "\"");
-
-        try
-        {
-            SnobotAutonCrawler fileProcessor = new SnobotAutonCrawler(aIgnoreString);
-            Files.walkFileTree(Paths.get(autonDr.toURI()), fileProcessor);
-
-            for (Path p : fileProcessor.mPaths)
-            {
-                output.addObject(p.getFileName().toString(), p.toString());
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        output.addObject("EMPTY", new CommandGroup());
 
         return output;
     }
 
-    private static final class SnobotAutonCrawler extends SimpleFileVisitor<Path>
-    {
-        private List<Path> mPaths;
-        private String mIgnoreString;
-
-        public SnobotAutonCrawler(String aIgnoreString)
-        {
-            mPaths = new ArrayList<Path>();
-            mIgnoreString = aIgnoreString;
-        }
-
-        @Override
-        public FileVisitResult visitFile(Path aFile, BasicFileAttributes aAttrs) throws IOException
-        {
-            System.out.println("  Keeping file " + aFile);
-            mPaths.add(aFile);
-
-            return FileVisitResult.CONTINUE;
-        }
-
-        @Override
-        public FileVisitResult preVisitDirectory(Path aDir, BasicFileAttributes aAttrs) throws IOException
-        {
-            Path dirName = aDir.getFileName();
-            if (dirName.startsWith(mIgnoreString))
-            {
-                System.out.println(" Skipping directory: " + dirName);
-                return FileVisitResult.SKIP_SUBTREE;
-            }
-            else
-            {
-                System.out.println(" Processing directory: " + dirName);
-                return FileVisitResult.CONTINUE;
-            }
-        }
-    }
-
-    protected abstract Command parseCommand(List<String> args);
+    protected abstract Command parseCommand(Vector args);
 
     protected abstract void publishParsingResults(String fileContents);
 }

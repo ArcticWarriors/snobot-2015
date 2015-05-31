@@ -21,13 +21,13 @@ public class RakeCommand extends Command
         mTimer = new Timer();
     }
 
-    @Override
+//    @Override
     protected void end()
     {
         mRake.stop();
     }
 
-    @Override
+//    @Override
     protected void execute()
     {
         if (mTimer.get() < mTimeAmount)
@@ -43,21 +43,21 @@ public class RakeCommand extends Command
         }
     }
 
-    @Override
+//    @Override
     protected void initialize()
     {
         mTimer.start();
 
     }
 
-    @Override
+//    @Override
     protected void interrupted()
     {
         // TODO Auto-generated method stub
 
     }
 
-    @Override
+//    @Override
     protected boolean isFinished()
     {
 

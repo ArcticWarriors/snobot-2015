@@ -18,9 +18,10 @@ public interface IDriverJoystick extends ISubsystem
      * @author ayush_000
      *
      */
-    public enum DriveMode
+    public static class DriveMode
     {
-        Arcade, Tank
+        public static DriveMode Arcade = new DriveMode();
+        public static DriveMode Tank = new DriveMode();
     }
 
     /**

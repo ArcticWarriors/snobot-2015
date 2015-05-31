@@ -46,33 +46,33 @@ public class SnobotClaw implements IClaw
 
     }
 
-    @Override
+//    @Override
     public void openClaw()
     {
         mClawHandSolenoid.set(true);
     }
 
-    @Override
+//    @Override
     public void closeClaw()
     {
         mClawHandSolenoid.set(false);
 
     }
 
-    @Override
+//    @Override
     public void moveClawUp()
     {
         mClawArmSolenoid.set(true);
 
     }
 
-    @Override
+//    @Override
     public void moveClawDown()
     {
         mClawArmSolenoid.set(false);
     }
 
-    @Override
+//    @Override
     public void init()
     {
         mClawArmSolenoid.set(false);
@@ -81,7 +81,7 @@ public class SnobotClaw implements IClaw
         rereadPreferences();
     }
 
-    @Override
+//    @Override
     public void update()
     {
         mRobotAirPressure = ((33.125 * mTransducer.getVoltage()) - 16.821);
@@ -89,7 +89,7 @@ public class SnobotClaw implements IClaw
         mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
     }
 
-    @Override
+//    @Override
     public void control()
     {
         mOperatorJoystick.setRumble(mRumbleOn);
@@ -121,14 +121,14 @@ public class SnobotClaw implements IClaw
         }
     }
 
-    @Override
+//    @Override
     public void rereadPreferences()
     {
 
         mAirPressureRangeMin = Properties2015.sAIR_PRESSURE_RANGE_MIN.getValue();
     }
 
-    @Override
+//    @Override
     public void updateSmartDashboard()
     {
         SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, getRobotAirPressure());
@@ -136,19 +136,19 @@ public class SnobotClaw implements IClaw
         SmartDashboard.putBoolean(SmartDashboardNames.sCLAW_ARM_SOLENOID, mClawArmSolenoid.get());
     }
 
-    @Override
+//    @Override
     public void updateLog()
     {
         mLogger.updateLogger(getRobotAirPressure());
 
     }
 
-    @Override
+//    @Override
     public void stop()
     {
     }
 
-    @Override
+//    @Override
     public double getRobotAirPressure()
     {
         return mRobotAirPressure;

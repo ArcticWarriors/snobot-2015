@@ -30,13 +30,13 @@ public class DriveForwardSmartur extends Command
         mDbHelper = new InDeadbandHelper(5);
     }
 
-    @Override
+//    @Override
     protected void initialize()
     {
         mStartingDistance = mPosition.getTotalDistance();
     }
 
-    @Override
+//    @Override
     protected void execute()
     {
         mError = mDesiredDistance - (mPosition.getTotalDistance() - mStartingDistance);
@@ -49,20 +49,20 @@ public class DriveForwardSmartur extends Command
         System.out.println("DFS Error = " + mError + ", speed = " + mSpeed + " loops good = " + mDbHelper.getLoopsGood());
     }
 
-    @Override
+//    @Override
     protected boolean isFinished()
     {
         return mFinished;
     }
 
-    @Override
+//    @Override
     protected void end()
     {
         mDriveTrain.stop();
 
     }
 
-    @Override
+//    @Override
     protected void interrupted()
     {
 

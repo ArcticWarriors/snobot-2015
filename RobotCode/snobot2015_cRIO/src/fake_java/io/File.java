@@ -12,7 +12,7 @@ public class File
 {
     private String mFilePath;
    
-    public File(String aFilePath)
+    public File(String aFilePath) throws IOException
    {
         mFilePath = aFilePath;
    }
@@ -41,7 +41,7 @@ public class File
        return isDir;
     }
 
-    public File[] listFiles()
+    public File[] listFiles() throws IOException
     {
         if (mFilePath.equals(Properties2015.sAUTON_DIR.getValue()))
        {

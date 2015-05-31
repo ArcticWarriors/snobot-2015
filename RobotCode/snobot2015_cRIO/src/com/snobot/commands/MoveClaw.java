@@ -22,12 +22,12 @@ public class MoveClaw extends Command
         mTimer = new Timer();
     }
 
-    @Override
+//    @Override
     protected void end()
     {
     }
 
-    @Override
+//    @Override
     protected void execute()
     {
         // Actuates claw up/down
@@ -41,18 +41,18 @@ public class MoveClaw extends Command
         }
     }
 
-    @Override
+//    @Override
     protected void initialize()
     {
         mTimer.start();
     }
 
-    @Override
+//    @Override
     protected void interrupted()
     {
     }
 
-    @Override
+//    @Override
     protected boolean isFinished()
     {
         return mTimer.get() >= mTimeout;

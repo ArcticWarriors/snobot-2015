@@ -33,7 +33,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         mLogger = aLogger;
     }
 
-    @Override
+//    @Override
     public void init()
     {
         mLogger.addHeader("Tank Mode: Left Y Axis");
@@ -46,7 +46,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         rereadPreferences();
     }
 
-    @Override
+//    @Override
     public void update()
     {
         // if (mXBoxStick.getRawButton(mTankMode))
@@ -65,12 +65,12 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         // -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
     }
 
-    @Override
+//    @Override
     public void control()
     {
     }
 
-    @Override
+//    @Override
     public void rereadPreferences()
     {
         // mTankMode =
@@ -81,12 +81,12 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         // XboxButtonMap.B_BUTTON);
     }
 
-    @Override
+//    @Override
     public void updateSmartDashboard()
     {
     }
 
-    @Override
+//    @Override
     public void updateLog()
     {
         // Left Y Axis
@@ -104,54 +104,54 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
         mLogger.updateLogger(getDriveMode().toString());
     }
 
-    @Override
+//    @Override
     public void stop()
     {
     }
 
-    @Override
+//    @Override
     public double getLeftY()
     {
         return mTankLeftYAxis;
     }
 
-    @Override
+//    @Override
     public double getRightY()
     {
         return mTankRightYAxis;
     }
 
-    @Override
+//    @Override
     public double getSpeed()
     {
         return mArcadeLeftSpeed;
     }
 
-    @Override
+//    @Override
     public double getRotate()
     {
         return mArcadeRightRotation;
     }
 
-    @Override
+//    @Override
     public DriveMode getDriveMode()
     {
         return mDriveMode;
     }
 
-    @Override
+//    @Override
     public boolean getDriveForward()
     {
         return mXBoxStick.getRawButton(XboxButtonMap.Y_BUTTON);
     }
 
-    @Override
+//    @Override
     public boolean getDriveBackward()
     {
         return mXBoxStick.getRawButton(XboxButtonMap.A_BUTTON);
     }
 
-    @Override
+//    @Override
     public boolean isSmarturDriving()
     {
         // TODO Auto-generated method stub
