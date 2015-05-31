@@ -1,2 +1,0 @@
-RawStack .5 true
-RawStack .5 false

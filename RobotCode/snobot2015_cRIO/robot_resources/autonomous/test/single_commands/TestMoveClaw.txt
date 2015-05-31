@@ -1,0 +1,2 @@
+MoveClaw false 2
+MoveClaw true 2

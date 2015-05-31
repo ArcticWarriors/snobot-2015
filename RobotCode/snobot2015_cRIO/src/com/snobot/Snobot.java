@@ -25,7 +25,7 @@ import com.snobot.xlib.ISubsystem;
 import com.snobot.xlib.PropertyManager;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.CameraServer;
+// import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
@@ -34,14 +34,16 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.Victor;
+// import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.ITable;
 import edu.wpi.first.wpilibj.tables.ITableListener;
-import edu.wpi.first.wpilibj.vision.USBCamera;
+
+// import edu.wpi.first.wpilibj.vision.USBCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to each mode, as described in the IterativeRobot documentation. If you change the
@@ -102,15 +104,15 @@ public class Snobot extends ASnobot
     {
         if (Properties2015.sUSE_CAMERA.getValue() == 1)
         {
-            USBCamera camera = new USBCamera("cam0");
-            camera.setFPS(5);
-            camera.setBrightness(10);
-            camera.setExposureManual(50);
-
-            CameraServer server = CameraServer.getInstance();
-            server.setQuality(10);
-            server.setSize(2);
-            server.startAutomaticCapture(camera);
+            // USBCamera camera = new USBCamera("cam0");
+            // camera.setFPS(5);
+            // camera.setBrightness(10);
+            // camera.setExposureManual(50);
+            //
+            // CameraServer server = CameraServer.getInstance();
+            // server.setQuality(10);
+            // server.setSize(2);
+            // server.startAutomaticCapture(camera);
         }
 
         // Joysticks
@@ -172,6 +174,8 @@ public class Snobot extends ASnobot
             mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
         }
 
+        System.out.println("Rake prot: " + rake_limit_switch_port);
+
         // Rake
         mRakeMotor = new Talon(rake_motor_port);
         mRakeLimitSwitch = new DigitalInput(rake_limit_switch_port);
@@ -191,7 +195,7 @@ public class Snobot extends ASnobot
         // //////////////////////////////////////
         mUpperLimitSwitch = new DigitalInput(stacker_upper_limit_sw);
         mLowerLimitSwitch = new DigitalInput(stacker_lower_limit_sw);
-        mStackerMotor = new VictorSP(stacker_motor_port);
+        mStackerMotor = new Victor(stacker_motor_port);
         mStackerPot = new AnalogInput(stacker_pot_port);
         mStacker = new SnobotStacker(mOperatorJoystick, mStackerMotor, mUpperLimitSwitch, mLowerLimitSwitch, mLogger, mStackerPot);
 

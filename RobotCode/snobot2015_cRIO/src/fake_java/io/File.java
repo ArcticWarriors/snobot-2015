@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import javax.microedition.io.Connector;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.sun.squawk.microedition.io.FileConnection;
 
 public class File 
@@ -43,7 +43,7 @@ public class File
 
     public File[] listFiles()
     {
-       if(mFilePath.equals(ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sAUTON_DIR, ConfigurationNames.sDEFAULT_AUTON_DIR)))
+        if (mFilePath.equals(Properties2015.sAUTON_DIR.getValue()))
        {
          return new File[] {
             new File(mFilePath + "/StackAndMoveToLandmark"),

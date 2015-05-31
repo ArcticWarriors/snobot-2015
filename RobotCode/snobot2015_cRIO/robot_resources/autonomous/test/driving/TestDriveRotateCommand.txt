@@ -1,0 +1,4 @@
+MoveClaw true 3
+ClawGrab true 3
+ClawGrab false 1
+MoveClaw false 3

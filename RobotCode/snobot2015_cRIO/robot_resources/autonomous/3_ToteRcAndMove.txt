@@ -1,0 +1,13 @@
+#SmartStack 0 
+#SmartStack 2
+
+ClawGrab true 2
+MoveClaw true .5
+DriveForwardSmart 17
+
+ClawGrab false 3
+MoveClaw false 0.5
+ClawGrab true 1
+#SimplePathRotate TurnPositive90.csv
+DriveForwardSmart 17
+#SimplePathDrive TurnPositive90.csv 
