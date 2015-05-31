@@ -1,6 +1,6 @@
 package com.snobot.claw;
 
-import com.snobot.ConfigurationNames;
+import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
@@ -46,53 +46,54 @@ public class SnobotClaw implements IClaw
 
     }
 
-    
+    @Override
     public void openClaw()
     {
         mClawHandSolenoid.set(true);
     }
 
-    
+    @Override
     public void closeClaw()
     {
         mClawHandSolenoid.set(false);
 
     }
 
-    
+    @Override
     public void moveClawUp()
     {
         mClawArmSolenoid.set(true);
 
     }
 
-    
+    @Override
     public void moveClawDown()
     {
         mClawArmSolenoid.set(false);
     }
 
-    
+    @Override
     public void init()
     {
+        mClawArmSolenoid.set(false);
+        mClawHandSolenoid.set(false);
         mLogger.addHeader("Claw Pressure");
         rereadPreferences();
     }
 
-    
+    @Override
     public void update()
     {
-     
-        mRobotAirPressure = 100;
-        
+        mRobotAirPressure = ((33.125 * mTransducer.getVoltage()) - 16.821);
+
         mRumbleOn = mRobotAirPressure < mAirPressureRangeMin;
     }
 
-    
+    @Override
     public void control()
     {
         mOperatorJoystick.setRumble(mRumbleOn);
-        
+
         if (mOperatorJoystick.getClawOpen())
         {
             openClaw();
@@ -105,7 +106,7 @@ public class SnobotClaw implements IClaw
         {
             stop();
         }
-        
+
         if (mOperatorJoystick.getClawUp())
         {
             moveClawUp();
@@ -120,14 +121,14 @@ public class SnobotClaw implements IClaw
         }
     }
 
-    
+    @Override
     public void rereadPreferences()
     {
 
-        mAirPressureRangeMin = ConfigurationNames.getOrSetPropertyDouble(ConfigurationNames.sAIR_PRESSURE_RANGE_MIN, 50);
+        mAirPressureRangeMin = Properties2015.sAIR_PRESSURE_RANGE_MIN.getValue();
     }
 
-    
+    @Override
     public void updateSmartDashboard()
     {
         SmartDashboard.putNumber(SmartDashboardNames.sCLAW_AIR_PRESSURE, getRobotAirPressure());
@@ -135,19 +136,19 @@ public class SnobotClaw implements IClaw
         SmartDashboard.putBoolean(SmartDashboardNames.sCLAW_ARM_SOLENOID, mClawArmSolenoid.get());
     }
 
-    
+    @Override
     public void updateLog()
     {
         mLogger.updateLogger(getRobotAirPressure());
 
     }
 
-    
+    @Override
     public void stop()
     {
     }
 
-    
+    @Override
     public double getRobotAirPressure()
     {
         return mRobotAirPressure;

@@ -1,4 +1,4 @@
-package com.snobot.commands;
+package com.snobot.commands.raw;
 
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
@@ -21,10 +21,15 @@ public class DriveRotate extends Command
 
     /**
      * Creates DriveRotate command object
-     * @param aDegree -Degree specified to turn to
-     * @param aSpeed -Speed specified to turn at 
-     * @param aDriveTrain -SnobotDriveTrain class
-     * @param aPosition -SnobotPosition class
+     * 
+     * @param aDegree
+     *            -Degree specified to turn to
+     * @param aSpeed
+     *            -Speed specified to turn at
+     * @param aDriveTrain
+     *            -SnobotDriveTrain class
+     * @param aPosition
+     *            -SnobotPosition class
      */
     public DriveRotate(double aDegree, double aSpeed, double aTolerance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
@@ -38,7 +43,7 @@ public class DriveRotate extends Command
         mFinished = false;
     }
 
-    
+    @Override
     protected void end()
     {
         mDriveTrain.stop();
@@ -47,7 +52,7 @@ public class DriveRotate extends Command
     /**
      * Turns right or left based on proximity to mDegree
      */
-    
+    @Override
     protected void execute()
     {
         System.out.println("Current = " + mPosition.getSnobotDegrees() + ", desired = " + mDegree + ", speed = " + mSpeed);
@@ -65,17 +70,17 @@ public class DriveRotate extends Command
         }
     }
 
-    
+    @Override
     protected void initialize()
     {
     }
 
-    
+    @Override
     protected void interrupted()
     {
     }
 
-    
+    @Override
     protected boolean isFinished()
     {
         return mFinished;

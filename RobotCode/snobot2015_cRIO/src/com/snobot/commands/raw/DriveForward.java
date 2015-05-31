@@ -1,6 +1,5 @@
-        package com.snobot.commands;
+package com.snobot.commands.raw;
 
-import com.snobot.ConfigurationNames;
 import com.snobot.drivetrain.IDriveTrain;
 import com.snobot.position.SnobotPosition;
 
@@ -38,22 +37,21 @@ public class DriveForward extends Command
      */
     public DriveForward(double aDistance, double aSpeed, double aTolerance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
     {
-        super(ConfigurationNames.sDRIVE_FORWARD_COMMAND);
         mDesiredDistance = aDistance;
         mSpeed = aSpeed;
         mTolerance = aTolerance;
         mDriveTrain = aDriveTrain;
         mPosition = aPosition;
-        mFinished=false;
+        mFinished = false;
     }
 
-    
+    @Override
     protected void initialize()
     {
-    	mStartingDistance  = mPosition.getTotalDistance();
+        mStartingDistance = mPosition.getTotalDistance();
     }
-    
-    
+
+    @Override
     /**
      * Sets motors to desired speed until the distance specified has been traveled
      */
@@ -73,26 +71,26 @@ public class DriveForward extends Command
         {
             mFinished = true;
         }
-        
+
         System.out.println(mPosition.getTotalDistance());
     }
 
-    
+    @Override
     protected void end()
     {
         mDriveTrain.stop();
     }
 
-    
+    @Override
     protected void interrupted()
     {
-    	//nothing to do
+        // nothing to do
     }
 
-    
+    @Override
     protected boolean isFinished()
     {
-    	return mFinished;
+        return mFinished;
     }
 
 }

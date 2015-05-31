@@ -1,4 +1,4 @@
-package com.snobot;
+package com.snobot.xlib;
 
 /**
  * Main interface for the Robot subsystems.

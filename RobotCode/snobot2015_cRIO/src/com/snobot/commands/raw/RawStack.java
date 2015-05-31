@@ -1,4 +1,4 @@
-package com.snobot.commands;
+package com.snobot.commands.raw;
 
 import com.snobot.stacker.IStacker;
 
@@ -20,13 +20,13 @@ public class RawStack extends Command
         moveUp = aMoveUp;
     }
 
-    
+    @Override
     protected void end()
     {
         mSnobotStacker.stop();
     }
 
-    
+    @Override
     protected void execute()
     {
 
@@ -40,18 +40,18 @@ public class RawStack extends Command
         }
     }
 
-    
+    @Override
     protected void initialize()
     {
-    	mTimer.start();
+        mTimer.start();
     }
 
-    
+    @Override
     protected void interrupted()
     {
     }
 
-    
+    @Override
     protected boolean isFinished()
     {
         return (mTimer.get() >= mTimeout);

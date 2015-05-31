@@ -1,11 +1,10 @@
 package com.snobot.logger;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
-import com.snobot.ConfigurationNames;
-
-import fake_java.io.File;
-import fake_java.io.FileWriter;
+import com.snobot.Properties2015;
 
 /**
  * Class for logger
@@ -16,19 +15,19 @@ import fake_java.io.FileWriter;
 
 public class Logger
 {
-    //Current Date and Time
+    // Current Date and Time
     private String mLogDate;
-    
-    //File Writer
+
+    // File Writer
     private FileWriter mLogWriter;
-    
-    //A count that increases every teleop cycle
+
+    // A count that increases every teleop cycle
     private int mCurrentLogCount;
-    
-    //A count that is used to indicate when to log (set by preferences)
+
+    // A count that is used to indicate when to log (set by preferences)
     private int mConfigLogCount;
-    
-    //File Path set by preferences
+
+    // File Path set by preferences
     private String mLogFilePath;
 
     public Logger(String aLogDate)
@@ -45,26 +44,26 @@ public class Logger
     public void init()
     {
 
-        mConfigLogCount = ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sLOG_COUNT, 25);
-        mLogFilePath = ConfigurationNames.getOrSetPropertyString(ConfigurationNames.sLOG_FILE_PATH, "logs/");
+        mConfigLogCount = Properties2015.sLOG_COUNT.getValue();
+        mLogFilePath = Properties2015.sLOG_FILE_PATH.getValue();
         mCurrentLogCount = 0;
 
-//        try
-//        {
-//            File dir = new File(mLogFilePath);
-//            if(!dir.exists())
-//            {
-//                dir.mkdirs();
-//            }
-//            mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
-//
-//            mLogWriter.write("Date and Time,Voltage,TotalCurrent");
-//
-//        }
-//        catch (IOException e)
-//        {
-//            e.printStackTrace();
-//        }
+        try
+        {
+            File dir = new File(mLogFilePath);
+            if (!dir.exists())
+            {
+                dir.mkdirs();
+            }
+            mLogWriter = new FileWriter(mLogFilePath + "RobotLog_" + mLogDate + "_log.csv");
+
+            mLogWriter.write("Date and Time");
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -175,7 +174,7 @@ public class Logger
      */
     public void updateLogger(double aEntry)
     {
-       updateLogger("" + aEntry);
+        updateLogger("" + aEntry);
     }
 
     /**
@@ -185,7 +184,7 @@ public class Logger
      */
     public void updateLogger(boolean aEntry)
     {
-        //Convert boolean to a number, then log
+        // Convert boolean to a number, then log
         updateLogger(aEntry ? 1 : 0);
 
     }

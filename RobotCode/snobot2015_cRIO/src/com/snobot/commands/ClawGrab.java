@@ -11,8 +11,7 @@ public class ClawGrab extends Command
     private final double mLiftSeconds;
     private final IClaw mClaw;
     private Timer mTimer;
-    
-    
+
     public ClawGrab(boolean aOpen, double aOpenSeconds, IClaw aClaw)
     {
         mOpen = aOpen;
@@ -20,17 +19,17 @@ public class ClawGrab extends Command
         mLiftSeconds = aOpenSeconds;
         mTimer = new Timer();
     }
-    
-    
+
+    @Override
     protected void end()
     {
     }
 
-    
+    @Override
     protected void execute()
-    {        
-        //Actuates claw open/closed
-        if(mOpen)
+    {
+        // Actuates claw open/closed
+        if (mOpen)
         {
             mClaw.openClaw();
         }
@@ -40,21 +39,21 @@ public class ClawGrab extends Command
         }
     }
 
-    
+    @Override
     protected void initialize()
     {
         mTimer.start();
     }
 
-    
+    @Override
     protected void interrupted()
     {
     }
 
-    
+    @Override
     protected boolean isFinished()
     {
-        return(mTimer.get() > mLiftSeconds);
+        return (mTimer.get() > mLiftSeconds);
     }
 
 }

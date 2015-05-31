@@ -9,7 +9,6 @@ public class SmartStack extends Command
     private boolean mFinished;
     private int mStackCommandIndex;
     private final IStacker mSnobotStacker;
-   
 
     public SmartStack(int aStackCommandIndex, IStacker aSnobotStacker)
     {
@@ -18,15 +17,15 @@ public class SmartStack extends Command
         mSnobotStacker = aSnobotStacker;
     }
 
-    
+    @Override
     protected void end()
     {
     }
 
-    
+    @Override
     protected void execute()
     {
-        
+
         switch (mStackCommandIndex)
         {
         case 0:
@@ -49,28 +48,28 @@ public class SmartStack extends Command
             mSnobotStacker.stop();
             mFinished = true;
         }
-        
-        System.out.println(mStackCommandIndex);
+
+            System.out.println("Stack index=" + mStackCommandIndex + ", finished=" + mFinished);
         }
     }
 
-    
+    @Override
     protected void initialize()
     {
 
     }
 
-    
+    @Override
     protected void interrupted()
     {
         mSnobotStacker.stop();
     }
 
-    
+    @Override
     protected boolean isFinished()
     {
         return mFinished;
-      
+
     }
 
 }

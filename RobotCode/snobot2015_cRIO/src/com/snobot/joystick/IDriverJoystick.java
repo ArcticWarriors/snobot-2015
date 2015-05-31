@@ -1,6 +1,6 @@
 package com.snobot.joystick;
 
-import com.snobot.ISubsystem;
+import com.snobot.xlib.ISubsystem;
 
 /**
  * Main interface for Driver Joystick
@@ -18,10 +18,9 @@ public interface IDriverJoystick extends ISubsystem
      * @author ayush_000
      *
      */
-    public class DriveMode
+    public enum DriveMode
     {
-      public static final DriveMode Tank = new DriveMode();
-      public static final DriveMode Arcade = new DriveMode();
+        Arcade, Tank
     }
 
     /**
@@ -57,5 +56,11 @@ public interface IDriverJoystick extends ISubsystem
      * @return drive mode (Tank/Arcade)
      */
     DriveMode getDriveMode();
+
+    boolean getDriveForward();
+
+    boolean getDriveBackward();
+
+    boolean isSmarturDriving();
 
 }

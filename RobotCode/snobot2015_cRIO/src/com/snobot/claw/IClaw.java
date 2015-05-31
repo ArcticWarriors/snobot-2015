@@ -1,6 +1,6 @@
 package com.snobot.claw;
 
-import com.snobot.ISubsystem;
+import com.snobot.xlib.ISubsystem;
 
 /**
  * 
