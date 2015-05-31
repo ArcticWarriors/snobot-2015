@@ -19,13 +19,11 @@ public class AnalogTransducerSimulator implements ISimulatorUpdater
     public void update()
     {
         mCompressor.update();
-        double pressure = mCompressor.getAirPressure();
 
+        double pressure = mCompressor.getAirPressure();
         double voltage = (pressure + 16.821) / 33.125;
 
         mTransducer.setVoltage(voltage);
-
-        System.out.println("Air pressure: " + pressure);
     }
 
 }
