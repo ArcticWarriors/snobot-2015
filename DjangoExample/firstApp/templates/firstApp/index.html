@@ -1,0 +1,27 @@
+<html>
+<head>
+
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'firstApp/style.css' %}" />
+
+<title>Welcome!</title>
+</head>
+
+
+<body>
+Hello World! My First <a target="_blank" href="https://www.youtube.com/watch?v=eUdM9vrCbow">Django</a> App!
+<br><br><br>
+Check out our peeps
+{% if all_people %}
+    <ul>
+    {% for person in all_people %}
+        <li><a href="/firstApp/person/{{ person.id }}">{{ person.personName }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Everyone is dead!</p>
+{% endif %}
+
+</body>
+</html>
