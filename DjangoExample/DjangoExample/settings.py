@@ -40,7 +40,7 @@ INSTALLED_APPS = (
 
     # Our Apps
     'firstApp',
-    'junctionTable',
+    #'junctionTable',
 )
 
 MIDDLEWARE_CLASSES = (
