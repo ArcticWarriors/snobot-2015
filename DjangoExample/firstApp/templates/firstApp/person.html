@@ -1,0 +1,28 @@
+<html>
+<head>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'firstApp/style.css' %}" />
+
+<title>{{my_name}}'s Page</title>
+</head>
+
+
+<body>
+
+<h1> {{my_name}} </h1>
+Sup!?  My name is {{my_name}} and I am {{my_age}} years old.  Check out all of my sweet pets
+
+
+{% if my_pets %}
+    <ol>
+    {% for pet in my_pets %}
+        <li><a href="/firstApp/pet/{{ pet.id }}">{{ pet.petName }}</a></li>
+    {% endfor %}
+    </ol>
+{% else %}
+    <p>Lol, jk.  I don't have pets.</p>
+{% endif %}
+
+</body>
+</html>
