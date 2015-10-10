@@ -11,11 +11,6 @@ def index(request):
     return render(request, 'firstApp/index.html', context)
 
 
-def all_data(request):
-    output = "Hello World! My First <a href='https://www.youtube.com/watch?v=eUdM9vrCbow'>Django</a> App!"
-    return HttpResponse(output)
-
-
 def view_person(request, person_id):
 
     person = Person.objects.get(id=person_id)
