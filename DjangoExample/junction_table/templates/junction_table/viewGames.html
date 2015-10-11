@@ -1,0 +1,32 @@
+<html>
+<head>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'junction_table/style.css' %}" />
+<title>All Games</title>
+</head>
+<body>
+
+{% include "junction_table/banner.html" %}
+
+<h1> Games </h1>
+
+<table>
+<tr>
+  <th> Title </th>
+  <th> Genre </th>
+  <th> Players </th>
+</tr>
+
+{% for game in games %}
+<tr>
+    <td><a href="/junction_table/games/{{game.id}}">{{game.gameName}}</a></td>
+    <td><center><a href="/junction_table/genres/{{game.genre.id}}"> {{game.genre}}</center></a> </td>
+    <td><center>{{game.players_set.all|length}}<center></td>
+</tr>
+{% endfor %}
+    
+</table>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<html>
+<head>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'junction_table/style.css' %}" />
+<title>Welcome!</title>
+</head>
+<body>
+
+{% include "junction_table/banner.html" %}
+
+<h1>Welcome to the video game store!</h1>
+
+We currently have {{ num_players }} players playing {{ num_games}} different games. <br><br>
+Look around at our collection of <a href="/junction_table/games/">games</a> and <a href="/junction_table/genres">genres</a> 
+
+</body>
+</html>

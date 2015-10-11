@@ -1,0 +1,31 @@
+<html>
+<head>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'junction_table/style.css' %}" />
+<title>All Players</title>
+</head>
+<body>
+
+{% include "junction_table/banner.html" %}
+
+
+<h1> Players </h1>
+
+<table>
+<tr>
+  <th> Player </th>
+  <th> Games </th>
+</tr>
+
+{% for player in players %}
+<tr>
+    <td><a href="/junction_table/players/{{player.id}}">{{player.playerName}}</a></td>
+    <td><center>{{player.games.all|length}}</center></td>
+</tr>
+{% endfor %}
+    
+</table>
+
+</body>
+</html>

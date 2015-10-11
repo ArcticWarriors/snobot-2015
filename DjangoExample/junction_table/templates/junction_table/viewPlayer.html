@@ -1,0 +1,27 @@
+<html>
+<head>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'junction_table/style.css' %}" />
+<title>{{ player.playerName }}'s Page</title>
+</head>
+<body>
+
+{% include "junction_table/banner.html" %}
+
+<h1> Welcome to {{ player.playerName }}'s page </h1>
+
+{{ player.playerName }} plays {{ games|length }} games
+
+<br><br>
+
+{% if games|length != 0 %}
+<h2>{{ player.playerName }}'s games</h2>
+<ul>
+{% for game in games %}
+  <li> <a href="/junction_table/games/{{game.id}}">{{game.gameName}}</a> </li>
+{% endfor %}
+{% endif %}
+</ul>
+</body>
+</html>

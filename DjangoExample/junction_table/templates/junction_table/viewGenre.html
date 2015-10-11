@@ -1,0 +1,29 @@
+<html>
+<head>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'junction_table/style.css' %}" />
+<title>{{ genre.genreName }}</title>
+</head>
+<body>
+
+{% include "junction_table/banner.html" %}
+
+<h1> Viewing the <u><i>{{ genre.genreName }}</i></u> genre</h1>
+
+Description: {{ genre.genreDescription }}<br>
+
+<br><br>
+
+We have  {{ genre.game_set.all|length }} games in stock.
+{% if y != 0 %}
+<ul>
+  {% for game in genre.game_set.all %}
+  <li><a href="/junction_table/games/{{game.id}}">{{game.gameName}}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+
+</body>
+</html>

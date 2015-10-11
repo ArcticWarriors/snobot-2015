@@ -1,0 +1,26 @@
+<html>
+<head>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'junction_table/style.css' %}" />
+<title>{{ game.gameName }}</title>
+</head>
+<body>
+
+{% include "junction_table/banner.html" %}
+
+<h1> Viewing <u><i>{{ game.gameName }}</i></u> </h1>
+
+{{ game.gameName }} is an <a href="/junction_table/genres/{{game.genre.id}}">{{game.genre}}</a> game 
+that has {{ game.players_set.all|length }} players.<br>
+
+{% if game.players_set.all|length != 0 %}
+<ul>
+  {% for player in game.players_set.all %}
+  <li><a href="/junction_table/players/{{player.id}}">{{player.playerName}}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+</body>
+</html>
