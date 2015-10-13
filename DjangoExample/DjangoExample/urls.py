@@ -19,5 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^firstApp/', include('firstApp.urls')),
-    url(r'^junction_table/', include('junction_table.urls')),
+    url(r'^junction_table/', include('junction_table.urls', namespace="junction_table")),
 ]
