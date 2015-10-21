@@ -22,4 +22,9 @@ public class ToggleButton
 
     }
 
+    public boolean get()
+    {
+        return mSwitchState;
+    }
+
 }
