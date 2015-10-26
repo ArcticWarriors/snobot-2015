@@ -1,11 +1,13 @@
 package com.snobot.shooter;
 
+import com.snobot.SmartDashboardNames;
+import com.snobot.ui.OperatorJoystick;
 import com.snobot.xlib.ISubsystem;
 import com.snobot.xlib.SinglePressButton;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SnobotShooter implements ISubsystem
 
@@ -16,9 +18,9 @@ public class SnobotShooter implements ISubsystem
 	private SinglePressButton mIncreaseSpeedButton;
 	private SinglePressButton mDecreaseSpeedButton;
 	
-	private Joystick mShooterJoystick;
+    private OperatorJoystick mShooterJoystick;
 	
-	public SnobotShooter(SpeedController aShooterMotor, Solenoid aShooterSolenoid, Joystick aShooterJoystick) 
+    public SnobotShooter(SpeedController aShooterMotor, Solenoid aShooterSolenoid, OperatorJoystick aShooterJoystick)
 	{
 		mShooterJoystick = aShooterJoystick;
 		mShooterSolenoid = aShooterSolenoid;
@@ -27,45 +29,41 @@ public class SnobotShooter implements ISubsystem
 		mDecreaseSpeedButton = new SinglePressButton();
 	}
 	
-	
-	
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-		
 	}
+
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
 	}
+
 	@Override
 	public void control() {
 
 		//Shooter
-		double MotorSpeed = mShooterMotor.get();
-		if (mIncreaseSpeedButton.update(mShooterJoystick.getRawButton(1))) // TODO Congfigure Button
+        double motorSpeed = mShooterMotor.get();
+        if (mIncreaseSpeedButton.update(mShooterJoystick.incrementShooterSpeed()))
 		{
-			MotorSpeed += 0.1; 
+            motorSpeed += 0.1;
 		}
-		else if (mDecreaseSpeedButton.update(mShooterJoystick.getRawButton(2))) // TODO Configure Button
+        else if (mDecreaseSpeedButton.update(mShooterJoystick.decrementShooterSpeed()))
 		{
-			MotorSpeed  -= 0.1;
-		}
-		
-		if (MotorSpeed > 1)
-		{
-			MotorSpeed = 1; 
-		}
-		else if (MotorSpeed < -1)
-		{
-			MotorSpeed = -1; 
+            motorSpeed -= 0.1;
 		}
 		
-		mShooterMotor.set(MotorSpeed);
+        if (motorSpeed > 1)
+		{
+            motorSpeed = 1;
+		}
+        else if (motorSpeed < -1)
+		{
+            motorSpeed = -1;
+		}
+		
+        mShooterMotor.set(motorSpeed);
 		
 		//Piston
-		if (mShooterJoystick.getRawButton(3)) // TODO Configure button
+        if (mShooterJoystick.shootButton())
 		{
 			mShooterSolenoid.set(true);
 		}
@@ -76,24 +74,25 @@ public class SnobotShooter implements ISubsystem
 		
 	}
 	@Override
-	public void rereadPreferences() {
-		// TODO Auto-generated method stub
-		
+    public void rereadPreferences()
+    {
 	}
+
 	@Override
-	public void updateSmartDashboard() {
-		// TODO Auto-generated method stub
-		
+    public void updateSmartDashboard()
+    {
+        SmartDashboard.putNumber(SmartDashboardNames.SHOOTER_SPEED, mShooterMotor.get());
 	}
+
 	@Override
-	public void updateLog() {
-		// TODO Auto-generated method stub
-		
+    public void updateLog()
+    {
 	}
+
 	@Override
-	public void stop() {
-		// TODO Auto-generated method stub
-		
+    public void stop()
+    {
+        mShooterMotor.set(0);
 	}
 	
 		

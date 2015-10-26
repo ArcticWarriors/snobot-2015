@@ -1,18 +1,19 @@
 package com.snobot.intake;
 
+import com.snobot.SmartDashboardNames;
+import com.snobot.ui.OperatorJoystick;
 import com.snobot.xlib.ISubsystem;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class IntakeMotor implements ISubsystem
+public class SnobotIntake implements ISubsystem
 {
 
     private SpeedController mIntakeMotor;
-    private Joystick mIntakeJoystick;
+    private OperatorJoystick mIntakeJoystick;
 
-    public IntakeMotor(SpeedController aController, Joystick aJoystick)
+    public SnobotIntake(SpeedController aController, OperatorJoystick aJoystick)
     {
         mIntakeMotor = aController;
         mIntakeJoystick = aJoystick;
@@ -26,50 +27,41 @@ public class IntakeMotor implements ISubsystem
     @Override
     public void update()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void control()
     {
-        if (mIntakeJoystick.getRawButton(1))// TODO get the button for intake
+        if (mIntakeJoystick.useIntake())
         {
             mIntakeMotor.set(1);
         }
         else
         {
-            mIntakeMotor.set(0);
+            stop();
         }
     }
 
     @Override
     public void rereadPreferences()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void updateSmartDashboard()
     {
-        // TODO Auto-generated method stub
-        SmartDashboard.putNumber("Intake Motor Status", mIntakeMotor.get());
+        SmartDashboard.putNumber(SmartDashboardNames.INTAKE_SPEED, mIntakeMotor.get());
 
     }
 
     @Override
     public void updateLog()
     {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void stop()
     {
-        // TODO Auto-generated method stub
-
     }
 
 }
