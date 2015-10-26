@@ -1,6 +1,8 @@
 
 package com.snobot2012;
 
+import java.util.ArrayList;
+
 import com.snobot.xlib.ASnobot;
 import com.snobot.xlib.PropertyManager;
 import com.snobot2012.drivetrain.SnobotDriveTrain;
@@ -70,6 +72,7 @@ public class Snobot2012 extends ASnobot
         mIntakeMotor = new Talon(PortMap.sINTAKE_MOTOR);
         mIntake = new SnobotIntake(mIntakeMotor, mOperatorController);
     	
+        mSubsystems = new ArrayList<>();
     	mSubsystems.add(mDriveTrain);
         mSubsystems.add(mShooter);
         mSubsystems.add(mIntake);

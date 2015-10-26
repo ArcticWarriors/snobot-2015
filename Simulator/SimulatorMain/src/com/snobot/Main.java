@@ -3,7 +3,8 @@ package com.snobot;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import javax.swing.SwingUtilities;
@@ -28,25 +29,6 @@ public class Main
     private static final String sPROPERTIES_FILE = "simulator_config.properties";
     private static final String sNETWORK_ERROR_MSG = "NetworkTable could not be initialized: java.net.BindException: Address already in use: JVM_Bind: Address already in use: JVM_Bind";
 
-    private static final String sDEFAULT_PROPERTIES_FILE_COMMENT =
-            // Snobot class
-            "Uncomment whichever lines you want to simulate\n\n" +
-            "REAL ROBOT\n" +
-            "robot_class=com.snobot.Snobot\n" +
-            "simulator_class=com.snobot.Snobot2015Simulator\n" +
-            "simulator_config=\n" +
-            "\n" +
-            "TEAM 558\n" +
-            "robot_class=edu.wpi.first.wpilibj.templates.RobotDowneyJr\n" +
-            "simulator_class=com.snobot.Team558Simulator\n" +
-            "simulator_config=\n" +
-            "\n" +
-            "TEST BED\n" +
-            "robot_class=org.usfirst.frc.team174.robot.Snobot\n" +
-            "simulator_class=\n" +
-            "simulator_config=\n" +
-            "\n";
-
     private String class_name = "com.snobot.Snobot";
     private String simulator_classname = "";
     private String simulator_config = "";
@@ -68,15 +50,15 @@ public class Main
         {
             System.err.println("Could not read properties file, will use defaults and will overwrite the file if it exists");
 
-            Properties p = new Properties();
-
-            p.setProperty("robot_class", class_name);
-            p.setProperty("simulator_class", simulator_classname);
-            p.setProperty("simulator_config", simulator_config);
-
             try
             {
-                p.store(new FileOutputStream(new File(sPROPERTIES_FILE)), sDEFAULT_PROPERTIES_FILE_COMMENT);
+                Files.copy(Paths.get("_default_properties.properties"), Paths.get(sPROPERTIES_FILE));
+                Properties p = new Properties();
+                p.load(new FileInputStream(new File(sPROPERTIES_FILE)));
+
+                class_name = p.getProperty("robot_class", class_name);
+                simulator_classname = p.getProperty("simulator_class", simulator_classname);
+                simulator_config = p.getProperty("simulator_config", simulator_config);
             }
             catch (Exception e1)
             {

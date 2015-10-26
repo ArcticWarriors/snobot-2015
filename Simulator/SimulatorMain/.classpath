@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/snobot2015"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/558_2015"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/558_2014"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/2012PracticeBot"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
