@@ -1,13 +1,13 @@
 
-package com.snobot;
+package com.snobot2012;
 
-import com.snobot.drivetrain.SnobotDriveTrain;
-import com.snobot.intake.SnobotIntake;
-import com.snobot.shooter.SnobotShooter;
-import com.snobot.ui.DriverJoystick;
-import com.snobot.ui.OperatorJoystick;
 import com.snobot.xlib.ASnobot;
 import com.snobot.xlib.PropertyManager;
+import com.snobot2012.drivetrain.SnobotDriveTrain;
+import com.snobot2012.intake.SnobotIntake;
+import com.snobot2012.shooter.SnobotShooter;
+import com.snobot2012.ui.DriverJoystick;
+import com.snobot2012.ui.OperatorJoystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Solenoid;

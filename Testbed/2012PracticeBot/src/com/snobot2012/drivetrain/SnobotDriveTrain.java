@@ -1,8 +1,8 @@
-package com.snobot.drivetrain;
+package com.snobot2012.drivetrain;
 
-import com.snobot.SmartDashboardNames;
-import com.snobot.ui.DriverJoystick;
 import com.snobot.xlib.ISubsystem;
+import com.snobot2012.SmartDashboardNames;
+import com.snobot2012.ui.DriverJoystick;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;

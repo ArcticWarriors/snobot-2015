@@ -1,9 +1,9 @@
-package com.snobot.shooter;
+package com.snobot2012.shooter;
 
-import com.snobot.SmartDashboardNames;
-import com.snobot.ui.OperatorJoystick;
 import com.snobot.xlib.ISubsystem;
 import com.snobot.xlib.SinglePressButton;
+import com.snobot2012.SmartDashboardNames;
+import com.snobot2012.ui.OperatorJoystick;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;

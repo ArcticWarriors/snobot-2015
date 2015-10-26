@@ -1,8 +1,8 @@
-package com.snobot.intake;
+package com.snobot2012.intake;
 
-import com.snobot.SmartDashboardNames;
-import com.snobot.ui.OperatorJoystick;
 import com.snobot.xlib.ISubsystem;
+import com.snobot2012.SmartDashboardNames;
+import com.snobot2012.ui.OperatorJoystick;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

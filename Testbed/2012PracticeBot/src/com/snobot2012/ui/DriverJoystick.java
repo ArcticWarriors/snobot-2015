@@ -1,4 +1,4 @@
-package com.snobot.ui;
+package com.snobot2012.ui;
 
 import com.snobot.xlib.XboxButtonMap;
 

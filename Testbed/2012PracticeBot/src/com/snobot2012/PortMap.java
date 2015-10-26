@@ -1,4 +1,4 @@
-package com.snobot;
+package com.snobot2012;
 
 public class PortMap
 {
