@@ -9,4 +9,6 @@ from . import views
 
 urlpatterns = [
                url(r'^$', views.index, name='index'),
+               url(r'^teams$', views.all_teams, name='all_teams'),
+               url(r'^teams/(?P<team_id>[0-9]+)$', views.view_team, name='view_team'),
               ]
