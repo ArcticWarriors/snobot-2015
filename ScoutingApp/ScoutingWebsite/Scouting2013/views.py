@@ -25,3 +25,13 @@ def view_team(request, team_id):
     context = {"team": this_team}
 
     return render(request, 'Scouting2013/single_team.html', context)
+
+
+def all_matches(request):
+
+    return render(request, 'Scouting2013/all_matches.html')
+
+
+def view_match(request):
+
+    return render(request, 'Scouting2013/single_match.html')
