@@ -43,7 +43,7 @@ if __name__ == "__main__":
     plot_pattern = "*"
     plot_pattern = "*"
 
-    path_dir = r"../snobot2015/resources/paths/"
+    path_dir = r"../RobotCode/snobot2015/resources/paths/"
 
     for root, _, files in os.walk(path_dir):
         for f in files:

@@ -67,7 +67,9 @@ if __name__ == "__main__":
 
     path_files = []
 
-    path_dir = r"../snobot2015/resources/paths/"
+    path_dir = r"../RobotCode/snobot2015/resources/paths/"
+    
+    print "Looking for paths from %s" % os.path.abspath(path_dir)
 
     for root, _, files in os.walk(path_dir):
         for f in files:
