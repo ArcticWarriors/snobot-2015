@@ -61,6 +61,6 @@ public interface IDriverJoystick extends ISubsystem
 
     boolean getDriveBackward();
 
-    boolean isSmarturDriving();
+    boolean isReducedSpeedMode();
 
 }

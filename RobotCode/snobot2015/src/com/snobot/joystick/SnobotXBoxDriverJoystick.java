@@ -152,7 +152,7 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     }
 
     @Override
-    public boolean isSmarturDriving()
+    public boolean isReducedSpeedMode()
     {
         // TODO Auto-generated method stub
         return mXBoxStick.getRawButton(XboxButtonMap.RB_BUTTON);

@@ -156,7 +156,7 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     }
 
     @Override
-    public boolean isSmarturDriving()
+    public boolean isReducedSpeedMode()
     {
         // TODO Auto-generated method stub
         return false;
