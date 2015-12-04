@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Alec
  *
  */
-public class SnobotPosition implements ISubsystem
+public class SnobotPosition implements ISubsystem, IPositioner
 {
 
     /**
@@ -158,41 +158,37 @@ public class SnobotPosition implements ISubsystem
         mLastDistance = total_distance;
     }
 
-    /**
-     * Calculates the value of mRadianRotation in degrees
-     * 
-     * @return mRadianRotation in human-friendly degrees
+    /* (non-Javadoc)
+     * @see com.snobot.position.IPositioner#getSnobotDegrees()
      */
+    @Override
     public double getSnobotDegrees()
     {
         return Math.toDegrees(this.mRadianRotation);
     }
 
-    /**
-     * Gets Snobot's X-position from mPositionX
-     * 
-     * @return Snobot's X-position
+    /* (non-Javadoc)
+     * @see com.snobot.position.IPositioner#getSnobotX()
      */
+    @Override
     public double getSnobotX()
     {
         return this.mPositionX;
     }
 
-    /**
-     * Gets Snobot's Y-position from mPositionY
-     * 
-     * @return Snobot's Y-position
+    /* (non-Javadoc)
+     * @see com.snobot.position.IPositioner#getSnobotY()
      */
+    @Override
     public double getSnobotY()
     {
         return this.mPositionY;
     }
 
-    /**
-     * Gets Snobot's radian rotation from mRadianRotation
-     * 
-     * @return Snobot's rotation in radians
+    /* (non-Javadoc)
+     * @see com.snobot.position.IPositioner#getSnobotRadians()
      */
+    @Override
     public double getSnobotRadians()
     {
         return this.mRadianRotation;
@@ -208,16 +204,18 @@ public class SnobotPosition implements ISubsystem
         return this.mDeltaDistance;
     }
 
-    /**
-     * Gets the total distance traveled
-     * 
-     * @return The total distance traveled by Snobot
+    /* (non-Javadoc)
+     * @see com.snobot.position.IPositioner#getTotalDistance()
      */
     public double getTotalDistance()
     {
         return this.mLastDistance;
     }
 
+    /* (non-Javadoc)
+     * @see com.snobot.position.IPositioner#setPosition(double, double, double)
+     */
+    @Override
     public void setPosition(double aX, double aY, double aAngle)
     {
         setSnobotXPosition(aX);
@@ -230,34 +228,28 @@ public class SnobotPosition implements ISubsystem
         System.out.println("Reseting position");
     }
 
-    /**
-     * Sets Snobot's X-position
-     * 
-     * @param aXPosition
-     *            Snobot's new X-position
+    /* (non-Javadoc)
+     * @see com.snobot.position.IPositioner#setSnobotXPosition(double)
      */
+    @Override
     public void setSnobotXPosition(double aXPosition)
     {
         this.mPositionX = aXPosition;
     }
 
-    /**
-     * Sets Snobot's Y-position
-     * 
-     * @param aYPosition
-     *            Snobot's new Y-position
+    /* (non-Javadoc)
+     * @see com.snobot.position.IPositioner#setSnobotYPosition(double)
      */
+    @Override
     public void setSnobotYPosition(double aYPosition)
     {
         this.mPositionY = aYPosition;
     }
 
-    /**
-     * Sets Snobot's orientation
-     * 
-     * @param aDegrees
-     *            Snobot's new orientation in degrees
+    /* (non-Javadoc)
+     * @see com.snobot.position.IPositioner#setSnobotDegreeRotation(double)
      */
+    @Override
     public void setSnobotDegreeRotation(double aDegrees)
     {
         mInitialRotationDegrees = aDegrees;

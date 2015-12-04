@@ -15,6 +15,7 @@ import com.snobot.joystick.SnobotXBoxDriverJoystick;
 import com.snobot.logger.Logger;
 import com.snobot.operatorjoystick.IOperatorJoystick;
 import com.snobot.operatorjoystick.SnobotOperatorJoystick;
+import com.snobot.position.IPositioner;
 import com.snobot.position.SnobotPosition;
 import com.snobot.rake.IRake;
 import com.snobot.rake.SnobotRake;
@@ -317,7 +318,7 @@ public class Snobot extends ASnobot
         return this.mDriveTrain;
     }
 
-    public SnobotPosition getPositioner()
+    public IPositioner getPositioner()
     {
         return this.mPositioner;
     }

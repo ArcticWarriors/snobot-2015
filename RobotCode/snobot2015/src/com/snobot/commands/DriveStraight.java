@@ -2,25 +2,25 @@ package com.snobot.commands;
 
 import com.snobot.Properties2015;
 import com.snobot.drivetrain.IDriveTrain;
-import com.snobot.position.SnobotPosition;
+import com.snobot.position.IPositioner;
 import com.snobot.xlib.InDeadbandHelper;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveForwardSmartur extends Command
+public class DriveStraight extends Command
 {
     private double mSpeed;
     private double mError;
 
     private final double mDesiredDistance;
     private final IDriveTrain mDriveTrain;
-    private final SnobotPosition mPosition;
+    private final IPositioner mPosition;
     private double mStartingDistance;
     boolean mFinished;
 
     private InDeadbandHelper mDbHelper;
 
-    public DriveForwardSmartur(double aDistance, IDriveTrain aDriveTrain, SnobotPosition aPosition)
+    public DriveStraight(double aDistance, IDriveTrain aDriveTrain, IPositioner aPosition)
     {
         mDesiredDistance = aDistance;
         mDriveTrain = aDriveTrain;

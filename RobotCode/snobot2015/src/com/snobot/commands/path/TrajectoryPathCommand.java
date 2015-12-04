@@ -1,4 +1,4 @@
-package com.snobot.commands;
+package com.snobot.commands.path;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
 import com.snobot.drivetrain.IDriveTrain;
-import com.snobot.position.SnobotPosition;
+import com.snobot.position.IPositioner;
 import com.snobot.xlib.Utilities;
 import com.snobot.xlib.path.spline.TrajectoryFollower;
 import com.team254.lib.trajectory.IdealSplineSerializer;
@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TrajectoryPathCommand extends Command
 {
     private IDriveTrain mDrivetrain;
-    private SnobotPosition mSnobotPosition;
+    private IPositioner mPositioner;
     private TrajectoryFollower followerLeft = new TrajectoryFollower("left");
     private TrajectoryFollower followerRight = new TrajectoryFollower("right");
     private Path mPath;
@@ -32,10 +32,10 @@ public class TrajectoryPathCommand extends Command
     private double mLastLeftDistance;
     private double mLastRightDistance;
 
-    public TrajectoryPathCommand(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, Path aPath)
+    public TrajectoryPathCommand(IDriveTrain aDrivetrain, IPositioner aPositioner, Path aPath)
     {
         mDrivetrain = aDrivetrain;
-        mSnobotPosition = aSnobotPosition;
+        mPositioner = aPositioner;
         mPath = aPath;
 
         double kP = Properties2015.sDRIVE_PATH_KP.getValue();
@@ -75,7 +75,7 @@ public class TrajectoryPathCommand extends Command
         double speedRight = followerRight.calculate(distanceR);
 
         double goalHeading = Math.toDegrees(followerLeft.getHeading());
-        double observedHeading = mSnobotPosition.getSnobotDegrees();
+        double observedHeading = mPositioner.getSnobotDegrees();
 
         double angleDiff = Utilities.getDifferenceInAngleDegrees(observedHeading, goalHeading);
 

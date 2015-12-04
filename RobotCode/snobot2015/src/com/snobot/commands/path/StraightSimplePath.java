@@ -1,10 +1,10 @@
-package com.snobot.commands;
+package com.snobot.commands.path;
 
 import java.util.List;
 
 import com.snobot.Properties2015;
 import com.snobot.drivetrain.IDriveTrain;
-import com.snobot.position.SnobotPosition;
+import com.snobot.position.IPositioner;
 import com.snobot.xlib.path.SimplePathPoint;
 import com.snobot.xlib.path.simple.SimplePathFollower;
 import com.snobot.xlib.path.simple.SimplePathGenerator;
@@ -14,21 +14,21 @@ import edu.wpi.first.wpilibj.command.Command;
 public class StraightSimplePath extends Command
 {
     private IDriveTrain mDrivetrain;
-    private SnobotPosition mSnobotPosition;
+    private IPositioner mPositioner;
     private List<SimplePathPoint> mListPoints;
     private SimplePathFollower mSimplePathFollower;
     private double mStartingDistance;
 
-    public StraightSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, double aMaxVelocity, double aMaxAccel, double aPosition,
+    public StraightSimplePath(IDriveTrain aDrivetrain, IPositioner aPositioner, double aMaxVelocity, double aMaxAccel, double aPosition,
             double aDt)
     {
-        this(aDrivetrain, aSnobotPosition, new SimplePathGenerator().generate(aMaxVelocity, aMaxAccel, aPosition, aDt));
+        this(aDrivetrain, aPositioner, new SimplePathGenerator().generate(aMaxVelocity, aMaxAccel, aPosition, aDt));
     }
 
-    public StraightSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, List<SimplePathPoint> aListPoints)
+    public StraightSimplePath(IDriveTrain aDrivetrain, IPositioner aPositioner, List<SimplePathPoint> aListPoints)
     {
         mDrivetrain = aDrivetrain;
-        mSnobotPosition = aSnobotPosition;
+        mPositioner = aPositioner;
         mListPoints = aListPoints;
 
         double kP = Properties2015.sDRIVE_PATH_KP.getValue();
@@ -43,13 +43,13 @@ public class StraightSimplePath extends Command
     protected void initialize()
     {
         mSimplePathFollower.init();
-        mStartingDistance = mSnobotPosition.getTotalDistance();
+        mStartingDistance = mPositioner.getTotalDistance();
     }
 
     @Override
     protected void execute()
     {
-        double motorPower = mSimplePathFollower.calculate(mSnobotPosition.getTotalDistance() - mStartingDistance);
+        double motorPower = mSimplePathFollower.calculate(mPositioner.getTotalDistance() - mStartingDistance);
         mDrivetrain.setMotorSpeed(motorPower, motorPower);
     }
 

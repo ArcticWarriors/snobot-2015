@@ -2,13 +2,13 @@ package com.snobot.commands;
 
 import com.snobot.Properties2015;
 import com.snobot.drivetrain.IDriveTrain;
-import com.snobot.position.SnobotPosition;
+import com.snobot.position.IPositioner;
 import com.snobot.xlib.InDeadbandHelper;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveRotateSmartur extends Command
+public class DriveRotate extends Command
 {
     private double mError;
     private double mSpeed;
@@ -16,7 +16,7 @@ public class DriveRotateSmartur extends Command
     private final double mDesiredDegree;
     private boolean mFinished;
     private final IDriveTrain mDriveTrain;
-    private final SnobotPosition mPosition;
+    private final IPositioner mPosition;
 
     private InDeadbandHelper mDbHelper;
     private Timer timeout = new Timer();
@@ -25,13 +25,13 @@ public class DriveRotateSmartur extends Command
      * Creates DriveRotate command object
      * 
      * @param aDegree
-     *            -Degree specified to turn to
+     *            Degree specified to turn to
      * @param aDriveTrain
-     *            -SnobotDriveTrain class
+     *            Drivetrain class
      * @param aPosition
-     *            -SnobotPosition class
+     *            Position calculating class
      */
-    public DriveRotateSmartur(double aDegree, IDriveTrain aDriveTrain, SnobotPosition aPosition)
+    public DriveRotate(double aDegree, IDriveTrain aDriveTrain, IPositioner aPosition)
     {
         super(5);
         mDesiredDegree = aDegree;

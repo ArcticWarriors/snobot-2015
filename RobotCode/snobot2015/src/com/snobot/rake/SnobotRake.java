@@ -57,7 +57,6 @@ public class SnobotRake implements IRake
         if (mLimitSwitchPressed && speed > 0)
         {
             mRakeMotor.set(0);
-            System.out.println("STOPPING RAKE");
         }
         else
         {
