@@ -20,8 +20,6 @@ public class SmartDashboardNames
     public static final String sCLAW_ARM_SOLENOID = "ClawArmSolenoid";
 
     // OI
-    public static final String sJOYSTICK_MODE_XBOX = "Xboxmode";
-    public static final String sJOYSTICKMODE_FLIGHTSTICK = "FlightstickMode";
     public static final String sJOYSTICK_MODE = "JoystickMode";
 
     // Positioning

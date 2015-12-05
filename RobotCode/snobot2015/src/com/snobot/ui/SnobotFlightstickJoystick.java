@@ -52,25 +52,11 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public void update()
     {
-        if (mRightFlightStick.getRawButton(Properties2015.sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK.getValue()))
-        {
-            mDriveMode = DriveMode.Tank;
-        }
-        // else if
-        // (mRightFlightStick.getRawButton(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_BUTTON_SWITCH_TO_ARCADE,
-        // 5)))
-        // {
-        // mDriveMode = DriveMode.Arcade;
-        // }
-
         mTankLeftYAxis = mLeftFlightStick.getRawAxis(Properties2015.sFLIGHTSTICKS_Y_AXIS.getValue());
         mTankRightYAxis = mRightFlightStick.getRawAxis(Properties2015.sFLIGHTSTICKS_Y_AXIS.getValue());
-        // mArcadeLeftSpeed =
-        // mLeftFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_Y_AXIS,
-        // 1));
-        // mArcadeRightRotation =
-        // mRightFlightStick.getRawAxis(ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sFLIGHTSTICKS_X_AXIS,
-        // 0));
+
+        mArcadeLeftSpeed = mLeftFlightStick.getRawAxis(Properties2015.sFLIGHTSTICKS_Y_AXIS.getValue());
+        mArcadeRightRotation = mRightFlightStick.getRawAxis(Properties2015.sFLIGHTSTICKS_X_AXIS.getValue());
     }
 
     @Override
@@ -144,7 +130,6 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     @Override
     public boolean getDriveForward()
     {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -160,6 +145,13 @@ public class SnobotFlightstickJoystick implements IDriverJoystick
     {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public void setDriveMode(DriveMode aDriveMode)
+    {
+        // TODO Auto-generated method stub
+
     }
 
 }

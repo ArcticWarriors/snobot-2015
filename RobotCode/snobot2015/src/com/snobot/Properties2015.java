@@ -24,8 +24,8 @@ public class Properties2015
     public static final IntegerProperty sDRIVER_FLIGHTSTICK_2_PORT = new IntegerProperty("DriverFlightstick2Port", 2);
 
     // Flightsticks Driving
+    public static final IntegerProperty sFLIGHTSTICKS_X_AXIS = new IntegerProperty("FlightsticksXAxis", 2);
     public static final IntegerProperty sFLIGHTSTICKS_Y_AXIS = new IntegerProperty("FlightsticksYAxis", 1);
-    public static final IntegerProperty sFLIGHTSTICKS_BUTTON_SWITCH_TO_TANK = new IntegerProperty("FlighstickButtonSwitchToTank", 4);
 
     // Operator XBox
     public static final IntegerProperty sXBOX_BUTTON_CLAW_OPEN = new IntegerProperty("XboxClawOpenButton", XboxButtonMap.RB_BUTTON);

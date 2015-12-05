@@ -49,20 +49,16 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public void update()
     {
-        // if (mXBoxStick.getRawButton(mTankMode))
-        // {
-        // mDriveMode = DriveMode.Tank;
-        // }
-        // else if (mXBoxStick.getRawButton(mArcadeMode))
-        // {
-        // mDriveMode = DriveMode.Arcade;
-        // }
-
         mTankLeftYAxis = -mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
         mTankRightYAxis = -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
-        // mArcadeLeftSpeed = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
-        // mArcadeRightRotation =
-        // -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
+        mArcadeLeftSpeed = mXBoxStick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        mArcadeRightRotation = -mXBoxStick.getRawAxis(XboxButtonMap.RIGHT_X_AXIS);
+    }
+
+    @Override
+    public void setDriveMode(DriveMode aDriveMode)
+    {
+        mDriveMode = aDriveMode;
     }
 
     @Override
@@ -73,12 +69,6 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public void rereadPreferences()
     {
-        // mTankMode =
-        // ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_TANK_MODE,
-        // XboxButtonMap.A_BUTTON);
-        // mArcadeMode =
-        // ConfigurationNames.getOrSetPropertyInt(ConfigurationNames.sXBOX_BUTTON_ARCADE_MODE,
-        // XboxButtonMap.B_BUTTON);
     }
 
     @Override
@@ -154,7 +144,6 @@ public class SnobotXBoxDriverJoystick implements IDriverJoystick
     @Override
     public boolean isReducedSpeedMode()
     {
-        // TODO Auto-generated method stub
         return mXBoxStick.getRawButton(XboxButtonMap.RB_BUTTON);
     }
 }

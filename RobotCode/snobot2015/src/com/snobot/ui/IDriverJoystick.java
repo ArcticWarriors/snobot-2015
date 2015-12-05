@@ -57,6 +57,12 @@ public interface IDriverJoystick extends ISubsystem
      */
     DriveMode getDriveMode();
 
+    /**
+     * 
+     * @return drive mode (Tank/Arcade)
+     */
+    void setDriveMode(DriveMode aDriveMode);
+
     boolean getDriveForward();
 
     boolean getDriveBackward();

@@ -16,11 +16,10 @@ import com.snobot.rake.IRake;
 import com.snobot.rake.SnobotRake;
 import com.snobot.stacker.IStacker;
 import com.snobot.stacker.SnobotStacker;
+import com.snobot.ui.DynamicDriverJoystick;
 import com.snobot.ui.IDriverJoystick;
 import com.snobot.ui.IOperatorJoystick;
-import com.snobot.ui.SnobotFlightstickJoystick;
 import com.snobot.ui.SnobotOperatorJoystick;
-import com.snobot.ui.SnobotXBoxDriverJoystick;
 import com.snobot.xlib.ASnobot;
 import com.snobot.xlib.ISubsystem;
 import com.snobot.xlib.PropertyManager;
@@ -143,8 +142,6 @@ public class Snobot extends ASnobot
         int claw_solenoid_port = Properties2015.sCLAW_HAND_SOLENOID.getValue();
         int arm_solenoid_port = Properties2015.sCLAW_ARM_SOLENOID.getValue();
 
-        String joystickType = SmartDashboardNames.sJOYSTICK_MODE_XBOX;
-
         // Save these port mappings before you try to start the robot in case
         // there are conflicts
         PropertyManager.saveIfUpdated();
@@ -161,17 +158,9 @@ public class Snobot extends ASnobot
         mRawOperatorJoystick = new Joystick(operator_joystick_port);
         mOperatorJoystick = new SnobotOperatorJoystick(mRawOperatorJoystick);
 
-        if (joystickType.equals(SmartDashboardNames.sJOYSTICK_MODE_XBOX))
-        {
-            mRawDriverJoystickPrimary = new Joystick(driver_joystick_1_port);
-            mDriverJoystick = new SnobotXBoxDriverJoystick(mRawDriverJoystickPrimary, mLogger);
-        }
-        else
-        {
-            mRawDriverJoystickPrimary = new Joystick(driver_joystick_1_port);
-            mRawDriverJoystickSecondary = new Joystick(driver_joystick_2_port);
-            mDriverJoystick = new SnobotFlightstickJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
-        }
+        mRawDriverJoystickPrimary = new Joystick(driver_joystick_1_port);
+        mRawDriverJoystickSecondary = new Joystick(driver_joystick_2_port);
+        mDriverJoystick = new DynamicDriverJoystick(mRawDriverJoystickPrimary, mRawDriverJoystickSecondary, mLogger);
 
         // Rake
         mRakeMotor = new Talon(rake_motor_port);
