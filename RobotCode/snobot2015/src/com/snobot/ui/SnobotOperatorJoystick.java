@@ -1,4 +1,4 @@
-package com.snobot.operatorjoystick;
+package com.snobot.ui;
 
 import com.snobot.Properties2015;
 import com.snobot.xlib.ToggleButton;
@@ -204,7 +204,7 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
     }
 
     @Override
-    public void setRumble(Boolean aRumbleOn)
+    public void setRumble(boolean aRumbleOn)
     {
 
         float lRumbleMagnitude = 0;
@@ -215,12 +215,6 @@ public class SnobotOperatorJoystick implements IOperatorJoystick
 
         mOperatorJoystick.setRumble(RumbleType.kLeftRumble, lRumbleMagnitude);
         mOperatorJoystick.setRumble(RumbleType.kRightRumble, lRumbleMagnitude);
-    }
-
-    @Override
-    public boolean getStackerToFloorButton()
-    {
-        return mOperatorJoystick.getRawButton(mMoveStackerToFloorButton);
     }
 
 }

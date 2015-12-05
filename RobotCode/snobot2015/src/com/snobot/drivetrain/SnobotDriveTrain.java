@@ -2,8 +2,8 @@ package com.snobot.drivetrain;
 
 import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
-import com.snobot.joystick.IDriverJoystick;
 import com.snobot.logger.Logger;
+import com.snobot.ui.IDriverJoystick;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;

@@ -3,7 +3,7 @@ package com.snobot.claw;
 import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
-import com.snobot.operatorjoystick.IOperatorJoystick;
+import com.snobot.ui.IOperatorJoystick;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Solenoid;

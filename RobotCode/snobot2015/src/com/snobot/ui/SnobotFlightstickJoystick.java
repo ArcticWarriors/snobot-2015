@@ -1,4 +1,4 @@
-package com.snobot.joystick;
+package com.snobot.ui;
 
 import com.snobot.Properties2015;
 import com.snobot.logger.Logger;

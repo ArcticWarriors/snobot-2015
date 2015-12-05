@@ -1,4 +1,4 @@
-package com.snobot.joystick;
+package com.snobot.ui;
 
 import com.snobot.logger.Logger;
 import com.snobot.xlib.XboxButtonMap;

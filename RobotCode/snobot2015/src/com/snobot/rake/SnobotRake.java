@@ -2,7 +2,7 @@ package com.snobot.rake;
 
 import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
-import com.snobot.operatorjoystick.IOperatorJoystick;
+import com.snobot.ui.IOperatorJoystick;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.SpeedController;

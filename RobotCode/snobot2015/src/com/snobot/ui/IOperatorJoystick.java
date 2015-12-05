@@ -1,4 +1,4 @@
-package com.snobot.operatorjoystick;
+package com.snobot.ui;
 
 import com.snobot.xlib.ISubsystem;
 
@@ -10,8 +10,6 @@ import com.snobot.xlib.ISubsystem;
  */
 public interface IOperatorJoystick extends ISubsystem
 {
-    // TODO comments
-    public boolean getStackerToFloorButton();
 
     /**
      * Asks if stacker is up
@@ -63,40 +61,36 @@ public interface IOperatorJoystick extends ISubsystem
     public double getMoveRake();
 
     /**
-     * Perform initialization
+     * True if the operator wants to move the stacker to the floor position
      * 
+     * @return True if move is desired
      */
-
     public boolean getMoveToFloor();
 
     /**
-     * True if moveToFloor button is pressed
+     * True if the operator wants to move the stacker to the scoring position
      * 
-     * @return
+     * @return True if move is desired
      */
-
     public boolean getMoveToScoring();
 
     /**
-     * True if moveToScoring button is pressed
+     * True if the operator wants to move the stacker to the the position above one tote position
      * 
-     * @return
+     * @return True if move is desired
      */
-
     public boolean getMoveToOneStack();
 
     /**
-     * True if moveToOneStack button is pressed
+     * True if the operator wants to move the stacker to the floor position
      * 
-     * @return
+     * @return True if move is desired
      */
-
     public double getJoystickValue();
 
     /**
      * Gets value of Joystick to set as stacker speed
      */
-
     @Override
     void init();
 
@@ -140,7 +134,7 @@ public interface IOperatorJoystick extends ISubsystem
      * 
      * @return True if the controller should rumble and false if it should not
      */
-    void setRumble(Boolean aRumbleOn);
+    void setRumble(boolean aRumbleOn);
 
     public abstract boolean getMoveToCoopHeight();
 
