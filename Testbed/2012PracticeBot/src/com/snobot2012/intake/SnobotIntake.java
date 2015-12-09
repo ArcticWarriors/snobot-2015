@@ -10,12 +10,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class SnobotIntake implements ISubsystem
 {
 
-    private SpeedController mIntakeMotor;
+    private SpeedController mIntakeMotorUpper;
+    private SpeedController mIntakeMotorLower;
     private OperatorJoystick mIntakeJoystick;
 
-    public SnobotIntake(SpeedController aController, OperatorJoystick aJoystick)
+    public SnobotIntake(SpeedController aIntakeLower, SpeedController aIntakeUpper, OperatorJoystick aJoystick)
     {
-        mIntakeMotor = aController;
+        mIntakeMotorLower = aIntakeLower;
+        mIntakeMotorUpper = aIntakeUpper;
         mIntakeJoystick = aJoystick;
     }
 
@@ -32,14 +34,8 @@ public class SnobotIntake implements ISubsystem
     @Override
     public void control()
     {
-        if (mIntakeJoystick.useIntake())
-        {
-            mIntakeMotor.set(1);
-        }
-        else
-        {
-            stop();
-        }
+        mIntakeMotorLower.set(mIntakeJoystick.useIntakeLower());
+        mIntakeMotorUpper.set(mIntakeJoystick.useIntakeUpper());
     }
 
     @Override
@@ -50,7 +46,8 @@ public class SnobotIntake implements ISubsystem
     @Override
     public void updateSmartDashboard()
     {
-        SmartDashboard.putNumber(SmartDashboardNames.INTAKE_SPEED, mIntakeMotor.get());
+        SmartDashboard.putNumber(SmartDashboardNames.INTAKE_SPEED_LOWER, mIntakeMotorLower.get());
+        SmartDashboard.putNumber(SmartDashboardNames.INTAKE_SPEED_UPPER, mIntakeMotorUpper.get());
 
     }
 

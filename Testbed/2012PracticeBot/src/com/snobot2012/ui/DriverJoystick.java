@@ -15,11 +15,11 @@ public class DriverJoystick
 
     public double getLeftThrottle()
     {
-        return mJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
+        return -mJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
     }
 
     public double getRightThrottle()
     {
-        return mJoystick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
+        return -mJoystick.getRawAxis(XboxButtonMap.RIGHT_Y_AXIS);
     }
 }

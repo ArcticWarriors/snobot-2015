@@ -51,14 +51,14 @@ public class SnobotShooter implements ISubsystem
             motorSpeed -= 0.1;
 		}
 		
-        if (motorSpeed > 1)
-		{
-            motorSpeed = 1;
-		}
-        else if (motorSpeed < -1)
+        if (motorSpeed < -1)
 		{
             motorSpeed = -1;
 		}
+        else if (motorSpeed > 0)
+        {
+            motorSpeed = 0;
+        }
 		
         mShooterMotor.set(motorSpeed);
 		

@@ -37,7 +37,8 @@ public class Snobot2012 extends ASnobot
 	private SnobotDriveTrain mDriveTrain;
 	
     // Intake
-    private SpeedController mIntakeMotor;
+    private SpeedController mUpperIntakeMotor;
+    private SpeedController mLowerIntakeMotor;
     private SnobotIntake mIntake;
 
     // UI
@@ -69,13 +70,16 @@ public class Snobot2012 extends ASnobot
         mDriveTrain = new SnobotDriveTrain(mLeftMotor, mRightMotor, mDriverController);
     	
         // Intake
-        mIntakeMotor = new Talon(PortMap.sINTAKE_MOTOR);
-        mIntake = new SnobotIntake(mIntakeMotor, mOperatorController);
+        mUpperIntakeMotor = new Talon(PortMap.sUPPER_INTAKE_MOTOR);
+        mLowerIntakeMotor = new Talon(PortMap.sLOWER_INTAKE_MOTOR);
+        mIntake = new SnobotIntake(mLowerIntakeMotor, mUpperIntakeMotor, mOperatorController);
+
     	
         mSubsystems = new ArrayList<>();
     	mSubsystems.add(mDriveTrain);
         mSubsystems.add(mShooter);
         mSubsystems.add(mIntake);
+
     	
         init();
         rereadPreferences();

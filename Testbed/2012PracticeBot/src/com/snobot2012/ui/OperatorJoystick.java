@@ -13,10 +13,30 @@ public class OperatorJoystick
         mJoystick = aJoystick;
     }
 
-    public boolean useIntake()
+    public double useIntakeLower()
     {
-        return mJoystick.getRawAxis(XboxButtonMap.LEFT_TRIGGER) > 0;
+        return mJoystick.getRawAxis(XboxButtonMap.LEFT_Y_AXIS);
     }
+
+    public double useIntakeUpper()
+    {
+        double intakeMotorUpperSpeed = 0;
+        if (mJoystick.getRawButton(XboxButtonMap.Y_BUTTON))
+        {
+            intakeMotorUpperSpeed = 1;
+        }
+        else if (mJoystick.getRawButton(XboxButtonMap.A_BUTTON))
+        {
+            intakeMotorUpperSpeed = -1;
+        }
+        else
+        {
+            intakeMotorUpperSpeed = 0;
+        }
+
+        return intakeMotorUpperSpeed;
+    }
+
 
     public boolean incrementShooterSpeed()
     {
@@ -30,7 +50,7 @@ public class OperatorJoystick
 
     public boolean shootButton()
     {
-        return mJoystick.getRawAxis(XboxButtonMap.RIGHT_TRIGGER) > 0;
+        return mJoystick.getRawButton(XboxButtonMap.RB_BUTTON);
     }
 
 }
