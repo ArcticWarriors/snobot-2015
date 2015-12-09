@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from Scouting2013.models import Team
+from Scouting2013.models import Team, Match
 
 # Create your views here.
 
@@ -11,9 +11,9 @@ def index(request):
 
 def all_teams(request):
 
-    all_team_types = Team.objects.all()
+    all_teams = Team.objects.all()
 
-    context = {"teams": all_team_types}
+    context = {"teams": all_teams}
 
     return render(request, 'Scouting2013/all_teams.html', context)
 
@@ -28,10 +28,14 @@ def view_team(request, team_id):
 
 
 def all_matches(request):
+    
+    all_matches = Match.objects.all()
 
-    return render(request, 'Scouting2013/all_matches.html')
+    context = {"matches": all_matches}
+
+    return render(request, 'Scouting2013/all_matches.html', context)
 
 
-def view_match(request):
+def view_match(request,match_id):
 
     return render(request, 'Scouting2013/single_match.html')

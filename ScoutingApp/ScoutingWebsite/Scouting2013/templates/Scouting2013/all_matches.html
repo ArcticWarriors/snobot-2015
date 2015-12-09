@@ -8,8 +8,20 @@
 
 
 <body>
-
 <h1> List of Matches</h1>
+<table border = 1>
+<tr>
+<th> Match Number </th>
+</tr>
+{% for match in matches %}
+	<tr>
+	<td> <a href = "/2013/match/{{match.id}}">{{ match.matchNumber }} </a> </td>
+	</tr>
+{% endfor %}
+
+
+</table>
+
 
 
 </body>
