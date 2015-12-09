@@ -5,7 +5,7 @@
 	<classpathentry kind="lib" path="jinput-test.jar"/>
 	<classpathentry kind="lib" path="jinput.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="MockWpiLib"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="2015MockWpi"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="jcommon-1.0.17.jar"/>

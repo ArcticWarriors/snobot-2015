@@ -3,7 +3,7 @@ package com.snobot.stacker;
 import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
 import com.snobot.logger.Logger;
-import com.snobot.operatorjoystick.IOperatorJoystick;
+import com.snobot.ui.IOperatorJoystick;
 import com.snobot.xlib.PropertyManager.DoubleProperty;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -225,11 +225,10 @@ public class SnobotStacker implements IStacker
             moveStackerDown();
         }
 
-        else if (mOperatorJoystick.getStackerToFloorButton())
+        else if (mOperatorJoystick.getMoveToFloor())
         {
             moveStackerToGround();
         }
-
         else if (mOperatorJoystick.getMoveToScoring())
         {
             moveStackerToScoringPlatform();
@@ -242,6 +241,7 @@ public class SnobotStacker implements IStacker
         {
             moveStackerToCoopHeight();
         }
+
         else
         {
             stop();

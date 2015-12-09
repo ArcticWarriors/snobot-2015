@@ -1,10 +1,10 @@
-package com.snobot.commands;
+package com.snobot.commands.path;
 
 import java.util.List;
 
 import com.snobot.Properties2015;
 import com.snobot.drivetrain.IDriveTrain;
-import com.snobot.position.SnobotPosition;
+import com.snobot.position.IPositioner;
 import com.snobot.xlib.path.SimplePathPoint;
 import com.snobot.xlib.path.simple.SimplePathFollower;
 import com.snobot.xlib.path.simple.SimplePathGenerator;
@@ -14,21 +14,21 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TurnSimplePath extends Command
 {
     private IDriveTrain mDrivetrain;
-    private SnobotPosition mSnobotPosition;
+    private IPositioner mPositioner;
     private List<SimplePathPoint> mListPoints;
     private SimplePathFollower mSimplePathFollower;
     private double mStartingDegrees;
     private double mHackFactor;
 
-    public TurnSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, double aMaxVelocity, double aMaxAccel, double aPosition, double aDt)
+    public TurnSimplePath(IDriveTrain aDrivetrain, IPositioner aPositioner, double aMaxVelocity, double aMaxAccel, double aPosition, double aDt)
     {
-        this(aDrivetrain, aSnobotPosition, new SimplePathGenerator().generate(aMaxVelocity, aMaxAccel, aPosition, aDt), 1);
+        this(aDrivetrain, aPositioner, new SimplePathGenerator().generate(aMaxVelocity, aMaxAccel, aPosition, aDt), 1);
     }
 
-    public TurnSimplePath(IDriveTrain aDrivetrain, SnobotPosition aSnobotPosition, List<SimplePathPoint> aListPoints, double aHackFactor)
+    public TurnSimplePath(IDriveTrain aDrivetrain, IPositioner aPositioner, List<SimplePathPoint> aListPoints, double aHackFactor)
     {
         mDrivetrain = aDrivetrain;
-        mSnobotPosition = aSnobotPosition;
+        mPositioner = aPositioner;
         mListPoints = aListPoints;
         mHackFactor = aHackFactor;
 
@@ -46,14 +46,14 @@ public class TurnSimplePath extends Command
     protected void initialize()
     {
         mSimplePathFollower.init();
-        mStartingDegrees = mSnobotPosition.getSnobotDegrees();
+        mStartingDegrees = mPositioner.getSnobotDegrees();
 
     }
 
     @Override
     protected void execute()
     {
-        double motorPower = mSimplePathFollower.calculate(mSnobotPosition.getSnobotDegrees() - mStartingDegrees);
+        double motorPower = mSimplePathFollower.calculate(mPositioner.getSnobotDegrees() - mStartingDegrees);
         mDrivetrain.setMotorSpeed(motorPower, -motorPower);
 
     }

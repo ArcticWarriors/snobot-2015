@@ -1,4 +1,4 @@
-package com.snobot.joystick;
+package com.snobot.ui;
 
 import com.snobot.xlib.ISubsystem;
 
@@ -57,10 +57,16 @@ public interface IDriverJoystick extends ISubsystem
      */
     DriveMode getDriveMode();
 
+    /**
+     * 
+     * @return drive mode (Tank/Arcade)
+     */
+    void setDriveMode(DriveMode aDriveMode);
+
     boolean getDriveForward();
 
     boolean getDriveBackward();
 
-    boolean isSmarturDriving();
+    boolean isReducedSpeedMode();
 
 }

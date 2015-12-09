@@ -4,13 +4,13 @@ import com.snobot.stacker.IStacker;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SmartStack extends Command
+public class MoveStacker extends Command
 {
     private boolean mFinished;
     private int mStackCommandIndex;
     private final IStacker mSnobotStacker;
 
-    public SmartStack(int aStackCommandIndex, IStacker aSnobotStacker)
+    public MoveStacker(int aStackCommandIndex, IStacker aSnobotStacker)
     {
         mFinished = false;
         mStackCommandIndex = aStackCommandIndex;

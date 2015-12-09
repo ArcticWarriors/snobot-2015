@@ -8,9 +8,12 @@ import java.util.List;
 import com.snobot.Properties2015;
 import com.snobot.SmartDashboardNames;
 import com.snobot.Snobot;
-import com.snobot.commands.raw.DriveForward;
-import com.snobot.commands.raw.DriveRotate;
+import com.snobot.commands.path.StraightSimplePath;
+import com.snobot.commands.path.TrajectoryPathCommand;
+import com.snobot.commands.path.TurnSimplePath;
+import com.snobot.commands.raw.RawDriveForward;
 import com.snobot.commands.raw.RawDriveFoward;
+import com.snobot.commands.raw.RawDriveRotate;
 import com.snobot.commands.raw.RawRotateCommand;
 import com.snobot.commands.raw.RawStack;
 import com.snobot.xlib.ACommandParser;
@@ -76,16 +79,16 @@ public class CommandParser extends ACommandParser
                         .setPosition(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)));
                 break;
             case sDRIVE_FORWARD_COMMAND:
-                newCommand = new DriveForward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)),
-                        mSnobot.getDriveTrain(), mSnobot.getPositioner());
+                newCommand = new RawDriveForward(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)),
+                        mSnobot.getDriveTrain());
                 break;
 
             case sDRIVE_FORWARD_SMARTER_COMMAND:
-                newCommand = new DriveForwardSmartur(Double.parseDouble(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
+                newCommand = new DriveStraight(Double.parseDouble(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
                 break;
 
             case sDRIVE_ROTATE_COMMAND:
-                newCommand = new DriveRotate(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)),
+                newCommand = new RawDriveRotate(Double.parseDouble(args.get(1)), Double.parseDouble(args.get(2)), Double.parseDouble(args.get(3)),
                         mSnobot.getDriveTrain(), mSnobot.getPositioner());
                 break;
 
@@ -98,7 +101,7 @@ public class CommandParser extends ACommandParser
                 break;
 
             case sDRIVE_ROTATE_SMARTER_COMMAND:
-                newCommand = new DriveRotateSmartur(Double.parseDouble(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
+                newCommand = new DriveRotate(Double.parseDouble(args.get(1)), mSnobot.getDriveTrain(), mSnobot.getPositioner());
                 break;
 
             case sRAW_STACK_COMMAND:
@@ -114,7 +117,7 @@ public class CommandParser extends ACommandParser
                 break;
 
             case sSMART_STACK_COMMAND:
-                newCommand = new SmartStack(Integer.parseInt(args.get(1)), mSnobot.getSnobotStacker());
+                newCommand = new MoveStacker(Integer.parseInt(args.get(1)), mSnobot.getSnobotStacker());
                 break;
             case sTURN_SIMPLE_COMMAND:
             {

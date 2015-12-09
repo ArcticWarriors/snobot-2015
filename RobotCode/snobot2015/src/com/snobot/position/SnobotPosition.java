@@ -6,6 +6,7 @@ import com.snobot.logger.Logger;
 import com.snobot.xlib.ISubsystem;
 
 import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -14,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author Alec
  *
  */
-public class SnobotPosition implements ISubsystem
+public class SnobotPosition implements ISubsystem, IPositioner
 {
 
     /**
@@ -28,14 +29,14 @@ public class SnobotPosition implements ISubsystem
     private double mPositionY;
 
     /**
+     * The initial rotation of the robot. All gyro angles are measured relative to this.
+     */
+    private double mInitialRotationDegrees;
+
+    /**
      * Snobot's rotation in radians
      */
     private double mRadianRotation;
-
-    /**
-     * Distance traveled by Snobot since last update
-     */
-    private double mDeltaDistance;
 
     /**
      * The total distance saved from the previous update
@@ -43,21 +44,34 @@ public class SnobotPosition implements ISubsystem
     private double mLastDistance;
 
     /**
+     * The instentanous velocity of the robot, calculated by the average distance traveled since the last update
+     */
+    private double mInstantVelocity;
+
+    /**
+     * The time of the last update, retrieved from a {@link Timer}
+     */
+    private double mLastTime;
+
+    /**
      * Gyro-sensor that SnobotPosition uses to calculate direction
      */
-    private Gyro mGyroSensor;
+    private final Gyro mGyroSensor;
 
     /**
      * Snobot's drive-train that SnobotPosition uses to get distance
      */
-    private IDriveTrain mDriveTrain;
+    private final IDriveTrain mDriveTrain;
 
     /**
      * Logger for recording data
      */
-    private Logger mLogger;
+    private final Logger mLogger;
 
-    private double mInitialRotationDegrees;
+    /**
+     * Timer, used to calculate time between calls to update
+     */
+    private final Timer mTimer;
 
     /**
      * Constructs a SnobotPosition object
@@ -82,6 +96,9 @@ public class SnobotPosition implements ISubsystem
         this.mGyroSensor = aGyroSensor;
         this.mDriveTrain = aDriveTrain;
         this.mLogger = aLogger;
+
+        mTimer = new Timer();
+        mTimer.start();
     }
 
     /**
@@ -93,7 +110,7 @@ public class SnobotPosition implements ISubsystem
         this.mLogger.addHeader("X-position");
         this.mLogger.addHeader("Y-position");
         this.mLogger.addHeader("Heading");
-        this.mLogger.addHeader("Traveled");
+        this.mLogger.addHeader("InstantVel");
 
     }
 
@@ -106,7 +123,6 @@ public class SnobotPosition implements ISubsystem
         this.mLogger.updateLogger(mPositionX);
         this.mLogger.updateLogger(mPositionY);
         this.mLogger.updateLogger(this.getSnobotDegrees());
-        this.mLogger.updateLogger(this.mDeltaDistance);
     }
 
     /**
@@ -114,7 +130,7 @@ public class SnobotPosition implements ISubsystem
      * 
      * @return The direction Snobot is facing in radians between 2PI and -2PI
      */
-    private double calculateDirection()
+    private double calculateRotation()
     {
         double gyroDegrees = mInitialRotationDegrees + mGyroSensor.getAngle();
         while (gyroDegrees > 360)
@@ -130,94 +146,60 @@ public class SnobotPosition implements ISubsystem
     }
 
     /**
-     * Calculates the distance traveled by Snobot as the average of the left/right distances
-     * 
-     * @return The distance traveled by Snobot since last update
-     */
-    private double calculateDistanceTraveled()
-    {
-        double distanceRight = this.mDriveTrain.calculateDistanceRight();
-        double distanceLeft = this.mDriveTrain.calculateDistanceLeft();
-
-        return (distanceRight + distanceLeft) / 2;
-    }
-
-    /**
      * Updates member variables with numbers calculated via object methods
      */
     @Override
     public void update()
     {
-        double total_distance = this.calculateDistanceTraveled();
-        this.mDeltaDistance = total_distance - mLastDistance;
+        double distanceRight = mDriveTrain.calculateDistanceRight();
+        double distanceLeft = mDriveTrain.calculateDistanceLeft();
 
-        this.mRadianRotation = this.calculateDirection();
-        this.mPositionX += Math.sin(this.mRadianRotation) * this.mDeltaDistance;
-        this.mPositionY += Math.cos(this.mRadianRotation) * this.mDeltaDistance;
+        double total_distance = (distanceRight + distanceLeft) / 2;
+        double delta_distance = total_distance - mLastDistance;
+
+        double current_time = mTimer.get();
+        double delta_time = current_time - mLastTime;
+
+        mRadianRotation = calculateRotation();
+        mPositionX += Math.sin(mRadianRotation) * delta_distance;
+        mPositionY += Math.cos(mRadianRotation) * delta_distance;
+        mInstantVelocity = delta_distance / delta_time;
 
         mLastDistance = total_distance;
+        mLastTime = current_time;
     }
 
-    /**
-     * Calculates the value of mRadianRotation in degrees
-     * 
-     * @return mRadianRotation in human-friendly degrees
-     */
+    @Override
     public double getSnobotDegrees()
     {
-        return Math.toDegrees(this.mRadianRotation);
+        return Math.toDegrees(mRadianRotation);
     }
 
-    /**
-     * Gets Snobot's X-position from mPositionX
-     * 
-     * @return Snobot's X-position
-     */
+    @Override
     public double getSnobotX()
     {
-        return this.mPositionX;
+        return mPositionX;
     }
 
-    /**
-     * Gets Snobot's Y-position from mPositionY
-     * 
-     * @return Snobot's Y-position
-     */
+    @Override
     public double getSnobotY()
     {
-        return this.mPositionY;
+        return mPositionY;
     }
 
-    /**
-     * Gets Snobot's radian rotation from mRadianRotation
-     * 
-     * @return Snobot's rotation in radians
-     */
+    @Override
     public double getSnobotRadians()
     {
-        return this.mRadianRotation;
+        return mRadianRotation;
     }
 
-    /**
-     * Gets the distance traveled from mDistanceTraveled
-     * 
-     * @return The distance traveled by Snobot since last update
-     */
-    public double getDeltaDistance()
-    {
-        return this.mDeltaDistance;
-    }
-
-    /**
-     * Gets the total distance traveled
-     * 
-     * @return The total distance traveled by Snobot
-     */
+    @Override
     public double getTotalDistance()
     {
-        return this.mLastDistance;
+        return mLastDistance;
     }
 
+    @Override
     public void setPosition(double aX, double aY, double aAngle)
     {
         setSnobotXPosition(aX);
@@ -226,44 +208,38 @@ public class SnobotPosition implements ISubsystem
 
         mDriveTrain.resetEncoders();
         mLastDistance = 0;
-
-        System.out.println("Reseting position");
     }
 
-    /**
-     * Sets Snobot's X-position
-     * 
-     * @param aXPosition
-     *            Snobot's new X-position
-     */
+    @Override
     public void setSnobotXPosition(double aXPosition)
     {
-        this.mPositionX = aXPosition;
+        mPositionX = aXPosition;
     }
 
-    /**
-     * Sets Snobot's Y-position
-     * 
-     * @param aYPosition
-     *            Snobot's new Y-position
-     */
+    @Override
     public void setSnobotYPosition(double aYPosition)
     {
-        this.mPositionY = aYPosition;
+        mPositionY = aYPosition;
     }
 
-    /**
-     * Sets Snobot's orientation
-     * 
-     * @param aDegrees
-     *            Snobot's new orientation in degrees
-     */
+    @Override
     public void setSnobotDegreeRotation(double aDegrees)
     {
         mInitialRotationDegrees = aDegrees;
         mGyroSensor.reset();
     }
 
+    @Override
+    public void updateSmartDashboard()
+    {
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_HEADING, getSnobotDegrees());
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_X_POSITION, getSnobotX());
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_Y_POSITION, getSnobotY());
+        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_INSTANT_VELOCITY, mInstantVelocity);
+
+    }
+
+    // Unused functions..
     @Override
     public void control()
     {
@@ -272,17 +248,6 @@ public class SnobotPosition implements ISubsystem
     @Override
     public void rereadPreferences()
     {
-    }
-
-    @Override
-    public void updateSmartDashboard()
-    {
-        // TODO Perhaps these could be changed to graphical representations
-        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_HEADING, this.getSnobotDegrees());
-        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_X_POSITION, this.mPositionX);
-        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_Y_POSITION, this.mPositionY);
-        SmartDashboard.putNumber(SmartDashboardNames.sSNOBOT_INSTANT_VELOCITY, this.mDeltaDistance);
-
     }
 
     @Override
